@@ -1,0 +1,180 @@
+#! /usr/bin/python
+"""Checks the database connection strings in an xml file against data in *required* DbProfile.py.
+
+Usage: 
+    Must use either -f or -d, not both.
+    config-mgr -f <path>myfile.config (just checks the file)
+    config-mgr -d <path>/mydir (checks files in the directory)
+    config-mgr -o myfile.config -o myfile.bak -e prod  NOT IMPLEMENTED YET
+    config-mgr -d <path>/mydir -o myfile.bak -e prod
+Args:
+    -f: target file
+    -d: target dir
+    -o: the outputfile
+    -e: the env to switch to {env, uat, or prod}
+Returns:
+Raises:
+    IOError: An error occurred the file.
+"""
+
+import sys, getopt, re, os, glob
+import DbProfile #the db profiles to match against
+from xml.etree.ElementTree import ElementTree, parse, tostring
+
+class Usage(Exception):
+    def __init__(self, msg):
+        self.msg = msg
+
+REGEX = re.compile('Data Source=(Usfshwssql\w+);Initial Catalog=(RDx\w+);', re.I)
+
+def trim_line(longline, max_length=80, chars_trimmed=20, chars_shown=65):
+    """Returns a block from the middle of the line, with ellipsis."""
+    shortline = longline.strip()
+    if len(shortline) > chars_shown and len(shortline) > chars_trimmed:
+        shortline = '...' + shortline[chars_trimmed : chars_trimmed+chars_shown] + '...'
+    return shortline
+
+    
+def check(filelist):
+    """Checks and reports db connection strings. Any kind of text file."""
+
+    tot_match_count = 0
+    matchcount_msg = ''
+
+    for filename in filelist:
+        
+        # read all lines of file into var    
+        with open(filename, 'r') as file:
+            lines = file.readlines()
+
+        print "FILE:", os.path.abspath(filename)
+
+        linenum = 0
+        matchcount = 0
+
+        # check lines
+        for line in lines:
+            linenum = linenum +1
+            m = re.search(REGEX, line)
+            if m:
+                boxname = m.group(1).lower()
+                dbname = m.group(2)
+                print '  line', str(linenum), ':', os.linesep, '    ', trim_line(line)
+                for db in DbProfile.DB_PROFILES:
+                    #print DbProfile.DB_PROFILES[db]['boxname'], DbProfile.DB_PROFILES[db]['dbname']
+                    if DbProfile.DB_PROFILES[db]['boxname'] == boxname and DbProfile.DB_PROFILES[db]['dbname'] == dbname:
+                        print '    *MATCH*', DbProfile.DB_PROFILES[db]['dbname'], DbProfile.DB_PROFILES[db]['env']
+                        matchcount = matchcount + 1             
+        tot_match_count = tot_match_count + matchcount
+        matchcount_msg = matchcount_msg + str(matchcount) + ' matches in file ' + filename + os.linesep
+        print ''
+        
+    print matchcount_msg
+    if len(filelist) > 1 : print str(tot_match_count) + ' TOTAL matches.'
+
+
+def change_conn(old_conn,new_env='DEV'):
+    """Change db connection strings via regex."""
+    new_conn=old_conn # default to orig val if no match 
+    
+    m = re.search(REGEX, old_conn)
+    if m:
+        boxname=m.group(1)
+        dbname=m.group(2)
+        #new_boxname = DbProfile.get_profile(dbname, new_env).boxname  
+        new_boxname = DbProfile.DB_PROFILES[(dbname,new_env)]['boxname']
+        print 'Conn change:',dbname,'connection from',boxname,'to',new_boxname
+        new_conn=re.sub(boxname, new_boxname, old_conn) 
+
+
+#should be change or someth then one above renamed sub
+
+def handle_xml(xml_file_list,env):
+    """Find and change connectionstring node of xmlfile.""" 
+    tot_match_count = 0
+    matchcount_msg = ''    
+    for xmlfilename in xml_file_list:
+        print "FILE:", os.path.abspath(xmlfilename)
+        matchcount = 0
+        tree = ElementTree()
+        root = tree.parse(xmlfilename)
+        for con_str_node in root.findall('connectionStrings'):
+            for add_node in con_str_node.findall('add'):
+                old_conn = add_node.attrib['connectionString']
+                # change the con node here
+                add_node.attrib['connectionString'] = change_conn(old_conn,env)
+                matchcount = matchcount + 1
+            tot_match_count = tot_match_count + matchcount
+            matchcount_msg = matchcount_msg + str(matchcount) + ' matches in file ' + xmlfilename + os.linesep
+            print ''
+                        
+    print matchcount_msg
+    if len(xml_file_list) > 1 : print str(tot_match_count) + ' TOTAL changes.'   
+    # count of lines changed for each file.
+    # write the output file
+    #print tostring(root)
+    #tree.write('outfile.xml')
+    #tree.write(outfile)
+
+def main(argv=None):
+    if argv is None:
+        argv = sys.argv
+    try:
+        try:
+            opts, args = getopt.getopt(argv[1:], "hf:d:o:e:", ["help","file=","dir=","outfile=","env="])
+        except getopt.error, msg:
+            raise Usage(msg)
+
+        env=None
+        file=None
+        dir=None
+        outfile=None
+        
+        for opt, arg in opts:
+            if opt in ("-h", "--help"):
+                print __doc__
+                sys.exit(0)
+            elif opt in ("-f", "--file"):
+                file=arg
+            elif opt in ("-d", "--dir"):
+                dir=arg                
+            elif opt in ("-o", "--outfile"):
+                outfile=arg                
+            elif opt in ("-e", "--env"):
+                env=arg
+                if env!=None: env=env.upper()
+
+        # must have either file or dir, not both.
+        if file==None and dir==None: raise Usage('')
+        if file!=None and dir!=None: raise Usage('')
+
+        #if dir == "" : dir = "./"
+
+        filelist = []
+        
+        if file!=None:
+            filelist = [file]
+        else:
+            #iterate files in specified dir that match *.config        
+            for config_file in glob.glob( os.path.join(dir, '*.config') ):
+                filelist.append(config_file)            
+        
+        if outfile is None:
+            check(filelist)  
+            sys.exit()  
+        else:
+            if env is None:
+                raise Usage('') 
+            else:
+                if env not in DbProfile.ENVS: raise Usage()                 
+        
+        handle_xml(filelist,env)
+        
+    except Usage, err:
+        print >>sys.stderr, "Sorry, invalid options. For help, use --help"
+        print >>sys.stderr, "Other errors:",err.msg
+        return 2
+
+if __name__ == "__main__":
+    sys.exit(main())
+

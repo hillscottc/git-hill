@@ -1,5 +1,6 @@
 
 """
+An Iron Python script to execute SQL against a database.
 
 Usage: ipy ./run_sql.py -s "select top 5 * from r2.resource;" -d RDxReport -b USFSHWSSQL089
        ipy ./run_sql.py -i ./sql_test.sql -d RDxReport -b USFSHWSSQL089
@@ -7,11 +8,11 @@ Usage: ipy ./run_sql.py -s "select top 5 * from r2.resource;" -d RDxReport -b US
        ** Must choose EITHER -s OR -i, not both. **
 
 Args:
-    -s: a string of sql
-    -i: input sql file
-    -d: dbname
-    -b: boxname
-    -w: writes output file 
+    -s : a string of sql
+    -i : input sql file
+    -d : dbname
+    -b : boxname
+    -w : writes output file (unimplemented)
 Returns:
 Raises:
 """
@@ -48,12 +49,9 @@ def exe_SqlReader(sp_text='select top 5 * from r2.resource;'
 
     i = 0
     reader = command.ExecuteReader() 
-    while reader.Read(): 
-        #print reader
-        #print reader.FieldCount
+    while reader.Read() :
         i = i + 1
         print 'Record {}'.format(i)
-
         for i in range(reader.FieldCount) :
             print '{:>30}: {}'.format(reader.GetName(i), reader.GetValue(i))
 

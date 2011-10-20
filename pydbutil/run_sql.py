@@ -1,10 +1,14 @@
 
 """
 
-Usage: ipy run_sql.py -p sql_test.sql -d RDxReport -b USFSHWSSQL089
+Usage: ipy run_sql.py -s "select top 5 * from r2.resource;" -d RDxReport -b USFSHWSSQL089
+       ipy run_sql.py -i ./sql_test.sql -d RDxReport -b USFSHWSSQL089
+       
+       ** Must choose EITHER -s OR -i, not both. **
 
 Args:
-    -p: targ file or dir
+    -s: a string of sql
+    -i: input sql file
     -d: dbname
     -b: boxname
     -w: writes output file 
@@ -48,11 +52,11 @@ def exe_SqlReader(sp_text='select top 5 * from r2.resource;'
         #print reader
         #print reader.FieldCount
         i = i + 1
-        print 'Record %s' % i
+        print 'Record {}'.format(i)
 
         for i in range(reader.FieldCount) :
             print '{:>30}: {}'.format(reader.GetName(i), reader.GetValue(i))
-     
+
     connection.Close()  
     print 'Closed connnection', conn_str
 
@@ -61,32 +65,45 @@ def main(argv=None):
         argv = sys.argv
     try:
         try:
-            opts, args = getopt.getopt(argv[1:], "hp:d:b:w"\
-                , ["help", "path=", "dbame=", "boxname=", "write"])
+            opts, args = getopt.getopt(argv[1:], "hs:i:d:b:w"\
+                , ["help", "sql=", "infile=", "dbname=", "boxname=", "write"])
         except getopt.error, msg:
             raise Usage(msg)
 
-        path = None
+        sql = None
+        infile = None
         dbname = None
         boxname = None
         write = False
-        
+
         for opt, arg in opts :
             if opt in ("-h", "--help") :
                 print __doc__
                 sys.exit(0)
-            elif opt in ("-p", "--path") :
-                path = arg
+            elif opt in ("-s", "--sql") :
+                sql = arg
+            elif opt in ("-i", "--infile") :
+                infile = arg
             elif opt in ("-d", "--dbname") :
                 dbname = arg    
             elif opt in ("-b", "--boxname") :
                 boxname = arg
             elif opt in ("-w", "--write") :
                 write = True  
-                
 
-        if not path :
+        sql_text = None
+
+        if not sql and not infile :
             raise Usage('')
+        elif sql and infile :
+            raise Usage('')
+        elif sql :
+            sql_text = sql
+        elif infile :
+            if os.path.isfile(infile) :
+                sql_text = get_text(infile)
+            else :
+                raise Usage("'{}' is not a valid file.".format(infile))
 
         if not dbname :
             raise Usage('')
@@ -94,17 +111,11 @@ def main(argv=None):
         if not boxname :
             raise Usage('')
 
-        if not os.path.isfile(path) :
-            raise Usage("'{}' is not a valid file.".format(path))
+        exe_SqlReader(sql_text, get_conn_str(boxname, dbname))
 
-        #sp_text = 'select top 5 * from r2.resource;' 
-        sp_text = get_text(path)
-        conn_str = get_conn_str(boxname, dbname)        
-            
-        exe_SqlReader(sp_text, conn_str)
         print "Complete."
         print
-		
+
     except Usage, err :
         print >>sys.stderr, "Sorry, invalid options. For help, use --help"
         print >>sys.stderr, "Other errors:", err.msg
@@ -113,9 +124,3 @@ def main(argv=None):
 
 if __name__ == "__main__":
     sys.exit(main())
-
- 
- 
- 
-
- 

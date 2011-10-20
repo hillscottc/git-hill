@@ -1,0 +1,2 @@
+Msg 18452, Level 14, State 1, Server USFSHWSSQL077, Line 1
+Login failed for user ''. The user is not associated with a trusted SQL Server connection.

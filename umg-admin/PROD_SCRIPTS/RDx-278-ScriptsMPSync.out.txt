@@ -1,0 +1,5 @@
+Changed database context to 'RDxETL'.
+Synchronizing objects from RDxETL to RDxETL
+OLE DB provider "SQLNCLI" for linked server "MP" returned message "No transaction is active.".
+Msg 7391, Level 16, State 2, Server USFSHWSSQL077, Procedure SyncRelease, Line 35
+The operation could not be performed because OLE DB provider "SQLNCLI" for linked server "MP" was unable to begin a distributed transaction.

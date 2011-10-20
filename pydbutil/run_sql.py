@@ -95,7 +95,7 @@ def main(argv=None):
             raise Usage('')
 
         if not os.path.isfile(path) :
-            raise Usage("'$' is not a valid file.".format(path))
+            raise Usage("'{%s}' is not a valid file.".format(path))
 
         #sp_text = 'select top 5 * from r2.resource;' 
         sp_text = get_text(path)

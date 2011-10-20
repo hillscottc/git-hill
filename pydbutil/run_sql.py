@@ -1,8 +1,8 @@
 
 """
 
-Usage: ipy run_sql.py -s "select top 5 * from r2.resource;" -d RDxReport -b USFSHWSSQL089
-       ipy run_sql.py -i ./sql_test.sql -d RDxReport -b USFSHWSSQL089
+Usage: ipy ./run_sql.py -s "select top 5 * from r2.resource;" -d RDxReport -b USFSHWSSQL089
+       ipy ./run_sql.py -i ./sql_test.sql -d RDxReport -b USFSHWSSQL089
        
        ** Must choose EITHER -s OR -i, not both. **
 

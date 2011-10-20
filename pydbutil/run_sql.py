@@ -30,7 +30,7 @@ def get_text(filename) :
     return sp_text
 
 def get_conn_str(boxname='USFSHWSSQL089', dbname='RDxReport') :
-    return 'data source=%s;initial catalog=%s; trusted_connection=True'.format(boxname, dbname)
+    return 'data source={%s};initial catalog={%s}; trusted_connection=True'.format(boxname, dbname)
 
 
 def exe_SqlReader(sp_text='select top 5 * from r2.resource;'

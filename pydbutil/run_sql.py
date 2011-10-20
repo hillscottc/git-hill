@@ -30,7 +30,7 @@ def get_text(filename) :
     return sp_text
 
 def get_conn_str(boxname='USFSHWSSQL089', dbname='RDxReport') :
-    return 'data source={%s};initial catalog={%s}; trusted_connection=True'.format(boxname, dbname)
+    return 'data source={};initial catalog={}; trusted_connection=True'.format(boxname, dbname)
 
 
 def exe_SqlReader(sp_text='select top 5 * from r2.resource;'
@@ -95,7 +95,7 @@ def main(argv=None):
             raise Usage('')
 
         if not os.path.isfile(path) :
-            raise Usage("'{%s}' is not a valid file.".format(path))
+            raise Usage("'{}' is not a valid file.".format(path))
 
         #sp_text = 'select top 5 * from r2.resource;' 
         sp_text = get_text(path)

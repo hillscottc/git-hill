@@ -36,6 +36,7 @@ def get_conn_str(boxname='USFSHWSSQL089', dbname='RDxReport') :
 def exe_SqlReader(sp_text='select top 5 * from r2.resource;'
 , conn_str='data source=USFSHWSSQL089;initial catalog=RDxReport; trusted_connection=True') :
 
+    print 'Opening connnection', conn_str
     connection = SqlConnection(conn_str) 
     connection.Open() 
     command = connection.CreateCommand() 
@@ -53,6 +54,7 @@ def exe_SqlReader(sp_text='select top 5 * from r2.resource;'
             print '{:>30}: {}'.format(reader.GetName(i), reader.GetValue(i))
      
     connection.Close()  
+    print 'Closed connnection', conn_str
 
 def main(argv=None):
     if argv is None:

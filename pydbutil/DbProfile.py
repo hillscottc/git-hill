@@ -12,7 +12,7 @@ Raises:
 """
 
 import sys
-
+import getopt
 
 # The dict of DbProfile objects
 DB = {}

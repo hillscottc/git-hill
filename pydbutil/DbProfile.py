@@ -1,5 +1,18 @@
 #! /usr/bin/python
+""" Handles database profiles. Primarily used as a library.
+
+Usage: 
+    ./DbProfile.py
+Args:
+    -p: targ file or dir
+    -e: the env to switch to {env, uat, or prod}    
+    -w: writes output file 
+Returns:
+Raises:
+"""
+
 import sys
+
 
 # The dict of DbProfile objects
 DB = {}
@@ -19,6 +32,9 @@ _db_data = (
     ('RDxReport', 'DEV', 'usfshwssql104\RIGHTSDEV_2', r'D:\Something') 
 )
 
+class Usage(Exception):
+    def __init__(self, msg):
+        self.msg = msg
 
 class DbProfile:
     """ Used to describe a database instance. """
@@ -43,24 +59,39 @@ def load_data():
         # add as a dict with key=(d.dbname, d.env), val=DbProfile d
         DB[db.get_key()] = db    
 
+
+def get_profile(dbname, env):
+    """ Get matching profile from data."""    
+    return DB[(dbname, env)]
+
+
 # Load the data. 
-print 'Initializing', __name__
+print 'Initializing DbProfiles.'
 load_data()
 
 
 def main(argv=None):
-    print 'Test profile access...'
-    print DB
+    if argv is None:
+         argv = sys.argv
+     try:
+         try:
+             opts, args = getopt.getopt(argv[1:], "h", ["help"])
+         except getopt.error, msg:
+             raise Usage(msg)
 
+         for opt, arg in opts :
+             if opt in ("-h", "--help"):
+                 print __doc__
+                 sys.exit(0)
+
+         print 'Test profile access...'
+         print DB
+         
+     except Usage, err:
+         print >>sys.stderr, "Sorry, invalid options. For help, use --help"
+         print >>sys.stderr, "Other errors:",err.msg
+         return 2
 
 if __name__ == "__main__":
     sys.exit(main())
-
-
-#for db_data_rec in _db_data:
-#    db_dict = dict(zip(_db_data_keys, db_data_rec))
-#    db = DbProfile(**db_dict)  # **=unpack
-#    #add as a dict, keyed by tuple of (dbname, env)
-#    DB[db.get_key()] = db
-
 

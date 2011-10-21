@@ -12,7 +12,6 @@ Args:
     -w: writes output file 
 Returns:
 Raises:
-    IOError: An error occurred the file.
 """
 
 import sys

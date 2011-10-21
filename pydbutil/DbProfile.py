@@ -84,8 +84,8 @@ def main(argv=None):
                 print __doc__
                 sys.exit(0)
 
-         print 'Test profile access...'
-         print DB
+        print 'Test profile access...'
+        print DB
 
     except Usage, err:
         print >>sys.stderr, "Sorry, invalid options. For help, use --help"

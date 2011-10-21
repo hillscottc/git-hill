@@ -46,7 +46,7 @@ class DbProfile:
     def __str__(self):
         return self.dbname, self.env, self.boxname, self.path
     def __repr__(self):
-        return str(self.__str__())       
+        return str(self.__str__())
     def get_key(self):
         # key is a tuple
         return (self.dbname, self.env)
@@ -61,7 +61,7 @@ def load_data():
 
 
 def get_profile(dbname, env):
-    """ Get matching profile from data."""    
+    """ Get matching profile from data."""
     return DB[(dbname, env)]
 
 
@@ -73,24 +73,24 @@ load_data()
 def main(argv=None):
     if argv is None:
          argv = sys.argv
-     try:
-         try:
-             opts, args = getopt.getopt(argv[1:], "h", ["help"])
-         except getopt.error, msg:
-             raise Usage(msg)
+    try:
+        try:
+            opts, args = getopt.getopt(argv[1:], "h", ["help"])
+        except getopt.error, msg:
+            raise Usage(msg)
 
-         for opt, arg in opts :
-             if opt in ("-h", "--help"):
-                 print __doc__
-                 sys.exit(0)
+        for opt, arg in opts :
+            if opt in ("-h", "--help"):
+                print __doc__
+                sys.exit(0)
 
          print 'Test profile access...'
          print DB
-         
-     except Usage, err:
-         print >>sys.stderr, "Sorry, invalid options. For help, use --help"
-         print >>sys.stderr, "Other errors:",err.msg
-         return 2
+
+    except Usage, err:
+        print >>sys.stderr, "Sorry, invalid options. For help, use --help"
+        print >>sys.stderr, "Other errors:",err.msg
+        return 2
 
 if __name__ == "__main__":
     sys.exit(main())

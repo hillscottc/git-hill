@@ -1,4 +1,5 @@
 #! /usr/bin/python
+import sys
 
 # The dict of DbProfile objects
 DB = {}

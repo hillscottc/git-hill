@@ -21,6 +21,7 @@ _db_data = (
 
 
 class DbProfile:
+    """ Used to describe a database instance. """
     def __init__(self, dbname, env, boxname, path):
         self.dbname = dbname
         self.env = env
@@ -34,15 +35,17 @@ class DbProfile:
         # key is a tuple
         return (self.dbname, self.env)
 
-
-def __init__(self):
-    #self.data = data
-    print 'Initializing', self.__name__
+def load_data():
+    """ Load the DB dictionary with the raw data."""
     for db_data_rec in _db_data:
         db_dict = dict(zip(_db_data_keys, db_data_rec))
         db = DbProfile(**db_dict)  # **=unpack
         # add as a dict with key=(d.dbname, d.env), val=DbProfile d
-        DB[db.get_key()] = db
+        DB[db.get_key()] = db    
+
+# Load the data. 
+print 'Initializing', __name__
+load_data()
 
 
 def main(argv=None):

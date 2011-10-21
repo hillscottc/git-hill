@@ -18,6 +18,7 @@ _db_data = (
     ('RDxReport', 'DEV', 'usfshwssql104\RIGHTSDEV_2', r'D:\Something') 
 )
 
+
 class DbProfile:
     def __init__(self, dbname, env, boxname, path):
         self.dbname = dbname
@@ -39,13 +40,18 @@ def __init__(self):
     for db_data_rec in _db_data:
         db_dict = dict(zip(_db_data_keys, db_data_rec))
         db = DbProfile(**db_dict)  # **=unpack
-        #add as a dict, keyed by tuple of (dbname, env)
+        # add as a dict with key=(d.dbname, d.env), val=DbProfile d
         DB[db.get_key()] = db
 
-if __name__ == "__main__":
+
+def main(argv=None):
     print 'Test profile access...'
     print DB
+
+
+if __name__ == "__main__":
     sys.exit(main())
+
 
 #for db_data_rec in _db_data:
 #    db_dict = dict(zip(_db_data_keys, db_data_rec))

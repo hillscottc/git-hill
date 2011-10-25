@@ -6,22 +6,26 @@ import getopt
 
 ENVS = ['DEV', 'UAT', 'PROD']
 
-# The keys defining a DbProfile values.
-DB_data_keys = ('dbname', 'env', 'boxname', 'path')    
+
 
 class Usage(Exception):
     def __init__(self, msg):
         self.msg = msg
 
 
-class DbProfile:
+class DbProfile():
     """ Used to describe a database instance. """
     
+    DB_data_keys = ('dbname', 'env', 'boxname', 'path')
+
     def __init__(self, dbname='RDxETL', env='UAT', boxname='usfshwssql104', path=r"'D:\Something'"):
         self.dbname = dbname
         self.env = env
         self.boxname = boxname
         self.path = path
+        # The keys defining a DbProfile values.
+        
+        
 
     def __str__(self):
         return self.dbname + ' ' + self.env + ' ' + self.boxname + ' ' + self.path
@@ -46,9 +50,11 @@ def main(argv=None):
                 print __doc__
                 sys.exit(0)
           
-        db_data_rec = ('RDxETL', 'DEV', 'usfshwssql104', r'D:\Something')
-        db_dict = dict(zip(DB_data_keys, db_data_rec))
+        db_data_rec = ('RDxETL', 'PROD', 'usfshwssql077', r'D:\Something')
+        db_dict = dict(zip(DbProfile.DB_data_keys, db_data_rec))
         db = DbProfile(**db_dict) 
+        print db
+        db = DbProfile()
         print db
         
     except Usage, err:

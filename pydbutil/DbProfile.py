@@ -23,10 +23,6 @@ class DbProfile():
         self.env = env
         self.boxname = boxname
         self.path = path
-        # The keys defining a DbProfile values.
-        
-        
-
     def __str__(self):
         return self.dbname + ' ' + self.env + ' ' + self.boxname + ' ' + self.path
     def __repr__(self):

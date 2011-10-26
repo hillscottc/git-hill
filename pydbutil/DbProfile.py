@@ -16,13 +16,15 @@ class Usage(Exception):
 class DbProfile():
     """ Used to describe a database instance. """
     
-    DB_data_keys = ('dbname', 'env', 'boxname', 'path')
+    Keys = ('dbname', 'env', 'boxname', 'path')
 
-    def __init__(self, dbname='RDxETL', env='UAT', boxname='usfshwssql104', path=r"'D:\Something'"):
+    def __init__(self, dbname='RDxETL', env='UAT', boxname='usfshwssql104',
+                 path='somepath'):
         self.dbname = dbname
         self.env = env
         self.boxname = boxname
         self.path = path
+        
     def __str__(self):
         return self.dbname + ' ' + self.env + ' ' + self.boxname + ' ' + self.path
     def __repr__(self):
@@ -30,6 +32,12 @@ class DbProfile():
     def get_key(self):
         # key is a tuple
         return (self.dbname, self.env)
+
+
+def get_profile_from_tuple(tup):
+    """ Create a profile from tuple of values."""
+    db_dict = dict(zip(DbProfile.Keys, tup))
+    return DbProfile(**db_dict)
 
 
 def main(argv=None):
@@ -45,13 +53,12 @@ def main(argv=None):
             if opt in ("-h", "--help"):
                 print __doc__
                 sys.exit(0)
+                
+        print 'Create dbprofile from default -- ', DbProfile()
           
-        db_data_rec = ('RDxETL', 'PROD', 'usfshwssql077', r'D:\Something')
-        db_dict = dict(zip(DbProfile.DB_data_keys, db_data_rec))
-        db = DbProfile(**db_dict) 
-        print db
-        db = DbProfile()
-        print db
+        print 'Create dbprofile from tuple -- {}'.format(
+            get_profile_from_tuple(('RDxETL', 'PROD', 'usfshwssql077', r'D:\Something')))
+        
         
     except Usage, err:
         print >>sys.stderr, "Sorry, invalid options. For help, use --help"

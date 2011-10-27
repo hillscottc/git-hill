@@ -15,7 +15,7 @@ class Usage(Exception):
 
 class DbProfile():
     """ Used to describe a database instance. """
-    
+
     Keys = ('dbname', 'env', 'boxname', 'path')
 
     def __init__(self, dbname='RDxETL', env='UAT', boxname='usfshwssql104',
@@ -24,7 +24,7 @@ class DbProfile():
         self.env = env
         self.boxname = boxname
         self.path = path
-        
+
     def __str__(self):
         return self.dbname + ' ' + self.env + ' ' + self.boxname + ' ' + self.path
     def __repr__(self):
@@ -53,13 +53,12 @@ def main(argv=None):
             if opt in ("-h", "--help"):
                 print __doc__
                 sys.exit(0)
-                
+
         print 'Create dbprofile from default -- ', DbProfile()
-          
+
         print 'Create dbprofile from tuple -- {}'.format(
             get_profile_from_tuple(('RDxETL', 'PROD', 'usfshwssql077', r'D:\Something')))
-        
-        
+
     except Usage, err:
         print >>sys.stderr, "Sorry, invalid options. For help, use --help"
         print >>sys.stderr, "Other errors:",err.msg

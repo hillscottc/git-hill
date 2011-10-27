@@ -6,8 +6,6 @@ import getopt
 
 ENVS = ['DEV', 'UAT', 'PROD']
 
-
-
 class Usage(Exception):
     def __init__(self, msg):
         self.msg = msg

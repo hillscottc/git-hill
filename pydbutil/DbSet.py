@@ -22,9 +22,7 @@ class Usage(Exception):
 
 
 class DbSet():
-    
     DB = {}
-    
     def __init__(self, dbprofiles=[], cvsfile=None):
         self.DB = {}
         if cvsfile:
@@ -36,10 +34,11 @@ class DbSet():
             for db in dbprofiles:   
                 self.DB[db.get_key()] = db
             print 'Loaded {} profiles.'.format(len(self.DB))
-              
+
     def get_profile(self, dbname, env):
         """ Get matching profile from data."""
-        return self.DB[(dbname, env)]    
+        return self.DB[(dbname, env)]
+
     def __str__(self):
         s = ''
         return str([s + str(dbprofile) for dbprofile in self.DB])  
@@ -51,14 +50,14 @@ def main(argv=None):
     if argv is None:
          argv = sys.argv
     try:
-        
+
         try:
             opts, args = getopt.getopt(argv[1:], "hi:", ["help", "infile="])
         except getopt.error, msg:
             raise Usage(msg)
 
         infile = None
-        
+
         for opt, arg in opts :
             if opt in ("-h", "--help"):
                 print __doc__
@@ -72,7 +71,7 @@ def main(argv=None):
         #main_test(infile)
         
         print 'Create DbSet -- {}'.format(DbSet(cvsfile=infile)) 
-             
+
     except Usage, err:
         print >>sys.stderr, "Sorry, invalid options. For help, use --help"
         print >>sys.stderr, "Other errors:",err.msg

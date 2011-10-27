@@ -1,10 +1,11 @@
 #! /usr/bin/python
-""" Handles a collection of database profiles.
+"""Manages a collection of database profiles.
+Takes a csv file as input.
 
 Usage: 
     ./DbSet.py -i DbSet.data.csv
 Args:
-    -i: in source data
+    -i: infile (csv format)
 Returns:
 Raises:
 """
@@ -15,22 +16,26 @@ import getopt
 import csv
 from DbProfile import DbProfile
 
-
 class Usage(Exception):
     def __init__(self, msg):
         self.msg = msg
 
+
 class DbSet():
-    """ Handles a collection of database profiles."""
     
     DB = {}
     
-    def __init__(self, dbprofiles):
-        print 'Loading given dbprofiles...'
+    def __init__(self, dbprofiles=[], cvsfile=None):
         self.DB = {}
-        for db in dbprofiles:   
-            self.DB[db.get_key()] = db
-        print 'Loaded {} profiles.'.format(len(self.DB))
+        if cvsfile:
+            print 'Loading file {}'.format(cvsfile)
+            dr = csv.DictReader(open(cvsfile, 'rb'), delimiter=',', quotechar="'")
+            self.__init__(dbprofiles=[DbProfile(**row) for row in dr])
+        else:
+            print 'Loading data {}'.format(dbprofiles)
+            for db in dbprofiles:   
+                self.DB[db.get_key()] = db
+            print 'Loaded {} profiles.'.format(len(self.DB))
               
     def get_profile(self, dbname, env):
         """ Get matching profile from data."""
@@ -40,27 +45,6 @@ class DbSet():
         return str([s + str(dbprofile) for dbprofile in self.DB])  
     def __repr__(self):
         return str(self.__str__())        
-
-
-def main_test(infile):
-    """ Demo run."""
-    
-    # read all lines of file into var    
-    #with open(infile, 'r') as file:
-    #    lines = file.readlines()
-
-    dbprofiles = []    
-
-    dr = csv.DictReader(open(infile, 'rb'), delimiter=',', quotechar="'")            
-    for row in dr:
-        p = DbProfile(**row)
-        print 'Read:', p
-        dbprofiles.append(p)
-
-    dbset = DbSet(dbprofiles)
-
-    print 'dbset created.', dbset
-    print dbset.DB
 
 
 def main(argv=None):
@@ -85,7 +69,9 @@ def main(argv=None):
         if not os.path.isfile(infile) :
             raise Usage("Invalid -i '{}'".format(infile))   
 
-        main_test(infile)
+        #main_test(infile)
+        
+        print 'Create DbSet -- {}'.format(DbSet(cvsfile=infile)) 
              
     except Usage, err:
         print >>sys.stderr, "Sorry, invalid options. For help, use --help"

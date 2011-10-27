@@ -23,7 +23,7 @@ class Usage(Exception):
 
 class DbSet():
     DB = {}
-    def __init__(self, dbprofiles=[], cvsfile=None):
+    def __init__(self, cvsfile=None, dbprofiles=[]):
         self.DB = {}
         if cvsfile:
             print 'Loading file {}'.format(cvsfile)

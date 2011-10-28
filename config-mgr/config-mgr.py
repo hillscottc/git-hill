@@ -2,10 +2,10 @@
 """Checks the database connection strings in an xml file against data in *required* DbProfile.py.
 
 Usage: 
-    config-mgr -p myfile.config   (1 file)
-    config-mgr -p /config_dir     (all files named .config in the dir)
-    config-mgr -p myfile.config  -e prod
-     config-mgr -p /config_dir   -e dev -w
+    ./config-mgr.py -p myfile.config   (1 file)
+    ./config-mgr -p /config_dir     (all files named .config in the dir)
+    ./config-mgr -p myfile.config  -e prod
+    ./config-mgr -p /config_dir   -e dev -w
 Args:
     -p: targ file or dir
     -e: the env to switch to {env, uat, or prod}    
@@ -20,7 +20,7 @@ import shutil
 import re 
 import os
 import glob
-import DbProfile
+from .. import pydbutil
 from xml.etree.ElementTree import ElementTree, parse, tostring
 
 class Usage(Exception):

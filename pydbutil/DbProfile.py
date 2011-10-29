@@ -26,6 +26,7 @@ class DbProfile():
     """ Used to describe a database instance. """
 
     Keys = ('dbname', 'env', 'boxname', 'path')
+    Envs = ('DEV', 'UAT', 'PROD')
 
     def __init__(self, dbname='RDxETL', env='UAT', boxname='usfshwssql104',
                  path='somepath', tup=None):
@@ -34,7 +35,10 @@ class DbProfile():
             self.__init__(**db_dict)
         else:
             self.dbname = dbname
-            self.env = env
+            self.env = env.upper() if env else None
+            if self.env:
+                if self.env not in self.Envs:
+                    raise Usage('{} is invalid environment. Must be in {}'.format(self.env, self.Envs))
             self.boxname = boxname
             self.path = path            
     

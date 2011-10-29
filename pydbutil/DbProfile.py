@@ -1,8 +1,19 @@
 #! /usr/bin/python
-""" Profile of a database instance."""
+"""
+Manages database profiles.
+Can takes a csv file as input.
 
+Usage: 
+    ./DbProfile.py -i DbSet.data.csv
+Args:
+    -i: infile (csv format)
+Returns:
+Raises:
+"""
+import os
 import sys
 import getopt
+import csv
 
 ENVS = ['DEV', 'UAT', 'PROD']
 
@@ -57,8 +68,8 @@ class DbSet():
         return self.DB[(dbname, env)]
 
     def __str__(self):
-        s = ''
-        return str([s + str(dbprofile) for dbprofile in self.DB])  
+        #s = ''
+        return str([str(dbprofile) for dbprofile in self.DB])  
     def __repr__(self):
         return str(self.__str__())
 
@@ -68,20 +79,31 @@ def main(argv=None):
          argv = sys.argv
     try:
         try:
-            opts, args = getopt.getopt(argv[1:], "hi:", ["help"])
+            opts, args = getopt.getopt(argv[1:], "hi:", ["help", "infile="])
         except getopt.error, msg:
             raise Usage(msg)
+
+        infile = None
 
         for opt, arg in opts :
             if opt in ("-h", "--help"):
                 print __doc__
                 sys.exit(0)
+            elif opt in ("-i", "--infile"):
+                infile = arg
 
         print 'Create dbprofile from default -- ', DbProfile()
 
         print 'Create dbprofile from tuple -- {}'.format(
             get_profile_from_tuple(('RDxETL', 'PROD', 'usfshwssql077', r'D:\Something')))
 
+        if infile:
+            if not os.path.isfile(infile) :
+                raise Usage("Invalid -i '{}'".format(infile))
+            else:
+                print 'Create DbSet -- {}'.format(DbSet(cvsfile=infile))
+        
+        
     except Usage, err:
         print >>sys.stderr, "Sorry, invalid options. For help, use --help"
         print >>sys.stderr, "Other errors:",err.msg

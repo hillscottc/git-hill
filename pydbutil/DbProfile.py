@@ -38,6 +38,31 @@ def get_profile_from_tuple(tup):
     return DbProfile(**db_dict)
 
 
+class DbSet():
+    DB = {}
+    def __init__(self, cvsfile=None, dbprofiles=[]):
+        self.DB = {}
+        if cvsfile:
+            print 'Loading file {}'.format(cvsfile)
+            dr = csv.DictReader(open(cvsfile, 'rb'), delimiter=',', quotechar="'")
+            self.__init__(dbprofiles=[DbProfile(**row) for row in dr])
+        else:
+            print 'Loading data {}'.format(dbprofiles)
+            for db in dbprofiles:   
+                self.DB[db.get_key()] = db
+            print 'Loaded {} profiles.'.format(len(self.DB))
+
+    def get_profile(self, dbname, env):
+        """ Get matching profile from data."""
+        return self.DB[(dbname, env)]
+
+    def __str__(self):
+        s = ''
+        return str([s + str(dbprofile) for dbprofile in self.DB])  
+    def __repr__(self):
+        return str(self.__str__())
+
+
 def main(argv=None):
     if argv is None:
          argv = sys.argv

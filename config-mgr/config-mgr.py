@@ -20,7 +20,9 @@ import shutil
 import re 
 import os
 import glob
-from .. import pydbutil
+sys.path.append("/Users/hills/git-hill/config-mgr/pydbutil")
+print sys.path
+from . pydbutil import dbs
 from xml.etree.ElementTree import ElementTree, parse, tostring
 
 class Usage(Exception):

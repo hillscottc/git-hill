@@ -1,8 +1,8 @@
 #! /usr/bin/python
-"""Checks the database connection strings in an xml file against data in *required* DbProfile.py.
+"""Checks the database connection strings in an xml file.
 
 Usage: 
-    ./config-mgr.py -p myfile.config   (1 file)
+    ./config-mgr.py -p test.config   (1 file)
     ./config-mgr -p /config_dir     (all files named .config in the dir)
     ./config-mgr -p myfile.config  -e prod
     ./config-mgr -p /config_dir   -e dev -w
@@ -20,6 +20,7 @@ import shutil
 import re 
 import os
 import glob
+import DbProfile
 from xml.etree.ElementTree import ElementTree, parse, tostring
 
 class Usage(Exception):
@@ -29,6 +30,8 @@ class Usage(Exception):
 REGEX = re.compile('Data Source=(Usfshwssql\w+);Initial Catalog=(RDx\w+);', re.I)
 NEW_FILE_TAG = "_new_"
 CONFIG_FILE_EXT = '*.config'
+DBSET = DbProfile.DbSet(cvsfile='DbSet.data.csv')
+
 
 def trim_line(longline, max_length=80, chars_trimmed=20, chars_shown=65):
     """Returns a block from the middle of the line, with ellipsis."""
@@ -73,6 +76,9 @@ def check(*filelist):
             if m:
                 m_boxname, m_dbname = m.group(1).lower(), m.group(2)
                 print '  line', str(linenum), ':', os.linesep, '    ', trim_line(line)
+                
+                DBSET.get_match(m_boxname, m_dbname)
+                
                 for dbkey, db in DbProfile.DB.items() :
                    if db.boxname==m_boxname and db.dbname==m_dbname :
                         print '    *MATCH*', db.get_key()
@@ -163,7 +169,7 @@ def main(argv=None):
         argv = sys.argv
     try:
         try:
-            opts, args = getopt.getopt(argv[1:], "hp:d:e:w", ["help", "path=", "env=", "write"])
+            opts, args = getopt.getopt(argv[1:], "hp:e:w", ["help", "path=", "env=", "write"])
         except getopt.error, msg:
             raise Usage(msg)
         path = None

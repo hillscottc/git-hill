@@ -5,7 +5,7 @@ Can takes a csv file as input.
 
 Usage: 
     ./DbProfile.py -i DbSet.data.csv
-    ./DbProfile.py -d "RDxETL PROD usfshwssql077 D:\Something"
+    ./DbProfile.py -d "RDxETL prod usfshwssql077 D:\Something"
 Args:
 Returns:
 Raises:
@@ -15,7 +15,7 @@ import sys
 import getopt
 import csv
 
-ENVS = ['DEV', 'UAT', 'PROD']
+ENVS = ['dev', 'uat', 'prod']
 
 class Usage(Exception):
     def __init__(self, msg):
@@ -26,29 +26,42 @@ class DbProfile():
     """ Used to describe a database instance. """
 
     Keys = ('dbname', 'env', 'boxname', 'path')
-    Envs = ('DEV', 'UAT', 'PROD')
+    Envs = ('dev', 'uat', 'prod')
 
-    def __init__(self, dbname='RDxETL', env='UAT', boxname='usfshwssql104',
+    def __init__(self, dbname='RDxETL', env='uat', boxname='usfshwssql104',
                  path='somepath', tup=None):
         if tup:
             db_dict = dict(zip(self.Keys, tup))
             self.__init__(**db_dict)
         else:
             self.dbname = dbname
-            self.env = env.upper() if env else None
-            if self.env:
-                if self.env not in self.Envs:
-                    raise Usage('{} is invalid environment. Must be in {}'.format(self.env, self.Envs))
+            self.env = env
+            if self.env not in self.Envs:
+                raise Usage('{} is invalid environment. Must be in {}'.format(self.env, self.Envs))
             self.boxname = boxname
-            self.path = path            
-    
+            self.path = path
+
+    def matches_db_box(self, dbname, boxname):
+        if (self.dbname, self.boxname ) == (dbname, boxname) :
+            return True
+        else :
+            return False
+
+    def matches_db_env(self, dbname, env):
+        if (self.dbname, self.env ) == (dbname, env) :
+            return True
+        else :
+            return False       
+
+    def get_key(self):
+        """ The key is a tuple of dbname, env """
+        return (self.dbname, self.env)
+
     def __str__(self):
         return self.dbname + ' ' + self.env + ' ' + self.boxname + ' ' + self.path
+    
     def __repr__(self):
         return str(self.__str__())
-    def get_key(self):
-        # key is a tuple
-        return (self.dbname, self.env)
 
 
 class DbSet():
@@ -102,6 +115,12 @@ def main(argv=None):
                 print 'Creating dbprofile from d -- {}'.format(DbProfile(tup=data))      
 
         print 'Creating a default dbprofile -- ', DbProfile()
+
+        print 'Default matches RDxETL on usfshwssql104? {}'.format(
+            DbProfile().matches_db_box('RDxETL','usfshwssql104'))
+
+        print 'Default matches RDxETL uat? {}'.format(
+            DbProfile().matches_db_env('RDxETL','uat')) 
 
     except Usage, err:
         print >>sys.stderr, "Sorry, invalid options. For help, use --help"

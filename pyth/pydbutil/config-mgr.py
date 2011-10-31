@@ -3,9 +3,9 @@
 
 Usage: 
     ./config-mgr.py -p test.config   (1 file)
-    ./config-mgr -p /config_dir     (all files named .config in the dir)
-    ./config-mgr -p myfile.config  -e prod
-    ./config-mgr -p /config_dir   -e dev -w
+    ./config-mgr.py -p /config_dir     (all files named .config in the dir)
+    ./config-mgr.py -p test.config  -e prod
+    ./config-mgr.py -p /config_dir   -e dev -w
 Args:
     -p: targ file or dir
     -e: the env to switch to {env, uat, or prod}    
@@ -59,12 +59,12 @@ def check(*filelist):
         
         if is_process_file(filename) :
             print "File SKIPPED : " + os.path.abspath(filename)
-            continue        
-            
-        # read all lines of file into var    
+            continue
+
+        # read all lines of file into var
         with open(filename, 'r') as file:
             lines = file.readlines()
-                
+
         print "File :", os.path.abspath(filename)
 
         linenum = 0
@@ -97,7 +97,8 @@ def change_conn(old_conn,new_env='DEV'):
     m = re.search(REGEX, old_conn)
     if m:
         boxname, dbname = m.group(1), m.group(2)
-        new_boxname = DbProfile.DB[(dbname, new_env)].boxname
+        #new_boxname = DbProfile.DB[(dbname, new_env)].boxname
+        new_boxname = DBSET.get_profile(dbname, new_env).boxname
         print 'Conn change:', dbname, 'connection from', boxname, 'to', new_boxname
         new_conn = re.sub(boxname, new_boxname, old_conn) 
     return new_conn
@@ -148,6 +149,8 @@ def handle_xml(env, write=False, *xml_file_list):
             print
             
         if write:
+            sys.exit(0)
+            
             #match_msg = match_msg + '  New file would be ' +  get_new_filename(xmlfilename) + os.linesep
             new_filename = get_new_filename(xmlfilename)
             #match_msg = match_msg + '  Writing new file ' +  new_filename + os.linesep
@@ -202,8 +205,7 @@ def main(argv=None):
         else:
             if env is None:
                 raise Usage('') 
-            else:
-                if env not in DbProfile.ENVS : raise Usage()
+
         
         handle_xml(env, write, *filelist)
         print "Complete."

@@ -35,9 +35,10 @@ class DbProfile():
             self.__init__(**db_dict)
         else:
             self.dbname = dbname
+            if (env) and (env not in self.Envs):
+                #raise Usage('{} is invalid environment. Must be in {}'.format(self.env, self.Envs))
+                print'{} is invalid environment. Must be in {}'.format(env, self.Envs)
             self.env = env
-            if self.env not in self.Envs:
-                raise Usage('{} is invalid environment. Must be in {}'.format(self.env, self.Envs))
             self.boxname = boxname
             self.path = path
 
@@ -80,7 +81,7 @@ class DbSet():
 
     def get_profile(self, dbname, env):
         """ Get matching profile from data."""
-        return self.DB[(dbname, env)]
+        return self.DB[(dbname, env.lower())]
 
     def has_db_box(self, dbname, boxname):
         for db in self.DB.itervalues():

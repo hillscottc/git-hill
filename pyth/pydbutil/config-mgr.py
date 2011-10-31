@@ -31,7 +31,8 @@ REGEX = re.compile('Data Source=(Usfshwssql\w+);Initial Catalog=(RDx\w+);', re.I
 NEW_FILE_TAG = "_new_"
 CONFIG_FILE_EXT = '*.config'
 DBSET = DbProfile.DbSet(cvsfile='DbSet.data.csv')
-
+#print 'Works {}'.format(DBSET.has_db_box('RDxETL','usfshwssql104'))
+#sys.exit(0)
 
 def trim_line(longline, max_length=80, chars_trimmed=20, chars_shown=65):
     """Returns a block from the middle of the line, with ellipsis."""
@@ -77,12 +78,10 @@ def check(*filelist):
                 m_boxname, m_dbname = m.group(1).lower(), m.group(2)
                 print '  line', str(linenum), ':', os.linesep, '    ', trim_line(line)
                 
-                DBSET.get_match(m_boxname, m_dbname)
-                
-                for dbkey, db in DbProfile.DB.items() :
-                   if db.boxname==m_boxname and db.dbname==m_dbname :
-                        print '    *MATCH*', db.get_key()
-                        matchcount = matchcount + 1             
+                if DBSET.has_db_box(m_dbname,m_boxname) :
+                    print '    *MATCH* with a db in the db set.'
+                    matchcount = matchcount + 1
+                                          
         tot_match_count = tot_match_count + matchcount
         match_msg = match_msg + str(matchcount) + ' matches in file ' + filename + os.linesep
         print ''

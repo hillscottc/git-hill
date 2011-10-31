@@ -82,10 +82,19 @@ class DbSet():
         """ Get matching profile from data."""
         return self.DB[(dbname, env)]
 
+    def has_db_box(self, dbname, boxname):
+        for db in self.DB.itervalues():
+            if db.matches_db_box(dbname, boxname):
+                #print 'match with {}'.format(db)
+                return True
+        return False
+
+
     def __str__(self):
         return str([str(dbprofile) for dbprofile in self.DB])  
     def __repr__(self):
         return str(self.__str__())
+
 
 
 def main(argv=None):

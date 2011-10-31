@@ -2,11 +2,12 @@
 """Handles database connection strings in an xml file
 
 Usage: 
-    ./config-mgr.py -p test.config   (1 file)
-    ./config-mgr.py -p /config_dir     (all files named .config in the dir)
-    ./config-mgr.py -p test.config  -e prod
-    ./config-mgr.py -p /config_dir   -e dev -w
+    ./ConfigMgr.py -p test.config   (1 file)
+    ./ConfigMgr.py -p /config_dir     (all files named .config in the dir)
+    ./ConfigMgr.py -p test.config  -e prod
+    ./ConfigMgr.py -p /config_dir   -e dev -w
 Args:
+    -d: database profile (cvs file)
     -p: targ file or dir
     -e: the env to switch to {env, uat, or prod}    
     -w: writes output file 
@@ -27,21 +28,19 @@ class Usage(Exception):
     def __init__(self, msg):
         self.msg = msg
 
-REGEX = re.compile('Data Source=(Usfshwssql\w+);Initial Catalog=(RDx\w+);', re.I)
-NEW_FILE_TAG = "_new_"
+# FIX THIS
+# this will be a default var called output DIR soon
+OUTDIR = "_output"
 CONFIG_FILE_EXT = '*.config'
-DBSET = DbProfile.DbSet(cvsfile='DbSet.data.csv')
-#print 'Works {}'.format(DBSET.has_db_box('RDxETL','usfshwssql104'))
-#sys.exit(0)
 
 
 class ConfigMgr():
     """ Handles database connection strings"""
 
-    def __init__(self, cvsfile='DbSet.data.csv'):
+    def __init__(self, cvsfile):
         self.dbset = DbProfile.DbSet(cvsfile=cvsfile)
 
-    def trim_line(longline, max_length=80, chars_trimmed=20, chars_shown=65):
+    def trim_line(self, longline, max_length=80, chars_trimmed=20, chars_shown=65):
         """Returns a block from the middle of the line, with ellipsis."""
         shortline = longline.strip()
         if len(shortline) > chars_shown and len(shortline) > chars_trimmed :
@@ -49,12 +48,10 @@ class ConfigMgr():
         return shortline
 
     def is_process_file(self, filename) :
-        """CHANGE THIS"""    
-        if re.search(NEW_FILE_TAG, os.path.abspath(filename)) :
-            return True
-        else :
-            return False
-
+        """CHANGE THIS!!!! Should check if par dir, maybe"""    
+        #if re.search(NEW_FILE_TAG, os.path.abspath(filename)) : return True
+        #else : return False
+        return False
 
     def check(self, *filelist):
         """Checks and reports db connection strings. Any kind of text file."""
@@ -63,7 +60,7 @@ class ConfigMgr():
     
         for filename in filelist:
         
-            if is_process_file(filename) :
+            if self.is_process_file(filename) :
                 print "File SKIPPED : " + os.path.abspath(filename)
                 continue
 
@@ -79,10 +76,10 @@ class ConfigMgr():
             # check lines
             for line in lines:
                 linenum = linenum +1
-                m = re.search(REGEX, line)
+                m = re.search(self.dbset.regex, line)
                 if m:
                     m_boxname, m_dbname = m.group(1).lower(), m.group(2)
-                    print '  line', str(linenum), ':', os.linesep, '    ', trim_line(line)
+                    print '  line', str(linenum), ':', os.linesep, '    ', self.trim_line(line)
                 
                     if self.dbset.has_db_box(m_dbname,m_boxname) :
                         print '    *MATCH* with a db in the db set.'
@@ -130,7 +127,7 @@ class ConfigMgr():
         #shutil.move(new_filename, old_filename)    
     
 
-    def handle_xml(self, env, write=False, *xml_file_list):
+    def handle_xml(self, env, write=False, outdir=OUTDIR, *xml_file_list):
         """Find and change connectionStrings node of xmlfile.""" 
         tot_match_count = 0
         match_msg = ''    
@@ -168,60 +165,4 @@ class ConfigMgr():
         print match_msg
         if len(xml_file_list) > 1:
             print str(tot_match_count) + ' TOTAL changes.'   
-
-
-
-
-def main(argv=None):
-    if argv is None:
-        argv = sys.argv
-    try:
-        try:
-            opts, args = getopt.getopt(argv[1:], "hp:e:w", ["help", "path=", "env=", "write"])
-        except getopt.error, msg:
-            raise Usage(msg)
-        path = None
-        env = None
-        write = False
-        
-        for opt, arg in opts :
-            if opt in ("-h", "--help"):
-                print __doc__
-                sys.exit(0)
-            elif opt in ("-p", "--path"):
-                path = arg               
-            elif opt in ("-e", "--env"):
-                env = arg
-                if env!=None: env=env.upper()       
-            elif opt in ("-w", "--write"):
-                write = True                      
-        filelist = []
-        if os.path.isfile(path) :
-            filelist = [path]
-        elif os.path.isdir(path) :
-            #iterate files in specified dir that match *.config        
-            for config_file in glob.glob(os.path.join(path,  CONFIG_FILE_EXT)) :
-                filelist.append(config_file) 
-        else :
-            raise(path +  "isn't a file or a dir?!")
-        
-        if not write :
-            check(*filelist) 
-            sys.exit()  
-        else:
-            if env is None:
-                raise Usage('') 
-
-        
-        handle_xml(env, write, *filelist)
-        print "Complete."
-        print
-    except Usage, err:
-        print >>sys.stderr, "Sorry, invalid options. For help, use --help"
-        print >>sys.stderr, "Other errors:",err.msg
-        return 2
-
-
-if __name__ == "__main__":
-    sys.exit(main())
 

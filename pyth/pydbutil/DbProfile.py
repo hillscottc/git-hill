@@ -65,8 +65,10 @@ class DbProfile():
 
 class DbSet():
     DB = {}
-    def __init__(self, cvsfile=None, dbprofiles=[]):
+    def __init__(self, cvsfile=None, dbprofiles=[],
+                 regex='Data Source=(Usfshwssql\w+);Initial Catalog=(RDx\w+);'):
         self.DB = {}
+        self.regex = regex
         if cvsfile:
             print 'Loading file {}'.format(cvsfile)
             dr = csv.DictReader(open(cvsfile, 'rb'), delimiter=',', quotechar="'")

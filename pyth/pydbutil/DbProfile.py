@@ -15,8 +15,6 @@ import sys
 import getopt
 import csv
 
-ENVS = ['dev', 'uat', 'prod']
-
 class Usage(Exception):
     def __init__(self, msg):
         self.msg = msg

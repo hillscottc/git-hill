@@ -153,6 +153,10 @@ def main(argv=None):
             if opt in ("-h", "--help"):
                 print __doc__
                 sys.exit(0)
+            elif opt in ("-t", "--test"):
+                import doctest
+                doctest.testmod(verbose=True)
+                sys.exit(0)                
             elif opt in ("-d", "--dbsetfile"):
                 dbsetfile = arg
             elif opt in ("-p", "--path"):
@@ -162,11 +166,7 @@ def main(argv=None):
                 if env!=None: env=env.upper()       
             elif opt in ("-w", "--write"):
                 write = True   
-            elif opt in ("-t", "--test"):
-                import doctest
-                doctest.testmod(verbose=True)
-                sys.exit(0)
-                                 
+
 
         if (not dbsetfile) or (not os.path.isfile(dbsetfile)):
             raise Usage("Invalid dbsetfile '{}'".format(dbsetfile))
@@ -185,7 +185,7 @@ def main(argv=None):
 
         if not write :
             cm.check(*filelist) 
-            sys.exit()  
+            sys.exit(0)  
         else:
             if env is None:
                 raise Usage('') 

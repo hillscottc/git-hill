@@ -10,6 +10,7 @@ import os
 import getopt
 import glob
 from pydbutil.ConfigMgr import ConfigMgr
+from pydbutil.ConfigMgr import ConfigMgr
 
 class Usage(Exception):
     def __init__(self, msg):

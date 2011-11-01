@@ -1,20 +1,5 @@
 #! /usr/bin/python
-"""
-Manages database profiles.
-Can takes a csv file as input.
 
-Usage: 
-#    ./DbSet.py -i input/DbSet.data.csv
-
- 
->>> db = DbSet(input/DbSet.data.csv)
->>> print dbset
-
-    
-Args:
-Returns:
-Raises:
-"""
 import os
 import sys
 import getopt
@@ -26,6 +11,14 @@ class Usage(Exception):
         self.msg = msg
 
 class DbSet():
+    """Manages database profiles. Takes a csv file as input.
+
+    >>> dbset = DbSet('input/DbSet.data.csv')
+    Loading file input/DbSet.data.csv
+    Loaded DbSet with 6 profiles.
+    >>> print dbset
+    ["('RDxETL', 'uat')", "('RDxETL', 'prod')", "('RDxETL', 'dev')", "('RDxReport', 'uat')", "('RDxReport', 'prod')", "('RDxReport', 'dev')"]
+    """    
     DB = {}
     def __init__(self, cvsfile=None, dbprofiles=[],
                  regex='Data Source=(Usfshwssql\w+);Initial Catalog=(RDx\w+);'):
@@ -63,32 +56,4 @@ if __name__ == "__main__":
     import doctest
     doctest.testmod()
     #sys.exit(main())
-
-
-# def main(argv=None):
-#     if argv is None:
-#          argv = sys.argv
-#     try:
-#         try:
-#             opts, args = getopt.getopt(argv[1:], "hi:", ["help", "infile="])
-#         except getopt.error, msg:
-#             raise Usage(msg)
-# 
-#         infile = None
-#         
-#         for opt, arg in opts :
-#             if opt in ("-h", "--help"):
-#                 print __doc__
-#                 sys.exit(0)
-#             elif opt in ("-i", "--infile"):
-#                 infile = arg
-#                 if not os.path.isfile(infile) :
-#                     raise Usage("Invalid -i '{}'".format(infile))
-#                 else:
-#                     print 'Creating DbSet from infile -- {}'.format(DbSet(cvsfile=infile))
-# 
-#     except Usage, err:
-#         print >>sys.stderr, "Sorry, invalid options. For help, use --help"
-#         print >>sys.stderr, "Other errors:",err.msg
-#         return 2
 

@@ -1,26 +1,5 @@
 #! /usr/bin/python
-"""
-Manages database profiles.
-Can takes a csv file as input.
 
-Usage: 
-    ./DbProfile.py -d "RDxETL prod usfshwssql077 D:\Something"
-
-Get a default
->>> db = DbProfile()
->>> print db
-RDxETL uat usfshwssql104 somepath
->>> db = DbProfile('RDxETL', 'uat', 'usfshwssql094', 'somepath' )
->>> print db
-RDxETL uat usfshwssql094 somepath
-
-Args:
-    -t: test (No other input. Runs the doc tests.)
-    -d: data items 
-    
-Returns:
-Raises:
-"""
 import os
 import sys
 import getopt
@@ -30,9 +9,21 @@ class Usage(Exception):
     def __init__(self, msg):
         self.msg = msg
 
-
 class DbProfile():
-    """ Used to describe a database instance. """
+    """
+    Represents a database instance by dbname, env, boxname, and path. 
+
+    Usage: 
+    Get a default
+    >>> db = DbProfile()
+    >>> print db
+    RDxETL uat usfshwssql104 somepath
+
+    Pass in the values
+    >>> db = DbProfile('RDxETL', 'prod', 'usfshwssql077', 'prodpath' )
+    >>> print db
+    RDxETL prod usfshwssql077 prodpath
+    """
 
     Keys = ('dbname', 'env', 'boxname', 'path')
     Envs = ('dev', 'uat', 'prod')

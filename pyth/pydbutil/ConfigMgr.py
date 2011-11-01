@@ -1,24 +1,4 @@
 #! /usr/bin/python
-"""Handles database connection strings in an xml file.
-
-
-Usage: 
-    ./ConfigMgr.py -d input/DbSet.data.csv -p input/test.config
-    ./ConfigMgr.py -d input/DbSet.data.csv -p input/
-    ./ConfigMgr.py -d input/DbSet.data.csv -p input/ -e prod
-    ./ConfigMgr.py -d input/DbSet.data.csv -p input/test.config -e dev -w
-    ./ConfigMgr.py -d input/DbSet.data.csv -p input/ -e prod -w
-Args:
-    -t: test (No other input. Runs the doc tests.)
-    -d: dbsetfile (cvs file)     REQUIRED
-    -p: path (input file or dir) REQUIRED
-    -e: the env to switch to {env, uat, or prod}    
-    -w: writes output file
-
-Returns:
-Raises:
-
-"""
 
 import sys
 import getopt
@@ -26,7 +6,8 @@ import shutil
 import re 
 import os
 import glob
-import DbProfile
+from DbProfile import DbProfile
+from DbSet import DbSet
 from xml.etree.ElementTree import ElementTree, parse, tostring
 
 class Usage(Exception):
@@ -34,10 +15,102 @@ class Usage(Exception):
         self.msg = msg
 
 class ConfigMgr():
-    """ Handles database connection strings"""
+    """Handles database connection strings in files using DbProfiles.
+    
+    Init with a dataset.
+    >>> cm = ConfigMgr(cvsfile='input/DbSet.data.csv')
+    Loaded 6 profile(s).
 
-    def __init__(self, cvsfile):
-        self.dbset = DbProfile.DbSet(cvsfile=cvsfile)
+
+    
+    
+    #File : /Users/hills/git-hill/pyth/pydbutil/input/test.config
+    #   line 69 : 
+    #      ...onnectionString="Data Source=Usfshwssql094;Initial Catalog=RDxETL...
+    #     *MATCH* with a db in the db set.
+    #   line 74 : 
+    #      ...ta Source=Usfshwssql094;Initial Catalog=RDxETL;Integrated Securit...
+    #     *MATCH* with a db in the db set.
+    #   line 78 : 
+    #      ...ta Source=Usfshwssql094;Initial Catalog=RDxETL;Integrated Securit...
+    #     *MATCH* with a db in the db set.
+    #   line 82 : 
+    #      ...ta Source=Usfshwssql089;Initial Catalog=RDxReport;Integrated Secu...
+    #     *MATCH* with a db in the db set.
+    # <BLANKLINE>
+    # 4 matches in file input/test.config
+    # <BLANKLINE>
+    
+    # Check a directory, all files matching *.config.
+    # 
+    # >>> cm.path = 'input/'
+    # Loading file input/DbSet.data.csv
+    # Loaded DbSet with 6 profiles.
+    # File : /Users/hills/git-hill/pyth/pydbutil/input/test.config
+    # <BLANKLINE>
+    # File : /Users/hills/git-hill/pyth/pydbutil/input/test2.config
+    # <BLANKLINE>
+    # 4 matches in file input/test.config
+    # 4 matches in file input/test2.config
+    # <BLANKLINE>
+    # 8 TOTAL matches.
+
+
+
+    Usage: 
+        ./ConfigMgr.py -d input/DbSet.data.csv -p input/test.config
+        ./ConfigMgr.py -d input/DbSet.data.csv -p input/
+        ./ConfigMgr.py -d input/DbSet.data.csv -p input/ -e prod
+        ./ConfigMgr.py -d input/DbSet.data.csv -p input/test.config -e dev -w
+        ./ConfigMgr.py -d input/DbSet.data.csv -p input/ -e prod -w
+    Args:
+        -t: test (No other input. Runs the doc tests.)
+        -d: dbsetfile (cvs file)     REQUIRED
+        -p: path (input file or dir) REQUIRED
+        -e: the env to switch to {env, uat, or prod}    
+        -w: writes output file
+
+    """
+
+    def __init__(self, cvsfile, path=None, env=None, write=False):
+        self.dbset = DbSet(cvsfile=cvsfile)
+        if path: self.set_path(path)
+        if env: self.set_env(env)
+        
+        # if not write :
+        #     self.check(*self.filelist) 
+        # else: 
+        #     if env is None: raise Usage('')    
+
+    def set_path(self, path):
+        """Sets filelist to path, file or dir.
+        
+        Set path to one file.
+        >>> cm = ConfigMgr(cvsfile='input/DbSet.data.csv').set_path('input/test.config')
+        Loaded 6 profile(s).
+        Set filelist to ['input/test.config']
+        
+        Set path to a dir.
+        >>> cm = ConfigMgr(cvsfile='input/DbSet.data.csv').set_path('input/')
+        Loaded 6 profile(s).
+        Set filelist to ['input/test.config', 'input/test2.config']
+        """             
+        self.filelist = []
+        if path:
+            if os.path.isfile(path) :
+                self.filelist = [path]
+            elif os.path.isdir(path) :
+                #iterate files in specified dir that match *.config        
+                for config_file in glob.glob(os.path.join(path,  "*.config")) :
+                    self.filelist.append(config_file)
+        print 'Set filelist to {}'.format(self.filelist)
+        
+    
+    def set_env(self, env):
+        self.env = env
+        if env:
+            self.handle_xml(env)
+            
 
     def trim_line(self, longline, max_length=80, chars_trimmed=20, chars_shown=65):
         """Returns a block from the middle of the line, with ellipsis."""
@@ -47,7 +120,37 @@ class ConfigMgr():
         return shortline
 
     def check(self, *filelist):
-        """Checks and reports db connection strings. Any kind of text file."""
+        """Checks and reports db connection strings. Any kind of text file.
+        
+        Set path to one file, check.
+        >>> cm = ConfigMgr(cvsfile='input/DbSet.data.csv', path='input/test.config')
+        Loaded 6 profile(s).
+        Set filelist to ['input/test.config']
+        >>> cm.check()
+        File : /Users/hills/git-hill/pyth/pydbutil/input/test.config
+          line 69 : 
+             ...onnectionString="Data Source=Usfshwssql094;Initial Catalog=RDxETL...
+            *MATCH* with a db in the db set.
+          line 74 : 
+             ...ta Source=Usfshwssql094;Initial Catalog=RDxETL;Integrated Securit...
+            *MATCH* with a db in the db set.
+          line 78 : 
+             ...ta Source=Usfshwssql094;Initial Catalog=RDxETL;Integrated Securit...
+            *MATCH* with a db in the db set.
+          line 82 : 
+             ...ta Source=Usfshwssql089;Initial Catalog=RDxReport;Integrated Secu...
+            *MATCH* with a db in the db set.
+        <BLANKLINE>
+        4 matches in file input/test.config
+        <BLANKLINE>
+
+
+        """
+        
+        # if none is explicitly passed, use the self list.
+        if len(filelist) is 0:
+            filelist = self.filelist
+            
         tot_match_count = 0
         match_msg = ''
     
@@ -68,11 +171,14 @@ class ConfigMgr():
                 m = re.search(self.dbset.regex, line)
                 if m:
                     m_boxname, m_dbname = m.group(1).lower(), m.group(2)
-                    print '  line', str(linenum), ':', os.linesep, '    ', self.trim_line(line)
+                    # don't print all these messages if its a whole dir
+                    if len(filelist) == 1 :
+                        print '  line', str(linenum), ':', os.linesep, '    ', self.trim_line(line)
                 
                     if self.dbset.has_db_box(m_dbname,m_boxname) :
-                        print '    *MATCH* with a db in the db set.'
                         matchcount = matchcount + 1
+                        if len(filelist) == 1 :
+                            print '    *MATCH* with a db in the db set.'
                                           
             tot_match_count = tot_match_count + matchcount
             match_msg = match_msg + str(matchcount) + ' matches in file ' + filename + os.linesep
@@ -103,8 +209,15 @@ class ConfigMgr():
         return os.path.join(os.getcwd(), outdir, tail)
 
 
-    def handle_xml(self, env, write=False, *xml_file_list):
-        """Find and change connectionStrings node of xmlfile.""" 
+    def handle_xml(self, env=None, write=False, *xml_file_list):
+        """Find and change connectionStrings node of xmlfile."""
+        
+        # if none is explicitly passed, use the self.
+        if env is None:
+            env = self.env        
+        if len(xml_file_list)  is 0:
+            xml_file_list = self.filelist
+        
         tot_match_count = 0
         match_msg = ''    
         for xmlfilename in xml_file_list:   

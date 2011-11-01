@@ -13,10 +13,8 @@ class Usage(Exception):
 class DbSet():
     """Manages database profiles. Takes a csv file as input.
 
-    >>> dbset = DbSet('input/DbSet.data.csv')
-    Loading file input/DbSet.data.csv
-    Loaded DbSet with 6 profiles.
-    >>> print dbset
+    >>> print DbSet('input/DbSet.data.csv')
+    Loaded 6 profile(s).
     ["('RDxETL', 'uat')", "('RDxETL', 'prod')", "('RDxETL', 'dev')", "('RDxReport', 'uat')", "('RDxReport', 'prod')", "('RDxReport', 'dev')"]
     """    
     DB = {}
@@ -25,14 +23,16 @@ class DbSet():
         self.DB = {}
         self.regex = regex
         if cvsfile:
-            print 'Loading file {}'.format(cvsfile)
+            #print 'Loading file {}'.format(cvsfile)
             dr = csv.DictReader(open(cvsfile, 'rb'), delimiter=',', quotechar="'")
             self.__init__(dbprofiles=[DbProfile(**row) for row in dr])
         else:
             #print 'Loading data {}'.format(dbprofiles)
             for db in dbprofiles:   
                 self.DB[db.get_key()] = db
-            print 'Loaded DbSet with {} profiles.'.format(len(self.DB))
+            #print 'Loaded DbSet with {} profiles.'.format(len(self.DB))
+            print 'Loaded {} profile(s).'.format(len(self.DB))
+        
 
     def get_profile(self, dbname, env):
         """ Get matching profile from data."""

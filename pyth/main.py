@@ -31,6 +31,10 @@ def main(argv=None):
                 sys.exit(0)
   
         # What do do here? Maybe just run tests?
+        #doctest.testmod(ConfigMgr)
+        
+        import doctest
+        doctest.testfile("pydbutil/test_pydbutil.txt")
   
         print "Complete."
         print

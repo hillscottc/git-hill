@@ -9,11 +9,12 @@ Usage:
     ./ConfigMgr.py -d input/DbSet.data.csv -p input/test.config -e dev -w
     ./ConfigMgr.py -d input/DbSet.data.csv -p input/ -e prod -w
 Args:
+    -t: test (No other input. Runs the doc tests.)
     -d: dbsetfile (cvs file)     REQUIRED
     -p: path (input file or dir) REQUIRED
     -e: the env to switch to {env, uat, or prod}    
     -w: writes output file
-    -t: test (No other input. Runs the doc tests.)
+
 Returns:
 Raises:
 
@@ -164,7 +165,7 @@ def main(argv=None):
             elif opt in ("-t", "--test"):
                 import doctest
                 doctest.testmod(verbose=True)
-                sys.exit()
+                sys.exit(0)
                                  
 
         if (not dbsetfile) or (not os.path.isfile(dbsetfile)):

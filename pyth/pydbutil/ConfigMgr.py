@@ -18,11 +18,7 @@ class ConfigMgr():
     """Handles database connection strings in files using DbProfiles.
 
     Usage:
-    Run these tests with ./ConfigMgr.py -v
-    
-    Init with a dataset.
-    >>> cm = ConfigMgr(cvsfile='input/DbSet.data.csv')
-    Loaded 6 profile(s).
+    Run ./ConfigMgr.py -v  to call the tests in "test_ConfigMgr.txt" 
 
     Needs the WRITE test.
     
@@ -47,16 +43,6 @@ class ConfigMgr():
 
     def set_path(self, path):
         """Sets filelist to path, file or dir.
-
-        Set path to one file.
-        >>> cm = ConfigMgr(cvsfile='input/DbSet.data.csv').set_path('input/test.config')
-        Loaded 6 profile(s).
-        Set filelist to ['input/test.config']
-
-        Set path to a dir.
-        >>> cm = ConfigMgr(cvsfile='input/DbSet.data.csv').set_path('input/')
-        Loaded 6 profile(s).
-        Set filelist to ['input/test.config', 'input/test2.config']
         """
         self.filelist = []
         if path:
@@ -84,43 +70,6 @@ class ConfigMgr():
 
     def check(self, *filelist):
         """Checks and reports db connection strings. Any kind of text file.
-
-        Set path to one file, check.
-
-        >>> cm = ConfigMgr(cvsfile='input/DbSet.data.csv', path='input/test.config')
-        Loaded 6 profile(s).
-        Set filelist to ['input/test.config']
-        >>> cm.check()
-        File : /Users/hills/git-hill/pyth/pydbutil/input/test.config
-        line 69:
-             ...onnectionString="Data Source=Usfshwssql094;Initial Catalog=RDxETL...
-            *MATCH* with a db in the db set.
-        line 74:
-             ...ta Source=Usfshwssql094;Initial Catalog=RDxETL;Integrated Securit...
-            *MATCH* with a db in the db set.
-        line 78:
-             ...ta Source=Usfshwssql094;Initial Catalog=RDxETL;Integrated Securit...
-            *MATCH* with a db in the db set.
-        line 82:
-             ...ta Source=Usfshwssql089;Initial Catalog=RDxReport;Integrated Secu...
-            *MATCH* with a db in the db set.
-        <BLANKLINE>
-        4 matches in file input/test.config
-        <BLANKLINE>
-
-        Set path to dir, check the files.
-        
-        >>> cm.set_path('input/')
-        Set filelist to ['input/test.config', 'input/test2.config']
-        >>> cm.check()
-        File : /Users/hills/git-hill/pyth/pydbutil/input/test.config
-        <BLANKLINE>
-        File : /Users/hills/git-hill/pyth/pydbutil/input/test2.config
-        <BLANKLINE>
-        4 matches in file input/test.config
-        4 matches in file input/test2.config
-        <BLANKLINE>
-        8 TOTAL matches.
         """
 
         # if none is explicitly passed, use the self list.
@@ -189,48 +138,6 @@ class ConfigMgr():
 
     def handle_xml(self, env=None, write=False, *xml_file_list):
         """Find and change connectionStrings node of xmlfile.
-
-        Set path to one file, change to prod env.
-
-        >>> cm = ConfigMgr(cvsfile='input/DbSet.data.csv', path='input/test.config')
-        Loaded 6 profile(s).
-        Set filelist to ['input/test.config']
-        >>> cm.handle_xml(env='prod')
-        File: /Users/hills/git-hill/pyth/pydbutil/input/test.config
-        Conn change: RDxETL connection from Usfshwssql094 to usfshwssql077
-        Conn change: RDxETL connection from Usfshwssql094 to usfshwssql077
-        Conn change: RDxETL connection from Usfshwssql094 to usfshwssql077
-        Conn change: RDxReport connection from Usfshwssql089 to usfshwssql084
-        <BLANKLINE>
-        <BLANKLINE>
-        4 matches in file input/test.config
-        <BLANKLINE>
-        
-        
-        Set path to dir, change to dev env.
-        
-        >>> cm.set_path('input/')
-        Set filelist to ['input/test.config', 'input/test2.config']
-        >>> cm.handle_xml(env='dev')
-        File: /Users/hills/git-hill/pyth/pydbutil/input/test.config
-        Conn change: RDxETL connection from Usfshwssql094 to usfshwssql104
-        Conn change: RDxETL connection from Usfshwssql094 to usfshwssql104
-        Conn change: RDxETL connection from Usfshwssql094 to usfshwssql104
-        Conn change: RDxReport connection from Usfshwssql089 to usfshwssql104\RIGHTSDEV_2
-        <BLANKLINE>
-        File: /Users/hills/git-hill/pyth/pydbutil/input/test2.config
-        Conn change: RDxETL connection from Usfshwssql077 to usfshwssql104
-        Conn change: RDxETL connection from Usfshwssql077 to usfshwssql104
-        Conn change: RDxETL connection from Usfshwssql077 to usfshwssql104
-        Conn change: RDxReport connection from Usfshwssql084 to usfshwssql104\RIGHTSDEV_2
-        <BLANKLINE>
-        <BLANKLINE>
-        4 matches in file input/test.config
-        4 matches in file input/test2.config
-        <BLANKLINE>
-        8 TOTAL changes.
-        
-        
         """
 
         # if none is explicitly passed, use the self.
@@ -289,7 +196,9 @@ def main(argv=None):
                 sys.exit(0)
             elif opt in ("-v", "--verbose"):
                 import doctest
-                doctest.testmod(verbose=True)
+                #doctest.testmod(verbose=True)
+                doctest.testfile("test_ConfigMgr.txt")
+                
                 sys.exit(0)
             elif opt in ("-d", "--dbsetfile"):
                 dbsetfile = arg

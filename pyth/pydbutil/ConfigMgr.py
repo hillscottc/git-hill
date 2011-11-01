@@ -1,18 +1,22 @@
 #! /usr/bin/python
-"""Handles database connection strings in an xml file
+"""Handles database connection strings in an xml file.
+
 
 Usage: 
-    ./ConfigMgr.py -p test.config   (1 file)
-    ./ConfigMgr.py -p /config_dir     (all files named .config in the dir)
-    ./ConfigMgr.py -p test.config  -e prod
-    ./ConfigMgr.py -p /config_dir   -e dev -w
+    ./ConfigMgr.py -d input/DbSet.data.csv -p input/test.config
+    ./ConfigMgr.py -d input/DbSet.data.csv -p input/
+    ./ConfigMgr.py -d input/DbSet.data.csv -p input/ -e prod
+    ./ConfigMgr.py -d input/DbSet.data.csv -p input/test.config -e dev -w
+    ./ConfigMgr.py -d input/DbSet.data.csv -p input/ -e prod -w
 Args:
-    -d: database profile (cvs file)
-    -p: targ file or dir
+    -d: dbsetfile (cvs file)     REQUIRED
+    -p: path (input file or dir) REQUIRED
     -e: the env to switch to {env, uat, or prod}    
-    -w: writes output file 
+    -w: writes output file
+    -t: test (No other input. Runs the doc tests.)
 Returns:
 Raises:
+
 """
 
 import sys
@@ -28,12 +32,6 @@ class Usage(Exception):
     def __init__(self, msg):
         self.msg = msg
 
-# FIX THIS
-# this will be a default var called output DIR soon
-OUTDIR = "_output"
-CONFIG_FILE_EXT = '*.config'
-
-
 class ConfigMgr():
     """ Handles database connection strings"""
 
@@ -47,22 +45,12 @@ class ConfigMgr():
             shortline = '...' + shortline[chars_trimmed : chars_trimmed+chars_shown] + '...'
         return shortline
 
-    def is_process_file(self, filename) :
-        """CHANGE THIS!!!! Should check if par dir, maybe"""    
-        #if re.search(NEW_FILE_TAG, os.path.abspath(filename)) : return True
-        #else : return False
-        return False
-
     def check(self, *filelist):
         """Checks and reports db connection strings. Any kind of text file."""
         tot_match_count = 0
         match_msg = ''
     
         for filename in filelist:
-        
-            if self.is_process_file(filename) :
-                print "File SKIPPED : " + os.path.abspath(filename)
-                continue
 
             # read all lines of file into var
             with open(filename, 'r') as file:
@@ -97,7 +85,7 @@ class ConfigMgr():
         """Change db connection strings via re."""
         new_conn = old_conn # default to orig val if no match 
     
-        m = re.search(REGEX, old_conn)
+        m = re.search(self.dbset.regex, old_conn)
         if m:
             boxname, dbname = m.group(1), m.group(2)
             #new_boxname = DbProfile.DB[(dbname, new_env)].boxname
@@ -107,36 +95,19 @@ class ConfigMgr():
         return new_conn
 
 
-    def get_new_filename(self, filename, tag="_new_"):
-        """ Given filename config.txt, returns config<tag>.txt"""
+    def get_output_filename(self, filename, outdir="output"):
+        """ Returns abs path to ./outdir/filename """
         path = os.path.abspath(filename)
         head, tail = os.path.split(path)
-        root, ext = os.path.splitext(tail)
-        return root + tag + ext
+        return os.path.join(os.getcwd(), outdir, tail)
 
 
-    def move_files(self, old_filename, new_filename, bak_dir='bak') :
-        """ Write new files and backups """
-        head, tail = os.path.split(old_filename)
-        bak_filename = os.path.join(head, 'bak', tail )
-    
-        print 'try Moving', old_filename, 'to', bak_filename
-        #shutil.move(old_filename, bak_filename)
-    
-        print 'try Moving', new_filename, 'to', old_filename
-        #shutil.move(new_filename, old_filename)    
-    
-
-    def handle_xml(self, env, write=False, outdir=OUTDIR, *xml_file_list):
+    def handle_xml(self, env, write=False, *xml_file_list):
         """Find and change connectionStrings node of xmlfile.""" 
         tot_match_count = 0
         match_msg = ''    
         for xmlfilename in xml_file_list:   
-           
-            if is_process_file(xmlfilename) :
-                print "File SKIPPED : " + os.path.abspath(xmlfilename)
-                continue        
-            
+    
             print "File:", os.path.abspath(xmlfilename)
             matchcount = 0
             tree = ElementTree()
@@ -145,24 +116,88 @@ class ConfigMgr():
                 for add_node in con_str_node.findall('add'):
                     old_conn = add_node.attrib['connectionString']
                     # change the con node here
-                    add_node.attrib['connectionString'] = change_conn(old_conn, env)
+                    add_node.attrib['connectionString'] = self.change_conn(old_conn, env)
                     matchcount = matchcount + 1
                 tot_match_count = tot_match_count + matchcount
                 match_msg = match_msg + str(matchcount) + ' matches in file ' + xmlfilename + os.linesep
                 print
-            
+                
             if write:
-                sys.exit(0)
-            
-                #match_msg = match_msg + '  New file would be ' +  get_new_filename(xmlfilename) + os.linesep
-                new_filename = get_new_filename(xmlfilename)
-                #match_msg = match_msg + '  Writing new file ' +  new_filename + os.linesep
-                tree.write(new_filename)
-                move_files(os.path.abspath(xmlfilename), os.path.abspath(new_filename))
-            
-            
+                newfilename = self.get_output_filename(xmlfilename)
+                tree.write(newfilename)
+                print 'Wrote', newfilename
+
         print
         print match_msg
         if len(xml_file_list) > 1:
             print str(tot_match_count) + ' TOTAL changes.'   
 
+def main(argv=None):
+    if argv is None:
+        argv = sys.argv
+    try:
+        try:
+            opts, args = getopt.getopt(
+                argv[1:], "hd:p:e:wt", ["help", "dbsetfile=", "path=",
+                                        "env=", "write", "test"])
+        except getopt.error, msg:
+            raise Usage(msg)
+
+        dbsetfile = None
+        path = None
+        env = None
+        write = False
+
+        for opt, arg in opts :
+            if opt in ("-h", "--help"):
+                print __doc__
+                sys.exit(0)
+            elif opt in ("-d", "--dbsetfile"):
+                dbsetfile = arg
+            elif opt in ("-p", "--path"):
+                path = arg               
+            elif opt in ("-e", "--env"):
+                env = arg
+                if env!=None: env=env.upper()       
+            elif opt in ("-w", "--write"):
+                write = True   
+            elif opt in ("-t", "--test"):
+                import doctest
+                doctest.testmod(verbose=True)
+                sys.exit()
+                                 
+
+        if (not dbsetfile) or (not os.path.isfile(dbsetfile)):
+            raise Usage("Invalid dbsetfile '{}'".format(dbsetfile))
+
+        cm = ConfigMgr(cvsfile=dbsetfile)
+
+        filelist = []
+        if os.path.isfile(path) :
+            filelist = [path]
+        elif os.path.isdir(path) :
+            #iterate files in specified dir that match *.config        
+            for config_file in glob.glob(os.path.join(path,  "*.config")) :
+                filelist.append(config_file) 
+        else :
+            raise Usage("Invalid path '{}'".format(path))
+
+        if not write :
+            cm.check(*filelist) 
+            sys.exit()  
+        else:
+            if env is None:
+                raise Usage('') 
+
+        cm.handle_xml(env, write, *filelist)
+
+        print "Complete."
+        print
+
+    except Usage, err:
+        print >>sys.stderr, "Sorry, invalid options. For help, use --help"
+        print >>sys.stderr, "Other errors:",err.msg
+        return 2
+
+if __name__ == "__main__":
+    sys.exit(main())

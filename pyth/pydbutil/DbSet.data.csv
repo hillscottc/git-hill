@@ -1,8 +1,0 @@
-dbname,env,boxname,path
-RDxETL,dev,usfshwssql104,D:\Something
-RDxETL,uat,usfshwssql094,D:\Something
-RDxETL,prod,usfshwssql077,D:\Something
-RDxReport,uat,usfshwssql089,D:\Something
-RDxReport,prod,usfshwssql084,D:\Something
-RDxReport,dev,usfshwssql104\RIGHTSDEV_2,D:\Something
-

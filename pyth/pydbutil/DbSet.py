@@ -4,7 +4,13 @@ Manages database profiles.
 Can takes a csv file as input.
 
 Usage: 
-    ./DbSet.py -i input/DbSet.data.csv
+#    ./DbSet.py -i input/DbSet.data.csv
+
+ 
+>>> db = DbSet(input/DbSet.data.csv)
+>>> print dbset
+
+    
 Args:
 Returns:
 Raises:
@@ -53,33 +59,36 @@ class DbSet():
         return str(self.__str__())
 
 
-
-def main(argv=None):
-    if argv is None:
-         argv = sys.argv
-    try:
-        try:
-            opts, args = getopt.getopt(argv[1:], "hi:", ["help", "infile="])
-        except getopt.error, msg:
-            raise Usage(msg)
-
-        infile = None
-        
-        for opt, arg in opts :
-            if opt in ("-h", "--help"):
-                print __doc__
-                sys.exit(0)
-            elif opt in ("-i", "--infile"):
-                infile = arg
-                if not os.path.isfile(infile) :
-                    raise Usage("Invalid -i '{}'".format(infile))
-                else:
-                    print 'Creating DbSet from infile -- {}'.format(DbSet(cvsfile=infile))
-
-    except Usage, err:
-        print >>sys.stderr, "Sorry, invalid options. For help, use --help"
-        print >>sys.stderr, "Other errors:",err.msg
-        return 2
-
 if __name__ == "__main__":
-    sys.exit(main())
+    import doctest
+    doctest.testmod()
+    #sys.exit(main())
+
+
+# def main(argv=None):
+#     if argv is None:
+#          argv = sys.argv
+#     try:
+#         try:
+#             opts, args = getopt.getopt(argv[1:], "hi:", ["help", "infile="])
+#         except getopt.error, msg:
+#             raise Usage(msg)
+# 
+#         infile = None
+#         
+#         for opt, arg in opts :
+#             if opt in ("-h", "--help"):
+#                 print __doc__
+#                 sys.exit(0)
+#             elif opt in ("-i", "--infile"):
+#                 infile = arg
+#                 if not os.path.isfile(infile) :
+#                     raise Usage("Invalid -i '{}'".format(infile))
+#                 else:
+#                     print 'Creating DbSet from infile -- {}'.format(DbSet(cvsfile=infile))
+# 
+#     except Usage, err:
+#         print >>sys.stderr, "Sorry, invalid options. For help, use --help"
+#         print >>sys.stderr, "Other errors:",err.msg
+#         return 2
+

@@ -72,44 +72,6 @@ class DbProfile():
     def __repr__(self):
         return str(self.__str__())
 
-
-
-# def main(argv=None):
-#     if argv is None:
-#          argv = sys.argv
-#     try:
-#         try:
-#             opts, args = getopt.getopt(argv[1:], "htd:", ["help", "test", "data="])
-#         except getopt.error, msg:
-#             raise Usage(msg)
-# 
-#         data = None
-# 
-#         for opt, arg in opts :
-#             if opt in ("-h", "--help"):
-#                 print __doc__
-#                 sys.exit(0)
-#             elif opt in ("-t", "--test"):
-#                 import doctest
-#                 doctest.testmod(verbose=True)
-#                 sys.exit(0)                
-#             elif opt in ("-d", "--data"):
-#                 data = tuple(arg.split())
-#                 #print 'Creating dbprofile from d -- {}'.format(DbProfile(tup=data)) 
-# 
-#         print 'Creating a default dbprofile -- ', DbProfile()
-# 
-#         print 'Default matches RDxETL on usfshwssql104? {}'.format(
-#             DbProfile().matches_db_box('RDxETL','usfshwssql104'))
-# 
-#         print 'Default matches RDxETL uat? {}'.format(
-#             DbProfile().matches_db_env('RDxETL','uat')) 
-# 
-#     except Usage, err:
-#         print >>sys.stderr, "Sorry, invalid options. For help, use --help"
-#         print >>sys.stderr, "Other errors:",err.msg
-#         return 2
-
 if __name__ == "__main__":
     import doctest
     doctest.testmod()

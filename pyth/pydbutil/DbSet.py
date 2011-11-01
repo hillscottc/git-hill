@@ -12,6 +12,9 @@ class Usage(Exception):
 
 class DbSet():
     """Manages database profiles. Takes a csv file as input.
+    
+    Usage:
+    Run these tests with ./DbSet.py -v
 
     >>> print DbSet('input/DbSet.data.csv')
     Loaded 6 profile(s).

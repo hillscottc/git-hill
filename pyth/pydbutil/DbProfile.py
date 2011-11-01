@@ -14,6 +14,8 @@ class DbProfile():
     Represents a database instance by dbname, env, boxname, and path. 
 
     Usage: 
+    Run these tests with ./DbProfile.py -v
+    
     Get a default
     >>> db = DbProfile()
     >>> print db

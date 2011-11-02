@@ -12,6 +12,7 @@ Loaded 6 profile(s).
 
 
 
+
 Set path to one file.
 >>> cm = ConfigMgr(cvsfile='input/DbSet.data.csv').set_path('input/test.config')
 Loaded 6 profile(s).
@@ -33,16 +34,12 @@ Set filelist to ['input/test.config']
 File : /Users/hills/git-hill/pyth/pydbutil/input/test.config
 line 69:
      ...onnectionString="Data Source=Usfshwssql094;Initial Catalog=RDxETL...
-    *MATCH* with a db in the db set.
 line 74:
      ...ta Source=Usfshwssql094;Initial Catalog=RDxETL;Integrated Securit...
-    *MATCH* with a db in the db set.
 line 78:
      ...ta Source=Usfshwssql094;Initial Catalog=RDxETL;Integrated Securit...
-    *MATCH* with a db in the db set.
 line 82:
      ...ta Source=Usfshwssql089;Initial Catalog=RDxReport;Integrated Secu...
-    *MATCH* with a db in the db set.
 <BLANKLINE>
 4 matches in file input/test.config
 <BLANKLINE>
@@ -79,11 +76,25 @@ Conn change: RDxReport connection from Usfshwssql089 to usfshwssql084
 <BLANKLINE>
 
 
+Write new file.
+>>> cm.handle_xml(write=True)
+File: /Users/hills/git-hill/pyth/pydbutil/input/test.config
+Conn change: RDxETL connection from Usfshwssql094 to usfshwssql077
+Conn change: RDxETL connection from Usfshwssql094 to usfshwssql077
+Conn change: RDxETL connection from Usfshwssql094 to usfshwssql077
+Conn change: RDxReport connection from Usfshwssql089 to usfshwssql084
+<BLANKLINE>
+Wrote /Users/hills/git-hill/pyth/pydbutil/output/test.config
+<BLANKLINE>
+4 matches in file input/test.config
+<BLANKLINE>
+
+
 Set path to dir, change to dev env.
 
 >>> cm.set_path('input/')
 Set filelist to ['input/test.config', 'input/test2.config']
->>> cm.handle_xml(env='dev')
+>>> cm.handle_xml(env='dev', write=False)
 File: /Users/hills/git-hill/pyth/pydbutil/input/test.config
 Conn change: RDxETL connection from Usfshwssql094 to usfshwssql104
 Conn change: RDxETL connection from Usfshwssql094 to usfshwssql104
@@ -101,4 +112,28 @@ Conn change: RDxReport connection from Usfshwssql084 to usfshwssql104\RIGHTSDEV_
 4 matches in file input/test2.config
 <BLANKLINE>
 8 TOTAL changes.
+
+
+Write the dir of changes
+>>> cm.handle_xml(write=True)
+File: /Users/hills/git-hill/pyth/pydbutil/input/test.config
+Conn change: RDxETL connection from Usfshwssql094 to usfshwssql104
+Conn change: RDxETL connection from Usfshwssql094 to usfshwssql104
+Conn change: RDxETL connection from Usfshwssql094 to usfshwssql104
+Conn change: RDxReport connection from Usfshwssql089 to usfshwssql104\RIGHTSDEV_2
+<BLANKLINE>
+Wrote /Users/hills/git-hill/pyth/pydbutil/output/test.config
+File: /Users/hills/git-hill/pyth/pydbutil/input/test2.config
+Conn change: RDxETL connection from Usfshwssql077 to usfshwssql104
+Conn change: RDxETL connection from Usfshwssql077 to usfshwssql104
+Conn change: RDxETL connection from Usfshwssql077 to usfshwssql104
+Conn change: RDxReport connection from Usfshwssql084 to usfshwssql104\RIGHTSDEV_2
+<BLANKLINE>
+Wrote /Users/hills/git-hill/pyth/pydbutil/output/test2.config
+<BLANKLINE>
+4 matches in file input/test.config
+4 matches in file input/test2.config
+<BLANKLINE>
+8 TOTAL changes.
+
 

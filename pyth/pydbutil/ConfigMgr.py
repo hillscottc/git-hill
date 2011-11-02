@@ -1,5 +1,19 @@
 #! /usr/bin/python
+"""Handles database connection strings in files using DbProfiles.
 
+Usage:
+Run ./ConfigMgr.py -v  to call the tests in "test_ConfigMgr.txt" 
+
+These need to be tested since i swtiched to the doctest.
+
+Args:
+    -v: verbose test (No other input. Runs the doc tests.)
+    -d: dbsetfile (cvs file)     REQUIRED
+    -p: path (input file or dir) REQUIRED
+    -e: the env to switch to {env, uat, or prod}
+    -w: writes output file
+
+"""
 import sys
 import getopt
 import shutil
@@ -16,30 +30,15 @@ class Usage(Exception):
 
 class ConfigMgr():
     """Handles database connection strings in files using DbProfiles.
-
     Usage:
-    Run ./ConfigMgr.py -v  to call the tests in "test_ConfigMgr.txt" 
-
-    Needs the WRITE test.
-    
-    Args:
-        -v: verbose test (No other input. Runs the doc tests.)
-        -d: dbsetfile (cvs file)     REQUIRED
-        -p: path (input file or dir) REQUIRED
-        -e: the env to switch to {env, uat, or prod}
-        -w: writes output file
-
+    Run ./ConfigMgr.py -v  to call the tests in 'test_ConfigMgr.txt"'
     """
 
     def __init__(self, cvsfile, path=None, env=None, write=False):
         self.dbset = DbSet(cvsfile=cvsfile)
-        if path: self.set_path(path)
-        if env: self.set_env(env)
-
-        # if not write :
-        #     self.check(*self.filelist)
-        # else:
-        #     if env is None: raise Usage('')
+        self.path = self.set_path(path)
+        self.env = env
+        self.write = write
 
     def set_path(self, path):
         """Sets filelist to path, file or dir.
@@ -52,13 +51,8 @@ class ConfigMgr():
                 #iterate files in specified dir that match *.config
                 for config_file in glob.glob(os.path.join(path,  "*.config")) :
                     self.filelist.append(config_file)
-        print 'Set filelist to {}'.format(self.filelist)
-
-
-    def set_env(self, env):
-        self.env = env
-        if env:
-            self.handle_xml(env)
+        if len(self.filelist) > 0:
+            print 'Set filelist to {}'.format(self.filelist)
 
 
     def trim_line(self, longline, max_length=80, chars_trimmed=20, chars_shown=65):
@@ -70,16 +64,18 @@ class ConfigMgr():
 
     def check(self, *filelist):
         """Checks and reports db connection strings. Any kind of text file.
+        Usage:
+        Run ./ConfigMgr.py -v  to call the tests in 'test_ConfigMgr.txt"'        
         """
-
-        # if none is explicitly passed, use the self list.
-        if len(filelist) is 0:
-            filelist = self.filelist
+        
+        if (filelist) and len(filelist) > 0:
+            # if one is explicitly passed, set it to self list.
+            self.filelist = filelist
 
         tot_match_count = 0
         match_msg = ''
 
-        for filename in filelist:
+        for filename in self.filelist:
 
             # read all lines of file into var
             with open(filename, 'r') as file:
@@ -97,7 +93,7 @@ class ConfigMgr():
                 if m:
                     m_boxname, m_dbname = m.group(1).lower(), m.group(2)
                     # don't print all these messages if its a whole dir
-                    if len(filelist) == 1 :
+                    if len(self.filelist) == 1 :
                         #print '  line', str(linenum), ':', os.linesep, '    ', self.trim_line(line)
                         print 'line {}:'.format(str(linenum))
                         print '    ', self.trim_line(line)
@@ -112,7 +108,7 @@ class ConfigMgr():
             print ''
 
         print match_msg
-        if len(filelist) > 1 : print str(tot_match_count) + ' TOTAL matches.'
+        if len(self.filelist) > 1 : print str(tot_match_count) + ' TOTAL matches.'
 
 
     def change_conn(self, old_conn,new_env='DEV'):
@@ -136,19 +132,24 @@ class ConfigMgr():
         return os.path.join(os.getcwd(), outdir, tail)
 
 
-    def handle_xml(self, env=None, write=False, *xml_file_list):
+    def handle_xml(self, env=None, write=None, *xml_file_list):
         """Find and change connectionStrings node of xmlfile.
+        Usage:
+        Run ./ConfigMgr.py -v  to call the tests in 'test_ConfigMgr.txt"'        
         """
 
-        # if none is explicitly passed, use the self.
-        if env is None:
-            env = self.env
-        if len(xml_file_list)  is 0:
-            xml_file_list = self.filelist
+        if env:
+            self.env = env
+            
+        if write is not None:
+            self.write = write
+            
+        if len(xml_file_list) > 0:
+            self.filelist = xml_file_list
 
         tot_match_count = 0
         match_msg = ''
-        for xmlfilename in xml_file_list:
+        for xmlfilename in self.filelist:
 
             print "File:", os.path.abspath(xmlfilename)
             matchcount = 0
@@ -158,21 +159,22 @@ class ConfigMgr():
                 for add_node in con_str_node.findall('add'):
                     old_conn = add_node.attrib['connectionString']
                     # change the con node here
-                    add_node.attrib['connectionString'] = self.change_conn(old_conn, env)
+                    add_node.attrib['connectionString'] = self.change_conn(old_conn, self.env)
                     matchcount = matchcount + 1
                 tot_match_count = tot_match_count + matchcount
                 match_msg = match_msg + str(matchcount) + ' matches in file ' + xmlfilename + os.linesep
                 print
 
-            if write:
+            if self.write:
                 newfilename = self.get_output_filename(xmlfilename)
                 tree.write(newfilename)
                 print 'Wrote', newfilename
 
         print
         print match_msg
-        if len(xml_file_list) > 1:
+        if len(self.filelist) > 1:
             print str(tot_match_count) + ' TOTAL changes.'
+
 
 def main(argv=None):
     if argv is None:
@@ -214,7 +216,7 @@ def main(argv=None):
         if (not dbsetfile) or (not os.path.isfile(dbsetfile)):
             raise Usage("Invalid dbsetfile '{}'".format(dbsetfile))
 
-        cm = ConfigMgr(cvsfile=dbsetfile)
+        cm = ConfigMgr(cvsfile=dbsetfile, write)
 
         filelist = []
         if os.path.isfile(path) :

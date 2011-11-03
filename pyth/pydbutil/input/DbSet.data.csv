@@ -1,0 +1,8 @@
+dbname,env,boxname,path
+RDxETL,dev,usfshwssql104,somepath
+RDxETL,uat,usfshwssql094,somepath
+RDxETL,prod,usfshwssql077,somepath
+RDxReport,uat,usfshwssql089,somepath
+RDxReport,prod,usfshwssql084,somepath
+RDxReport,dev,usfshwssql104\RIGHTSDEV_2,somepath
+

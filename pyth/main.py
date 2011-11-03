@@ -9,7 +9,9 @@ import sys
 import os
 import getopt
 import glob
-from pydbutil.ConfigMgr import ConfigMgr
+import pydbutil.DbSet
+import pydbutil.DbProfile
+#import pydbutil.ConfigMgr
 from pydbutil.ConfigMgr import ConfigMgr
 
 class Usage(Exception):
@@ -31,12 +33,17 @@ def main(argv=None):
                 print __doc__
                 sys.exit(0)
   
-        # What do do here? Maybe just run tests?
-        #doctest.testmod(ConfigMgr)
-        
         import doctest
-        doctest.testfile("pydbutil/test_pydbutil.txt")
-  
+        os.chdir('pydbutil')
+        
+        # i probably dont need keys for the data at all.
+ 
+        
+        #doctest.testmod(pydbutil.DbProfile, verbose=True)
+        #doctest.testmod(pydbutil.DbSet, verbose=True)
+        doctest.testfile("test_ConfigMgr.txt")
+        
+
         print "Complete."
         print
         

@@ -43,25 +43,32 @@ class DbProfile():
             self.boxname = boxname
             self.path = path
 
-    def matches_db_box(self, dbname, boxname):
-        if (self.dbname, self.boxname ) == (dbname, boxname) :
-            return True
-        else :
-            return False
-
-    def matches_db_env(self, dbname, env):
-        if (self.dbname, self.env ) == (dbname, env) :
-            return True
-        else :
-            return False       
-
-    def get_key(self):
-        """ The key is a tuple of dbname, env """
-        return (self.dbname, self.env)
+    def match_attrib(self, aDict):
+        """Does given dict of attib-vals match with self data?
+        
+        >>> db = DbProfile('RDxETL', 'prod', 'usfshwssql077', 'prodpath' )
+        
+        Is this prod etl?
+        >>> print db.match_attrib(dict(env='prod', dbname='RDxETL'))
+        True
+        
+        Is it dev etl?
+        >>> print db.match_attrib(dict(env='dev', dbname='RDxETL'))
+        False
+        
+        Is it prod etl on usfshwssql077?
+        >>> print db.match_attrib(dict(env='prod', dbname='RDxETL', boxname='usfshwssql077'))
+        True
+        """
+        
+        for k, v in aDict.iteritems():
+            if not (vars(self)[k] == v) :
+                return False
+        return True
 
     def __str__(self):
         return self.dbname + ' ' + self.env + ' ' + self.boxname + ' ' + self.path
-    
+
     def __repr__(self):
         return str(self.__str__())
 
@@ -69,3 +76,6 @@ if __name__ == "__main__":
     import doctest
     doctest.testmod()
     #sys.exit(main())
+    
+    
+    

@@ -98,7 +98,9 @@ class ConfigMgr():
                         print 'line {}:'.format(str(linenum))
                         print '    ', self.trim_line(line)
 
-                    if self.dbset.has_db_box(m_dbname,m_boxname) :
+                    #if self.dbset.has_db_box(m_dbname,m_boxname) :
+                    if self.dbset.get_profile_by_attribs(
+                                                        dict(dbname=m_dbname,boxname=m_boxname)): 
                         matchcount = matchcount + 1
                         if len(filelist) == 1 :
                             print '    *MATCH* with a db in the db set.'
@@ -118,8 +120,9 @@ class ConfigMgr():
         m = re.search(self.dbset.regex, old_conn)
         if m:
             boxname, dbname = m.group(1), m.group(2)
-            #new_boxname = DbProfile.DB[(dbname, new_env)].boxname
-            new_boxname = self.dbset.get_profile(dbname, new_env).boxname
+            #new_boxname = self.dbset.get_profile(dbname, new_env).boxname
+            new_boxname = self.dbset.get_profile_by_attribs(dict(dbname=dbname,env=new_env))
+         
             print 'Conn change:', dbname, 'connection from', boxname, 'to', new_boxname
             new_conn = re.sub(boxname, new_boxname, old_conn)
         return new_conn
@@ -200,7 +203,6 @@ def main(argv=None):
                 import doctest
                 #doctest.testmod(verbose=True)
                 doctest.testfile("test_ConfigMgr.txt")
-                
                 sys.exit(0)
             elif opt in ("-d", "--dbsetfile"):
                 dbsetfile = arg
@@ -216,7 +218,7 @@ def main(argv=None):
         if (not dbsetfile) or (not os.path.isfile(dbsetfile)):
             raise Usage("Invalid dbsetfile '{}'".format(dbsetfile))
 
-        cm = ConfigMgr(cvsfile=dbsetfile, write)
+        cm = ConfigMgr(cvsfile=dbsetfile, write=write)
 
         filelist = []
         if os.path.isfile(path) :

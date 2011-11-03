@@ -8,19 +8,16 @@ Run ./ConfigMgr.py -v  to run these tests.
 
 Init with a dataset.
 >>> cm = ConfigMgr(cvsfile='input/DbSet.data.csv')
-Loaded 6 profile(s).
 
 
 
 
 Set path to one file.
 >>> cm = ConfigMgr(cvsfile='input/DbSet.data.csv').set_path('input/test.config')
-Loaded 6 profile(s).
 Set filelist to ['input/test.config']
 
 Set path to a dir.
 >>> cm = ConfigMgr(cvsfile='input/DbSet.data.csv').set_path('input/')
-Loaded 6 profile(s).
 Set filelist to ['input/test.config', 'input/test2.config']
 
 
@@ -28,7 +25,6 @@ Set filelist to ['input/test.config', 'input/test2.config']
 Set path to one file, check.
 
 >>> cm = ConfigMgr(cvsfile='input/DbSet.data.csv', path='input/test.config')
-Loaded 6 profile(s).
 Set filelist to ['input/test.config']
 >>> cm.check()
 File : /Users/hills/git-hill/pyth/pydbutil/input/test.config
@@ -62,7 +58,6 @@ File : /Users/hills/git-hill/pyth/pydbutil/input/test2.config
 Set path to one file, change to prod env.
 
 >>> cm = ConfigMgr(cvsfile='input/DbSet.data.csv', path='input/test.config')
-Loaded 6 profile(s).
 Set filelist to ['input/test.config']
 >>> cm.handle_xml(env='prod')
 File: /Users/hills/git-hill/pyth/pydbutil/input/test.config

@@ -11,8 +11,7 @@ import getopt
 import glob
 import pydbutil.DbSet
 import pydbutil.DbProfile
-#import pydbutil.ConfigMgr
-from pydbutil.ConfigMgr import ConfigMgr
+import pydbutil.ConfigMgr
 
 class Usage(Exception):
     def __init__(self, msg):
@@ -36,14 +35,10 @@ def main(argv=None):
         import doctest
         os.chdir('pydbutil')
         
-        # i probably dont need keys for the data at all.
- 
+        doctest.testmod(pydbutil.DbProfile, verbose=True)
+        doctest.testmod(pydbutil.DbSet, verbose=True)
+        doctest.testfile("test_ConfigMgr.txt", verbose=True)
         
-        #doctest.testmod(pydbutil.DbProfile, verbose=True)
-        #doctest.testmod(pydbutil.DbSet, verbose=True)
-        doctest.testfile("test_ConfigMgr.txt")
-        
-
         print "Complete."
         print
         

@@ -113,18 +113,22 @@ class ConfigMgr():
         if len(self.filelist) > 1 : print str(tot_match_count) + ' TOTAL matches.'
 
 
-    def change_conn(self, old_conn,new_env='DEV'):
+    def change_conn(self, old_conn, new_env='DEV'):
         """Change db connection strings via re."""
         new_conn = old_conn # default to orig val if no match
 
         m = re.search(self.dbset.regex, old_conn)
         if m:
             boxname, dbname = m.group(1), m.group(2)
-            #new_boxname = self.dbset.get_profile(dbname, new_env).boxname
-            new_boxname = self.dbset.get_profile_by_attribs(dict(dbname=dbname,env=new_env))
-         
-            print 'Conn change:', dbname, 'connection from', boxname, 'to', new_boxname
+
+            new_boxname = '***BAD BOX NAME***'
+            db = self.dbset.get_profile_by_attribs(dict(dbname=dbname,env=new_env))
+            if db : 
+                new_boxname =  db.boxname
+            print 'Conn change: {} connection from {} to {}'.format(
+                                             dbname, boxname, new_boxname)
             new_conn = re.sub(boxname, new_boxname, old_conn)
+
         return new_conn
 
 

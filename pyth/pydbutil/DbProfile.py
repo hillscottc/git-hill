@@ -9,7 +9,7 @@ class Usage(Exception):
     def __init__(self, msg):
         self.msg = msg
 
-class DbProfile():
+class DbProfile(object):
     """
     Represents a database instance by dbname, env, boxname, and path. 
 
@@ -42,7 +42,10 @@ class DbProfile():
             self.env = env
             self.boxname = boxname
             self.path = path
-
+    
+    def __len__(self):
+        return len(self.dbname + self.env + self.boxname)
+    
     def match_attrib(self, aDict):
         """Does given dict of attib-vals match with self data?
         

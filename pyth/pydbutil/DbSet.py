@@ -36,6 +36,8 @@ class DbSet():
             self.DB = [db for db in dbprofiles]
             #print 'Loaded {} profile(s).'.format(len(self.DB))
 
+    def __len__(self):
+        return len(self.DB)
 
     def get_profile_by_attribs(self, aDict):
         """Does given dict of attib-vals match with self data?

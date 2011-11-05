@@ -43,9 +43,6 @@ class DbProfile(object):
             self.boxname = boxname
             self.path = path
     
-    def __len__(self):
-        return len(self.dbname + self.env + self.boxname)
-    
     def match_attrib(self, aDict):
         """Does given dict of attib-vals match with self data?
         

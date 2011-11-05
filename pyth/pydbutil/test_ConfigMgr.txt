@@ -3,14 +3,11 @@
 Run ./ConfigMgr.py -v  to run these tests.
 
 
->>> from pydbutil.ConfigMgr import ConfigMgr
-
+>>> #from pydbutil.ConfigMgr import ConfigMgr
+>>> from ConfigMgr import ConfigMgr
 
 Init with a dataset.
 >>> cm = ConfigMgr(cvsfile='input/DbSet.data.csv')
-
-
-
 
 Set path to one file.
 >>> cm = ConfigMgr(cvsfile='input/DbSet.data.csv').set_path('input/test.config')
@@ -19,8 +16,6 @@ Set filelist to ['input/test.config']
 Set path to a dir.
 >>> cm = ConfigMgr(cvsfile='input/DbSet.data.csv').set_path('input/')
 Set filelist to ['input/test.config', 'input/test2.config']
-
-
 
 Set path to one file, check.
 

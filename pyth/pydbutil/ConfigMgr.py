@@ -1,10 +1,18 @@
 #! /usr/bin/python
 """Handles database connection strings in files using DbProfiles.
 
-Usage:
-Run ./ConfigMgr.py -v  to call the tests in "test_ConfigMgr.txt" 
+Usage: 
+    Required - init the module with -dbsetfile and -path. 
+    Two public functions:
+        check()  - to look for conn strings in any file via regex. No changes.
+        handle_xml() - look for conn strings in config file via xml parse. The Write
+            option will write new file in output directory.
 
-These need to be tested since i swtiched to the doctest.
+    Usage tests are in 'test_ConfigMgr.txt'
+
+    ./ConfigMgr.py -v  to call the tests in "test_ConfigMgr.txt" 
+    ./ConfigMgr.py -d input/DbSet.data.csv -p input/test.config
+    ./ConfigMgr.py -d input/DbSet.data.csv -p input/test.config -e prod -w
 
 Args:
     -v: verbose test (No other input. Runs the doc tests.)
@@ -12,7 +20,6 @@ Args:
     -p: path (input file or dir) REQUIRED
     -e: the env to switch to {env, uat, or prod}
     -w: writes output file
-
 """
 import sys
 import getopt
@@ -30,15 +37,17 @@ class Usage(Exception):
 
 class ConfigMgr():
     """Handles database connection strings in files using DbProfiles.
-    Usage:
-    Run ./ConfigMgr.py -v  to call the tests in 'test_ConfigMgr.txt"'
+    
+    More usage tests are in 'test_ConfigMgr.txt'
+    Run ./ConfigMgr.py -v
     """
 
-    def __init__(self, cvsfile, path=None, env=None, write=False):
-        self.dbset = DbSet(cvsfile=cvsfile)
+    def __init__(self, dbsource=None, path=None, env=None, write=False, verbose=False):
+        self.dbset = DbSet(cvsfile=dbsource)
         self.path = self.set_path(path)
         self.env = env
         self.write = write
+        self.verbose = verbose
 
     def set_path(self, path):
         """Sets filelist to path, file or dir.
@@ -64,8 +73,9 @@ class ConfigMgr():
 
     def check(self, *filelist):
         """Checks and reports db connection strings. Any kind of text file.
-        Usage:
-        Run ./ConfigMgr.py -v  to call the tests in 'test_ConfigMgr.txt"'        
+        
+        Tests for this are function are in in 'test_ConfigMgr.txt'
+        Run ./ConfigMgr.py -v         
         """
         
         if (filelist) and len(filelist) > 0:
@@ -98,7 +108,6 @@ class ConfigMgr():
                         print 'line {}:'.format(str(linenum))
                         print '    ', self.trim_line(line)
 
-                    #if self.dbset.has_db_box(m_dbname,m_boxname) :
                     if self.dbset.get_profile_by_attribs(
                                                         dict(dbname=m_dbname,boxname=m_boxname)): 
                         matchcount = matchcount + 1
@@ -114,7 +123,13 @@ class ConfigMgr():
 
 
     def change_conn(self, old_conn, new_env='DEV'):
-        """Change db connection strings via re."""
+        """Change db connection strings via re.
+        Usage:
+        """   
+        
+        if (not dbset) or (len(dbset) is 0) :
+            raise Usage('Cannot change_con because dbset is empty or invalid.')
+             
         new_conn = old_conn # default to orig val if no match
 
         m = re.search(self.dbset.regex, old_conn)
@@ -141,8 +156,9 @@ class ConfigMgr():
 
     def handle_xml(self, env=None, write=None, *xml_file_list):
         """Find and change connectionStrings node of xmlfile.
-        Usage:
-        Run ./ConfigMgr.py -v  to call the tests in 'test_ConfigMgr.txt"'        
+        
+        Tests for this are function are in in 'test_ConfigMgr.txt'
+        Run ./ConfigMgr.py -v         
         """
 
         if env:
@@ -189,12 +205,12 @@ def main(argv=None):
     try:
         try:
             opts, args = getopt.getopt(
-                argv[1:], "hd:p:e:wv", ["help", "dbsetfile=", "path=",
+                argv[1:], "hd:p:e:wv", ["help", "dbsource=", "path=",
                                         "env=", "write", "verbose"])
         except getopt.error, msg:
             raise Usage(msg)
 
-        dbsetfile = None
+        dbsource = None
         path = None
         env = None
         write = False
@@ -205,11 +221,12 @@ def main(argv=None):
                 sys.exit(0)
             elif opt in ("-v", "--verbose"):
                 import doctest
-                #doctest.testmod(verbose=True)
+                # run both sets of tests.
                 doctest.testfile("test_ConfigMgr.txt")
+                doctest.testmod(verbose=True)
                 sys.exit(0)
-            elif opt in ("-d", "--dbsetfile"):
-                dbsetfile = arg
+            elif opt in ("-d", "--dbsource"):
+                dbsource = arg
             elif opt in ("-p", "--path"):
                 path = arg
             elif opt in ("-e", "--env"):
@@ -219,10 +236,10 @@ def main(argv=None):
                 write = True
 
 
-        if (not dbsetfile) or (not os.path.isfile(dbsetfile)):
-            raise Usage("Invalid dbsetfile '{}'".format(dbsetfile))
+        if (not dbsource) or (not os.path.isfile(dbsource)):
+            raise Usage("Invalid dbsource '{}'".format(dbsource))
 
-        cm = ConfigMgr(cvsfile=dbsetfile, write=write)
+        cm = ConfigMgr(dbsource=dbsource, write=write)
 
         filelist = []
         if os.path.isfile(path) :

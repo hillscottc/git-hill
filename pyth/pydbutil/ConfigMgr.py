@@ -2,24 +2,28 @@
 """Handles database connection strings in files using DbProfiles.
 
 Usage: 
-    Required - init the module with -dbsetfile and -path. 
-    Two public functions:
-        check()  - to look for conn strings in any file via regex. No changes.
-        handle_xml() - look for conn strings in config file via xml parse. The Write
-            option will write new file in output directory.
+Init the class with -dbsetfile and -path and call the public functions:
+    check()      - to look for conn strings in any file via regex. No changes.
+    handle_xml() - look for conn strings in config file via xml parse. The Write
+                   option will write new file in output directory.
 
-    Usage tests are in 'test_ConfigMgr.txt'
+>>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', path='input/test.config')
+Set filelist to ['input/test.config']
+>>> cm.handle_xml(write=False, env='prod')
+File: /Users/hills/git-hill/pyth/pydbutil/input/test.config
+Conn change: RDxETL connection from Usfshwssql094 to usfshwssql077
+Conn change: RDxETL connection from Usfshwssql094 to usfshwssql077
+Conn change: RDxETL connection from Usfshwssql094 to usfshwssql077
+Conn change: RDxReport connection from Usfshwssql089 to usfshwssql084
+<BLANKLINE>
+<BLANKLINE>
+4 matches in file input/test.config
+<BLANKLINE>
 
-    ./ConfigMgr.py -v  to call the tests in "test_ConfigMgr.txt" 
-    ./ConfigMgr.py -d input/DbSet.data.csv -p input/test.config
-    ./ConfigMgr.py -d input/DbSet.data.csv -p input/test.config -e prod -w
+The rest of the usage tests are in 'test_ConfigMgr.txt'
+To call the tests:,
+   ./ConfigMgr.py -v 
 
-Args:
-    -v: verbose test (No other input. Runs the doc tests.)
-    -d: dbsetfile (cvs file)     REQUIRED
-    -p: path (input file or dir) REQUIRED
-    -e: the env to switch to {env, uat, or prod}
-    -w: writes output file
 """
 import sys
 import getopt
@@ -42,7 +46,7 @@ class ConfigMgr():
     Run ./ConfigMgr.py -v
     """
 
-    def __init__(self, dbsource=None, path=None, env=None, write=False, verbose=False):
+    def __init__(self, dbsource=None, path=None, env='dev', write=False, verbose=False):
         self.dbset = DbSet(cvsfile=dbsource)
         self.path = self.set_path(path)
         self.env = env
@@ -127,7 +131,7 @@ class ConfigMgr():
         Usage:
         """   
         
-        if (not dbset) or (len(dbset) is 0) :
+        if (not self.dbset) or (len(self.dbset) is 0) :
             raise Usage('Cannot change_con because dbset is empty or invalid.')
              
         new_conn = old_conn # default to orig val if no match
@@ -163,10 +167,9 @@ class ConfigMgr():
 
         if env:
             self.env = env
-            
-        if write is not None:
-            self.write = write
-            
+        
+        self.write = write
+
         if len(xml_file_list) > 0:
             self.filelist = xml_file_list
 
@@ -198,75 +201,87 @@ class ConfigMgr():
         if len(self.filelist) > 1:
             print str(tot_match_count) + ' TOTAL changes.'
 
-
-def main(argv=None):
-    if argv is None:
-        argv = sys.argv
-    try:
-        try:
-            opts, args = getopt.getopt(
-                argv[1:], "hd:p:e:wv", ["help", "dbsource=", "path=",
-                                        "env=", "write", "verbose"])
-        except getopt.error, msg:
-            raise Usage(msg)
-
-        dbsource = None
-        path = None
-        env = None
-        write = False
-
-        for opt, arg in opts :
-            if opt in ("-h", "--help"):
-                print ConfigMgr.__doc__
-                sys.exit(0)
-            elif opt in ("-v", "--verbose"):
-                import doctest
-                # run both sets of tests.
-                doctest.testfile("test_ConfigMgr.txt")
-                doctest.testmod(verbose=True)
-                sys.exit(0)
-            elif opt in ("-d", "--dbsource"):
-                dbsource = arg
-            elif opt in ("-p", "--path"):
-                path = arg
-            elif opt in ("-e", "--env"):
-                env = arg
-                if env!=None: env=env.upper()
-            elif opt in ("-w", "--write"):
-                write = True
-
-
-        if (not dbsource) or (not os.path.isfile(dbsource)):
-            raise Usage("Invalid dbsource '{}'".format(dbsource))
-
-        cm = ConfigMgr(dbsource=dbsource, write=write)
-
-        filelist = []
-        if os.path.isfile(path) :
-            filelist = [path]
-        elif os.path.isdir(path) :
-            #iterate files in specified dir that match *.config
-            for config_file in glob.glob(os.path.join(path,  "*.config")) :
-                filelist.append(config_file)
-        else :
-            raise Usage("Invalid path '{}'".format(path))
-
-        if not write :
-            cm.check(*filelist)
-            sys.exit(0)
-        else:
-            if env is None:
-                raise Usage('')
-
-        cm.handle_xml(env, write, *filelist)
-
-        print "Complete."
-        print
-
-    except Usage, err:
-        print >>sys.stderr, "Sorry, invalid options. For help, use --help"
-        print >>sys.stderr, "Other errors:",err.msg
-        return 2
-
 if __name__ == "__main__":
-    sys.exit(main())
+    import doctest
+    doctest.testmod(verbose=True)    
+    doctest.testfile("test_ConfigMgr.txt")
+    sys.exit(0)
+    #sys.exit(main())
+
+
+# OR, you can call this module's main with command line switches.
+# Args: (switches for running ConfigMgr.py main)
+#     -v: verbose test (No other input. Runs the doc tests.)
+#     -d: dbsetfile (cvs file)     REQUIRED
+#     -p: path (input file or dir) REQUIRED
+#     -e: the env to switch to {env, uat, or prod}
+#     -w: writes output file
+# def main(argv=None):
+#     if argv is None:
+#         argv = sys.argv
+#     try:
+#         try:
+#             opts, args = getopt.getopt(
+#                 argv[1:], "hd:p:e:wv", ["help", "dbsource=", "path=",
+#                                         "env=", "write", "verbose"])
+#         except getopt.error, msg:
+#             raise Usage(msg)
+# 
+#         dbsource = None
+#         path = None
+#         env = None
+#         write = False
+# 
+#         for opt, arg in opts :
+#             if opt in ("-h", "--help"):
+#                 print ConfigMgr.__doc__
+#                 sys.exit(0)
+#             elif opt in ("-v", "--verbose"):
+#                 import doctest
+#                 # run both sets of tests.
+#                 doctest.testfile("test_ConfigMgr.txt")
+#                 doctest.testmod(verbose=True)
+#                 sys.exit(0)
+#             elif opt in ("-d", "--dbsource"):
+#                 dbsource = arg
+#             elif opt in ("-p", "--path"):
+#                 path = arg
+#             elif opt in ("-e", "--env"):
+#                 env = arg
+#                 if env!=None: env=env.upper()
+#             elif opt in ("-w", "--write"):
+#                 write = True
+# 
+# 
+#         if (not dbsource) or (not os.path.isfile(dbsource)):
+#             raise Usage("Invalid dbsource '{}'".format(dbsource))
+# 
+#         cm = ConfigMgr(dbsource=dbsource, write=write)
+# 
+#         filelist = []
+#         if os.path.isfile(path) :
+#             filelist = [path]
+#         elif os.path.isdir(path) :
+#             #iterate files in specified dir that match *.config
+#             for config_file in glob.glob(os.path.join(path,  "*.config")) :
+#                 filelist.append(config_file)
+#         else :
+#             raise Usage("Invalid path '{}'".format(path))
+# 
+#         if not write :
+#             cm.check(*filelist)
+#             sys.exit(0)
+#         else:
+#             if env is None:
+#                 raise Usage('')
+# 
+#         cm.handle_xml(env, write, *filelist)
+# 
+#         print "Complete."
+#         print
+# 
+#     except Usage, err:
+#         print >>sys.stderr, "Sorry, invalid options. For help, use --help"
+#         print >>sys.stderr, "Other errors:",err.msg
+#         return 2
+

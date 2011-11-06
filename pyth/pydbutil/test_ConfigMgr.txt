@@ -7,19 +7,19 @@ Run ./ConfigMgr.py -v  to run these tests.
 >>> from ConfigMgr import ConfigMgr
 
 Init with a dataset.
->>> cm = ConfigMgr(cvsfile='input/DbSet.data.csv')
+>>> cm = ConfigMgr(dbsource='input/DbSet.data.csv')
 
 Set path to one file.
->>> cm = ConfigMgr(cvsfile='input/DbSet.data.csv').set_path('input/test.config')
+>>> cm = ConfigMgr(dbsource='input/DbSet.data.csv').set_path('input/test.config')
 Set filelist to ['input/test.config']
 
 Set path to a dir.
->>> cm = ConfigMgr(cvsfile='input/DbSet.data.csv').set_path('input/')
+>>> cm = ConfigMgr(dbsource='input/DbSet.data.csv').set_path('input/')
 Set filelist to ['input/test.config', 'input/test2.config']
 
 Set path to one file, check.
 
->>> cm = ConfigMgr(cvsfile='input/DbSet.data.csv', path='input/test.config')
+>>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', path='input/test.config')
 Set filelist to ['input/test.config']
 >>> cm.check()
 File : /Users/hills/git-hill/pyth/pydbutil/input/test.config
@@ -52,7 +52,7 @@ File : /Users/hills/git-hill/pyth/pydbutil/input/test2.config
 
 Set path to one file, change to prod env.
 
->>> cm = ConfigMgr(cvsfile='input/DbSet.data.csv', path='input/test.config')
+>>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', path='input/test.config')
 Set filelist to ['input/test.config']
 >>> cm.handle_xml(env='prod')
 File: /Users/hills/git-hill/pyth/pydbutil/input/test.config

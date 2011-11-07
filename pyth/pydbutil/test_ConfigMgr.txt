@@ -24,14 +24,13 @@ Set filelist to ['input/test.config']
 >>> cm.check()
 File : /Users/hills/git-hill/pyth/pydbutil/input/test.config
 line 69:
-     ...onnectionString="Data Source=Usfshwssql094;Initial Catalog=RDxETL...
+    ...onnectionString="Data Source=Usfshwssql094;Initial Catalog=RDxETL...
 line 74:
-     ...ta Source=Usfshwssql094;Initial Catalog=RDxETL;Integrated Securit...
+    ...ta Source=Usfshwssql094;Initial Catalog=RDxETL;Integrated Securit...
 line 78:
-     ...ta Source=Usfshwssql094;Initial Catalog=RDxETL;Integrated Securit...
+    ...ta Source=Usfshwssql094;Initial Catalog=RDxETL;Integrated Securit...
 line 82:
-     ...ta Source=Usfshwssql089;Initial Catalog=RDxReport;Integrated Secu...
-<BLANKLINE>
+    ...ta Source=Usfshwssql089;Initial Catalog=RDxReport;Integrated Secu...
 4 matches in file input/test.config
 <BLANKLINE>
 
@@ -41,9 +40,7 @@ Set path to dir, check the files.
 Set filelist to ['input/test.config', 'input/test2.config']
 >>> cm.check()
 File : /Users/hills/git-hill/pyth/pydbutil/input/test.config
-<BLANKLINE>
 File : /Users/hills/git-hill/pyth/pydbutil/input/test2.config
-<BLANKLINE>
 4 matches in file input/test.config
 4 matches in file input/test2.config
 <BLANKLINE>

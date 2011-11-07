@@ -108,9 +108,9 @@ class ConfigMgr():
                     m_boxname, m_dbname = m.group(1).lower(), m.group(2)
                     # don't print all these messages if its a whole dir
                     if len(self.filelist) == 1 :
-                        #print '  line', str(linenum), ':', os.linesep, '    ', self.trim_line(line)
-                        print 'line {}:'.format(str(linenum))
-                        print '    ', self.trim_line(line)
+                        print 'line {}:{}    {}'.format(
+                                str(linenum), os.linesep, self.trim_line(line))
+
 
                     if self.dbset.get_profile_by_attribs(
                                                         dict(dbname=m_dbname,boxname=m_boxname)): 
@@ -120,7 +120,7 @@ class ConfigMgr():
 
             tot_match_count = tot_match_count + matchcount
             match_msg = match_msg + str(matchcount) + ' matches in file ' + filename + os.linesep
-            print ''
+            #print ''
 
         print match_msg
         if len(self.filelist) > 1 : print str(tot_match_count) + ' TOTAL matches.'

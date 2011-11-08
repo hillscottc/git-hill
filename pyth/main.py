@@ -1,6 +1,13 @@
 #! /usr/bin/python
 """Demo of the pydbutil classes. 
 Usage: ./main.py
+
+
+
+I dont think i need this top level main above it
+
+
+
 Args:
 Returns:
 Raises:

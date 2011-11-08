@@ -58,7 +58,6 @@ Conn change: RDxETL connection from Usfshwssql094 to usfshwssql077
 Conn change: RDxETL connection from Usfshwssql094 to usfshwssql077
 Conn change: RDxReport connection from Usfshwssql089 to usfshwssql084
 <BLANKLINE>
-<BLANKLINE>
 4 matches in file input/test.config
 <BLANKLINE>
 
@@ -70,7 +69,6 @@ Conn change: RDxETL connection from Usfshwssql094 to usfshwssql077
 Conn change: RDxETL connection from Usfshwssql094 to usfshwssql077
 Conn change: RDxETL connection from Usfshwssql094 to usfshwssql077
 Conn change: RDxReport connection from Usfshwssql089 to usfshwssql084
-<BLANKLINE>
 Wrote /Users/hills/git-hill/pyth/pydbutil/output/test.config
 <BLANKLINE>
 4 matches in file input/test.config
@@ -87,13 +85,11 @@ Conn change: RDxETL connection from Usfshwssql094 to usfshwssql104
 Conn change: RDxETL connection from Usfshwssql094 to usfshwssql104
 Conn change: RDxETL connection from Usfshwssql094 to usfshwssql104
 Conn change: RDxReport connection from Usfshwssql089 to usfshwssql104\RIGHTSDEV_2
-<BLANKLINE>
 File: /Users/hills/git-hill/pyth/pydbutil/input/test2.config
 Conn change: RDxETL connection from Usfshwssql077 to usfshwssql104
 Conn change: RDxETL connection from Usfshwssql077 to usfshwssql104
 Conn change: RDxETL connection from Usfshwssql077 to usfshwssql104
 Conn change: RDxReport connection from Usfshwssql084 to usfshwssql104\RIGHTSDEV_2
-<BLANKLINE>
 <BLANKLINE>
 4 matches in file input/test.config
 4 matches in file input/test2.config
@@ -108,14 +104,12 @@ Conn change: RDxETL connection from Usfshwssql094 to usfshwssql104
 Conn change: RDxETL connection from Usfshwssql094 to usfshwssql104
 Conn change: RDxETL connection from Usfshwssql094 to usfshwssql104
 Conn change: RDxReport connection from Usfshwssql089 to usfshwssql104\RIGHTSDEV_2
-<BLANKLINE>
 Wrote /Users/hills/git-hill/pyth/pydbutil/output/test.config
 File: /Users/hills/git-hill/pyth/pydbutil/input/test2.config
 Conn change: RDxETL connection from Usfshwssql077 to usfshwssql104
 Conn change: RDxETL connection from Usfshwssql077 to usfshwssql104
 Conn change: RDxETL connection from Usfshwssql077 to usfshwssql104
 Conn change: RDxReport connection from Usfshwssql084 to usfshwssql104\RIGHTSDEV_2
-<BLANKLINE>
 Wrote /Users/hills/git-hill/pyth/pydbutil/output/test2.config
 <BLANKLINE>
 4 matches in file input/test.config

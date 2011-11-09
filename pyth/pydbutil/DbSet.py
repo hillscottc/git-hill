@@ -37,6 +37,16 @@ class DbSet():
 
     def __len__(self):
         return len(self.DB)
+        
+    def verify_targets(self):
+        """Does the db env of the targs match the env it should be?
+        Used to do a before-after check for updates, for example.
+        
+        >>> dbset = DbSet('input/DbSet.data.csv')
+        
+        
+        """        
+        print [dbp.targ for dbp in self.DB]
 
     def get_profile_by_attribs(self, aDict):
         """Does given dict of attib-vals match with self data?

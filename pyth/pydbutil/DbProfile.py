@@ -80,7 +80,7 @@ class DbProfile(object):
 if __name__ == "__main__":
     import doctest
     doctest.testmod(verbose=True)    
-    doctest.testfile("tests/test_DbSet.py")
+    doctest.testfile("tests/test_DbSet.txt")
     sys.exit(0)
     #sys.exit(main())
 

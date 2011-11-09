@@ -3,7 +3,6 @@
 Run ./ConfigMgr.py -v  to run these tests.
 
 
->>> #from pydbutil.ConfigMgr import ConfigMgr
 >>> from ConfigMgr import ConfigMgr
 
 Init with a dataset.

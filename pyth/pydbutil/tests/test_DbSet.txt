@@ -1,6 +1,7 @@
 
-
 Run ./DbSet.py -v  to run these tests.
+
+>>> from DbSet import DbSet
 
 >>> dbset = DbSet('input/DbSet.data.csv')
 

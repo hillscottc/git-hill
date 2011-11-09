@@ -17,8 +17,8 @@ class Usage(Exception):
 class DbSet():
     """Manages database profiles. Takes a csv file as input.
     
+    Usage:
     >>> dbset = DbSet('input/DbSet.data.csv')
-    
     
     """
     DB = []
@@ -42,8 +42,8 @@ class DbSet():
         """Does the db env of the targs match the env it should be?
         Used to do a before-after check for updates, for example.
         
+        Usage:
         >>> dbset = DbSet('input/DbSet.data.csv')
-        
         
         """        
         print [dbp.targ for dbp in self.DB]
@@ -51,23 +51,13 @@ class DbSet():
     def get_profile_by_attribs(self, aDict):
         """Does given dict of attib-vals match with self data?
         
+        Usage:
         >>> dbset = DbSet('input/DbSet.data.csv')
         
         Have a training RDxETL?
         >>> print dbset.get_profile_by_attribs(dict(env='training', dbname='RDxETL'))
         None
         
-        Have a prod RDxETL?
-        >>> print dbset.get_profile_by_attribs(dict(env='prod', dbname='RDxETL'))
-        MP RDxETL prod usfshwssql077 sourcepath targpath
-        
-        Have a prod box on usfshwssql084?
-        >>> print dbset.get_profile_by_attribs(dict(env='prod', boxname='usfshwssql084'))
-        MP RDxReport prod usfshwssql084 sourcepath targpath
-        
-        Have a RDxETL on usfshwssql104?
-        >>> print dbset.get_profile_by_attribs(dict(dbname='RDxETL', boxname='usfshwssql104'))
-        MP RDxETL dev usfshwssql104 sourcepath targpath
         """
         for db in self.DB:
             if db.match_attrib(aDict):
@@ -82,6 +72,7 @@ class DbSet():
 
 if __name__ == "__main__":
     import doctest
-    doctest.testmod()
-    #sys.exit(main())
+    doctest.testmod(verbose=True)    
+    doctest.testfile("test_DbSet.txt")
+    sys.exit(0)
 

@@ -19,34 +19,38 @@ class DbProfile(object):
     Get a default
     >>> db = DbProfile()
     >>> print db
-    RDxETL uat usfshwssql104 somepath
+    MP RDxETL uat usfshwssql104 sourcepath targpath
 
     Pass in the values
-    >>> db = DbProfile('RDxETL', 'prod', 'usfshwssql077', 'prodpath' )
+    >>> db = DbProfile('MP', 'RDxETL', 'prod', 'usfshwssql077', 'sourcepath', 'targpath' )
     >>> print db
-    RDxETL prod usfshwssql077 prodpath
+    MP RDxETL prod usfshwssql077 sourcepath targpath
     """
 
-    Keys = ('dbname', 'env', 'boxname', 'path')
+    Keys = ('app', 'dbname', 'env', 'boxname', 'source', 'targ')
     Envs = ('dev', 'uat', 'prod')
 
-    def __init__(self, dbname='RDxETL', env='uat', boxname='usfshwssql104',
-                 path='somepath', tup=None):
+
+    def __init__(self, app='MP', dbname='RDxETL', env='uat', boxname='usfshwssql104',
+                 source='sourcepath', targ='targpath', tup=None):
         if tup:
             db_dict = dict(zip(self.Keys, tup))
             self.__init__(**db_dict)
         else:
+            self.app = app
             self.dbname = dbname
             if (env) and (env not in self.Envs):
                 raise Usage('{} is invalid environment. Must be in {}'.format(self.env, self.Envs))
             self.env = env
             self.boxname = boxname
-            self.path = path
-    
+            self.source = source
+            self.targ = targ
+
+
     def match_attrib(self, aDict):
         """Does given dict of attib-vals match with self data?
         
-        >>> db = DbProfile('RDxETL', 'prod', 'usfshwssql077', 'prodpath' )
+        >>> db = DbProfile('MP', 'RDxETL', 'prod', 'usfshwssql077', 'sourcepath', 'targpath')
         
         Is this prod etl?
         >>> print db.match_attrib(dict(env='prod', dbname='RDxETL'))
@@ -56,8 +60,8 @@ class DbProfile(object):
         >>> print db.match_attrib(dict(env='dev', dbname='RDxETL'))
         False
         
-        Is it prod etl on usfshwssql077?
-        >>> print db.match_attrib(dict(env='prod', dbname='RDxETL', boxname='usfshwssql077'))
+        Is it MP app prod etl on usfshwssql077?
+        >>> print db.match_attrib(dict(app='MP', env='prod', dbname='RDxETL', boxname='usfshwssql077'))
         True
         """
         
@@ -67,7 +71,8 @@ class DbProfile(object):
         return True
 
     def __str__(self):
-        return self.dbname + ' ' + self.env + ' ' + self.boxname + ' ' + self.path
+        return self.app + ' ' + self.dbname + ' ' + self.env + ' ' +\
+               self.boxname + ' ' + self.source + ' ' + self.targ
 
     def __repr__(self):
         return str(self.__str__())
@@ -76,6 +81,6 @@ if __name__ == "__main__":
     import doctest
     doctest.testmod()
     #sys.exit(main())
-    
-    
+
+
     

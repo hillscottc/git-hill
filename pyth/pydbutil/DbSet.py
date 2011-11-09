@@ -19,8 +19,7 @@ class DbSet():
     
     >>> dbset = DbSet('input/DbSet.data.csv')
     
-    >>> print sorted(dbset.DB)
-    [RDxETL dev usfshwssql104 somepath, RDxETL uat usfshwssql094 somepath, RDxETL prod usfshwssql077 somepath, RDxReport uat usfshwssql089 somepath, RDxReport prod usfshwssql084 somepath, RDxReport dev usfshwssql104\RIGHTSDEV_2 somepath]
+    
     """
     DB = []
     def __init__(self, cvsfile=None, dbprofiles=[],
@@ -50,15 +49,15 @@ class DbSet():
         
         Have a prod RDxETL?
         >>> print dbset.get_profile_by_attribs(dict(env='prod', dbname='RDxETL'))
-        RDxETL prod usfshwssql077 somepath
+        MP RDxETL prod usfshwssql077 sourcepath targpath
         
         Have a prod box on usfshwssql084?
         >>> print dbset.get_profile_by_attribs(dict(env='prod', boxname='usfshwssql084'))
-        RDxReport prod usfshwssql084 somepath
+        MP RDxReport prod usfshwssql084 sourcepath targpath
         
         Have a RDxETL on usfshwssql104?
         >>> print dbset.get_profile_by_attribs(dict(dbname='RDxETL', boxname='usfshwssql104'))
-        RDxETL dev usfshwssql104 somepath
+        MP RDxETL dev usfshwssql104 sourcepath targpath
         """
         for db in self.DB:
             if db.match_attrib(aDict):

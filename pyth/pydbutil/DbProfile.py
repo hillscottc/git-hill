@@ -79,7 +79,9 @@ class DbProfile(object):
 
 if __name__ == "__main__":
     import doctest
-    doctest.testmod()
+    doctest.testmod(verbose=True)    
+    doctest.testfile("tests/test_DbSet.py")
+    sys.exit(0)
     #sys.exit(main())
 
 

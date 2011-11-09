@@ -202,7 +202,7 @@ class ConfigMgr():
 if __name__ == "__main__":
     import doctest
     doctest.testmod(verbose=True)    
-    doctest.testfile("test_ConfigMgr.txt")
+    doctest.testfile("tests/test_ConfigMgr.txt")
     sys.exit(0)
     #sys.exit(main())
 

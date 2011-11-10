@@ -69,10 +69,14 @@ class DbProfile(object):
             if not (vars(self)[k] == v) :
                 return False
         return True
+        
+    def long_str(self):
+        """ Includes the source and targ paths."""
+        return str(self.__str__() + ' ' + self.source + ' ' + self.targ)      
 
     def __str__(self):
-        return self.app + ' ' + self.dbname + ' ' + self.env + ' ' +\
-               self.boxname + ' ' + self.source + ' ' + self.targ
+        """ Doesn't include source and targ paths."""
+        return self.app + ' ' + self.dbname + ' ' + self.env + ' ' + self.boxname
 
     def __repr__(self):
         return str(self.__str__())

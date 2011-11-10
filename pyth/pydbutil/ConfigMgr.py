@@ -77,53 +77,39 @@ class ConfigMgr():
     def check(self, *filelist):
         """Checks and reports db connection strings. Any kind of text file.
         
-        Tests for this are function are in in 'test_ConfigMgr.txt'
-        Run ./ConfigMgr.py -v         
+        Usage:
+        See 'test_ConfigMgr.txt'      
         """
-        
-        if (filelist) and len(filelist) > 0:
-            # if one is explicitly passed, set it to self list.
-            self.filelist = filelist
+
+        if not filelist :
+            filelist = self.filelist
 
         tot_match_count = 0
         match_msg = ''
+        
+        # filename:matchlist
+        match_dict = {}
 
-        for filename in self.filelist:
+        for filename in filelist:
 
             # read all lines of file into var
             with open(filename, 'r') as file:
                 lines = file.readlines()
 
-            print "File :", os.path.abspath(filename)
-
+            file_match_info = []
             linenum = 0
-            matchcount = 0
 
             # check lines
             for line in lines:
                 linenum = linenum +1
-                m = re.search(self.dbset.regex, line)
+                # regex='Data Source=(Usfshwssql\w+);Initial Catalog=(RDx\w+);'
+                # print 'line {}:{}    {}'.format(str(linenum), os.linesep, self.trim_line(line))
+                m = re.search(self.dbset.regex, line, re.IGNORECASE)
                 if m:
-                    m_boxname, m_dbname = m.group(1).lower(), m.group(2)
-                    # don't print all these messages if its a whole dir
-                    if len(self.filelist) == 1 :
-                        print 'line {}:{}    {}'.format(
-                                str(linenum), os.linesep, self.trim_line(line))
+                    file_match_info.append((m.group(1).lower(), m.group(2), linenum))
+            match_dict[filename] = file_match_info
 
-
-                    if self.dbset.get_profile_by_attribs(
-                                                        dict(dbname=m_dbname,boxname=m_boxname)): 
-                        matchcount = matchcount + 1
-                        if len(filelist) == 1 :
-                            print '    *MATCH* with a db in the db set.'
-
-            tot_match_count = tot_match_count + matchcount
-            match_msg = match_msg + str(matchcount) + ' matches in file ' + filename + os.linesep
-            #print ''
-
-        print match_msg
-        if len(self.filelist) > 1 : print str(tot_match_count) + ' TOTAL matches.'
-
+        return match_dict
 
     def change_conn(self, old_conn, new_env='DEV'):
         """Change db connection strings via re.
@@ -199,10 +185,61 @@ class ConfigMgr():
         if len(self.filelist) > 1:
             print str(tot_match_count) + ' TOTAL changes.'
 
+    def get_config_files(self, app, path):
+        """Gets config files for app name in given path. 
+        Matches files with {app}*.exe in the file for the given path.
+
+        Usage:
+        >>> cm = ConfigMgr(dbsource='input/DbSet.data.csv')
+        
+        Choose one of the profiles, and pass the profiles's app name and targ dir to the func.
+        >>> dbp = cm.dbset.get_profile_by_attribs(dict(dbname='RDxETL', boxname='usfshwssql104'))     
+        >>> print cm.get_config_files(dbp.app, dbp.targ)
+        ['/Users/hills/git-hill/pyth/pydbutil/input/UMG.RDx.ETL.MP.exe.config', '/Users/hills/git-hill/pyth/pydbutil/input/UMG.RDx.ETL.MP.vshost.exe.config']
+        """
+        config_files = []
+        for filename in glob.glob(os.path.join(path,  "*.config")) :
+            if re.search(app + '.+exe', filename): 
+                config_files.append(filename)
+        return config_files
+
+
+    def verify_targets(self):
+        """Does the db env of the targs match the env it should be?
+        Used to do a before-after check for updates, for example.
+
+        >>> cm = ConfigMgr(dbsource='input/DbSet.data.csv')
+        
+        Choose one of the profiles, and pass the profiles's app name and targ dir to the func.
+        >>> dbp = cm.dbset.get_profile_by_attribs(dict(dbname='RDxETL', boxname='usfshwssql104'))     
+        >>> print cm.get_config_files(dbp.app, dbp.targ)
+        ['/Users/hills/git-hill/pyth/pydbutil/input/UMG.RDx.ETL.MP.exe.config', '/Users/hills/git-hill/pyth/pydbutil/input/UMG.RDx.ETL.MP.vshost.exe.config']
+        >>> bad = cm.verify_targets()
+        >>> print bad
+
+        NOT WORKING YET.
+
+        """
+        #bad = [dbp for dbp in self.DB if (dbp.targ) and not os.path.isfile(dbp.targ) ]
+
+        bad = []
+
+        for dbp in self.dbset.DB:
+            if (dbp.targ):
+                if os.path.isdir(dbp.targ):
+                    config_files = self.get_config_files(dbp.app, dbp.targ)
+                    #print 'check these config files: {}'.format(config_files)
+                else:
+                    # it isnt a dir
+                    bad.append((dbp, dbp.targ))
+
+        #print 'BAD:{}'.format(bad)
+        return bad
+
 if __name__ == "__main__":
     import doctest
-    doctest.testmod(verbose=True)    
-    doctest.testfile("tests/test_ConfigMgr.txt")
+    doctest.testfile("tests/test_ConfigMgr.txt") 
+    doctest.testmod(verbose=True)       
     sys.exit(0)
     #sys.exit(main())
 

@@ -12,38 +12,36 @@ Set path to one file.
 >>> cm = ConfigMgr(dbsource='input/DbSet.data.csv').set_path('input/test.config')
 Set filelist to ['input/test.config']
 
+
 Set path to a dir.
 >>> cm = ConfigMgr(dbsource='input/DbSet.data.csv').set_path('input/')
-Set filelist to ['input/test.config', 'input/test2.config']
+Set filelist to ['input/test.config', 'input/test2.config', 'input/UMG.RDx.ETL.MP.exe.config', 'input/UMG.RDx.ETL.MP.vshost.exe.config', 'input/UMG.RDx.ETL.R2.exe.config', 'input/UMG.RDx.ETL.R2.vshost.exe.config']
+
 
 Set path to one file, check.
+>>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', path='input/UMG.RDx.ETL.R2.vshost.exe.config')
+Set filelist to ['input/UMG.RDx.ETL.R2.vshost.exe.config']
+>>> match_dict = cm.check()
 
->>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', path='input/test.config')
-Set filelist to ['input/test.config']
->>> cm.check()
-File : /Users/hills/git-hill/pyth/pydbutil/input/test.config
-line 69:
-    ...onnectionString="Data Source=Usfshwssql094;Initial Catalog=RDxETL...
-line 74:
-    ...ta Source=Usfshwssql094;Initial Catalog=RDxETL;Integrated Securit...
-line 78:
-    ...ta Source=Usfshwssql094;Initial Catalog=RDxETL;Integrated Securit...
-line 82:
-    ...ta Source=Usfshwssql089;Initial Catalog=RDxReport;Integrated Secu...
-4 matches in file input/test.config
-<BLANKLINE>
+>>> print match_dict
+{'input/UMG.RDx.ETL.R2.vshost.exe.config': [('usfshwssql104', 'RDxETL', 8), ('usfshwssql104', 'RDxETL', 13), ('usfshwssql104', 'RDxETL', 17), ('usfshwssql104', 'RDxReport', 21)]}
 
-Set path to dir, check the files.
+>>> print ['{} matches in file {}'.format(len(match_dict[filename]), filename) for filename in match_dict.keys()]
+['4 matches in file input/UMG.RDx.ETL.R2.vshost.exe.config']
 
+
+Set path to dir, check.
 >>> cm.set_path('input/')
-Set filelist to ['input/test.config', 'input/test2.config']
->>> cm.check()
-File : /Users/hills/git-hill/pyth/pydbutil/input/test.config
-File : /Users/hills/git-hill/pyth/pydbutil/input/test2.config
-4 matches in file input/test.config
-4 matches in file input/test2.config
-<BLANKLINE>
-8 TOTAL matches.
+Set filelist to ['input/test.config', 'input/test2.config', 'input/UMG.RDx.ETL.MP.exe.config', 'input/UMG.RDx.ETL.MP.vshost.exe.config', 'input/UMG.RDx.ETL.R2.exe.config', 'input/UMG.RDx.ETL.R2.vshost.exe.config']
+
+>>> match_dict = cm.check()
+
+>>> print match_dict
+{'input/test2.config': [('usfshwssql077', 'RDxETL', 69), ('usfshwssql077', 'RDxETL', 74), ('usfshwssql077', 'RDxETL', 78), ('usfshwssql084', 'RDxReport', 82)], 'input/UMG.RDx.ETL.R2.vshost.exe.config': [('usfshwssql104', 'RDxETL', 8), ('usfshwssql104', 'RDxETL', 13), ('usfshwssql104', 'RDxETL', 17), ('usfshwssql104', 'RDxReport', 21)], 'input/UMG.RDx.ETL.R2.exe.config': [('usfshwssql104', 'RDxETL', 8), ('usfshwssql104', 'RDxETL', 13), ('usfshwssql104', 'RDxETL', 17), ('usfshwssql104', 'RDxReport', 21)], 'input/UMG.RDx.ETL.MP.exe.config': [('usfshwssql094', 'RDxETL', 69), ('usfshwssql094', 'RDxETL', 74), ('usfshwssql094', 'RDxETL', 78), ('usfshwssql089', 'RDxReport', 82)], 'input/test.config': [('usfshwssql094', 'RDxETL', 69), ('usfshwssql094', 'RDxETL', 74), ('usfshwssql094', 'RDxETL', 78), ('usfshwssql089', 'RDxReport', 82)], 'input/UMG.RDx.ETL.MP.vshost.exe.config': [('usfshwssql094', 'RDxETL', 69), ('usfshwssql094', 'RDxETL', 74), ('usfshwssql094', 'RDxETL', 78), ('usfshwssql089', 'RDxReport', 82)]}
+
+>>> print ['{} matches in file {}'.format(len(match_dict[filename]), filename) for filename in match_dict.keys()]
+['4 matches in file input/test2.config', '4 matches in file input/UMG.RDx.ETL.R2.vshost.exe.config', '4 matches in file input/UMG.RDx.ETL.R2.exe.config', '4 matches in file input/UMG.RDx.ETL.MP.exe.config', '4 matches in file input/test.config', '4 matches in file input/UMG.RDx.ETL.MP.vshost.exe.config']
+
 
 
 Set path to one file, change to prod env.
@@ -74,46 +72,46 @@ Wrote /Users/hills/git-hill/pyth/pydbutil/output/test.config
 <BLANKLINE>
 
 
-Set path to dir, change to dev env.
-
->>> cm.set_path('input/')
-Set filelist to ['input/test.config', 'input/test2.config']
->>> cm.handle_xml(env='dev', write=False)
-File: /Users/hills/git-hill/pyth/pydbutil/input/test.config
-Conn change: RDxETL connection from Usfshwssql094 to usfshwssql104
-Conn change: RDxETL connection from Usfshwssql094 to usfshwssql104
-Conn change: RDxETL connection from Usfshwssql094 to usfshwssql104
-Conn change: RDxReport connection from Usfshwssql089 to usfshwssql104\RIGHTSDEV_2
-File: /Users/hills/git-hill/pyth/pydbutil/input/test2.config
-Conn change: RDxETL connection from Usfshwssql077 to usfshwssql104
-Conn change: RDxETL connection from Usfshwssql077 to usfshwssql104
-Conn change: RDxETL connection from Usfshwssql077 to usfshwssql104
-Conn change: RDxReport connection from Usfshwssql084 to usfshwssql104\RIGHTSDEV_2
-<BLANKLINE>
-4 matches in file input/test.config
-4 matches in file input/test2.config
-<BLANKLINE>
-8 TOTAL changes.
-
-
-Write the dir of changes
->>> cm.handle_xml(write=True)
-File: /Users/hills/git-hill/pyth/pydbutil/input/test.config
-Conn change: RDxETL connection from Usfshwssql094 to usfshwssql104
-Conn change: RDxETL connection from Usfshwssql094 to usfshwssql104
-Conn change: RDxETL connection from Usfshwssql094 to usfshwssql104
-Conn change: RDxReport connection from Usfshwssql089 to usfshwssql104\RIGHTSDEV_2
-Wrote /Users/hills/git-hill/pyth/pydbutil/output/test.config
-File: /Users/hills/git-hill/pyth/pydbutil/input/test2.config
-Conn change: RDxETL connection from Usfshwssql077 to usfshwssql104
-Conn change: RDxETL connection from Usfshwssql077 to usfshwssql104
-Conn change: RDxETL connection from Usfshwssql077 to usfshwssql104
-Conn change: RDxReport connection from Usfshwssql084 to usfshwssql104\RIGHTSDEV_2
-Wrote /Users/hills/git-hill/pyth/pydbutil/output/test2.config
-<BLANKLINE>
-4 matches in file input/test.config
-4 matches in file input/test2.config
-<BLANKLINE>
-8 TOTAL changes.
-
+# Set path to dir, change to dev env.
+# 
+# >>> cm.set_path('input/')
+# Set filelist to ['input/test.config', 'input/test2.config']
+# >>> cm.handle_xml(env='dev', write=False)
+# File: /Users/hills/git-hill/pyth/pydbutil/input/test.config
+# Conn change: RDxETL connection from Usfshwssql094 to usfshwssql104
+# Conn change: RDxETL connection from Usfshwssql094 to usfshwssql104
+# Conn change: RDxETL connection from Usfshwssql094 to usfshwssql104
+# Conn change: RDxReport connection from Usfshwssql089 to usfshwssql104\RIGHTSDEV_2
+# File: /Users/hills/git-hill/pyth/pydbutil/input/test2.config
+# Conn change: RDxETL connection from Usfshwssql077 to usfshwssql104
+# Conn change: RDxETL connection from Usfshwssql077 to usfshwssql104
+# Conn change: RDxETL connection from Usfshwssql077 to usfshwssql104
+# Conn change: RDxReport connection from Usfshwssql084 to usfshwssql104\RIGHTSDEV_2
+# <BLANKLINE>
+# 4 matches in file input/test.config
+# 4 matches in file input/test2.config
+# <BLANKLINE>
+# 8 TOTAL changes.
+# 
+# 
+# Write the dir of changes
+# >>> cm.handle_xml(write=True)
+# File: /Users/hills/git-hill/pyth/pydbutil/input/test.config
+# Conn change: RDxETL connection from Usfshwssql094 to usfshwssql104
+# Conn change: RDxETL connection from Usfshwssql094 to usfshwssql104
+# Conn change: RDxETL connection from Usfshwssql094 to usfshwssql104
+# Conn change: RDxReport connection from Usfshwssql089 to usfshwssql104\RIGHTSDEV_2
+# Wrote /Users/hills/git-hill/pyth/pydbutil/output/test.config
+# File: /Users/hills/git-hill/pyth/pydbutil/input/test2.config
+# Conn change: RDxETL connection from Usfshwssql077 to usfshwssql104
+# Conn change: RDxETL connection from Usfshwssql077 to usfshwssql104
+# Conn change: RDxETL connection from Usfshwssql077 to usfshwssql104
+# Conn change: RDxReport connection from Usfshwssql084 to usfshwssql104\RIGHTSDEV_2
+# Wrote /Users/hills/git-hill/pyth/pydbutil/output/test2.config
+# <BLANKLINE>
+# 4 matches in file input/test.config
+# 4 matches in file input/test2.config
+# <BLANKLINE>
+# 8 TOTAL changes.
+# 
 

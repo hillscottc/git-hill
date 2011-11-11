@@ -62,7 +62,7 @@ class ConfigMgr(object):
     path = property(get_path, set_path)
 
     @staticmethod
-    def _get_filelist(path):
+    def get_filelist(path):
         """Gets filelist for dir or file path """
         filelist = []
         if path:
@@ -101,9 +101,7 @@ class ConfigMgr(object):
         >>> print ['{} matches in file {}'.format(len(match_dict[filename]), filename) for filename in match_dict.keys()]
         ['4 matches in file input/UMG.RDx.ETL.R2.vshost.exe.config']
         
-        
         """
-
         if not filelist :
             filelist = self.filelist
 
@@ -135,7 +133,6 @@ class ConfigMgr(object):
         return match_dict
 
 
-
     def conn_matches_report(self, match_dict):
         """ Prints output from conn_matches.
         Checks the match_dict against the profiles in self.dbset.
@@ -144,15 +141,22 @@ class ConfigMgr(object):
         Set path to one file, check.
         >>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', path='input/UMG.RDx.ETL.R2.vshost.exe.config')
         >>> cm.conn_matches_report(cm.get_conn_matches())
-        From the config file, ('usfshwssql104', 'RDxETL', 8) matched MP RDxETL dev usfshwssql104 from the dataset.
-        From the config file, ('usfshwssql104', 'RDxETL', 13) matched MP RDxETL dev usfshwssql104 from the dataset.
-        From the config file, ('usfshwssql104', 'RDxETL', 17) matched MP RDxETL dev usfshwssql104 from the dataset.
-        From the config file, ('usfshwssql104', 'RDxReport', 21) matched None from the dataset.
+        In file input/UMG.RDx.ETL.R2.vshost.exe.config:
+          ('usfshwssql104', 'RDxETL', 8) matched MP RDxETL dev usfshwssql104 from the dataset.
+          ('usfshwssql104', 'RDxETL', 13) matched MP RDxETL dev usfshwssql104 from the dataset.
+          ('usfshwssql104', 'RDxETL', 17) matched MP RDxETL dev usfshwssql104 from the dataset.
+          ('usfshwssql104', 'RDxReport', 21) matched None from the dataset.
+        **Likely profile from dataset is 'MP RDxReport uat usfshwssql089'
         """
         for filename in match_dict.keys():
+            print 'In file {}:'.format(filename)
             for m in match_dict[filename]:
-                dbset_match = self.dbset.get_profile_by_attribs(dict(boxname=m[0], dbname=m[1]))
-                print 'From the config file, {} matched {} from the dataset.'.format(m, dbset_match)
+                m_boxname, m_dbname = m[0], m[1]
+                dbset_match = self.dbset.get_profile_by_attribs(dict(boxname=m_boxname, dbname=m_dbname))
+                print '  {} matched {} from the dataset.'.format(m, dbset_match)
+                if not dbset_match:
+                    print "**Likely profile from dataset is '{}'".format(
+                        self.dbset.get_profile_by_attribs(dict(dbname=m_dbname)))
 
 
     def change_conn(self, old_conn, new_env='DEV'):
@@ -252,7 +256,8 @@ class ConfigMgr(object):
         """Does the db env of the targs match the env it should be?
         Used to do a before-after check for updates, for example.
 
-        >>> cm = ConfigMgr(dbsource='input/DbSet.data.csv')
+        >>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', path='input/UMG.RDx.ETL.R2.vshost.exe.config')
+        
         
         # Choose one of the profiles, and pass the profiles's app name and targ dir to the func.
         # >>> dbp = cm.dbset.get_profile_by_attribs(dict(dbname='RDxETL', boxname='usfshwssql104'))     
@@ -282,8 +287,8 @@ class ConfigMgr(object):
 
 if __name__ == "__main__":
     import doctest
-    doctest.testmod(verbose=True)
     doctest.testfile("tests/test_ConfigMgr.txt")
+    doctest.testmod(verbose=True)
     sys.exit(0)
     #sys.exit(main())
 

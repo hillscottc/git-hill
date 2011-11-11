@@ -2,4 +2,11 @@
 
 Run ./DbProfile.py -v  to run these tests.
 
+>>> from DbProfile import DbProfile
+
+Get a default
+>>> db = DbProfile()
+>>> print db
+MP RDxETL uat usfshwssql104
+
 

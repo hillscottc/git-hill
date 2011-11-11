@@ -14,17 +14,16 @@ class DbProfile(object):
     Represents a database instance by dbname, env, boxname, and path. 
 
     Usage: 
-    Run these tests with ./DbProfile.py -v
-    
-    Get a default
-    >>> db = DbProfile()
-    >>> print db
-    MP RDxETL uat usfshwssql104 sourcepath targpath
-
     Pass in the values
     >>> db = DbProfile('MP', 'RDxETL', 'prod', 'usfshwssql077', 'sourcepath', 'targpath' )
     >>> print db
-    MP RDxETL prod usfshwssql077 sourcepath targpath
+    MP RDxETL prod usfshwssql077
+    >>> print db.long_str()
+    MP RDxETL uat usfshwssql104 sourcepath targpath
+    
+    Run these tests with ./DbProfile.py -v
+    More tests in tests/test_DbProfile.txt
+    
     """
 
     Keys = ('app', 'dbname', 'env', 'boxname', 'source', 'targ')
@@ -51,10 +50,6 @@ class DbProfile(object):
         """Does given dict of attib-vals match with self data?
         
         >>> db = DbProfile('MP', 'RDxETL', 'prod', 'usfshwssql077', 'sourcepath', 'targpath')
-        
-        Is this prod etl?
-        >>> print db.match_attrib(dict(env='prod', dbname='RDxETL'))
-        True
         
         Is it dev etl?
         >>> print db.match_attrib(dict(env='dev', dbname='RDxETL'))
@@ -84,7 +79,7 @@ class DbProfile(object):
 if __name__ == "__main__":
     import doctest
     doctest.testmod(verbose=True)    
-    doctest.testfile("tests/test_DbSet.txt")
+    doctest.testfile("tests/test_DbProfile.txt")
     sys.exit(0)
     #sys.exit(main())
 

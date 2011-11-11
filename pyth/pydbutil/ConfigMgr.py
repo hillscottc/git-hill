@@ -8,7 +8,6 @@ Init the class with -dbsetfile and -path and call the public functions:
                    option will write new file in output directory.
 
 >>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', path='input/test.config')
-Set filelist to ['input/test.config']
 >>> cm.handle_xml(write=False, env='prod')
 File: /Users/hills/git-hill/pyth/pydbutil/input/test.config
 Conn change: RDxETL connection from Usfshwssql094 to usfshwssql077
@@ -38,7 +37,7 @@ class Usage(Exception):
     def __init__(self, msg):
         self.msg = msg
 
-class ConfigMgr():
+class ConfigMgr(object):
     """Handles database connection strings in files using DbProfiles.
     
     More usage tests are in 'test_ConfigMgr.txt'
@@ -47,24 +46,34 @@ class ConfigMgr():
 
     def __init__(self, dbsource=None, path=None, env='dev', write=False, verbose=False):
         self.dbset = DbSet(cvsfile=dbsource)
-        self.path = self.set_path(path)
+        self.path = path
         self.env = env
         self.write = write
         self.verbose = verbose
+        #self.filelist = ConfigMgr.get_filelist(path)
 
-    def set_path(self, path):
-        """Sets filelist to path, file or dir.
-        """
-        self.filelist = []
+    def set_path(self, value):
+        self.filelist = ConfigMgr.get_filelist(value)
+        self._path = value
+
+    def get_path(self):
+        return self._path
+
+    path = property(get_path, set_path)
+
+    @staticmethod
+    def _get_filelist(path):
+        """Gets filelist for dir or file path """
+        filelist = []
         if path:
             if os.path.isfile(path) :
-                self.filelist = [path]
+                filelist = [path]
             elif os.path.isdir(path) :
                 #iterate files in specified dir that match *.config
                 for config_file in glob.glob(os.path.join(path,  "*.config")) :
-                    self.filelist.append(config_file)
-        if len(self.filelist) > 0:
-            print 'Set filelist to {}'.format(self.filelist)
+                    filelist.append(config_file)
+        #print 'Got filelist {}'.format(filelist)
+        return filelist
 
 
     def trim_line(self, longline, max_length=80, chars_trimmed=20, chars_shown=65):
@@ -74,11 +83,25 @@ class ConfigMgr():
             shortline = '...' + shortline[chars_trimmed : chars_trimmed+chars_shown] + '...'
         return shortline
 
-    def check(self, *filelist):
-        """Checks and reports db connection strings. Any kind of text file.
+   
+
+    def get_conn_matches(self, *filelist):
+        """ 
+        Returns:
+        Dict of match data and line num, keyed by filename.
         
         Usage:
-        See 'test_ConfigMgr.txt'      
+        Set path to one file, check.
+        >>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', path='input/UMG.RDx.ETL.R2.vshost.exe.config')
+        >>> match_dict = cm.get_conn_matches()
+
+        >>> print match_dict
+        {'input/UMG.RDx.ETL.R2.vshost.exe.config': [('usfshwssql104', 'RDxETL', 8), ('usfshwssql104', 'RDxETL', 13), ('usfshwssql104', 'RDxETL', 17), ('usfshwssql104', 'RDxReport', 21)]}
+
+        >>> print ['{} matches in file {}'.format(len(match_dict[filename]), filename) for filename in match_dict.keys()]
+        ['4 matches in file input/UMG.RDx.ETL.R2.vshost.exe.config']
+        
+        
         """
 
         if not filelist :
@@ -110,6 +133,27 @@ class ConfigMgr():
             match_dict[filename] = file_match_info
 
         return match_dict
+
+
+
+    def conn_matches_report(self, match_dict):
+        """ Prints output from conn_matches.
+        Checks the match_dict against the profiles in self.dbset.
+
+        Usage:
+        Set path to one file, check.
+        >>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', path='input/UMG.RDx.ETL.R2.vshost.exe.config')
+        >>> cm.conn_matches_report(cm.get_conn_matches())
+        From the config file, ('usfshwssql104', 'RDxETL', 8) matched MP RDxETL dev usfshwssql104 from the dataset.
+        From the config file, ('usfshwssql104', 'RDxETL', 13) matched MP RDxETL dev usfshwssql104 from the dataset.
+        From the config file, ('usfshwssql104', 'RDxETL', 17) matched MP RDxETL dev usfshwssql104 from the dataset.
+        From the config file, ('usfshwssql104', 'RDxReport', 21) matched None from the dataset.
+        """
+        for filename in match_dict.keys():
+            for m in match_dict[filename]:
+                dbset_match = self.dbset.get_profile_by_attribs(dict(boxname=m[0], dbname=m[1]))
+                print 'From the config file, {} matched {} from the dataset.'.format(m, dbset_match)
+
 
     def change_conn(self, old_conn, new_env='DEV'):
         """Change db connection strings via re.
@@ -210,12 +254,12 @@ class ConfigMgr():
 
         >>> cm = ConfigMgr(dbsource='input/DbSet.data.csv')
         
-        Choose one of the profiles, and pass the profiles's app name and targ dir to the func.
-        >>> dbp = cm.dbset.get_profile_by_attribs(dict(dbname='RDxETL', boxname='usfshwssql104'))     
-        >>> print cm.get_config_files(dbp.app, dbp.targ)
-        ['/Users/hills/git-hill/pyth/pydbutil/input/UMG.RDx.ETL.MP.exe.config', '/Users/hills/git-hill/pyth/pydbutil/input/UMG.RDx.ETL.MP.vshost.exe.config']
-        >>> bad = cm.verify_targets()
-        >>> print bad
+        # Choose one of the profiles, and pass the profiles's app name and targ dir to the func.
+        # >>> dbp = cm.dbset.get_profile_by_attribs(dict(dbname='RDxETL', boxname='usfshwssql104'))     
+        # >>> print cm.get_config_files(dbp.app, dbp.targ)
+        # ['/Users/hills/git-hill/pyth/pydbutil/input/UMG.RDx.ETL.MP.exe.config', '/Users/hills/git-hill/pyth/pydbutil/input/UMG.RDx.ETL.MP.vshost.exe.config']
+        # >>> bad = cm.verify_targets()
+        # >>> print bad
 
         NOT WORKING YET.
 
@@ -238,8 +282,8 @@ class ConfigMgr():
 
 if __name__ == "__main__":
     import doctest
-    doctest.testfile("tests/test_ConfigMgr.txt") 
-    doctest.testmod(verbose=True)       
+    doctest.testmod(verbose=True)
+    doctest.testfile("tests/test_ConfigMgr.txt")
     sys.exit(0)
     #sys.exit(main())
 

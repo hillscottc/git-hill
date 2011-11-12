@@ -47,7 +47,7 @@ class ConfigMgr(object):
     
     REGEX = 'Data Source=(Usfshwssql\w+);Initial Catalog=(RDx\w+);'
 
-    def __init__(self, dbsource=None, path=None, env='dev', app='MP', write=False, verbose=False):
+    def __init__(self, dbsource=None, path=None, env=None, app=None, write=False, verbose=False):
         self.dbset = DbSet(cvsfile=dbsource)
         self.path = path
         self.env = env
@@ -116,29 +116,25 @@ class ConfigMgr(object):
         {'input/UMG.RDx.ETL.R2.vshost.exe.config': [usfshwssql104 RDxETL 8, usfshwssql104 RDxETL 13, usfshwssql104 RDxETL 17, usfshwssql104 RDxReport 21]}
         >>> print ['{} matches in file {}'.format(len(match_dict[filename]), filename) for filename in match_dict.keys()]
         ['4 matches in file input/UMG.RDx.ETL.R2.vshost.exe.config']
-        >>> x = cm.get_conn_matches(verbose=True, app='MP')
+        >>> x = cm.get_conn_matches(verbose=True, app='MP', env='dev')
         Checking against dbset for app 'MP', in 'dev' environment.
         In file input/UMG.RDx.ETL.R2.vshost.exe.config:
           usfshwssql104 RDxETL 8 matched MP RDxETL dev usfshwssql104 from the dbset.
           usfshwssql104 RDxETL 13 matched MP RDxETL dev usfshwssql104 from the dbset.
           usfshwssql104 RDxETL 17 matched MP RDxETL dev usfshwssql104 from the dbset.
           usfshwssql104 RDxReport 21 matched None from the dbset.
-            *Similar dbset profile is MP RDxReport dev usfshwssql104\RIGHTSDEV_2
-        >>> x = cm.get_conn_matches(env='prod', verbose=True, app='MP')
+            * dbset profile for MP/dev is MP RDxReport dev usfshwssql104\RIGHTSDEV_2
+        >>> x = cm.get_conn_matches(verbose=True, app='MP', env='prod')
         Checking against dbset for app 'MP', in 'prod' environment.
         In file input/UMG.RDx.ETL.R2.vshost.exe.config:
           usfshwssql104 RDxETL 8 matched None from the dbset.
-            *Similar dbset profile is MP RDxETL prod usfshwssql077
+            * dbset profile for MP/prod is MP RDxETL prod usfshwssql077
           usfshwssql104 RDxETL 13 matched None from the dbset.
-            *Similar dbset profile is MP RDxETL prod usfshwssql077
+            * dbset profile for MP/prod is MP RDxETL prod usfshwssql077
           usfshwssql104 RDxETL 17 matched None from the dbset.
-            *Similar dbset profile is MP RDxETL prod usfshwssql077
+            * dbset profile for MP/prod is MP RDxETL prod usfshwssql077
           usfshwssql104 RDxReport 21 matched None from the dbset.
-            *Similar dbset profile is MP RDxReport prod usfshwssql084
-
-        need to search by APP!
-
-
+            * dbset profile for MP/prod is MP RDxReport prod usfshwssql084
         """
         
         if not filelist:
@@ -193,7 +189,7 @@ class ConfigMgr(object):
                                 dict(boxname=ci.boxname, dbname=ci.dbname, app=app, env=env))                                    
                         print '  {} matched {} from the dbset.'.format(ci, dbset_match)
                         if not dbset_match:
-                            print '    *Similar dbset profile is {}'.format(
+                            print '    * dbset profile for {}/{} is {}'.format(app, env,
                                    self.dbset.get_profile_by_attribs(dict(dbname=ci.dbname, app=app, env=env)))                    
 
 

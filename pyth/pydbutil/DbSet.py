@@ -23,13 +23,13 @@ class DbSet(object):
     >>> print len(dbset)
     12
     """
+    
     DB = []
-    def __init__(self, cvsfile=None, dbprofiles=[],
-                 regex='Data Source=(Usfshwssql\w+);Initial Catalog=(RDx\w+);'):
+    
+    def __init__(self, cvsfile=None, dbprofiles=[]):
         self.DB = []
-        self.regex = regex
         self.cvsfile = cvsfile
-
+        
     def set_cvsfile(self, value):
         dr = csv.DictReader(open(value, 'rb'), delimiter=',', quotechar="'")
         dbprofiles = [DbProfile(**row) for row in dr]

@@ -32,14 +32,17 @@ import glob
 from DbProfile import DbProfile
 from DbSet import DbSet
 from ConnInfo import ConnInfo
-#from xml.etree.ElementTree import ElementTree, parse, tostring
 
-class Usage(Exception):
-    def __init__(self, msg):
-        self.msg = msg
 
 class ConfigMgr(object):
     """Handles database connection strings in files using DbProfiles.
+    
+    >>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', app='R2', path='input/UMG.RDx.ETL.R2.vshost.exe.config')
+    
+    >>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', app='MP', path='input/UMG.RDx.ETL.R2.vshost.exe.config')
+    Traceback (most recent call last):
+        ...
+    Exception: input/UMG.RDx.ETL.R2.vshost.exe.config does not match with app MP
     
     More usage tests are in 'test_ConfigMgr.txt'
     Run ./ConfigMgr.py -v
@@ -47,16 +50,18 @@ class ConfigMgr(object):
     
     REGEX = 'Data Source=(Usfshwssql\w+);Initial Catalog=(RDx\w+);'
 
-    def __init__(self, dbsource=None, path=None, env=None, app=None, write=False, verbose=False):
+    def __init__(self, dbsource=None, app=None, path=None, env=None, write=False, verbose=False):
         self.dbset = DbSet(cvsfile=dbsource)
+        self.app = app
         self.path = path
         self.env = env
-        self.app = app
         self.write = write
         self.verbose = verbose
+        
 
     def set_path(self, value):
-        self.filelist = ConfigMgr.get_filelist(value)
+        if not self.app: raise Exception('app is required when setting path.')
+        self.filelist = ConfigMgr.get_filelist(self.app, value)
         self._path = value
 
     def get_path(self):
@@ -65,18 +70,35 @@ class ConfigMgr(object):
     path = property(get_path, set_path)
 
     @staticmethod
-    def get_filelist(path):
-        """Gets filelist for dir or file path """
+    def get_filelist(app=None, path=None):
+        """Gets config files for app name in given path. 
+        Matches files with {app}*.exe in the file for the given path.
+
+        Usage:  
+        >>> print ConfigMgr.get_filelist('MP', 'input/')
+        ['input/UMG.RDx.ETL.MP.exe.config', 'input/UMG.RDx.ETL.MP.vshost.exe.config']
+        >>> print ConfigMgr.get_filelist('ABC', 'input/UMG.RDx.ETL.MP.exe.config')
+        Traceback (most recent call last):
+            ...
+        Exception: input/UMG.RDx.ETL.MP.exe.config does not match with app ABC
+        """
+        if not app: raise Exception('app is required for get_filelist.')
+        if not path: raise Exception('path is required for get_filelist.')
         filelist = []
-        if path:
-            if os.path.isfile(path) :
+        if os.path.isfile(path) :
+            if re.search(app + '.+exe', path): 
                 filelist = [path]
-            elif os.path.isdir(path) :
-                #iterate files in specified dir that match *.config
-                for config_file in glob.glob(os.path.join(path,  "*.config")) :
-                    filelist.append(config_file)
+            else:
+                raise Exception, '{} does not match with app {}'.format(path, app)
+        elif os.path.isdir(path) :
+            #iterate files in specified dir that match *.config
+            for filename in glob.glob(os.path.join(path,  "*.config")) :
+                if re.search(app + '.+exe', filename): 
+                    filelist.append(filename)                        
+                        
         #print 'Got filelist {}'.format(filelist)
         return filelist
+
 
     @staticmethod
     def trim_line(self, longline, max_length=80, chars_trimmed=20, chars_shown=65):
@@ -85,86 +107,97 @@ class ConfigMgr(object):
         if len(shortline) > chars_shown and len(shortline) > chars_trimmed :
             shortline = '...' + shortline[chars_trimmed : chars_trimmed+chars_shown] + '...'
         return shortline
-
-    @staticmethod
-    def get_config_files(app='MP', path='input/'):
-        """Gets config files for app name in given path. 
-        Matches files with {app}*.exe in the file for the given path.
-
-        Usage:  
-        >>> print ConfigMgr.get_config_files()
-        ['input/UMG.RDx.ETL.MP.exe.config', 'input/UMG.RDx.ETL.MP.vshost.exe.config']
-        """
-        config_files = []
-        for filename in glob.glob(os.path.join(path,  "*.config")) :
-            if re.search(app + '.+exe', filename): 
-                config_files.append(filename)
-        return config_files
-            
+    
+    @staticmethod    
+    def get_output_filename(filename, outdir="output"):
+        """ Returns abs path to ./outdir/filename """
+        path = os.path.abspath(filename)
+        head, tail = os.path.split(path)
+        return os.path.join(os.getcwd(), outdir, tail)        
 
 
-    def get_conn_matches(self, filelist=None, app=None, env=None, verbose=False):
+    def get_conn_matches(self, filelist=None, app=None, env=None, write=False, verbose=False) :
         """Checks file for lines which contain connection string information,
         for each file in filelist.
         Returns:
         Dict of match data and line num, keyed by filename.
         Usage:
         Set path to one file, check.
-        >>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', path='input/UMG.RDx.ETL.R2.vshost.exe.config')
+        >>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', app='MP', path='input/UMG.RDx.ETL.MP.vshost.exe.config')
         >>> match_dict = cm.get_conn_matches()
         >>> print match_dict
-        {'input/UMG.RDx.ETL.R2.vshost.exe.config': [usfshwssql104 RDxETL 8, usfshwssql104 RDxETL 13, usfshwssql104 RDxETL 17, usfshwssql104 RDxReport 21]}
+        {'input/UMG.RDx.ETL.MP.vshost.exe.config': [Usfshwssql094 RDxETL 69, Usfshwssql094 RDxETL 74, Usfshwssql094 RDxETL 78, Usfshwssql089 RDxReport 82]}
         >>> print ['{} matches in file {}'.format(len(match_dict[filename]), filename) for filename in match_dict.keys()]
-        ['4 matches in file input/UMG.RDx.ETL.R2.vshost.exe.config']
-        >>> x = cm.get_conn_matches(verbose=True, app='MP', env='dev')
-        Checking against dbset for app 'MP', in 'dev' environment.
-        In file input/UMG.RDx.ETL.R2.vshost.exe.config:
-          usfshwssql104 RDxETL 8 matched MP RDxETL dev usfshwssql104 from the dbset.
-          usfshwssql104 RDxETL 13 matched MP RDxETL dev usfshwssql104 from the dbset.
-          usfshwssql104 RDxETL 17 matched MP RDxETL dev usfshwssql104 from the dbset.
-          usfshwssql104 RDxReport 21 matched None from the dbset.
-            * dbset profile for MP/dev is MP RDxReport dev usfshwssql104\RIGHTSDEV_2
+        ['4 matches in file input/UMG.RDx.ETL.MP.vshost.exe.config']
+        >>> x = cm.get_conn_matches(verbose=True, app='MP', env='uat')
+        Checking against dbset for app 'MP', in 'uat' environment.
+        In file input/UMG.RDx.ETL.MP.vshost.exe.config:
+          Usfshwssql094 RDxETL 69 matched MP RDxETL uat usfshwssql094 from the dbset.
+          Usfshwssql094 RDxETL 74 matched MP RDxETL uat usfshwssql094 from the dbset.
+          Usfshwssql094 RDxETL 78 matched MP RDxETL uat usfshwssql094 from the dbset.
+          Usfshwssql089 RDxReport 82 matched MP RDxReport uat usfshwssql089 from the dbset.
         >>> x = cm.get_conn_matches(verbose=True, app='MP', env='prod')
         Checking against dbset for app 'MP', in 'prod' environment.
-        In file input/UMG.RDx.ETL.R2.vshost.exe.config:
-          usfshwssql104 RDxETL 8 matched None from the dbset.
+        In file input/UMG.RDx.ETL.MP.vshost.exe.config:
+          Usfshwssql094 RDxETL 69 matched None from the dbset.
             * dbset profile for MP/prod is MP RDxETL prod usfshwssql077
-          usfshwssql104 RDxETL 13 matched None from the dbset.
+          Usfshwssql094 RDxETL 74 matched None from the dbset.
             * dbset profile for MP/prod is MP RDxETL prod usfshwssql077
-          usfshwssql104 RDxETL 17 matched None from the dbset.
+          Usfshwssql094 RDxETL 78 matched None from the dbset.
             * dbset profile for MP/prod is MP RDxETL prod usfshwssql077
-          usfshwssql104 RDxReport 21 matched None from the dbset.
+          Usfshwssql089 RDxReport 82 matched None from the dbset.
             * dbset profile for MP/prod is MP RDxReport prod usfshwssql084
+        >>> x = cm.get_conn_matches(verbose=True, app='MP', env='prod', write=True)
+        Checking against dbset for app 'MP', in 'prod' environment.
+        In file input/UMG.RDx.ETL.MP.vshost.exe.config:
+          Usfshwssql094 RDxETL 69 matched None from the dbset.
+            * dbset profile for MP/prod is MP RDxETL prod usfshwssql077
+            * Connection on line 69 changing from Usfshwssql094 to usfshwssql077
+          Usfshwssql094 RDxETL 74 matched None from the dbset.
+            * dbset profile for MP/prod is MP RDxETL prod usfshwssql077
+            * Connection on line 74 changing from Usfshwssql094 to usfshwssql077
+          Usfshwssql094 RDxETL 78 matched None from the dbset.
+            * dbset profile for MP/prod is MP RDxETL prod usfshwssql077
+            * Connection on line 78 changing from Usfshwssql094 to usfshwssql077
+          Usfshwssql089 RDxReport 82 matched None from the dbset.
+            * dbset profile for MP/prod is MP RDxReport prod usfshwssql084
+            * Connection on line 82 changing from Usfshwssql089 to usfshwssql084
+        Wrote file /Users/hills/git-hill/pyth/pydbutil/output/UMG.RDx.ETL.MP.vshost.exe.config
+        
         """
         
         if not filelist:
             filelist = self.filelist
         if not filelist:
-            filelist = self.filelist   
-            raise Usage('filelist required.')
-            
-        if verbose:
+            filelist = self.filelist
+            raise Exception('filelist required.')
+        
+        if write:
             if not env:
                 env = self.env
             if not env :
-                raise Usage('env is required.')
-
+                raise Exception('env is required for write.')
+        
             if not app :
-                raise Usage('app is required.')
-
-
+                raise Exception('app is required for write.')
+        
+        
         tot_match_count = 0
         match_msg = ''
         
         if verbose:
-            print "Checking against dbset for app '{}', in '{}' environment.".format(app, env) 
+            print "Checking against dbset for app '{}', in '{}' environment.".format(app, env)
         
         # filename:connInfo[]
         match_dict = {}
-
+        
         for filename in filelist:
+
+            if write :
+                outfilename = self.get_output_filename(filename)
             
-            if verbose: print 'In file {}:'.format(filename)
+            if verbose:
+                print 'In file {}:'.format(filename)
 
             # read all lines of file into var
             with open(filename, 'r') as file:
@@ -172,28 +205,44 @@ class ConfigMgr(object):
 
             connInfo = []
             linenum = 0
+            outlines = ''
 
             # check lines
             for line in lines:
                 linenum = linenum +1
-                # regex='Data Source=(Usfshwssql\w+);Initial Catalog=(RDx\w+);'
                 # print 'line {}:{}    {}'.format(str(linenum), os.linesep, self.trim_line(line))
                 m = re.search(self.REGEX, line, re.IGNORECASE)
                 if m:
-                    ci = ConnInfo(m.group(1).lower(), m.group(2), linenum)
+                    m_boxname, m_dbname = m.group(1), m.group(2)
+                    ci = ConnInfo(m_boxname, m_dbname, linenum)
                     connInfo.append(ci)
-                    
-                    if verbose:
-                        # check against dbset
-                        dbset_match = self.dbset.get_profile_by_attribs(
-                                dict(boxname=ci.boxname, dbname=ci.dbname, app=app, env=env))                                    
-                        print '  {} matched {} from the dbset.'.format(ci, dbset_match)
-                        if not dbset_match:
-                            print '    * dbset profile for {}/{} is {}'.format(app, env,
-                                   self.dbset.get_profile_by_attribs(dict(dbname=ci.dbname, app=app, env=env)))                    
 
+                    # check against dbset
+                    prof = dict(boxname=ci.boxname.lower(), dbname=ci.dbname, app=app, env=env)
+                    dbset_match = self.dbset.get_profile_by_attribs(prof)
+
+                    if verbose:
+                        print '  {} matched {} from the dbset.'.format(ci, dbset_match)
+
+                    if not dbset_match:
+                        db_suggest = self.dbset.get_profile_by_attribs(dict(dbname=ci.dbname, app=app, env=env))
+                        if verbose:
+                            print '    * dbset profile for {}/{} is {}'.format(app, env, db_suggest)
+                        if write:
+                            if verbose:
+                                print '    * Connection on line {} changing from {} to {}'.format(
+                                       linenum, m_boxname, db_suggest.boxname)
+                            line = re.sub(m_boxname, db_suggest.boxname, line, re.IGNORECASE)
+                if write:
+                    outlines = outlines + line
 
             match_dict[filename] = connInfo
+
+        if write:
+            outfilename = ConfigMgr.get_output_filename(filename)
+            with open(outfilename, 'r+') as file:
+                file.write(outlines)
+            print 'Wrote file ' + outfilename
 
         return match_dict
 
@@ -204,7 +253,7 @@ class ConfigMgr(object):
         """   
         
         if (not self.dbset) or (len(self.dbset) is 0) :
-            raise Usage('Cannot change_con because dbset is empty or invalid.')
+            raise Exception('Cannot change_con because dbset is empty or invalid.')
              
         new_conn = old_conn # default to orig val if no match
 
@@ -221,15 +270,6 @@ class ConfigMgr(object):
             new_conn = re.sub(boxname, new_boxname, old_conn)
 
         return new_conn
-
-
-    def get_output_filename(self, filename, outdir="output"):
-        """ Returns abs path to ./outdir/filename """
-        path = os.path.abspath(filename)
-        head, tail = os.path.split(path)
-        return os.path.join(os.getcwd(), outdir, tail)
-
-
 
 
 

@@ -1,6 +1,6 @@
 #! /usr/bin/python
 
-this was part of configmgr. i dont need xml here.
+#this was part of configmgr. but i dont need xml here.
 
 def handle_xml(self, env=None, write=None, *xml_file_list):
     """Find and change connectionStrings node of xmlfile.

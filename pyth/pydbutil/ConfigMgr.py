@@ -1,27 +1,13 @@
 #! /usr/bin/python
 """Handles database connection strings in files using DbProfiles.
 
-Usage: 
-Init the class with -dbsetfile and -path and call the public functions:
-#     check()      - to look for conn strings in any file via regex. No changes.
-#     handle_xml() - look for conn strings in config file via xml parse. The Write
-#                    option will write new file in output directory.
-# 
-# >>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', path='input/test.config')
-# >>> cm.handle_xml(write=False, env='prod')
-# File: /Users/hills/git-hill/pyth/pydbutil/input/test.config
-# Conn change: RDxETL connection from Usfshwssql094 to usfshwssql077
-# Conn change: RDxETL connection from Usfshwssql094 to usfshwssql077
-# Conn change: RDxETL connection from Usfshwssql094 to usfshwssql077
-# Conn change: RDxReport connection from Usfshwssql089 to usfshwssql084
-# <BLANKLINE>
-# 4 matches in file input/test.config
-# <BLANKLINE>
+Usage: go() is the main function. Many examples in tests below.
+>>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', app='MP', path='input/UMG.RDx.ETL.MP.vshost.exe.config')
+>>> match_dict = cm.go()
+>>> print match_dict
+{'input/UMG.RDx.ETL.MP.vshost.exe.config': [Usfshwssql094 RDxETL 69, Usfshwssql094 RDxETL 74, Usfshwssql094 RDxETL 78, Usfshwssql089 RDxReport 82]}
 
-The rest of the usage tests are in 'test_ConfigMgr.txt'
-To call the tests:,
-   ./ConfigMgr.py -v 
-
+Call tests with ./ConfigMgr.py -v
 """
 import sys
 import getopt
@@ -53,7 +39,7 @@ class ConfigMgr(object):
     def __init__(self, dbsource=None, app=None, path=None, env=None, write=False, verbose=False):
         self.dbset = DbSet(cvsfile=dbsource)
         self.app = app
-        self.path = path
+        if path: self.path = path
         self.env = env
         self.write = write
         self.verbose = verbose
@@ -116,54 +102,18 @@ class ConfigMgr(object):
         return os.path.join(os.getcwd(), outdir, tail)        
 
 
-    def get_conn_matches(self, filelist=None, app=None, env=None, write=False, verbose=False) :
+    def go(self, filelist=None, app=None, env=None, write=False, verbose=False) :
         """Checks file for lines which contain connection string information,
         for each file in filelist.
         Returns:
-        Dict of match data and line num, keyed by filename.
+            Dict of match data and line num, keyed by filename.
         Usage:
-        Set path to one file, check.
         >>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', app='MP', path='input/UMG.RDx.ETL.MP.vshost.exe.config')
-        >>> match_dict = cm.get_conn_matches()
+        >>> match_dict = cm.go()
         >>> print match_dict
         {'input/UMG.RDx.ETL.MP.vshost.exe.config': [Usfshwssql094 RDxETL 69, Usfshwssql094 RDxETL 74, Usfshwssql094 RDxETL 78, Usfshwssql089 RDxReport 82]}
         >>> print ['{} matches in file {}'.format(len(match_dict[filename]), filename) for filename in match_dict.keys()]
         ['4 matches in file input/UMG.RDx.ETL.MP.vshost.exe.config']
-        >>> x = cm.get_conn_matches(verbose=True, app='MP', env='uat')
-        Checking against dbset for app 'MP', in 'uat' environment.
-        In file input/UMG.RDx.ETL.MP.vshost.exe.config:
-          Usfshwssql094 RDxETL 69 matched MP RDxETL uat usfshwssql094 from the dbset.
-          Usfshwssql094 RDxETL 74 matched MP RDxETL uat usfshwssql094 from the dbset.
-          Usfshwssql094 RDxETL 78 matched MP RDxETL uat usfshwssql094 from the dbset.
-          Usfshwssql089 RDxReport 82 matched MP RDxReport uat usfshwssql089 from the dbset.
-        >>> x = cm.get_conn_matches(verbose=True, app='MP', env='prod')
-        Checking against dbset for app 'MP', in 'prod' environment.
-        In file input/UMG.RDx.ETL.MP.vshost.exe.config:
-          Usfshwssql094 RDxETL 69 matched None from the dbset.
-            * dbset profile for MP/prod is MP RDxETL prod usfshwssql077
-          Usfshwssql094 RDxETL 74 matched None from the dbset.
-            * dbset profile for MP/prod is MP RDxETL prod usfshwssql077
-          Usfshwssql094 RDxETL 78 matched None from the dbset.
-            * dbset profile for MP/prod is MP RDxETL prod usfshwssql077
-          Usfshwssql089 RDxReport 82 matched None from the dbset.
-            * dbset profile for MP/prod is MP RDxReport prod usfshwssql084
-        >>> x = cm.get_conn_matches(verbose=True, app='MP', env='prod', write=True)
-        Checking against dbset for app 'MP', in 'prod' environment.
-        In file input/UMG.RDx.ETL.MP.vshost.exe.config:
-          Usfshwssql094 RDxETL 69 matched None from the dbset.
-            * dbset profile for MP/prod is MP RDxETL prod usfshwssql077
-            * Connection on line 69 changing from Usfshwssql094 to usfshwssql077
-          Usfshwssql094 RDxETL 74 matched None from the dbset.
-            * dbset profile for MP/prod is MP RDxETL prod usfshwssql077
-            * Connection on line 74 changing from Usfshwssql094 to usfshwssql077
-          Usfshwssql094 RDxETL 78 matched None from the dbset.
-            * dbset profile for MP/prod is MP RDxETL prod usfshwssql077
-            * Connection on line 78 changing from Usfshwssql094 to usfshwssql077
-          Usfshwssql089 RDxReport 82 matched None from the dbset.
-            * dbset profile for MP/prod is MP RDxReport prod usfshwssql084
-            * Connection on line 82 changing from Usfshwssql089 to usfshwssql084
-        Wrote file /Users/hills/git-hill/pyth/pydbutil/output/UMG.RDx.ETL.MP.vshost.exe.config
-        
         """
         
         if not filelist:
@@ -172,14 +122,16 @@ class ConfigMgr(object):
             filelist = self.filelist
             raise Exception('filelist required.')
         
-        if write:
+        if write or verbose:
             if not env:
                 env = self.env
             if not env :
-                raise Exception('env is required for write.')
+                raise Exception('env is required for write or verbose.')
         
             if not app :
-                raise Exception('app is required for write.')
+                app = self.app
+            if not app :
+                raise Exception('app is required for write or verbose.')
         
         
         tot_match_count = 0
@@ -238,46 +190,19 @@ class ConfigMgr(object):
 
             match_dict[filename] = connInfo
 
-        if write:
-            outfilename = ConfigMgr.get_output_filename(filename)
-            with open(outfilename, 'r+') as file:
-                file.write(outlines)
-            print 'Wrote file ' + outfilename
+            if write:
+                outfilename = ConfigMgr.get_output_filename(filename)
+                with open(outfilename, 'r+') as file:
+                    file.write(outlines)
+                print 'Wrote file ' + outfilename
 
         return match_dict
 
 
-    def change_conn(self, old_conn, new_env='DEV'):
-        """Change db connection strings via re.
-        Usage:
-        """   
-        
-        if (not self.dbset) or (len(self.dbset) is 0) :
-            raise Exception('Cannot change_con because dbset is empty or invalid.')
-             
-        new_conn = old_conn # default to orig val if no match
-
-        m = re.search(self.REGEX, old_conn)
-        if m:
-            boxname, dbname = m.group(1), m.group(2)
-
-            new_boxname = '***BAD BOX NAME***'
-            db = self.dbset.get_profile_by_attribs(dict(dbname=dbname,env=new_env))
-            if db : 
-                new_boxname =  db.boxname
-            print 'Conn change: {} connection from {} to {}'.format(
-                                             dbname, boxname, new_boxname)
-            new_conn = re.sub(boxname, new_boxname, old_conn)
-
-        return new_conn
-
-
-
-
 if __name__ == "__main__":
     import doctest
-    #doctest.testfile("tests/test_ConfigMgr.txt")
     doctest.testmod(verbose=True)
+    doctest.testfile("tests/test_ConfigMgr.txt")
     sys.exit(0)
     #sys.exit(main())
 

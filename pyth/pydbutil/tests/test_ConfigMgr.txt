@@ -5,118 +5,103 @@ Run ./ConfigMgr.py -v  to run these tests.
 
 >>> from ConfigMgr import ConfigMgr
 
-Init with a dataset.
+Init with dbsource
 >>> cm = ConfigMgr(dbsource='input/DbSet.data.csv')
 
-Init with a dataset and file.
->>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', path='input/test.config')
->>> print cm.filelist
-['input/test.config']
+Init with dbsource and app
+>>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', app='MP')
+
+Init with dbsource and path. (Fails because app is required for path)
+>>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', path='input/UMG.RDx.ETL.MP.exe.config')
+Traceback (most recent call last):
+    ...
+Exception: app is required when setting path.
+
+Init with dbsource, app, and path.
+>>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', app='MP', path='input/UMG.RDx.ETL.MP.vshost.exe.config')
+>>> match_dict = cm.go()
+>>> print match_dict
+{'input/UMG.RDx.ETL.MP.vshost.exe.config': [Usfshwssql094 RDxETL 69, Usfshwssql094 RDxETL 74, Usfshwssql094 RDxETL 78, Usfshwssql089 RDxReport 82]}
+>>> print ['{} matches in file {}'.format(len(match_dict[filename]), filename) for filename in match_dict.keys()]
+['4 matches in file input/UMG.RDx.ETL.MP.vshost.exe.config']
+
 
 Set path to a dir.
 >>> cm.path = 'input/'
->>> print cm.filelist
-['input/test.config', 'input/test2.config', 'input/UMG.RDx.ETL.MP.exe.config', 'input/UMG.RDx.ETL.MP.vshost.exe.config', 'input/UMG.RDx.ETL.R2.exe.config', 'input/UMG.RDx.ETL.R2.vshost.exe.config']
+>>> match_dict = cm.go()
+>>> print match_dict
+{'input/UMG.RDx.ETL.MP.exe.config': [Usfshwssql094 RDxETL 69, Usfshwssql094 RDxETL 74, Usfshwssql094 RDxETL 78, Usfshwssql089 RDxReport 82], 'input/UMG.RDx.ETL.MP.vshost.exe.config': [Usfshwssql094 RDxETL 69, Usfshwssql094 RDxETL 74, Usfshwssql094 RDxETL 78, Usfshwssql089 RDxReport 82]}
+>>> print ['{} matches in file {}'.format(len(match_dict[filename]), filename) for filename in match_dict.keys()]
+['4 matches in file input/UMG.RDx.ETL.MP.exe.config', '4 matches in file input/UMG.RDx.ETL.MP.vshost.exe.config']
+
+Verbose. Target files set properly for uat.
+>>> x = cm.go(verbose=True, env='uat')
+Checking against dbset for app 'MP', in 'uat' environment.
+In file input/UMG.RDx.ETL.MP.exe.config:
+  Usfshwssql094 RDxETL 69 matched MP RDxETL uat usfshwssql094 from the dbset.
+  Usfshwssql094 RDxETL 74 matched MP RDxETL uat usfshwssql094 from the dbset.
+  Usfshwssql094 RDxETL 78 matched MP RDxETL uat usfshwssql094 from the dbset.
+  Usfshwssql089 RDxReport 82 matched MP RDxReport uat usfshwssql089 from the dbset.
+In file input/UMG.RDx.ETL.MP.vshost.exe.config:
+  Usfshwssql094 RDxETL 69 matched MP RDxETL uat usfshwssql094 from the dbset.
+  Usfshwssql094 RDxETL 74 matched MP RDxETL uat usfshwssql094 from the dbset.
+  Usfshwssql094 RDxETL 78 matched MP RDxETL uat usfshwssql094 from the dbset.
+  Usfshwssql089 RDxReport 82 matched MP RDxReport uat usfshwssql089 from the dbset.
+  
+
+Verbose. Check files for prod when they are uat.
+>>> x = cm.go(verbose=True, env='prod')
+Checking against dbset for app 'MP', in 'prod' environment.
+In file input/UMG.RDx.ETL.MP.exe.config:
+  Usfshwssql094 RDxETL 69 matched None from the dbset.
+    * dbset profile for MP/prod is MP RDxETL prod usfshwssql077
+  Usfshwssql094 RDxETL 74 matched None from the dbset.
+    * dbset profile for MP/prod is MP RDxETL prod usfshwssql077
+  Usfshwssql094 RDxETL 78 matched None from the dbset.
+    * dbset profile for MP/prod is MP RDxETL prod usfshwssql077
+  Usfshwssql089 RDxReport 82 matched None from the dbset.
+    * dbset profile for MP/prod is MP RDxReport prod usfshwssql084
+In file input/UMG.RDx.ETL.MP.vshost.exe.config:
+  Usfshwssql094 RDxETL 69 matched None from the dbset.
+    * dbset profile for MP/prod is MP RDxETL prod usfshwssql077
+  Usfshwssql094 RDxETL 74 matched None from the dbset.
+    * dbset profile for MP/prod is MP RDxETL prod usfshwssql077
+  Usfshwssql094 RDxETL 78 matched None from the dbset.
+    * dbset profile for MP/prod is MP RDxETL prod usfshwssql077
+  Usfshwssql089 RDxReport 82 matched None from the dbset.
+    * dbset profile for MP/prod is MP RDxReport prod usfshwssql084
+
+Write.
+>>> x = cm.go(verbose=True, app='MP', env='prod', write=True)
+Checking against dbset for app 'MP', in 'prod' environment.
+In file input/UMG.RDx.ETL.MP.exe.config:
+  Usfshwssql094 RDxETL 69 matched None from the dbset.
+    * dbset profile for MP/prod is MP RDxETL prod usfshwssql077
+    * Connection on line 69 changing from Usfshwssql094 to usfshwssql077
+  Usfshwssql094 RDxETL 74 matched None from the dbset.
+    * dbset profile for MP/prod is MP RDxETL prod usfshwssql077
+    * Connection on line 74 changing from Usfshwssql094 to usfshwssql077
+  Usfshwssql094 RDxETL 78 matched None from the dbset.
+    * dbset profile for MP/prod is MP RDxETL prod usfshwssql077
+    * Connection on line 78 changing from Usfshwssql094 to usfshwssql077
+  Usfshwssql089 RDxReport 82 matched None from the dbset.
+    * dbset profile for MP/prod is MP RDxReport prod usfshwssql084
+    * Connection on line 82 changing from Usfshwssql089 to usfshwssql084
+Wrote file /Users/hills/git-hill/pyth/pydbutil/output/UMG.RDx.ETL.MP.exe.config
+In file input/UMG.RDx.ETL.MP.vshost.exe.config:
+  Usfshwssql094 RDxETL 69 matched None from the dbset.
+    * dbset profile for MP/prod is MP RDxETL prod usfshwssql077
+    * Connection on line 69 changing from Usfshwssql094 to usfshwssql077
+  Usfshwssql094 RDxETL 74 matched None from the dbset.
+    * dbset profile for MP/prod is MP RDxETL prod usfshwssql077
+    * Connection on line 74 changing from Usfshwssql094 to usfshwssql077
+  Usfshwssql094 RDxETL 78 matched None from the dbset.
+    * dbset profile for MP/prod is MP RDxETL prod usfshwssql077
+    * Connection on line 78 changing from Usfshwssql094 to usfshwssql077
+  Usfshwssql089 RDxReport 82 matched None from the dbset.
+    * dbset profile for MP/prod is MP RDxReport prod usfshwssql084
+    * Connection on line 82 changing from Usfshwssql089 to usfshwssql084
+Wrote file /Users/hills/git-hill/pyth/pydbutil/output/UMG.RDx.ETL.MP.vshost.exe.config
 
 
-# Set path to one file, check.
-# >>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', path='input/UMG.RDx.ETL.R2.vshost.exe.config')
-# >>> match_dict = cm.check()
-# >>> print match_dict
-# {'input/UMG.RDx.ETL.R2.vshost.exe.config': [('usfshwssql104', 'RDxETL', 8), ('usfshwssql104', 'RDxETL', 13), ('usfshwssql104', 'RDxETL', 17), ('usfshwssql104', 'RDxReport', 21)]}
-# >>> print ['{} matches in file {}'.format(len(match_dict[filename]), filename) for filename in match_dict.keys()]
-# ['4 matches in file input/UMG.RDx.ETL.R2.vshost.exe.config']
-
-
-# Set path to dir, check.
-# >>> cm.set_path('input/')
-# Set filelist to ['input/test.config', 'input/test2.config', 'input/UMG.RDx.ETL.MP.exe.config', 'input/UMG.RDx.ETL.MP.vshost.exe.config', 'input/UMG.RDx.ETL.R2.exe.config', 'input/UMG.RDx.ETL.R2.vshost.exe.config']
-# 
-# >>> match_dict = cm.check()
-# 
-# >>> print match_dict
-# {'input/test2.config': [('usfshwssql077', 'RDxETL', 69), ('usfshwssql077', 'RDxETL', 74), ('usfshwssql077', 'RDxETL', 78), ('usfshwssql084', 'RDxReport', 82)], 'input/UMG.RDx.ETL.R2.vshost.exe.config': [('usfshwssql104', 'RDxETL', 8), ('usfshwssql104', 'RDxETL', 13), ('usfshwssql104', 'RDxETL', 17), ('usfshwssql104', 'RDxReport', 21)], 'input/UMG.RDx.ETL.R2.exe.config': [('usfshwssql104', 'RDxETL', 8), ('usfshwssql104', 'RDxETL', 13), ('usfshwssql104', 'RDxETL', 17), ('usfshwssql104', 'RDxReport', 21)], 'input/UMG.RDx.ETL.MP.exe.config': [('usfshwssql094', 'RDxETL', 69), ('usfshwssql094', 'RDxETL', 74), ('usfshwssql094', 'RDxETL', 78), ('usfshwssql089', 'RDxReport', 82)], 'input/test.config': [('usfshwssql094', 'RDxETL', 69), ('usfshwssql094', 'RDxETL', 74), ('usfshwssql094', 'RDxETL', 78), ('usfshwssql089', 'RDxReport', 82)], 'input/UMG.RDx.ETL.MP.vshost.exe.config': [('usfshwssql094', 'RDxETL', 69), ('usfshwssql094', 'RDxETL', 74), ('usfshwssql094', 'RDxETL', 78), ('usfshwssql089', 'RDxReport', 82)]}
-# 
-# >>> print ['{} matches in file {}'.format(len(match_dict[filename]), filename) for filename in match_dict.keys()]
-# ['4 matches in file input/test2.config', '4 matches in file input/UMG.RDx.ETL.R2.vshost.exe.config', '4 matches in file input/UMG.RDx.ETL.R2.exe.config', '4 matches in file input/UMG.RDx.ETL.MP.exe.config', '4 matches in file input/test.config', '4 matches in file input/UMG.RDx.ETL.MP.vshost.exe.config']
-# 
-# 
-# 
-# Set path to one file, change to prod env.
-# 
-# >>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', path='input/test.config')
-# Set filelist to ['input/test.config']
-# >>> cm.handle_xml(env='prod')
-# File: /Users/hills/git-hill/pyth/pydbutil/input/test.config
-# Conn change: RDxETL connection from Usfshwssql094 to usfshwssql077
-# Conn change: RDxETL connection from Usfshwssql094 to usfshwssql077
-# Conn change: RDxETL connection from Usfshwssql094 to usfshwssql077
-# Conn change: RDxReport connection from Usfshwssql089 to usfshwssql084
-# <BLANKLINE>
-# 4 matches in file input/test.config
-# <BLANKLINE>
-# 
-# 
-# Write new file.
-# >>> cm.handle_xml(write=True)
-# File: /Users/hills/git-hill/pyth/pydbutil/input/test.config
-# Conn change: RDxETL connection from Usfshwssql094 to usfshwssql077
-# Conn change: RDxETL connection from Usfshwssql094 to usfshwssql077
-# Conn change: RDxETL connection from Usfshwssql094 to usfshwssql077
-# Conn change: RDxReport connection from Usfshwssql089 to usfshwssql084
-# Wrote /Users/hills/git-hill/pyth/pydbutil/output/test.config
-# <BLANKLINE>
-# 4 matches in file input/test.config
-# <BLANKLINE>
-
-
-
-
-
-##   THESE ARE THE DIRS ONES - NEED WORK> LEAVE FOR NOW.
-
-
-
-# Set path to dir, change to dev env.
-# 
-# >>> cm.set_path('input/')
-# Set filelist to ['input/test.config', 'input/test2.config']
-# >>> cm.handle_xml(env='dev', write=False)
-# File: /Users/hills/git-hill/pyth/pydbutil/input/test.config
-# Conn change: RDxETL connection from Usfshwssql094 to usfshwssql104
-# Conn change: RDxETL connection from Usfshwssql094 to usfshwssql104
-# Conn change: RDxETL connection from Usfshwssql094 to usfshwssql104
-# Conn change: RDxReport connection from Usfshwssql089 to usfshwssql104\RIGHTSDEV_2
-# File: /Users/hills/git-hill/pyth/pydbutil/input/test2.config
-# Conn change: RDxETL connection from Usfshwssql077 to usfshwssql104
-# Conn change: RDxETL connection from Usfshwssql077 to usfshwssql104
-# Conn change: RDxETL connection from Usfshwssql077 to usfshwssql104
-# Conn change: RDxReport connection from Usfshwssql084 to usfshwssql104\RIGHTSDEV_2
-# <BLANKLINE>
-# 4 matches in file input/test.config
-# 4 matches in file input/test2.config
-# <BLANKLINE>
-# 8 TOTAL changes.
-# 
-# 
-# Write the dir of changes
-# >>> cm.handle_xml(write=True)
-# File: /Users/hills/git-hill/pyth/pydbutil/input/test.config
-# Conn change: RDxETL connection from Usfshwssql094 to usfshwssql104
-# Conn change: RDxETL connection from Usfshwssql094 to usfshwssql104
-# Conn change: RDxETL connection from Usfshwssql094 to usfshwssql104
-# Conn change: RDxReport connection from Usfshwssql089 to usfshwssql104\RIGHTSDEV_2
-# Wrote /Users/hills/git-hill/pyth/pydbutil/output/test.config
-# File: /Users/hills/git-hill/pyth/pydbutil/input/test2.config
-# Conn change: RDxETL connection from Usfshwssql077 to usfshwssql104
-# Conn change: RDxETL connection from Usfshwssql077 to usfshwssql104
-# Conn change: RDxETL connection from Usfshwssql077 to usfshwssql104
-# Conn change: RDxReport connection from Usfshwssql084 to usfshwssql104\RIGHTSDEV_2
-# Wrote /Users/hills/git-hill/pyth/pydbutil/output/test2.config
-# <BLANKLINE>
-# 4 matches in file input/test.config
-# 4 matches in file input/test2.config
-# <BLANKLINE>
-# 8 TOTAL changes.
-# 
 

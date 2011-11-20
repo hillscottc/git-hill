@@ -47,7 +47,7 @@ class ConfigMgr(object):
 
     def set_path(self, value):
         if not self.app: raise Exception('app is required when setting path.')
-        self.filelist = ConfigMgr.get_filelist(self.app, value)
+        self.filelist = ConfigMgr.get_filelist(value, self.app)
         self._path = value
 
     def get_path(self):
@@ -56,31 +56,34 @@ class ConfigMgr(object):
     path = property(get_path, set_path)
 
     @staticmethod
-    def get_filelist(app=None, path=None):
+    def get_filelist(path=None, *apps):
         """Gets config files for app name in given path. 
         Matches files with {app}*.exe in the file for the given path.
 
         Usage:  
-        >>> print ConfigMgr.get_filelist('MP', 'input/')
+        >>> print ConfigMgr.get_filelist('input/', 'MP')
         ['input/UMG.RDx.ETL.MP.exe.config', 'input/UMG.RDx.ETL.MP.vshost.exe.config']
-        >>> print ConfigMgr.get_filelist('ABC', 'input/UMG.RDx.ETL.MP.exe.config')
+        >>> print ConfigMgr.get_filelist('input/UMG.RDx.ETL.MP.exe.config','ABC')
         Traceback (most recent call last):
             ...
         Exception: input/UMG.RDx.ETL.MP.exe.config does not match with app ABC
         """
-        if not app: raise Exception('app is required for get_filelist.')
+        if not apps: raise Exception('apps required for get_filelist.')
         if not path: raise Exception('path is required for get_filelist.')
         filelist = []
-        if os.path.isfile(path) :
-            if re.search(app + '.+exe', path): 
-                filelist = [path]
-            else:
-                raise Exception, '{} does not match with app {}'.format(path, app)
-        elif os.path.isdir(path) :
-            #iterate files in specified dir that match *.config
-            for filename in glob.glob(os.path.join(path,  "*.config")) :
-                if re.search(app + '.+exe', filename): 
-                    filelist.append(filename)                        
+        
+        for app in apps:
+        
+            if os.path.isfile(path) :
+                if re.search(app + '.+exe', path): 
+                    filelist = [path]
+                else:
+                    raise Exception, '{} does not match with app {}'.format(path, app)
+            elif os.path.isdir(path) :
+                #iterate files in specified dir that match *.config
+                for filename in glob.glob(os.path.join(path,  "*.config")) :
+                    if re.search(app + '.+exe', filename): 
+                        filelist.append(filename)               
                         
         #print 'Got filelist {}'.format(filelist)
         return filelist

@@ -24,6 +24,8 @@ class DbSet(object):
     12
     """
     
+    APPS = ('CARL', 'CPRS', 'CTX', 'Common', 'D2', 'DRA', 'MP', 'PartsOrder', 'R2', 'gdrs')
+    
     DB = []
     
     def __init__(self, cvsfile=None, dbprofiles=[]):

@@ -67,6 +67,8 @@ class ConfigMgr(object):
         Traceback (most recent call last):
             ...
         Exception: input/UMG.RDx.ETL.MP.exe.config does not match with app ABC
+        >>> print ConfigMgr.get_filelist('input/', 'MP', 'R2')
+        ['input/UMG.RDx.ETL.MP.exe.config', 'input/UMG.RDx.ETL.MP.vshost.exe.config', 'input/UMG.RDx.ETL.R2.exe.config', 'input/UMG.RDx.ETL.R2.vshost.exe.config']
         """
         if not apps: raise Exception('apps required for get_filelist.')
         if not path: raise Exception('path is required for get_filelist.')
@@ -81,9 +83,19 @@ class ConfigMgr(object):
                     raise Exception, '{} does not match with app {}'.format(path, app)
             elif os.path.isdir(path) :
                 #iterate files in specified dir that match *.config
-                for filename in glob.glob(os.path.join(path,  "*.config")) :
-                    if re.search(app + '.+exe', filename): 
-                        filelist.append(filename)               
+#                for filename in glob.glob(os.path.join(path,  "*.config")) :
+#                    if re.search(app + '.+exe', filename): 
+#                        filelist.append(filename)
+                        
+                for root, dirs, files in os.walk(path):
+                    for name in dirs:
+                        #os.xxx(os.path.join(root, name))   
+                        #print ' HEY!!!' +  os.path.join(root, name, "*.config")
+                        for filename in glob.glob(os.path.join(root, name, "*.config")) :
+                            if re.search(app + '.+exe', filename): 
+                                filelist.append(filename)                                      
+        
+        
                         
         #print 'Got filelist {}'.format(filelist)
         return filelist

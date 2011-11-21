@@ -2,10 +2,10 @@
 """Handles database connection strings in files using DbProfiles.
 
 Usage: go() is the main function. Many examples in tests below.
->>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', app='MP', path='input/UMG.RDx.ETL.MP.vshost.exe.config')
+>>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', app='MP', path='input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config')
 >>> match_dict = cm.go()
 >>> print match_dict
-{'input/UMG.RDx.ETL.MP.vshost.exe.config': [Usfshwssql094 RDxETL 69, Usfshwssql094 RDxETL 74, Usfshwssql094 RDxETL 78, Usfshwssql089 RDxReport 82]}
+{'input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config': [Usfshwssql094 RDxETL 69, Usfshwssql094 RDxETL 74, Usfshwssql094 RDxETL 78, Usfshwssql089 RDxReport 82]}
 
 Call tests with ./ConfigMgr.py -v
 """
@@ -23,12 +23,12 @@ from ConnInfo import ConnInfo
 class ConfigMgr(object):
     """Handles database connection strings in files using DbProfiles.
     
-    >>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', app='R2', path='input/UMG.RDx.ETL.R2.vshost.exe.config')
+    >>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', app='R2', path='input/ETL/R2/UMG.RDx.ETL.R2.vshost.exe.config')
     
-    >>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', app='MP', path='input/UMG.RDx.ETL.R2.vshost.exe.config')
-    Traceback (most recent call last):
-        ...
-    Exception: input/UMG.RDx.ETL.R2.vshost.exe.config does not match with app MP
+    #>>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', app='MP', path='input/ETL/R2/UMG.RDx.ETL.R2.vshost.exe.config')
+    #Traceback (most recent call last):
+    #    ...
+    #Exception: input/UMG.RDx.ETL.R2.vshost.exe.config does not match with app MP
     
     More usage tests are in 'test_ConfigMgr.txt'
     Run ./ConfigMgr.py -v
@@ -37,7 +37,8 @@ class ConfigMgr(object):
     REGEX = 'Data Source=(Usfshwssql\w+);Initial Catalog=(RDx\w+);'
 
     def __init__(self, dbsource=None, app=None, path=None, env=None, write=False, verbose=False):
-        self.dbset = DbSet(cvsfile=dbsource)
+        #self.dbset = DbSet(cvsfile=dbsource)
+        if dbsource: self.dbsource = dbsource
         self.app = app
         if path: self.path = path
         self.env = env
@@ -46,14 +47,25 @@ class ConfigMgr(object):
         
 
     def set_path(self, value):
-        if not self.app: raise Exception('app is required when setting path.')
-        self.filelist = ConfigMgr.get_filelist(value, self.app)
+        if not self.dbset: raise Exception('dbset is required when setting path.')
+        self.filelist = ConfigMgr.get_filelist(value, *DbSet.APPS)
         self._path = value
 
     def get_path(self):
         return self._path
 
     path = property(get_path, set_path)
+    
+    
+    def set_dbsource(self, value):
+        self._dbsource = value
+        self.dbset = DbSet(cvsfile=value) 
+
+    def get_dbsource(self):
+        return self._dbsource
+
+    dbsource = property(get_dbsource, set_dbsource)    
+    
 
     @staticmethod
     def get_filelist(path=None, *apps):
@@ -62,42 +74,35 @@ class ConfigMgr(object):
 
         Usage:  
         >>> print ConfigMgr.get_filelist('input/', 'MP')
-        ['input/UMG.RDx.ETL.MP.exe.config', 'input/UMG.RDx.ETL.MP.vshost.exe.config']
-        >>> print ConfigMgr.get_filelist('input/UMG.RDx.ETL.MP.exe.config','ABC')
-        Traceback (most recent call last):
-            ...
-        Exception: input/UMG.RDx.ETL.MP.exe.config does not match with app ABC
+        ['input/ETL/MP/UMG.RDx.ETL.MP.exe.config', 'input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config']
+        
+        #>>> print ConfigMgr.get_filelist('input/ETL/MP/UMG.RDx.ETL.MP.exe.config','ABC')
+        #Traceback (most recent call last):
+        #    ...
+        #Exception: input/UMG.RDx.ETL.MP.exe.config does not match with app ABC
         >>> print ConfigMgr.get_filelist('input/', 'MP', 'R2')
-        ['input/UMG.RDx.ETL.MP.exe.config', 'input/UMG.RDx.ETL.MP.vshost.exe.config', 'input/UMG.RDx.ETL.R2.exe.config', 'input/UMG.RDx.ETL.R2.vshost.exe.config']
+        ['input/ETL/MP/UMG.RDx.ETL.MP.exe.config', 'input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config', 'input/ETL/R2/UMG.RDx.ETL.R2.exe.config', 'input/ETL/R2/UMG.RDx.ETL.R2.vshost.exe.config']
         """
         if not apps: raise Exception('apps required for get_filelist.')
         if not path: raise Exception('path is required for get_filelist.')
         filelist = []
         
-        for app in apps:
-        
-            if os.path.isfile(path) :
-                if re.search(app + '.+exe', path): 
-                    filelist = [path]
-                else:
-                    raise Exception, '{} does not match with app {}'.format(path, app)
-            elif os.path.isdir(path) :
-                #iterate files in specified dir that match *.config
-#                for filename in glob.glob(os.path.join(path,  "*.config")) :
-#                    if re.search(app + '.+exe', filename): 
-#                        filelist.append(filename)
-                        
+        if os.path.isfile(path) :
+            filelist.append(path)
+#                if re.search(app + '.+exe', path):
+#                    filelist.append(path)
+#                else:
+#                    raise Exception, '{} does not match with app {}'.format(path, app)
+        elif os.path.isdir(path) :
+            for app in apps:
                 for root, dirs, files in os.walk(path):
                     for name in dirs:
-                        #os.xxx(os.path.join(root, name))   
-                        #print ' HEY!!!' +  os.path.join(root, name, "*.config")
                         for filename in glob.glob(os.path.join(root, name, "*.config")) :
                             if re.search(app + '.+exe', filename): 
-                                filelist.append(filename)                                      
-        
-        
-                        
-        #print 'Got filelist {}'.format(filelist)
+                                filelist.append(filename)
+        else:
+            msg = path  + ' does not exist.'
+            raise Exception(msg)
         return filelist
 
 
@@ -123,12 +128,12 @@ class ConfigMgr(object):
         Returns:
             Dict of match data and line num, keyed by filename.
         Usage:
-        >>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', app='MP', path='input/UMG.RDx.ETL.MP.vshost.exe.config')
+        >>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', app='MP', path='input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config')
         >>> match_dict = cm.go()
         >>> print match_dict
-        {'input/UMG.RDx.ETL.MP.vshost.exe.config': [Usfshwssql094 RDxETL 69, Usfshwssql094 RDxETL 74, Usfshwssql094 RDxETL 78, Usfshwssql089 RDxReport 82]}
+        {'input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config': [Usfshwssql094 RDxETL 69, Usfshwssql094 RDxETL 74, Usfshwssql094 RDxETL 78, Usfshwssql089 RDxReport 82]}
         >>> print ['{} matches in file {}'.format(len(match_dict[filename]), filename) for filename in match_dict.keys()]
-        ['4 matches in file input/UMG.RDx.ETL.MP.vshost.exe.config']
+        ['4 matches in file input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config']
         """
         
         if not filelist:

@@ -12,27 +12,27 @@ Init with dbsource and app
 >>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', app='MP')
 
 Init with dbsource and path. (Fails because app is required for path)
->>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', path='input/UMG.RDx.ETL.MP.exe.config')
+>>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', path='input/ETL/MP/UMG.RDx.ETL.MP.exe.config')
 Traceback (most recent call last):
     ...
 Exception: app is required when setting path.
 
 Init with dbsource, app, and path.
->>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', app='MP', path='input/UMG.RDx.ETL.MP.vshost.exe.config')
+>>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', app='MP', path='input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config')
 >>> match_dict = cm.go()
 >>> print match_dict
-{'input/UMG.RDx.ETL.MP.vshost.exe.config': [Usfshwssql094 RDxETL 69, Usfshwssql094 RDxETL 74, Usfshwssql094 RDxETL 78, Usfshwssql089 RDxReport 82]}
+{'input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config': [Usfshwssql094 RDxETL 69, Usfshwssql094 RDxETL 74, Usfshwssql094 RDxETL 78, Usfshwssql089 RDxReport 82]}
 >>> print ['{} matches in file {}'.format(len(match_dict[filename]), filename) for filename in match_dict.keys()]
-['4 matches in file input/UMG.RDx.ETL.MP.vshost.exe.config']
+['4 matches in file input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config']
 
 
 Set path to a dir.
 >>> cm.path = 'input/'
 >>> match_dict = cm.go()
 >>> print match_dict
-{'input/UMG.RDx.ETL.MP.exe.config': [Usfshwssql094 RDxETL 69, Usfshwssql094 RDxETL 74, Usfshwssql094 RDxETL 78, Usfshwssql089 RDxReport 82], 'input/UMG.RDx.ETL.MP.vshost.exe.config': [Usfshwssql094 RDxETL 69, Usfshwssql094 RDxETL 74, Usfshwssql094 RDxETL 78, Usfshwssql089 RDxReport 82]}
+{'input/ETL/D2/UMG.RDx.ETL.FileService.exe.config': [USFSHWSSQL104 RDxETL 8, USFSHWSSQL104 RDxETL 11], 'input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config': [Usfshwssql094 RDxETL 69, Usfshwssql094 RDxETL 74, Usfshwssql094 RDxETL 78, Usfshwssql089 RDxReport 82], 'input/ETL/CTX/ET/UMG.RDx.ETL.CTX.exe.config': [USFSHWSSQL104 RDxETL 8, USFSHWSSQL104 RDxETL 13, USFSHWSSQL104 RDxETL 17], 'input/ETL/MP/UMG.RDx.ETL.MP.exe.config': [], 'input/ETL/DRA/UMG.RDx.ETL.DRA.exe.config': [Usfshwssql104 RDxETL 8, Usfshwssql104 RDxETL 13, Usfshwssql104 RDxETL 17], 'input/ETL/Common/UMG.RDx.ETL.FileService.exe.config': [USFSHWSSQL104 RDxETL 8, USFSHWSSQL104 RDxETL 11], 'input/ETL/CPRS/Copy of UMG.RDx.ETL.CPRS.exe.config': [USFSHWSSQL104 RDxETL 133, USFSHWSSQL104 RDxETL 138, USFSHWSSQL104 RDxETL 141], 'input/ETL/CTX/L/UMG.RDx.ETL.CTX.exe.config': [], 'input/ETL/gdrs/UMG.RDx.ETL.FileService.exe.config': [USFSHWSSQL104 RDxETL 8, USFSHWSSQL104 RDxETL 11], 'input/ETL/R2/UMG.RDx.ETL.R2.vshost.exe.config': [], 'input/ETL/CARL/UMG.RDx.ETL.FileService.exe.config': [USFSHWSSQL104 RDxETL 8, USFSHWSSQL104 RDxETL 11], 'input/ETL/D2/_UMG.RDx.ETL.FileService.exe.config': [USFSHWSSQL104 RDxETL 8], 'input/ETL/CPRS/UMG.RDx.ETL.CPRS.exe.config': [USFSHWSSQL104 RDxETL 133, USFSHWSSQL104 RDxETL 138, USFSHWSSQL104 RDxETL 141], 'input/ETL/R2/UMG.RDx.ETL.R2.exe.config': [Usfshwssql104 RDxETL 8, Usfshwssql104 RDxETL 13, Usfshwssql104 RDxETL 17]}
 >>> print ['{} matches in file {}'.format(len(match_dict[filename]), filename) for filename in match_dict.keys()]
-['4 matches in file input/UMG.RDx.ETL.MP.exe.config', '4 matches in file input/UMG.RDx.ETL.MP.vshost.exe.config']
+['2 matches in file input/ETL/D2/UMG.RDx.ETL.FileService.exe.config', '4 matches in file input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config', '3 matches in file input/ETL/CTX/ET/UMG.RDx.ETL.CTX.exe.config', '0 matches in file input/ETL/MP/UMG.RDx.ETL.MP.exe.config', '3 matches in file input/ETL/DRA/UMG.RDx.ETL.DRA.exe.config', '2 matches in file input/ETL/Common/UMG.RDx.ETL.FileService.exe.config', '3 matches in file input/ETL/CPRS/Copy of UMG.RDx.ETL.CPRS.exe.config', '0 matches in file input/ETL/CTX/L/UMG.RDx.ETL.CTX.exe.config', '2 matches in file input/ETL/gdrs/UMG.RDx.ETL.FileService.exe.config', '0 matches in file input/ETL/R2/UMG.RDx.ETL.R2.vshost.exe.config', '2 matches in file input/ETL/CARL/UMG.RDx.ETL.FileService.exe.config', '1 matches in file input/ETL/D2/_UMG.RDx.ETL.FileService.exe.config', '3 matches in file input/ETL/CPRS/UMG.RDx.ETL.CPRS.exe.config', '3 matches in file input/ETL/R2/UMG.RDx.ETL.R2.exe.config']
 
 Verbose. Target files set properly for uat.
 >>> x = cm.go(verbose=True, env='uat')

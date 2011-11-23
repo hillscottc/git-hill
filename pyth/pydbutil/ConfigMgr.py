@@ -141,8 +141,8 @@ class ConfigMgr(object):
         
         >>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', path='input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config')
         >>> match_dict = cm.go()
-        >>> print match_dict
-        {'input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config': [Usfshwssql094 RDxETL 69, Usfshwssql094 RDxETL 74, Usfshwssql094 RDxETL 78, Usfshwssql089 RDxReport 82]}
+        >>> print os.linesep.join(['{} {}'.format(k, sorted(v)) for k, v in sorted(match_dict.iteritems())])
+        input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config [Usfshwssql094 RDxETL 69, Usfshwssql094 RDxETL 74, Usfshwssql094 RDxETL 78, Usfshwssql089 RDxReport 82]
         
         >>> print ['{} matches in file {}'.format(len(match_dict[filename]), filename) for filename in match_dict.keys()]
         ['4 matches in file input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config']
@@ -150,30 +150,52 @@ class ConfigMgr(object):
         >>> print cm.filelist
         ['input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config']
         
-        >>> cm.path = 'input/ETL/'
-        >>> print 'Count:' ,  len(cm.filelist)
-        Count: 22
-        
         >>> cm.path = 'input/ETL/CPRS/'
         >>> print cm.filelist
         ['input/ETL/CPRS/log4net.config', 'input/ETL/CPRS/UMG.RDx.ETL.CPRS.exe.config']
-        >>> print 'Count:',  len(cm.filelist)
+        >>> print 'Count:', len(cm.filelist)
         Count: 2
         
-        
         >>> match_dict = cm.go()
-        
-        #>>> for k, v in match_dict.iteritems(): print k, v 
-        >>> print os.linesep.join(['{} {}'.format(k, v) for k, v in match_dict.iteritems()])
+        >>> print os.linesep.join(['{} {}'.format(k, sorted(v)) for k, v in sorted(match_dict.iteritems())])
         input/ETL/CPRS/UMG.RDx.ETL.CPRS.exe.config [USFSHWSSQL104 RDxETL 133, USFSHWSSQL104 RDxETL 138, USFSHWSSQL104 RDxETL 141]
         input/ETL/CPRS/log4net.config []
         
-                
-        #>>> match_dict = cm.go(app='MP')
-        #>>> print match_dict 
-
-        INCLUDE THE CARL in the tests, cuz it has funky dbs
-
+        >>> cm.path = 'input/ETL/'
+        >>> print 'Count:', len(cm.filelist)
+        Count: 22
+        
+        >>> match_dict = cm.go()
+        >>> print os.linesep.join(['{} {}'.format(k, sorted(v)) for k, v in sorted(match_dict.iteritems())])
+        input/ETL/CARL/UMG.RDx.ETL.CARL.dll.config [USFSHWSSQL104 RDxETL 7]
+        input/ETL/CARL/UMG.RDx.ETL.FileService.exe.config [USFSHWSSQL104 RDxETL 11, USFSHWSSQL104 RDxETL 8]
+        input/ETL/CARL/log4net.config []
+        input/ETL/CPRS/UMG.RDx.ETL.CPRS.exe.config [USFSHWSSQL104 RDxETL 133, USFSHWSSQL104 RDxETL 138, USFSHWSSQL104 RDxETL 141]
+        input/ETL/CPRS/log4net.config []
+        input/ETL/CTX/ET/UMG.RDx.ETL.CTX.exe.config [USFSHWSSQL104 RDxETL 13, USFSHWSSQL104 RDxETL 17, USFSHWSSQL104 RDxETL 8]
+        input/ETL/CTX/ET/log4net.config []
+        input/ETL/CTX/L/UMG.RDx.ETL.CTX.exe.config []
+        input/ETL/CTX/L/log4net.config []
+        input/ETL/D2/UMG.RDx.ETL.FileService.exe.config [USFSHWSSQL104 RDxETL 8, USFSHWSSQL104 RDxETL 11]
+        input/ETL/D2/log4net.config []
+        input/ETL/DRA/UMG.RDx.ETL.DRA.exe.config [Usfshwssql104 RDxETL 13, Usfshwssql104 RDxETL 17, Usfshwssql104 RDxETL 8]
+        input/ETL/DRA/log4net.config []
+        input/ETL/MP/UMG.RDx.ETL.MP.Extract.dll.config []
+        input/ETL/MP/UMG.RDx.ETL.MP.exe.config []
+        input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config [Usfshwssql094 RDxETL 69, Usfshwssql094 RDxETL 74, Usfshwssql094 RDxETL 78, Usfshwssql089 RDxReport 82]
+        input/ETL/MP/log4net.config []
+        input/ETL/R2/UMG.RDx.ETL.R2.exe.config [Usfshwssql104 RDxETL 8, Usfshwssql104 RDxETL 13, Usfshwssql104 RDxETL 17]
+        input/ETL/R2/UMG.RDx.ETL.R2.vshost.exe.config []
+        input/ETL/R2/log4net.config []
+        input/ETL/gdrs/UMG.RDx.ETL.FileService.exe.config [USFSHWSSQL104 RDxETL 8, USFSHWSSQL104 RDxETL 11]
+        input/ETL/gdrs/log4net.config []
+        
+        >>> match_dict = cm.go(app='MP')
+        >>> print os.linesep.join(['{} {}'.format(k, sorted(v)) for k, v in sorted(match_dict.iteritems())])
+        input/ETL/MP/UMG.RDx.ETL.MP.Extract.dll.config []
+        input/ETL/MP/UMG.RDx.ETL.MP.exe.config []
+        input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config [Usfshwssql094 RDxETL 69, Usfshwssql094 RDxETL 74, Usfshwssql094 RDxETL 78, Usfshwssql089 RDxReport 82]
+        input/ETL/MP/log4net.config []
         
         """
         

@@ -5,14 +5,49 @@ Run ./ConfigMgr.py -v  to run these tests.
 
 >>> from ConfigMgr import ConfigMgr
 
+
+
+
+Static functions
+
+>>> path = 'input/ETL/'
+>>> filelist = ConfigMgr.get_filelist(path)
+>>> print '{} files are in path {}'.format(len(filelist), path)
+22 files are in path input/ETL/
+>>> print os.linesep.join(filelist)
+input/ETL/CARL/log4net.config
+input/ETL/CARL/UMG.RDx.ETL.CARL.dll.config
+input/ETL/CARL/UMG.RDx.ETL.FileService.exe.config
+input/ETL/CPRS/log4net.config
+input/ETL/CPRS/UMG.RDx.ETL.CPRS.exe.config
+input/ETL/D2/log4net.config
+input/ETL/D2/UMG.RDx.ETL.FileService.exe.config
+input/ETL/DRA/log4net.config
+input/ETL/DRA/UMG.RDx.ETL.DRA.exe.config
+input/ETL/gdrs/log4net.config
+input/ETL/gdrs/UMG.RDx.ETL.FileService.exe.config
+input/ETL/MP/log4net.config
+input/ETL/MP/UMG.RDx.ETL.MP.exe.config
+input/ETL/MP/UMG.RDx.ETL.MP.Extract.dll.config
+input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config
+input/ETL/R2/log4net.config
+input/ETL/R2/UMG.RDx.ETL.R2.exe.config
+input/ETL/R2/UMG.RDx.ETL.R2.vshost.exe.config
+input/ETL/CTX/ET/log4net.config
+input/ETL/CTX/ET/UMG.RDx.ETL.CTX.exe.config
+input/ETL/CTX/L/log4net.config
+input/ETL/CTX/L/UMG.RDx.ETL.CTX.exe.config
+
+
+
+
+
 Init with dbsource
 >>> cm = ConfigMgr(dbsource='input/DbSet.data.csv')
 
-Init with dbsource and app
->>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', app='MP')
 
-Init with dbsource, app, and path.
->>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', app='MP', path='input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config')
+Init with dbsource, and path.
+>>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', path='input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config')
 >>> match_dict = cm.go()
 >>> print match_dict
 {'input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config': [Usfshwssql094 RDxETL 69, Usfshwssql094 RDxETL 74, Usfshwssql094 RDxETL 78, Usfshwssql089 RDxReport 82]}

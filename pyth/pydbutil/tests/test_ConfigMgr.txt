@@ -8,6 +8,8 @@ Run ./ConfigMgr.py -v  to run these tests.
 
 
 
+
+
 Static functions
 
 >>> path = 'input/ETL/'

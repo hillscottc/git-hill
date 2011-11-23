@@ -76,8 +76,6 @@ class ConfigMgr(object):
     dbsource = property(get_dbsource, set_dbsource)
     
 
-    
-
     @staticmethod
     def get_filelist(path=None, skipdir='Common'):
         """Gets config files in given path. Walks ssubdirs.
@@ -104,7 +102,7 @@ class ConfigMgr(object):
                     
                     froot, ext = os.path.splitext(filepathname)
                     
-                    print filepathname, ext, '.config'
+                    #print filepathname, ext, '.config'
                     
                     if ext == '.config':
                         filelist.append(filepathname)
@@ -158,13 +156,17 @@ class ConfigMgr(object):
         
         >>> cm.path = 'input/ETL/CPRS/'
         >>> print cm.filelist
-        >>> print 'Count:' ,  len(cm.filelist)
+        ['input/ETL/CPRS/log4net.config', 'input/ETL/CPRS/UMG.RDx.ETL.CPRS.exe.config']
+        >>> print 'Count:',  len(cm.filelist)
         Count: 2
         
         
+        >>> match_dict = cm.go()
         
-        #>>> match_dict = cm.go()
-        #>>> print match_dict
+        #>>> for k, v in match_dict.iteritems(): print k, v 
+        >>> print os.linesep.join(['{} {}'.format(k, v) for k, v in match_dict.iteritems()])
+        input/ETL/CPRS/UMG.RDx.ETL.CPRS.exe.config [USFSHWSSQL104 RDxETL 133, USFSHWSSQL104 RDxETL 138, USFSHWSSQL104 RDxETL 141]
+        input/ETL/CPRS/log4net.config []
         
                 
         #>>> match_dict = cm.go(app='MP')

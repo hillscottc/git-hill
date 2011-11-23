@@ -11,3 +11,5 @@ R2,RDxETL,prod,usfshwssql077,sourcepath,/Users/hills/git-hill/pyth/pydbutil/inpu
 R2,RDxReport,uat,usfshwssql089,sourcepath,/Users/hills/git-hill/pyth/pydbutil/input
 R2,RDxReport,prod,usfshwssql084,sourcepath,/Users/hills/git-hill/pyth/pydbutil/input
 R2,RDxReport,dev,usfshwssql104,sourcepath,/Users/hills/git-hill/pyth/pydbutil/input
+CARL,RDxETL,dev,(local),sourcepath,/Users/hills/git-hill/pyth/pydbutil/input
+CARL,RDxReport,dev,localhost,sourcepath,/Users/hills/git-hill/pyth/pydbutil/input

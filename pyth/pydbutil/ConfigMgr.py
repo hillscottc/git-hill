@@ -20,6 +20,14 @@ from DbSet import DbSet
 from ConnInfo import ConnInfo
 
 
+
+
+
+# REMOVE app. use whats in the dbset. change it there, if options wanted.
+
+
+
+
 class ConfigMgr(object):
     """Handles database connection strings in files using DbProfiles.
     
@@ -67,6 +75,8 @@ class ConfigMgr(object):
     dbsource = property(get_dbsource, set_dbsource)    
     
 
+    
+
     @staticmethod
     def get_filelist(path=None, *apps):
         """Gets config files for app name in given path. 
@@ -74,14 +84,20 @@ class ConfigMgr(object):
 
         Usage:  
         >>> print ConfigMgr.get_filelist('input/', 'MP')
-        ['input/ETL/MP/UMG.RDx.ETL.MP.exe.config', 'input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config']
+        ['input/ETL/MP/log4net.config', 'input/ETL/MP/UMG.RDx.ETL.MP.exe.config', 'input/ETL/MP/UMG.RDx.ETL.MP.Extract.dll.config', 'input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config']
+        
+        >>> print ConfigMgr.get_filelist('input/', 'MP', 'CARL')
+        ['input/ETL/MP/log4net.config', 'input/ETL/MP/UMG.RDx.ETL.MP.exe.config', 'input/ETL/MP/UMG.RDx.ETL.MP.Extract.dll.config', 'input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config', 'input/ETL/CARL/Copy of UMG.RDx.ETL.CARL.dll.config', 'input/ETL/CARL/log4net.config', 'input/ETL/CARL/UMG.RDx.ETL.CARL.dll.config', 'input/ETL/CARL/UMG.RDx.ETL.FileService.exe.config', 'input/ETL/Common/UMG.RDx.ETL.CARL.dll.config']
+
+        How many for these?
+        >>> print len(ConfigMgr.get_filelist('input/', 'MP', 'CARL', 'R2'))
+        12
+        
         
         #>>> print ConfigMgr.get_filelist('input/ETL/MP/UMG.RDx.ETL.MP.exe.config','ABC')
         #Traceback (most recent call last):
         #    ...
         #Exception: input/UMG.RDx.ETL.MP.exe.config does not match with app ABC
-        >>> print ConfigMgr.get_filelist('input/', 'MP', 'R2')
-        ['input/ETL/MP/UMG.RDx.ETL.MP.exe.config', 'input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config', 'input/ETL/R2/UMG.RDx.ETL.R2.exe.config', 'input/ETL/R2/UMG.RDx.ETL.R2.vshost.exe.config']
         """
         if not apps: raise Exception('apps required for get_filelist.')
         if not path: raise Exception('path is required for get_filelist.')
@@ -89,16 +105,17 @@ class ConfigMgr(object):
         
         if os.path.isfile(path) :
             filelist.append(path)
-#                if re.search(app + '.+exe', path):
-#                    filelist.append(path)
-#                else:
-#                    raise Exception, '{} does not match with app {}'.format(path, app)
+#            if re.search(app + '.+exe', path):
+#                filelist.append(path)
+#            else:
+#                raise Exception, '{} does not match with app {}'.format(path, app)
         elif os.path.isdir(path) :
             for app in apps:
                 for root, dirs, files in os.walk(path):
                     for name in dirs:
                         for filename in glob.glob(os.path.join(root, name, "*.config")) :
-                            if re.search(app + '.+exe', filename): 
+                            #if re.search(app + '.+exe', filename): 
+                            if re.search(app, filename): 
                                 filelist.append(filename)
         else:
             msg = path  + ' does not exist.'
@@ -125,6 +142,9 @@ class ConfigMgr(object):
     def go(self, filelist=None, app=None, env=None, write=False, verbose=False) :
         """Checks file for lines which contain connection string information,
         for each file in filelist.
+                
+        If not app, then use whats in the fileset.
+        
         Returns:
             Dict of match data and line num, keyed by filename.
         Usage:
@@ -134,6 +154,11 @@ class ConfigMgr(object):
         {'input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config': [Usfshwssql094 RDxETL 69, Usfshwssql094 RDxETL 74, Usfshwssql094 RDxETL 78, Usfshwssql089 RDxReport 82]}
         >>> print ['{} matches in file {}'.format(len(match_dict[filename]), filename) for filename in match_dict.keys()]
         ['4 matches in file input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config']
+        
+
+        INCLUDE THE CARL in the tests, cuz it has funky dbs
+
+        
         """
         
         if not filelist:
@@ -148,22 +173,21 @@ class ConfigMgr(object):
             if not env :
                 raise Exception('env is required for write or verbose.')
         
-            if not app :
-                app = self.app
-            if not app :
-                raise Exception('app is required for write or verbose.')
-        
-        
-        tot_match_count = 0
-        match_msg = ''
-        
         if verbose:
-            print "Checking against dbset for app '{}', in '{}' environment.".format(app, env)
-        
-        # filename:connInfo[]
+            if app: appMsg = app
+            else: appMsg = "DbSet filelist."
+            
+            print "Checking filelist for env: {}, apps: {} ".format(env, appMsg)        
+
         match_dict = {}
         
+        
         for filename in filelist:
+            
+            # if we wanted specific app files from filelist...
+            if app:
+                if not re.search(app, filename):
+                    continue;
 
             if write :
                 outfilename = self.get_output_filename(filename)
@@ -190,14 +214,19 @@ class ConfigMgr(object):
                     connInfo.append(ci)
 
                     # check against dbset
-                    prof = dict(boxname=ci.boxname.lower(), dbname=ci.dbname, app=app, env=env)
-                    dbset_match = self.dbset.get_profile_by_attribs(prof)
+                    #prof = dict(boxname=ci.boxname.lower(), dbname=ci.dbname, app=app, env=env)
+                    
+                    profDict = dict(boxname=ci.boxname.lower(), dbname=ci.dbname, env=env)
+                    if app:
+                        profDict['app'] = app
+                    
+                    dbset_match = self.dbset.get_profiles_by_attribs(profDict)
 
                     if verbose:
                         print '  {} matched {} from the dbset.'.format(ci, dbset_match)
 
                     if not dbset_match:
-                        db_suggest = self.dbset.get_profile_by_attribs(dict(dbname=ci.dbname, app=app, env=env))
+                        db_suggest = self.dbset.get_profiles_by_attribs(dict(dbname=ci.dbname, app=app, env=env))
                         if verbose:
                             print '    * dbset profile for {}/{} is {}'.format(app, env, db_suggest)
                         if write:
@@ -212,8 +241,8 @@ class ConfigMgr(object):
 
             if write:
                 outfilename = ConfigMgr.get_output_filename(filename)
-                with open(outfilename, 'r+') as file:
-                    file.write(outlines)
+                with open(outfilename, 'r+') as outfile:
+                    outfile.write(outlines)
                 print 'Wrote file ' + outfilename
 
         return match_dict
@@ -222,7 +251,7 @@ class ConfigMgr(object):
 if __name__ == "__main__":
     import doctest
     doctest.testmod(verbose=True)
-    doctest.testfile("tests/test_ConfigMgr.txt")
+    #doctest.testfile("tests/test_ConfigMgr.txt")
     sys.exit(0)
     #sys.exit(main())
 

@@ -21,7 +21,7 @@ class DbSet(object):
     Usage:
     >>> dbset = DbSet('input/DbSet.data.csv')
     >>> print len(dbset)
-    12
+    14
     """
     
     APPS = ('CARL', 'CPRS', 'CTX', 'Common', 'D2', 'DRA', 'MP', 'PartsOrder', 'R2', 'gdrs')
@@ -46,20 +46,30 @@ class DbSet(object):
     def __len__(self):
         return len(self.DB)
 
-    def get_profile_by_attribs(self, aDict):
+    def get_profiles_by_attribs(self, aDict):
         """Does given dict of attrib-vals match with self data?
         
         Usage:
         >>> dbset = DbSet('input/DbSet.data.csv')
         
         Have a training RDxETL?
-        #>>> print dbset.get_profile_by_attribs(dict(env='training', dbname='RDxETL'))
-        None
+        >>> print dbset.get_profiles_by_attribs(dict(env='training', dbname='RDxETL'))
+        []
+        
+        What are the MP dev boxes?
+        >>> print dbset.get_profiles_by_attribs(dict(app='MP', env='dev'))
+        [MP RDxETL dev usfshwssql104, MP RDxReport dev usfshwssql104\RIGHTSDEV_2]
+        
+        What are the CARL boxes? (shows example of localhost or (loca) setting for db)
+        >>> print dbset.get_profiles_by_attribs(dict(app='CARL'))        
+        [CARL RDxETL dev (local), CARL RDxReport dev localhost]
         """
+        profiles = []
         for db in self.DB:
             if db.match_attrib(aDict):
-                return db         
-        return None
+                profiles.append(db)
+                #return db
+        return profiles
 
     def __str__(self):
         return str([str(dbprofile) for dbprofile in self.DB])  

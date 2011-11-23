@@ -11,12 +11,6 @@ Init with dbsource
 Init with dbsource and app
 >>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', app='MP')
 
-Init with dbsource and path. (Fails because app is required for path)
->>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', path='input/ETL/MP/UMG.RDx.ETL.MP.exe.config')
-Traceback (most recent call last):
-    ...
-Exception: app is required when setting path.
-
 Init with dbsource, app, and path.
 >>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', app='MP', path='input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config')
 >>> match_dict = cm.go()

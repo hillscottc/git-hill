@@ -6,21 +6,17 @@ Run ./DbSet.py -v  to run these tests.
 >>> dbset = DbSet('input/DbSet.data.csv')
 
 Have a training RDxETL?
->>> print dbset.get_profile_by_attribs(dict(env='training', dbname='RDxETL'))
-None
+>>> print dbset.get_profiles_by_attribs(dict(env='training', dbname='RDxETL'))
+[]
 
-Have a prod RDxETL?
->>> print dbset.get_profile_by_attribs(dict(env='prod', dbname='RDxETL'))
-MP RDxETL prod usfshwssql077
-
-Have a prod box on usfshwssql084?
->>> print dbset.get_profile_by_attribs(dict(env='prod', boxname='usfshwssql084'))
-MP RDxReport prod usfshwssql084
-
-Have a RDxETL on usfshwssql104?
->>> print dbset.get_profile_by_attribs(dict(dbname='RDxETL', boxname='usfshwssql104'))
-MP RDxETL dev usfshwssql104
+Have a MP dev RDxETL?
+>>> print dbset.get_profiles_by_attribs(dict(app='MP', env='dev', dbname='RDxETL'))
+[MP RDxETL dev usfshwssql104]
 
 
+
+What are the R2 uat boxes?
+>>> print dbset.get_profiles_by_attribs(dict(app='R2', env='uat'))
+[R2 RDxETL uat usfshwssql094, R2 RDxReport uat usfshwssql089]
 
 

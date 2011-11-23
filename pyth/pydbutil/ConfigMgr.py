@@ -3,12 +3,9 @@
 
 Usage: go() is the main function. Many examples in tests below.
 >>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', path='input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config')
-
-#>>> match_dict = cm.go()
-#>>> print match_dict
-#{'input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config': [Usfshwssql094 RDxETL 69, Usfshwssql094 RDxETL 74, Usfshwssql094 RDxETL 78, Usfshwssql089 RDxReport 82]}
-
-Call tests with ./ConfigMgr.py -v
+>>> match_dict = cm.go()
+>>> print os.linesep.join(['{} {}'.format(k, sorted(v)) for k, v in sorted(match_dict.iteritems())])
+input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config [Usfshwssql094 RDxETL 69, Usfshwssql094 RDxETL 74, Usfshwssql094 RDxETL 78, Usfshwssql089 RDxReport 82]
 """
 import sys
 import getopt
@@ -21,14 +18,6 @@ from DbSet import DbSet
 from ConnInfo import ConnInfo
 
 
-
-
-
-# REMOVE app. use whats in the dbset. change it there, if options wanted.
-
-
-
-
 class ConfigMgr(object):
     """Handles database connection strings in files using DbProfiles.
     
@@ -38,9 +27,6 @@ class ConfigMgr(object):
     #Traceback (most recent call last):
     #    ...
     #Exception: input/UMG.RDx.ETL.R2.vshost.exe.config does not match with app MP
-    
-    More usage tests are in 'test_ConfigMgr.txt'
-    Run ./ConfigMgr.py -v
     """
     
     REGEX = 'Data Source=(Usfshwssql\w+);Initial Catalog=(RDx\w+);'
@@ -172,7 +158,7 @@ class ConfigMgr(object):
         input/ETL/CARL/log4net.config []
         input/ETL/CPRS/UMG.RDx.ETL.CPRS.exe.config [USFSHWSSQL104 RDxETL 133, USFSHWSSQL104 RDxETL 138, USFSHWSSQL104 RDxETL 141]
         input/ETL/CPRS/log4net.config []
-        input/ETL/CTX/ET/UMG.RDx.ETL.CTX.exe.config [USFSHWSSQL104 RDxETL 13, USFSHWSSQL104 RDxETL 17, USFSHWSSQL104 RDxETL 8]
+        input/ETL/CTX/ET/UMG.RDx.ETL.CTX.exe.config [USFSHWSSQL104 RDxETL 17, USFSHWSSQL104 RDxETL 13, USFSHWSSQL104 RDxETL 8]
         input/ETL/CTX/ET/log4net.config []
         input/ETL/CTX/L/UMG.RDx.ETL.CTX.exe.config []
         input/ETL/CTX/L/log4net.config []
@@ -184,7 +170,7 @@ class ConfigMgr(object):
         input/ETL/MP/UMG.RDx.ETL.MP.exe.config []
         input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config [Usfshwssql094 RDxETL 69, Usfshwssql094 RDxETL 74, Usfshwssql094 RDxETL 78, Usfshwssql089 RDxReport 82]
         input/ETL/MP/log4net.config []
-        input/ETL/R2/UMG.RDx.ETL.R2.exe.config [Usfshwssql104 RDxETL 8, Usfshwssql104 RDxETL 13, Usfshwssql104 RDxETL 17]
+        input/ETL/R2/UMG.RDx.ETL.R2.exe.config [Usfshwssql104 RDxETL 13, Usfshwssql104 RDxETL 17, Usfshwssql104 RDxETL 8]
         input/ETL/R2/UMG.RDx.ETL.R2.vshost.exe.config []
         input/ETL/R2/log4net.config []
         input/ETL/gdrs/UMG.RDx.ETL.FileService.exe.config [USFSHWSSQL104 RDxETL 8, USFSHWSSQL104 RDxETL 11]

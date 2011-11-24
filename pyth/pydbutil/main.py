@@ -4,6 +4,7 @@
 
 """
 import sys
+import os
 #import pydbutil.DbSet
 #import pydbutil.DbProfile
 from ConfigMgr import ConfigMgr
@@ -18,8 +19,12 @@ def main(argv=None):
     try:
         
         cm = ConfigMgr(dbsource='input/DbSet.data.csv', path='input/ETL/')
-        print ConfigMgr.match_dict_summary(cm.go())
-        print ConfigMgr.match_dict_details(cm.go())
+        
+        
+        match_dict = cm.go()
+        print ConfigMgr.match_dict_details(match_dict)
+        print ConfigMgr.match_dict_summary(match_dict)
+        
 
         print
         print "Complete."

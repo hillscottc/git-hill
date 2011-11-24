@@ -9,6 +9,7 @@ input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config [Usfshwssql094 RDxETL 69, Usfshwss
 import sys
 import re
 import os
+import operator
 from DbSet import DbSet
 from ConnInfo import ConnInfo
 
@@ -89,12 +90,24 @@ class ConfigMgr(object):
         return shortline
 
     @staticmethod
-    def get_output_filename(filename, outdir="output"):
-        """ Returns abs path to ./outdir/filename """
-        path = os.path.abspath(filename)
-        tail = os.path.split(path)[1]
-        return os.path.join(os.getcwd(), outdir, tail)
+    def get_output_filename(infilename):
+        """ Returns path to ./outdir/filename. Creates if necc."""
+            
+        outfilename = re.sub('input', 'output', infilename)
+        
+        ConfigMgr.ensure_dir(outfilename)
+        
+        return outfilename
 
+    @staticmethod
+    def ensure_dir(f):
+        """ Creates the dirs to f if they don't already exist. """
+        #print 'F is ', f,
+        d = os.path.dirname(f)
+        #print ' D is ', d
+        if not os.path.exists(d):
+            os.makedirs(d)
+        
 
     # THESE MD STATICS SHOULD BELONG TO A CLASS
 
@@ -120,7 +133,7 @@ class ConfigMgr(object):
         >>> print ConfigMgr.match_dict_details(cm.go())
         input/ETL/MP/UMG.RDx.ETL.MP.Extract.dll.config []
         input/ETL/MP/UMG.RDx.ETL.MP.exe.config []
-        input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config [Usfshwssql089 RDxReport 82, Usfshwssql094 RDxETL 78, Usfshwssql094 RDxETL 74, Usfshwssql094 RDxETL 69]
+        input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config [Usfshwssql094 RDxETL 78, Usfshwssql089 RDxReport 82, Usfshwssql094 RDxETL 74, Usfshwssql094 RDxETL 69]
         input/ETL/MP/log4net.config []
         """
         return os.linesep.join(['{} {}'.format(k, sorted(v)) for k, v in sorted(md.iteritems())])
@@ -131,24 +144,9 @@ class ConfigMgr(object):
         for each file in filelist.
             
         Usage:
-        >>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', path='input/ETL/')        
-        >>> print ConfigMgr.match_dict_summary(cm.go())
-        Found 23 matches in 8 of 22 files scanned.
-        
-        Get the MP files from the full set by filtering it by app
-        >>> print ConfigMgr.match_dict_details(cm.go(app='MP'))
-        input/ETL/MP/UMG.RDx.ETL.MP.Extract.dll.config []
-        input/ETL/MP/UMG.RDx.ETL.MP.exe.config []
-        input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config [Usfshwssql089 RDxReport 82, Usfshwssql094 RDxETL 78, Usfshwssql094 RDxETL 74, Usfshwssql094 RDxETL 69]
-        input/ETL/MP/log4net.config []
-        
-        Or, you could have specified the MP dir in the path at init.
         >>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', path='input/ETL/MP/')
-        >>> print ConfigMgr.match_dict_details(cm.go())
-        input/ETL/MP/UMG.RDx.ETL.MP.Extract.dll.config []
-        input/ETL/MP/UMG.RDx.ETL.MP.exe.config []
-        input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config [Usfshwssql094 RDxETL 69, Usfshwssql094 RDxETL 74, Usfshwssql094 RDxETL 78, Usfshwssql089 RDxReport 82]
-        input/ETL/MP/log4net.config []
+        >>> print ConfigMgr.match_dict_summary(cm.go())
+        Found 4 matches in 1 of 4 files scanned.
         """
         
         if not filelist:
@@ -156,33 +154,27 @@ class ConfigMgr(object):
         if not filelist:
             raise Exception('filelist required.')
         
-        if write or verbose:
+        if write:
             if not env:
                 env = self.env
             if not env :
-                raise Exception('env is required for write or verbose.')
-        
-        if verbose:
-            if app: appMsg = app
-            else: appMsg = "DbSet filelist."
-            
-            print "Checking filelist for env: {}, apps: {} ".format(env, appMsg)        
+                raise Exception('env is required for write.')
 
         match_dict = {}
+        match_msgs = []
         
+        appMsg = app if app else "DbSet filelist."
+        match_msgs.append("Checking filelist for env: {}, apps: {} ".format(env, appMsg))
         
-        for filename in filelist:
+        for filename in filelist:            
             
             # if we wanted specific app files from filelist...
             if app:
-                if not re.search(app, filename):
-                    continue;
+                if not re.search(app, filename): continue
 
-            if write :
-                outfilename = self.get_output_filename(filename)
+            if write: outfilename = self.get_output_filename(filename)
             
-            if verbose:
-                print 'In file {}:'.format(filename)
+            match_msgs.append('In file {}:'.format(filename))
 
             # read all lines of file into var
             with open(filename, 'r') as infile:
@@ -202,45 +194,46 @@ class ConfigMgr(object):
                     ci = ConnInfo(m_boxname, m_dbname, linenum)
                     connInfo.append(ci)
 
-                    # check against dbset
-                    #prof = dict(boxname=ci.boxname.lower(), dbname=ci.dbname, app=app, env=env)
-                    
                     profDict = dict(boxname=ci.boxname.lower(), dbname=ci.dbname, env=env)
-                    if app:
-                        profDict['app'] = app
+                    if app: profDict['app'] = app
                     
                     dbset_match = self.dbset.get_profiles_by_attribs(profDict)
 
-                    if verbose:
-                        print '  {} matched {} from the dbset.'.format(ci, dbset_match)
-
+                    match_msgs.append('  {} matched {} from the dbset.'.format(ci, dbset_match))
+                    
                     if not dbset_match:
-                        db_suggest = self.dbset.get_profiles_by_attribs(dict(dbname=ci.dbname, app=app, env=env))
-                        if verbose:
-                            print '    * dbset profile for {}/{} is {}'.format(app, env, db_suggest)
+                        db_sugestions = self.dbset.get_profiles_by_attribs(dict(dbname=ci.dbname, app=app, env=env))
+                        for dbprof in db_sugestions:
+                            match_msgs.append('    * dbset profile for {}/{} is {}'.format(app, env, dbprof))
+                        
                         if write:
-                            if verbose:
-                                print '    * Connection on line {} changing from {} to {}'.format(
-                                       linenum, m_boxname, db_suggest.boxname)
-                            line = re.sub(m_boxname, db_suggest.boxname, line, re.IGNORECASE)
-                if write:
-                    outlines = outlines + line
+                            if len(db_sugestions) > 1:
+                                print 'WARN: using the first of multiple suggestions.'
+                            line = re.sub(m_boxname, db_sugestions[0].boxname, line, re.IGNORECASE)
+                            match_msgs.append('    * Connection on line {} changing from {} to {}'.
+                                              format(linenum, m_boxname, db_sugestions[0].boxname))
+                            
+                if write: outlines = outlines + line
 
             match_dict[filename] = connInfo
 
             if write:
                 outfilename = ConfigMgr.get_output_filename(filename)
-                with open(outfilename, 'r+') as outfile:
+                with open(outfilename, 'w') as outfile:
                     outfile.write(outlines)
-                print 'Wrote file ' + outfilename
-
+                match_msgs.append('Wrote file ' + outfilename)
+        
+        match_msgs.append(ConfigMgr.match_dict_summary(match_dict))
+        
+        if verbose: print os.linesep.join(match_msgs)
+        
         return match_dict
 
 
 if __name__ == "__main__":
     import doctest
-    doctest.testmod(verbose=True)
-    #doctest.testfile("tests/test_ConfigMgr.txt")
+    #doctest.testmod(verbose=True)
+    doctest.testfile("tests/test_ConfigMgr.txt")
     sys.exit(0)
     #sys.exit(main())
 

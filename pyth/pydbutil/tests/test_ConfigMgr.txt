@@ -2,144 +2,52 @@
 
 Run ./ConfigMgr.py -v  to run these tests.
 
+FOR THE NON_VERBOSE, JUST DO COUNTS.
+
 
 >>> from ConfigMgr import ConfigMgr
 
 
 
+>>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', path='input/ETL/')        
+>>> print ConfigMgr.match_dict_summary(cm.go())
+Found 23 matches in 8 of 22 files scanned.
+>>> print ConfigMgr.match_dict_summary(cm.go(app='MP'))
+Found 4 matches in 1 of 4 files scanned.
 
-
-
-Static functions
-
->>> path = 'input/ETL/'
->>> filelist = ConfigMgr.get_filelist(path)
->>> print '{} files are in path {}'.format(len(filelist), path)
-22 files are in path input/ETL/
->>> print os.linesep.join(filelist)
-input/ETL/CARL/log4net.config
-input/ETL/CARL/UMG.RDx.ETL.CARL.dll.config
-input/ETL/CARL/UMG.RDx.ETL.FileService.exe.config
-input/ETL/CPRS/log4net.config
-input/ETL/CPRS/UMG.RDx.ETL.CPRS.exe.config
-input/ETL/D2/log4net.config
-input/ETL/D2/UMG.RDx.ETL.FileService.exe.config
-input/ETL/DRA/log4net.config
-input/ETL/DRA/UMG.RDx.ETL.DRA.exe.config
-input/ETL/gdrs/log4net.config
-input/ETL/gdrs/UMG.RDx.ETL.FileService.exe.config
-input/ETL/MP/log4net.config
-input/ETL/MP/UMG.RDx.ETL.MP.exe.config
-input/ETL/MP/UMG.RDx.ETL.MP.Extract.dll.config
-input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config
-input/ETL/R2/log4net.config
-input/ETL/R2/UMG.RDx.ETL.R2.exe.config
-input/ETL/R2/UMG.RDx.ETL.R2.vshost.exe.config
-input/ETL/CTX/ET/log4net.config
-input/ETL/CTX/ET/UMG.RDx.ETL.CTX.exe.config
-input/ETL/CTX/L/log4net.config
-input/ETL/CTX/L/UMG.RDx.ETL.CTX.exe.config
-
-
-Set path to one file
->>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', path='input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config')
->>> match_dict = cm.go()
->>> print os.linesep.join(['{} {}'.format(k, sorted(v)) for k, v in sorted(match_dict.iteritems())])
-input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config [Usfshwssql094 RDxETL 69, Usfshwssql094 RDxETL 74, Usfshwssql094 RDxETL 78, Usfshwssql089 RDxReport 82]
-
->>> print cm.filelist
-['input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config']
-
-Set path to a small dir
->>> cm.path = 'input/ETL/CPRS/'
->>> print cm.filelist
-['input/ETL/CPRS/log4net.config', 'input/ETL/CPRS/UMG.RDx.ETL.CPRS.exe.config']
-
->>> match_dict = cm.go()
->>> print os.linesep.join(['{} {}'.format(k, sorted(v)) for k, v in sorted(match_dict.iteritems())])
-input/ETL/CPRS/UMG.RDx.ETL.CPRS.exe.config [USFSHWSSQL104 RDxETL 133, USFSHWSSQL104 RDxETL 138, USFSHWSSQL104 RDxETL 141]
-input/ETL/CPRS/log4net.config []
-
-
-Set path to a bigger dir with subdirs
->>> cm.path = 'input/ETL/'
->>> print 'Count:', len(cm.filelist)
-Count: 22
-
->>> match_dict = cm.go()
->>> print os.linesep.join(['{} {}'.format(k, sorted(v)) for k, v in sorted(match_dict.iteritems())])
-input/ETL/CARL/UMG.RDx.ETL.CARL.dll.config [USFSHWSSQL104 RDxETL 7]
-input/ETL/CARL/UMG.RDx.ETL.FileService.exe.config [USFSHWSSQL104 RDxETL 11, USFSHWSSQL104 RDxETL 8]
-input/ETL/CARL/log4net.config []
-input/ETL/CPRS/UMG.RDx.ETL.CPRS.exe.config [USFSHWSSQL104 RDxETL 133, USFSHWSSQL104 RDxETL 138, USFSHWSSQL104 RDxETL 141]
-input/ETL/CPRS/log4net.config []
-input/ETL/CTX/ET/UMG.RDx.ETL.CTX.exe.config [USFSHWSSQL104 RDxETL 17, USFSHWSSQL104 RDxETL 13, USFSHWSSQL104 RDxETL 8]
-input/ETL/CTX/ET/log4net.config []
-input/ETL/CTX/L/UMG.RDx.ETL.CTX.exe.config []
-input/ETL/CTX/L/log4net.config []
-input/ETL/D2/UMG.RDx.ETL.FileService.exe.config [USFSHWSSQL104 RDxETL 8, USFSHWSSQL104 RDxETL 11]
-input/ETL/D2/log4net.config []
-input/ETL/DRA/UMG.RDx.ETL.DRA.exe.config [Usfshwssql104 RDxETL 13, Usfshwssql104 RDxETL 17, Usfshwssql104 RDxETL 8]
-input/ETL/DRA/log4net.config []
-input/ETL/MP/UMG.RDx.ETL.MP.Extract.dll.config []
-input/ETL/MP/UMG.RDx.ETL.MP.exe.config []
-input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config [Usfshwssql094 RDxETL 69, Usfshwssql094 RDxETL 74, Usfshwssql094 RDxETL 78, Usfshwssql089 RDxReport 82]
-input/ETL/MP/log4net.config []
-input/ETL/R2/UMG.RDx.ETL.R2.exe.config [Usfshwssql104 RDxETL 13, Usfshwssql104 RDxETL 17, Usfshwssql104 RDxETL 8]
-input/ETL/R2/UMG.RDx.ETL.R2.vshost.exe.config []
-input/ETL/R2/log4net.config []
-input/ETL/gdrs/UMG.RDx.ETL.FileService.exe.config [USFSHWSSQL104 RDxETL 8, USFSHWSSQL104 RDxETL 11]
-input/ETL/gdrs/log4net.config []
-
-
-Set just select the MP files from the big set
->>> match_dict = cm.go(app='MP')
->>> print os.linesep.join(['{} {}'.format(k, sorted(v)) for k, v in sorted(match_dict.iteritems())])
-input/ETL/MP/UMG.RDx.ETL.MP.Extract.dll.config []
-input/ETL/MP/UMG.RDx.ETL.MP.exe.config []
-input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config [Usfshwssql094 RDxETL 69, Usfshwssql094 RDxETL 74, Usfshwssql094 RDxETL 78, Usfshwssql089 RDxReport 82]
-input/ETL/MP/log4net.config []
-
-
-Verbose. Target files set properly for uat.
->>> x = cm.go(verbose=True, env='uat')
-Checking against dbset for app 'MP', in 'uat' environment.
-In file input/UMG.RDx.ETL.MP.exe.config:
-  Usfshwssql094 RDxETL 69 matched MP RDxETL uat usfshwssql094 from the dbset.
-  Usfshwssql094 RDxETL 74 matched MP RDxETL uat usfshwssql094 from the dbset.
-  Usfshwssql094 RDxETL 78 matched MP RDxETL uat usfshwssql094 from the dbset.
-  Usfshwssql089 RDxReport 82 matched MP RDxReport uat usfshwssql089 from the dbset.
-In file input/UMG.RDx.ETL.MP.vshost.exe.config:
-  Usfshwssql094 RDxETL 69 matched MP RDxETL uat usfshwssql094 from the dbset.
-  Usfshwssql094 RDxETL 74 matched MP RDxETL uat usfshwssql094 from the dbset.
-  Usfshwssql094 RDxETL 78 matched MP RDxETL uat usfshwssql094 from the dbset.
-  Usfshwssql089 RDxReport 82 matched MP RDxReport uat usfshwssql089 from the dbset.
+Verbose. Verify they are set for uat.       NOTE THAT (local) is FAILING IN MP.exe
+>>> md = cm.go(verbose=True, app='MP', env='uat')
+Checking filelist for env: uat, apps: MP 
+In file input/ETL/MP/log4net.config:
+In file input/ETL/MP/UMG.RDx.ETL.MP.exe.config:
+In file input/ETL/MP/UMG.RDx.ETL.MP.Extract.dll.config:
+In file input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config:
+  Usfshwssql094 RDxETL 69 matched [MP RDxETL uat usfshwssql094] from the dbset.
+  Usfshwssql094 RDxETL 74 matched [MP RDxETL uat usfshwssql094] from the dbset.
+  Usfshwssql094 RDxETL 78 matched [MP RDxETL uat usfshwssql094] from the dbset.
+  Usfshwssql089 RDxReport 82 matched [MP RDxReport uat usfshwssql089] from the dbset.
+Found 4 matches in 1 of 4 files scanned.
   
 
-Verbose. Check files for prod when they are uat.
->>> x = cm.go(verbose=True, env='prod')
-Checking against dbset for app 'MP', in 'prod' environment.
-In file input/UMG.RDx.ETL.MP.exe.config:
-  Usfshwssql094 RDxETL 69 matched None from the dbset.
+Verbose. Verify for prod when they are uat.
+>>> md = cm.go(verbose=True, app='MP', env='prod')
+Checking filelist for env: prod, apps: MP 
+In file input/ETL/MP/log4net.config:
+In file input/ETL/MP/UMG.RDx.ETL.MP.exe.config:
+In file input/ETL/MP/UMG.RDx.ETL.MP.Extract.dll.config:
+In file input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config:
+  Usfshwssql094 RDxETL 69 matched [] from the dbset.
     * dbset profile for MP/prod is MP RDxETL prod usfshwssql077
-  Usfshwssql094 RDxETL 74 matched None from the dbset.
+  Usfshwssql094 RDxETL 74 matched [] from the dbset.
     * dbset profile for MP/prod is MP RDxETL prod usfshwssql077
-  Usfshwssql094 RDxETL 78 matched None from the dbset.
+  Usfshwssql094 RDxETL 78 matched [] from the dbset.
     * dbset profile for MP/prod is MP RDxETL prod usfshwssql077
-  Usfshwssql089 RDxReport 82 matched None from the dbset.
+  Usfshwssql089 RDxReport 82 matched [] from the dbset.
     * dbset profile for MP/prod is MP RDxReport prod usfshwssql084
-In file input/UMG.RDx.ETL.MP.vshost.exe.config:
-  Usfshwssql094 RDxETL 69 matched None from the dbset.
-    * dbset profile for MP/prod is MP RDxETL prod usfshwssql077
-  Usfshwssql094 RDxETL 74 matched None from the dbset.
-    * dbset profile for MP/prod is MP RDxETL prod usfshwssql077
-  Usfshwssql094 RDxETL 78 matched None from the dbset.
-    * dbset profile for MP/prod is MP RDxETL prod usfshwssql077
-  Usfshwssql089 RDxReport 82 matched None from the dbset.
-    * dbset profile for MP/prod is MP RDxReport prod usfshwssql084
+Found 4 matches in 1 of 4 files scanned.
 
 Write.
->>> x = cm.go(verbose=True, app='MP', env='prod', write=True)
+>>> md = cm.go(verbose=True, app='MP', env='prod', write=True)
 Checking against dbset for app 'MP', in 'prod' environment.
 In file input/UMG.RDx.ETL.MP.exe.config:
   Usfshwssql094 RDxETL 69 matched None from the dbset.
@@ -171,4 +79,28 @@ In file input/UMG.RDx.ETL.MP.vshost.exe.config:
 Wrote file /Users/hills/git-hill/pyth/pydbutil/output/UMG.RDx.ETL.MP.vshost.exe.config
 
 
+
+
+FOR THE NON_VERBOSE, JUST DO COUNTS.
+
+
+
+>>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', path='input/ETL/')        
+>>> print ConfigMgr.match_dict_summary(cm.go())
+Found 23 matches in 8 of 22 files scanned.
+
+Get the MP files from the full set by filtering it by app
+>>> print ConfigMgr.match_dict_details(cm.go(app='MP'))
+input/ETL/MP/UMG.RDx.ETL.MP.Extract.dll.config []
+input/ETL/MP/UMG.RDx.ETL.MP.exe.config []
+input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config [Usfshwssql094 RDxETL 78, Usfshwssql089 RDxReport 82, Usfshwssql094 RDxETL 74, Usfshwssql094 RDxETL 69]
+input/ETL/MP/log4net.config []
+
+Or, you could have specified the MP dir in the path at init.
+>>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', path='input/ETL/MP/')
+>>> print ConfigMgr.match_dict_details(cm.go())
+input/ETL/MP/UMG.RDx.ETL.MP.Extract.dll.config []
+input/ETL/MP/UMG.RDx.ETL.MP.exe.config []
+input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config [Usfshwssql094 RDxETL 69, Usfshwssql094 RDxETL 74, Usfshwssql094 RDxETL 78, Usfshwssql089 RDxReport 82]
+input/ETL/MP/log4net.config []
 

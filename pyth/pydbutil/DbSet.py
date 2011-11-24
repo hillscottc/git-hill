@@ -4,11 +4,7 @@
 Usage:
 Run tests with ./DbSet.py -v
 """
-import re
-import os
-import glob
 import sys
-import getopt
 import csv
 from DbProfile import DbProfile
 

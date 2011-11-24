@@ -3,8 +3,7 @@
 
 Usage: go() is the main function. Many examples in tests below.
 >>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', path='input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config')
->>> match_dict = cm.go()
->>> print os.linesep.join(['{} {}'.format(k, sorted(v)) for k, v in sorted(match_dict.iteritems())])
+>>> print ConfigMgr.match_dict_details(cm.go())
 input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config [Usfshwssql094 RDxETL 69, Usfshwssql094 RDxETL 74, Usfshwssql094 RDxETL 78, Usfshwssql089 RDxReport 82]
 """
 import sys
@@ -121,7 +120,7 @@ class ConfigMgr(object):
         >>> print ConfigMgr.match_dict_details(cm.go())
         input/ETL/MP/UMG.RDx.ETL.MP.Extract.dll.config []
         input/ETL/MP/UMG.RDx.ETL.MP.exe.config []
-        input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config [Usfshwssql094 RDxETL 74, Usfshwssql094 RDxETL 69, Usfshwssql089 RDxReport 82, Usfshwssql094 RDxETL 78]
+        input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config [Usfshwssql089 RDxReport 82, Usfshwssql094 RDxETL 78, Usfshwssql094 RDxETL 74, Usfshwssql094 RDxETL 69]
         input/ETL/MP/log4net.config []
         """
         return os.linesep.join(['{} {}'.format(k, sorted(v)) for k, v in sorted(md.iteritems())])
@@ -140,7 +139,7 @@ class ConfigMgr(object):
         >>> print ConfigMgr.match_dict_details(cm.go(app='MP'))
         input/ETL/MP/UMG.RDx.ETL.MP.Extract.dll.config []
         input/ETL/MP/UMG.RDx.ETL.MP.exe.config []
-        input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config [Usfshwssql094 RDxETL 78, Usfshwssql094 RDxETL 69, Usfshwssql089 RDxReport 82, Usfshwssql094 RDxETL 74]
+        input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config [Usfshwssql089 RDxReport 82, Usfshwssql094 RDxETL 78, Usfshwssql094 RDxETL 74, Usfshwssql094 RDxETL 69]
         input/ETL/MP/log4net.config []
         
         Or, you could have specified the MP dir in the path at init.

@@ -11,7 +11,7 @@ import re
 import os
 import operator
 from DbSet import DbSet
-from ConnInfo import ConnInfo
+from ConnMatchInfo import ConnMatchInfo
 
 
 class ConfigMgr(object):
@@ -92,19 +92,14 @@ class ConfigMgr(object):
     @staticmethod
     def get_output_filename(infilename):
         """ Returns path to ./outdir/filename. Creates if necc."""
-            
         outfilename = re.sub('input', 'output', infilename)
-        
         ConfigMgr.ensure_dir(outfilename)
-        
         return outfilename
 
     @staticmethod
     def ensure_dir(f):
         """ Creates the dirs to f if they don't already exist. """
-        #print 'F is ', f,
         d = os.path.dirname(f)
-        #print ' D is ', d
         if not os.path.exists(d):
             os.makedirs(d)
         
@@ -133,7 +128,7 @@ class ConfigMgr(object):
         >>> print ConfigMgr.match_dict_details(cm.go())
         input/ETL/MP/UMG.RDx.ETL.MP.Extract.dll.config []
         input/ETL/MP/UMG.RDx.ETL.MP.exe.config []
-        input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config [Usfshwssql094 RDxETL 78, Usfshwssql089 RDxReport 82, Usfshwssql094 RDxETL 74, Usfshwssql094 RDxETL 69]
+        input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config [Usfshwssql089 RDxReport 82, Usfshwssql094 RDxETL 74, Usfshwssql094 RDxETL 69, Usfshwssql094 RDxETL 78]
         input/ETL/MP/log4net.config []
         """
         return os.linesep.join(['{} {}'.format(k, sorted(v)) for k, v in sorted(md.iteritems())])
@@ -180,7 +175,7 @@ class ConfigMgr(object):
             with open(filename, 'r') as infile:
                 lines = infile.readlines()
 
-            connInfo = []
+            cmiList = []
             linenum = 0
             outlines = ''
 
@@ -191,8 +186,8 @@ class ConfigMgr(object):
                 m = re.search(self.REGEX, line, re.IGNORECASE)
                 if m:
                     m_boxname, m_dbname = m.group(1), m.group(2)
-                    ci = ConnInfo(m_boxname, m_dbname, linenum)
-                    connInfo.append(ci)
+                    ci = ConnMatchInfo(m_boxname, m_dbname, linenum)
+                    cmiList.append(ci)
 
                     profDict = dict(boxname=ci.boxname.lower(), dbname=ci.dbname, env=env)
                     if app: profDict['app'] = app
@@ -215,7 +210,8 @@ class ConfigMgr(object):
                             
                 if write: outlines = outlines + line
 
-            match_dict[filename] = connInfo
+            # sort by linenum
+            match_dict[filename] = sorted(cmiList, key = lambda x: x.linenum)
 
             if write:
                 outfilename = ConfigMgr.get_output_filename(filename)
@@ -232,7 +228,7 @@ class ConfigMgr(object):
 
 if __name__ == "__main__":
     import doctest
-    #doctest.testmod(verbose=True)
+    doctest.testmod(verbose=True)
     doctest.testfile("tests/test_ConfigMgr.txt")
     sys.exit(0)
     #sys.exit(main())

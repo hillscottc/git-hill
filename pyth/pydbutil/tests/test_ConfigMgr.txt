@@ -48,40 +48,33 @@ Found 4 matches in 1 of 4 files scanned.
 
 Write.
 >>> md = cm.go(verbose=True, app='MP', env='prod', write=True)
-Checking against dbset for app 'MP', in 'prod' environment.
-In file input/UMG.RDx.ETL.MP.exe.config:
-  Usfshwssql094 RDxETL 69 matched None from the dbset.
+Checking filelist for env: prod, apps: MP 
+In file input/ETL/MP/log4net.config:
+Wrote file output/ETL/MP/log4net.config
+In file input/ETL/MP/UMG.RDx.ETL.MP.exe.config:
+Wrote file output/ETL/MP/UMG.RDx.ETL.MP.exe.config
+In file input/ETL/MP/UMG.RDx.ETL.MP.Extract.dll.config:
+Wrote file output/ETL/MP/UMG.RDx.ETL.MP.Extract.dll.config
+In file input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config:
+  Usfshwssql094 RDxETL 69 matched [] from the dbset.
     * dbset profile for MP/prod is MP RDxETL prod usfshwssql077
     * Connection on line 69 changing from Usfshwssql094 to usfshwssql077
-  Usfshwssql094 RDxETL 74 matched None from the dbset.
+  Usfshwssql094 RDxETL 74 matched [] from the dbset.
     * dbset profile for MP/prod is MP RDxETL prod usfshwssql077
     * Connection on line 74 changing from Usfshwssql094 to usfshwssql077
-  Usfshwssql094 RDxETL 78 matched None from the dbset.
+  Usfshwssql094 RDxETL 78 matched [] from the dbset.
     * dbset profile for MP/prod is MP RDxETL prod usfshwssql077
     * Connection on line 78 changing from Usfshwssql094 to usfshwssql077
-  Usfshwssql089 RDxReport 82 matched None from the dbset.
+  Usfshwssql089 RDxReport 82 matched [] from the dbset.
     * dbset profile for MP/prod is MP RDxReport prod usfshwssql084
     * Connection on line 82 changing from Usfshwssql089 to usfshwssql084
-Wrote file /Users/hills/git-hill/pyth/pydbutil/output/UMG.RDx.ETL.MP.exe.config
-In file input/UMG.RDx.ETL.MP.vshost.exe.config:
-  Usfshwssql094 RDxETL 69 matched None from the dbset.
-    * dbset profile for MP/prod is MP RDxETL prod usfshwssql077
-    * Connection on line 69 changing from Usfshwssql094 to usfshwssql077
-  Usfshwssql094 RDxETL 74 matched None from the dbset.
-    * dbset profile for MP/prod is MP RDxETL prod usfshwssql077
-    * Connection on line 74 changing from Usfshwssql094 to usfshwssql077
-  Usfshwssql094 RDxETL 78 matched None from the dbset.
-    * dbset profile for MP/prod is MP RDxETL prod usfshwssql077
-    * Connection on line 78 changing from Usfshwssql094 to usfshwssql077
-  Usfshwssql089 RDxReport 82 matched None from the dbset.
-    * dbset profile for MP/prod is MP RDxReport prod usfshwssql084
-    * Connection on line 82 changing from Usfshwssql089 to usfshwssql084
-Wrote file /Users/hills/git-hill/pyth/pydbutil/output/UMG.RDx.ETL.MP.vshost.exe.config
+Wrote file output/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config
+Found 4 matches in 1 of 4 files scanned.
 
 
 
 
-FOR THE NON_VERBOSE, JUST DO COUNTS.
+FOR THE NON_VERBOSE, JUST DO COUNTS ?
 
 
 
@@ -93,7 +86,7 @@ Get the MP files from the full set by filtering it by app
 >>> print ConfigMgr.match_dict_details(cm.go(app='MP'))
 input/ETL/MP/UMG.RDx.ETL.MP.Extract.dll.config []
 input/ETL/MP/UMG.RDx.ETL.MP.exe.config []
-input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config [Usfshwssql094 RDxETL 78, Usfshwssql089 RDxReport 82, Usfshwssql094 RDxETL 74, Usfshwssql094 RDxETL 69]
+input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config [Usfshwssql089 RDxReport 82, Usfshwssql094 RDxETL 78, Usfshwssql094 RDxETL 69, Usfshwssql094 RDxETL 74]
 input/ETL/MP/log4net.config []
 
 Or, you could have specified the MP dir in the path at init.
@@ -101,6 +94,5 @@ Or, you could have specified the MP dir in the path at init.
 >>> print ConfigMgr.match_dict_details(cm.go())
 input/ETL/MP/UMG.RDx.ETL.MP.Extract.dll.config []
 input/ETL/MP/UMG.RDx.ETL.MP.exe.config []
-input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config [Usfshwssql094 RDxETL 69, Usfshwssql094 RDxETL 74, Usfshwssql094 RDxETL 78, Usfshwssql089 RDxReport 82]
+input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config [Usfshwssql094 RDxETL 69, Usfshwssql094 RDxETL 78, Usfshwssql089 RDxReport 82, Usfshwssql094 RDxETL 74]
 input/ETL/MP/log4net.config []
-

@@ -8,27 +8,15 @@ Usage: go() is the main function. Many examples in tests below.
 input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config [Usfshwssql094 RDxETL 69, Usfshwssql094 RDxETL 74, Usfshwssql094 RDxETL 78, Usfshwssql089 RDxReport 82]
 """
 import sys
-import getopt
-import shutil
 import re
 import os
-import glob
-from DbProfile import DbProfile
 from DbSet import DbSet
 from ConnInfo import ConnInfo
 
 
 class ConfigMgr(object):
     """Handles database connection strings in files using DbProfiles.
-    
-    >>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', path='input/ETL/R2/UMG.RDx.ETL.R2.vshost.exe.config')
-    
-    #>>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', path='input/ETL/R2/UMG.RDx.ETL.R2.vshost.exe.config')
-    #Traceback (most recent call last):
-    #    ...
-    #Exception: input/UMG.RDx.ETL.R2.vshost.exe.config does not match with app MP
     """
-    
     REGEX = 'Data Source=(Usfshwssql\w+);Initial Catalog=(RDx\w+);'
 
     def __init__(self, dbsource=None, path=None, env=None, write=False, verbose=False):
@@ -80,16 +68,11 @@ class ConfigMgr(object):
             filelist.append(path)
         elif os.path.isdir(path) :
             for root, dirs, files in os.walk(path):
-#                print "RDF " + root, dirs, files
                 if skipdir in dirs:
                     dirs.remove(skipdir)
                 for name in files:
                     filepathname = os.path.join(root, name)
-                    
-                    froot, ext = os.path.splitext(filepathname)
-                    
-                    #print filepathname, ext, '.config'
-                    
+                    ext = os.path.splitext(filepathname)[1]
                     if ext == '.config':
                         filelist.append(filepathname)
         else: 
@@ -105,84 +88,68 @@ class ConfigMgr(object):
         if len(shortline) > chars_shown and len(shortline) > chars_trimmed :
             shortline = '...' + shortline[chars_trimmed : chars_trimmed+chars_shown] + '...'
         return shortline
-    
-    @staticmethod    
+
+    @staticmethod
     def get_output_filename(filename, outdir="output"):
         """ Returns abs path to ./outdir/filename """
         path = os.path.abspath(filename)
-        head, tail = os.path.split(path)
-        return os.path.join(os.getcwd(), outdir, tail)        
+        tail = os.path.split(path)[1]
+        return os.path.join(os.getcwd(), outdir, tail)
+
+
+    # THESE MD STATICS SHOULD BELONG TO A CLASS
+
+
+    @staticmethod
+    def match_dict_summary(md):
+        """Usage:
+        >>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', path='input/ETL/')
+        >>> print ConfigMgr.match_dict_summary(cm.go())
+        Found 23 matches in 8 of 22 files scanned.
+        """
+        return 'Found {} matches in {} of {} files scanned.'.format\
+            (sum([len(v) for v in md.values()]),
+             len([k for k, v in md.iteritems() if len(v) > 1]),
+             len(md.keys())
+            )
+
+    @staticmethod
+    def match_dict_details(md):
+        """ 
+        Usage:
+        >>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', path='input/ETL/MP/')
+        >>> print ConfigMgr.match_dict_details(cm.go())
+        input/ETL/MP/UMG.RDx.ETL.MP.Extract.dll.config []
+        input/ETL/MP/UMG.RDx.ETL.MP.exe.config []
+        input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config [Usfshwssql094 RDxETL 74, Usfshwssql094 RDxETL 69, Usfshwssql089 RDxReport 82, Usfshwssql094 RDxETL 78]
+        input/ETL/MP/log4net.config []
+        """
+        return os.linesep.join(['{} {}'.format(k, sorted(v)) for k, v in sorted(md.iteritems())])
 
 
     def go(self, filelist=None, app=None, env=None, write=False, verbose=False) :
         """Checks file for lines which contain connection string information,
         for each file in filelist.
-                
-        If not app, then use whats in the fileset.
-        
-        Returns:
-            Dict of match data and line num, keyed by filename.
-        
+            
         Usage:
+        >>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', path='input/ETL/')        
+        >>> print ConfigMgr.match_dict_summary(cm.go())
+        Found 23 matches in 8 of 22 files scanned.
         
-        >>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', path='input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config')
-        >>> match_dict = cm.go()
-        >>> print os.linesep.join(['{} {}'.format(k, sorted(v)) for k, v in sorted(match_dict.iteritems())])
-        input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config [Usfshwssql094 RDxETL 69, Usfshwssql094 RDxETL 74, Usfshwssql094 RDxETL 78, Usfshwssql089 RDxReport 82]
+        Get the MP files from the full set by filtering it by app
+        >>> print ConfigMgr.match_dict_details(cm.go(app='MP'))
+        input/ETL/MP/UMG.RDx.ETL.MP.Extract.dll.config []
+        input/ETL/MP/UMG.RDx.ETL.MP.exe.config []
+        input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config [Usfshwssql094 RDxETL 78, Usfshwssql094 RDxETL 69, Usfshwssql089 RDxReport 82, Usfshwssql094 RDxETL 74]
+        input/ETL/MP/log4net.config []
         
-        >>> print ['{} matches in file {}'.format(len(match_dict[filename]), filename) for filename in match_dict.keys()]
-        ['4 matches in file input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config']
-        
-        >>> print cm.filelist
-        ['input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config']
-        
-        >>> cm.path = 'input/ETL/CPRS/'
-        >>> print cm.filelist
-        ['input/ETL/CPRS/log4net.config', 'input/ETL/CPRS/UMG.RDx.ETL.CPRS.exe.config']
-        >>> print 'Count:', len(cm.filelist)
-        Count: 2
-        
-        >>> match_dict = cm.go()
-        >>> print os.linesep.join(['{} {}'.format(k, sorted(v)) for k, v in sorted(match_dict.iteritems())])
-        input/ETL/CPRS/UMG.RDx.ETL.CPRS.exe.config [USFSHWSSQL104 RDxETL 133, USFSHWSSQL104 RDxETL 138, USFSHWSSQL104 RDxETL 141]
-        input/ETL/CPRS/log4net.config []
-        
-        >>> cm.path = 'input/ETL/'
-        >>> print 'Count:', len(cm.filelist)
-        Count: 22
-        
-        >>> match_dict = cm.go()
-        >>> print os.linesep.join(['{} {}'.format(k, sorted(v)) for k, v in sorted(match_dict.iteritems())])
-        input/ETL/CARL/UMG.RDx.ETL.CARL.dll.config [USFSHWSSQL104 RDxETL 7]
-        input/ETL/CARL/UMG.RDx.ETL.FileService.exe.config [USFSHWSSQL104 RDxETL 11, USFSHWSSQL104 RDxETL 8]
-        input/ETL/CARL/log4net.config []
-        input/ETL/CPRS/UMG.RDx.ETL.CPRS.exe.config [USFSHWSSQL104 RDxETL 133, USFSHWSSQL104 RDxETL 138, USFSHWSSQL104 RDxETL 141]
-        input/ETL/CPRS/log4net.config []
-        input/ETL/CTX/ET/UMG.RDx.ETL.CTX.exe.config [USFSHWSSQL104 RDxETL 17, USFSHWSSQL104 RDxETL 13, USFSHWSSQL104 RDxETL 8]
-        input/ETL/CTX/ET/log4net.config []
-        input/ETL/CTX/L/UMG.RDx.ETL.CTX.exe.config []
-        input/ETL/CTX/L/log4net.config []
-        input/ETL/D2/UMG.RDx.ETL.FileService.exe.config [USFSHWSSQL104 RDxETL 8, USFSHWSSQL104 RDxETL 11]
-        input/ETL/D2/log4net.config []
-        input/ETL/DRA/UMG.RDx.ETL.DRA.exe.config [Usfshwssql104 RDxETL 13, Usfshwssql104 RDxETL 17, Usfshwssql104 RDxETL 8]
-        input/ETL/DRA/log4net.config []
+        Or, you could have specified the MP dir in the path at init.
+        >>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', path='input/ETL/MP/')
+        >>> print ConfigMgr.match_dict_details(cm.go())
         input/ETL/MP/UMG.RDx.ETL.MP.Extract.dll.config []
         input/ETL/MP/UMG.RDx.ETL.MP.exe.config []
         input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config [Usfshwssql094 RDxETL 69, Usfshwssql094 RDxETL 74, Usfshwssql094 RDxETL 78, Usfshwssql089 RDxReport 82]
         input/ETL/MP/log4net.config []
-        input/ETL/R2/UMG.RDx.ETL.R2.exe.config [Usfshwssql104 RDxETL 13, Usfshwssql104 RDxETL 17, Usfshwssql104 RDxETL 8]
-        input/ETL/R2/UMG.RDx.ETL.R2.vshost.exe.config []
-        input/ETL/R2/log4net.config []
-        input/ETL/gdrs/UMG.RDx.ETL.FileService.exe.config [USFSHWSSQL104 RDxETL 8, USFSHWSSQL104 RDxETL 11]
-        input/ETL/gdrs/log4net.config []
-        
-        >>> match_dict = cm.go(app='MP')
-        >>> print os.linesep.join(['{} {}'.format(k, sorted(v)) for k, v in sorted(match_dict.iteritems())])
-        input/ETL/MP/UMG.RDx.ETL.MP.Extract.dll.config []
-        input/ETL/MP/UMG.RDx.ETL.MP.exe.config []
-        input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config [Usfshwssql094 RDxETL 69, Usfshwssql094 RDxETL 74, Usfshwssql094 RDxETL 78, Usfshwssql089 RDxReport 82]
-        input/ETL/MP/log4net.config []
-        
         """
         
         if not filelist:
@@ -219,8 +186,8 @@ class ConfigMgr(object):
                 print 'In file {}:'.format(filename)
 
             # read all lines of file into var
-            with open(filename, 'r') as file:
-                lines = file.readlines()
+            with open(filename, 'r') as infile:
+                lines = infile.readlines()
 
             connInfo = []
             linenum = 0

@@ -9,10 +9,10 @@ FOR THE NON_VERBOSE, JUST DO COUNTS.
 
 
 
->>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', path='input/ETL/')        
->>> print ConfigMgr.match_dict_summary(cm.go())
+>>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', path='input/ETL/')     
+>>> print ConfigMgr.match_dict_summary(cm.go(verbose=False))
 Found 23 matches in 8 of 22 files scanned.
->>> print ConfigMgr.match_dict_summary(cm.go(app='MP'))
+>>> print ConfigMgr.match_dict_summary(cm.go(app='MP', verbose=False))
 Found 4 matches in 1 of 4 files scanned.
 
 Verbose. Verify they are set for uat.       NOTE THAT (local) is FAILING IN MP.exe
@@ -29,8 +29,8 @@ In file input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config:
 Found 4 matches in 1 of 4 files scanned.
   
 
-Verbose. Verify for prod when they are uat.
->>> md = cm.go(verbose=True, app='MP', env='prod')
+Verify for prod when they are uat.
+>>> md = cm.go(app='MP', env='prod')
 Checking filelist for env: prod, apps: MP 
 In file input/ETL/MP/log4net.config:
 In file input/ETL/MP/UMG.RDx.ETL.MP.exe.config:
@@ -47,7 +47,7 @@ In file input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config:
 Found 4 matches in 1 of 4 files scanned.
 
 Write.
->>> md = cm.go(verbose=True, app='MP', env='prod', write=True)
+>>> md = cm.go(app='MP', env='prod', write=True)
 Checking filelist for env: prod, apps: MP 
 In file input/ETL/MP/log4net.config:
 Wrote file output/ETL/MP/log4net.config
@@ -73,26 +73,27 @@ Found 4 matches in 1 of 4 files scanned.
 
 
 
+these are just the statics. move the files round a bit
 
-FOR THE NON_VERBOSE, JUST DO COUNTS ?
-
-
+Use the verbose = false to test a lot, quick. Use counts, not formatted output.
 
 >>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', path='input/ETL/')        
->>> print ConfigMgr.match_dict_summary(cm.go())
+>>> print ConfigMgr.match_dict_summary(cm.go(verbose=False))
 Found 23 matches in 8 of 22 files scanned.
 
 Get the MP files from the full set by filtering it by app
->>> print ConfigMgr.match_dict_details(cm.go(app='MP'))
+>>> print ConfigMgr.match_dict_details(cm.go(app='MP', verbose=False))
 input/ETL/MP/UMG.RDx.ETL.MP.Extract.dll.config []
 input/ETL/MP/UMG.RDx.ETL.MP.exe.config []
-input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config [Usfshwssql089 RDxReport 82, Usfshwssql094 RDxETL 78, Usfshwssql094 RDxETL 69, Usfshwssql094 RDxETL 74]
+input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config [Usfshwssql094 RDxETL 69, Usfshwssql094 RDxETL 74, Usfshwssql094 RDxETL 78, Usfshwssql089 RDxReport 82]
 input/ETL/MP/log4net.config []
 
 Or, you could have specified the MP dir in the path at init.
 >>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', path='input/ETL/MP/')
->>> print ConfigMgr.match_dict_details(cm.go())
+>>> print ConfigMgr.match_dict_details(cm.go(verbose=False))
 input/ETL/MP/UMG.RDx.ETL.MP.Extract.dll.config []
 input/ETL/MP/UMG.RDx.ETL.MP.exe.config []
-input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config [Usfshwssql094 RDxETL 69, Usfshwssql094 RDxETL 78, Usfshwssql089 RDxReport 82, Usfshwssql094 RDxETL 74]
+input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config [Usfshwssql094 RDxETL 69, Usfshwssql094 RDxETL 74, Usfshwssql094 RDxETL 78, Usfshwssql089 RDxReport 82]
 input/ETL/MP/log4net.config []
+
+

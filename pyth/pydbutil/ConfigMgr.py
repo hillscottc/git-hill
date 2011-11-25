@@ -3,13 +3,12 @@
 
 Usage: go() is the main function. Many examples in tests below.
 >>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', path='input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config')
->>> print ConfigMgr.match_dict_details(cm.go())
+>>> print ConfigMgr.match_dict_details(cm.go(verbose=False))
 input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config [Usfshwssql094 RDxETL 69, Usfshwssql094 RDxETL 74, Usfshwssql094 RDxETL 78, Usfshwssql089 RDxReport 82]
 """
 import sys
 import re
 import os
-import operator
 from DbSet import DbSet
 from ConnMatchInfo import ConnMatchInfo
 
@@ -19,7 +18,7 @@ class ConfigMgr(object):
     """
     REGEX = 'Data Source=(Usfshwssql\w+);Initial Catalog=(RDx\w+);'
 
-    def __init__(self, dbsource=None, path=None, env=None, write=False, verbose=False):
+    def __init__(self, dbsource=None, path=None, env=None, write=False, verbose=True):
         #self.dbset = DbSet(cvsfile=dbsource)
         if dbsource: self.dbsource = dbsource
         if path: self.path = path
@@ -111,7 +110,7 @@ class ConfigMgr(object):
     def match_dict_summary(md):
         """Usage:
         >>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', path='input/ETL/')
-        >>> print ConfigMgr.match_dict_summary(cm.go())
+        >>> print ConfigMgr.match_dict_summary(cm.go(verbose=False))
         Found 23 matches in 8 of 22 files scanned.
         """
         return 'Found {} matches in {} of {} files scanned.'.format\
@@ -125,22 +124,22 @@ class ConfigMgr(object):
         """ 
         Usage:
         >>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', path='input/ETL/MP/')
-        >>> print ConfigMgr.match_dict_details(cm.go())
+        >>> print ConfigMgr.match_dict_details(cm.go(verbose=False))
         input/ETL/MP/UMG.RDx.ETL.MP.Extract.dll.config []
         input/ETL/MP/UMG.RDx.ETL.MP.exe.config []
-        input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config [Usfshwssql089 RDxReport 82, Usfshwssql094 RDxETL 74, Usfshwssql094 RDxETL 69, Usfshwssql094 RDxETL 78]
+        input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config [Usfshwssql094 RDxETL 69, Usfshwssql094 RDxETL 74, Usfshwssql094 RDxETL 78, Usfshwssql089 RDxReport 82]
         input/ETL/MP/log4net.config []
         """
-        return os.linesep.join(['{} {}'.format(k, sorted(v)) for k, v in sorted(md.iteritems())])
+        return os.linesep.join(['{} {}'.format(k, v) for k, v in sorted(md.iteritems())])
 
 
-    def go(self, filelist=None, app=None, env=None, write=False, verbose=False) :
+    def go(self, filelist=None, app=None, env=None, write=False, verbose=True) :
         """Checks file for lines which contain connection string information,
         for each file in filelist.
             
         Usage:
         >>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', path='input/ETL/MP/')
-        >>> print ConfigMgr.match_dict_summary(cm.go())
+        >>> print ConfigMgr.match_dict_summary(cm.go(verbose=False))
         Found 4 matches in 1 of 4 files scanned.
         """
         

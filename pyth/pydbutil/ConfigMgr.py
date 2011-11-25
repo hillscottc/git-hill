@@ -19,7 +19,6 @@ class ConfigMgr(object):
     REGEX = 'Data Source=(Usfshwssql\w+);Initial Catalog=(RDx\w+);'
 
     def __init__(self, dbsource=None, path=None, env=None, write=False, verbose=True):
-        #self.dbset = DbSet(cvsfile=dbsource)
         if dbsource: self.dbsource = dbsource
         if path: self.path = path
         self.env = env
@@ -104,6 +103,14 @@ class ConfigMgr(object):
         
 
     # THESE MD STATICS SHOULD BELONG TO A CLASS
+    @staticmethod
+    def match_dict_files(md, with_matches=True):
+        """ Returns files with or without matches.
+        """
+        if with_matches:
+            return os.linesep.join([k for k, v in md.iteritems() if len(v) > 1])
+        else:
+            return os.linesep.join([k for k, v in md.iteritems() if len(v) == 0])
 
 
     @staticmethod
@@ -113,7 +120,7 @@ class ConfigMgr(object):
         >>> print ConfigMgr.match_dict_summary(cm.go(verbose=False))
         Found 23 matches in 8 of 22 files scanned.
         """
-        return 'Found {} matches in {} of {} files scanned.'.format\
+        return '* Found {} matches in {} of {} files scanned.'.format\
             (sum([len(v) for v in md.values()]),
              len([k for k, v in md.iteritems() if len(v) > 1]),
              len(md.keys())
@@ -130,7 +137,9 @@ class ConfigMgr(object):
         input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config [Usfshwssql094 RDxETL 69, Usfshwssql094 RDxETL 74, Usfshwssql094 RDxETL 78, Usfshwssql089 RDxReport 82]
         input/ETL/MP/log4net.config []
         """
-        return os.linesep.join(['{} {}'.format(k, v) for k, v in sorted(md.iteritems())])
+        details = os.linesep.join(['{} {}'.format(k, v) for k, v in sorted(md.iteritems()) if len(v) > 1])
+        details += os.linesep + ConfigMgr.match_dict_summary(md)
+        return details
 
 
     def go(self, filelist=None, app=None, env=None, write=False, verbose=True) :

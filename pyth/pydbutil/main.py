@@ -5,25 +5,39 @@
 """
 import sys
 import os
-#import pydbutil.DbSet
-#import pydbutil.DbProfile
 from ConfigMgr import ConfigMgr
 
 class Usage(Exception):
     def __init__(self, msg):
         self.msg = msg
 
+
+
+REMOTE_DIR = 'remote/ETL'
+INPUT_DIR = 'input/ETL'
+OUTPUT_DIR = 'output'
+DBSOURCE = os.path.join('input', 'DbSet.data.csv')
+
 def main(argv=None):
     if argv is None:
         argv = sys.argv
     try:
+        print 'Check remote path.'
+        cm = ConfigMgr(dbsource=DBSOURCE, path=REMOTE_DIR)
+        match_dict = cm.go(verbose=False)     
         
-        cm = ConfigMgr(dbsource='input/DbSet.data.csv', path='input/ETL/')
-        
-        
-        match_dict = cm.go()
+        print 'Match details for:', REMOTE_DIR 
         print ConfigMgr.match_dict_details(match_dict)
-        print ConfigMgr.match_dict_summary(match_dict)
+        print
+        print 'Files with NO matches: '
+        print ConfigMgr.match_dict_files(match_dict, with_matches=False)        
+               
+#        r = raw_input('Copy these files to {}? y/[n] '.format(INPUT_DIR))
+#        if not r.lower() == 'y':
+#            print 'Ok, stopping.'
+#            sys.exit(0)
+        
+        
         
 
         print

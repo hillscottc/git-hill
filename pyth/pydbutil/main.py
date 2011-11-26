@@ -22,15 +22,28 @@ INPUT_DIR = 'input'
 OUTPUT_DIR = 'output'
 DBSOURCE = os.path.join('input', 'DbSet.data.csv')
 
-def copy_files(md, test=False):
+# uses md to get list of source-targ for copying, for files with matches
+def remote_to_input(md, test=False):
+    tups = []
     for k_file, v_info in md.iteritems():
+        # at least one conmatch in file?
         if len(v_info) > 1:
-            newfile = re.sub(REMOTE_DIR, INPUT_DIR, k_file)
-            print 'FROM' , k_file
-            print 'TO  ' , newfile
-            if not test:
-                shutil.copy(k_file, newfile)
-                print 'Copied.'     
+            newfilename = re.sub(REMOTE_DIR, INPUT_DIR, k_file)
+            tups.append((k_file, newfilename))
+    return tups
+                                  
+                
+# output files back to remote
+#def cp_output_to_remote(test=False):
+#    for k_file, v_info in md.iteritems():
+#        if len(v_info) > 1:
+#            newfile = re.sub(REMOTE_DIR, INPUT_DIR, k_file)
+#            print 'FROM' , k_file
+#            print 'TO  ' , newfile
+#            if not test:
+#                shutil.copy(k_file, newfile)
+#                print 'Copied.' 
+  
 
 def main(argv=None):
     if argv is None:
@@ -50,16 +63,21 @@ def main(argv=None):
         print 
         print 'So, the copying will be:'
             
-        copy_files(md, test=True)
-        
-        print               
+        for tup in remote_to_input(md):
+            print 'FROM {}\nTO   {}'.format(tup[0], tup[1])
+            
         r = raw_input('Proceed with copy? y/[n] ')
         if not r.lower() == 'y':
             print 'Ok, stopping.'
             sys.exit(0)
         print
         
-        copy_files(md)
+        for tup in remote_to_input(md):
+            print 'FROM {}\nTO   {}'.format(tup[0], tup[1])          
+            shutil.copy(tup[0], tup[1])
+            print 'Copied.'
+        
+        
         print
         print "Complete."
 

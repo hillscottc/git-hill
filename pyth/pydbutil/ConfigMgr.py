@@ -3,14 +3,16 @@
 
 Usage: go() is the main function. Many examples in tests below.
 >>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', path='input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config')
->>> print ConfigMgr.match_dict_details(cm.go(verbose=False))
-input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config [Usfshwssql094 RDxETL 69, Usfshwssql094 RDxETL 74, Usfshwssql094 RDxETL 78, Usfshwssql089 RDxReport 82]
+>>> match_dict = cm.go(verbose=False)
+>>> print ConfigMgr.match_dict_summary(match_dict)
+Found 4 matches in 1 of 1 files scanned.
 """
 import sys
 import re
 import os
 from DbSet import DbSet
 from ConnMatchInfo import ConnMatchInfo
+#from MatchSet import MatchSet
 
 
 class ConfigMgr(object):
@@ -104,13 +106,13 @@ class ConfigMgr(object):
 
     # THESE MD STATICS SHOULD BELONG TO A CLASS
     @staticmethod
-    def match_dict_files(md, with_matches=True):
+    def get_match_files(md, with_matches=True):
         """ Returns files with or without matches.
         """
         if with_matches:
-            return os.linesep.join([k for k, v in md.iteritems() if len(v) > 1])
+            return [k for k, v in md.iteritems() if len(v) > 1]
         else:
-            return os.linesep.join([k for k, v in md.iteritems() if len(v) == 0])
+            return [k for k, v in md.iteritems() if len(v) == 0]
 
 
     @staticmethod
@@ -120,26 +122,11 @@ class ConfigMgr(object):
         >>> print ConfigMgr.match_dict_summary(cm.go(verbose=False))
         Found 23 matches in 8 of 22 files scanned.
         """
-        return '* Found {} matches in {} of {} files scanned.'.format\
+        return 'Found {} matches in {} of {} files scanned.'.format\
             (sum([len(v) for v in md.values()]),
              len([k for k, v in md.iteritems() if len(v) > 1]),
              len(md.keys())
             )
-
-    @staticmethod
-    def match_dict_details(md):
-        """ 
-        Usage:
-        >>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', path='input/ETL/MP/')
-        >>> print ConfigMgr.match_dict_details(cm.go(verbose=False))
-        input/ETL/MP/UMG.RDx.ETL.MP.Extract.dll.config []
-        input/ETL/MP/UMG.RDx.ETL.MP.exe.config []
-        input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config [Usfshwssql094 RDxETL 69, Usfshwssql094 RDxETL 74, Usfshwssql094 RDxETL 78, Usfshwssql089 RDxReport 82]
-        input/ETL/MP/log4net.config []
-        """
-        details = os.linesep.join(['{} {}'.format(k, v) for k, v in sorted(md.iteritems()) if len(v) > 1])
-        details += os.linesep + ConfigMgr.match_dict_summary(md)
-        return details
 
 
     def go(self, filelist=None, app=None, env=None, write=False, verbose=True) :
@@ -164,6 +151,7 @@ class ConfigMgr(object):
                 raise Exception('env is required for write.')
 
         match_dict = {}
+        #match_dict = MatchSet()
         match_msgs = []
         
         appMsg = app if app else "DbSet filelist."

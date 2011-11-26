@@ -5,6 +5,8 @@
 """
 import sys
 import os
+import shutil
+import re
 from ConfigMgr import ConfigMgr
 
 class Usage(Exception):
@@ -12,34 +14,52 @@ class Usage(Exception):
         self.msg = msg
 
 
+# no trail slash for dirs
 
-REMOTE_DIR = 'remote/ETL'
-INPUT_DIR = 'input/ETL'
+# FULL path for REMOTE dir only. 
+REMOTE_DIR = 'remote'
+INPUT_DIR = 'input'
 OUTPUT_DIR = 'output'
 DBSOURCE = os.path.join('input', 'DbSet.data.csv')
+
+def copy_files(md, test=False):
+    for k_file, v_info in md.iteritems():
+        if len(v_info) > 1:
+            newfile = re.sub(REMOTE_DIR, INPUT_DIR, k_file)
+            print 'FROM' , k_file
+            print 'TO  ' , newfile
+            if not test:
+                shutil.copy(k_file, newfile)
+                print 'Copied.'     
 
 def main(argv=None):
     if argv is None:
         argv = sys.argv
     try:
-        print 'Check remote path.'
+        print
+        print "Checking files in remote path '{}' ...".format(REMOTE_DIR)
+        print
         cm = ConfigMgr(dbsource=DBSOURCE, path=REMOTE_DIR)
-        match_dict = cm.go(verbose=False)     
-        
-        print 'Match details for:', REMOTE_DIR 
-        print ConfigMgr.match_dict_details(match_dict)
+        md = cm.go(verbose=False)     
+        print os.linesep.join([str(k) + ' ' + str(v) for k, v in sorted(md.iteritems())])
+        print
+        print ConfigMgr.match_dict_summary(md)
         print
         print 'Files with NO matches: '
-        print ConfigMgr.match_dict_files(match_dict, with_matches=False)        
-               
-#        r = raw_input('Copy these files to {}? y/[n] '.format(INPUT_DIR))
-#        if not r.lower() == 'y':
-#            print 'Ok, stopping.'
-#            sys.exit(0)
+        print os.linesep.join(ConfigMgr.get_match_files(md, False))     
+        print 
+        print 'So, the copying will be:'
+            
+        copy_files(md, test=True)
         
+        print               
+        r = raw_input('Proceed with copy? y/[n] ')
+        if not r.lower() == 'y':
+            print 'Ok, stopping.'
+            sys.exit(0)
+        print
         
-        
-
+        copy_files(md)
         print
         print "Complete."
 

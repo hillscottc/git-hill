@@ -14,36 +14,26 @@ class Usage(Exception):
         self.msg = msg
 
 
-# no trail slash for dirs
+# No trailing slash for dirs.
 
-# FULL path for REMOTE dir only. 
 REMOTE_DIR = 'remote'
 INPUT_DIR = 'input'
 OUTPUT_DIR = 'output'
 DBSOURCE = os.path.join('input', 'DbSet.data.csv')
 
-# uses md to get list of source-targ for copying, for files with matches
-def remote_to_input(md, test=False):
-    tups = []
-    for k_file, v_info in md.iteritems():
-        # at least one conmatch in file?
-        if len(v_info) > 1:
-            newfilename = re.sub(REMOTE_DIR, INPUT_DIR, k_file)
-            tups.append((k_file, newfilename))
-    return tups
-                                  
-                
-# output files back to remote
-#def cp_output_to_remote(test=False):
+# uses md to return list of source-targ for copying, for files with matches
+#def remote_to_input(md, back=False, test=False):
+#    tups = []
 #    for k_file, v_info in md.iteritems():
+#        # at least one conmatch in file?
 #        if len(v_info) > 1:
-#            newfile = re.sub(REMOTE_DIR, INPUT_DIR, k_file)
-#            print 'FROM' , k_file
-#            print 'TO  ' , newfile
-#            if not test:
-#                shutil.copy(k_file, newfile)
-#                print 'Copied.' 
-  
+#            newfilename = re.sub(REMOTE_DIR, INPUT_DIR, k_file)
+#            tups.append((k_file, newfilename))
+#    return tups
+      
+
+def get_work_path(path):
+    return re.sub(REMOTE_DIR, INPUT_DIR, path)                             
 
 def main(argv=None):
     if argv is None:
@@ -61,10 +51,16 @@ def main(argv=None):
         print 'Files with NO matches: '
         print os.linesep.join(ConfigMgr.get_match_files(md, False))     
         print 
-        print 'So, the copying will be:'
-            
-        for tup in remote_to_input(md):
-            print 'FROM {}\nTO   {}'.format(tup[0], tup[1])
+                
+        print 'So, the copying will be:' 
+        
+        sourcepaths = [k for k, v in md.iteritems() if len(v) > 1]
+        targpaths = [get_work_path(k) for k, v in md.iteritems() if len(v) > 1]
+        
+        print os.linesep.join(map('FROM {}\nTO   {}'.format, sourcepaths, targpaths))    
+#        # Equivalent to above...    
+#        print os.linesep.join('FROM {}\nTO   {}'.format(k, get_work_path(k))
+#                              for k, v in md.iteritems() if len(v) > 1)          
             
         r = raw_input('Proceed with copy? y/[n] ')
         if not r.lower() == 'y':
@@ -72,10 +68,28 @@ def main(argv=None):
             sys.exit(0)
         print
         
-        for tup in remote_to_input(md):
-            print 'FROM {}\nTO   {}'.format(tup[0], tup[1])          
-            shutil.copy(tup[0], tup[1])
-            print 'Copied.'
+        map(shutil.copy, sourcepaths, targpaths)
+        
+        
+        print
+        print '(OK DO MOD HERE.)'
+        print
+        
+#        print 'Copy the files back to remote:'
+#        for tup in remote_to_input(md):
+#            print 'FROM {}\nTO   {}'.format(tup[1], tup[0])      
+#        print   
+#               
+#        r = raw_input('Proceed with copy back to remote? y/[n] ')
+#        if not r.lower() == 'y':
+#            print 'Ok, stopping.'
+#            sys.exit(0)
+#        print
+#        for tup in remote_to_input(md):
+#            print 'FROM {}\nTO   {}'.format(tup[1], tup[0])  
+#            shutil.copy(tup[1], tup[0])            
+            
+      
         
         
         print

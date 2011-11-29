@@ -78,17 +78,17 @@ def main(argv=None):
         print '(OK DO MOD HERE...)'
 
         cm = ConfigMgr(dbsource=DBSOURCE, path=INPUT_DIR)     
-        print ConfigMgr.match_dict_summary(cm.go(env='dev'))
-        print
-        print
-        print 'MP, as sample, shows this'
-        print
-        print ConfigMgr.match_dict_summary(cm.go(app='MP', env='uat'))
-        
-
-
+        print ConfigMgr.match_dict_summary(cm.go(env='dev', write=True))
         
         print
+        print '(hows it look now?)'
+        print
+        
+        cm = ConfigMgr(dbsource=DBSOURCE, path=OUTPUT_DIR)     
+        print ConfigMgr.match_dict_summary(cm.go(env='dev'))  
+        print        
+        
+        
         
 #        print 'Copy the files back to remote:'
 #        for tup in remote_to_input(md):

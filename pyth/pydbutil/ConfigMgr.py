@@ -18,8 +18,9 @@ from ConnMatchInfo import ConnMatchInfo
 class ConfigMgr(object):
     """Handles database connection strings in files using DbProfiles.
     """
-    REGEX = 'Data Source=(Usfshwssql\w+);Initial Catalog=(RDx\w+);'
-
+    #REGEX = 'Data Source=(Usfshwssql\w+);Initial Catalog=(RDx\w+);'
+    REGEX = 'Data Source=([\w\\\]+);Initial Catalog=(RDx\w+);'
+    
     def __init__(self, dbsource=None, path=None, env=None, write=False, verbose=True):
         if dbsource: self.dbsource = dbsource
         if path: self.path = path

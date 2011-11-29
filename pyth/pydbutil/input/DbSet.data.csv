@@ -1,5 +1,10 @@
 app,dbname,env,boxname,source,targ
-CARL,RDxReport,dev,localhost,x,x
+CARL,RDxETL,dev,usfshwssql104,x,x
+CARL,RDxETL,uat,usfshwssql094,x,x
+CARL,RDxETL,prod,usfshwssql077,x,x
+CARL,RDxReport,dev,usfshwssql104\rightsdev_2,x,x
+CARL,RDxReport,uat,usfshwssql089,x,x
+CARL,RDxReport,prod,usfshwssql084,x,x
 CPRS,RDxETL,dev,usfshwssql104,x,x
 CPRS,RDxETL,uat,usfshwssql094,x,x
 CPRS,RDxETL,prod,usfshwssql077,x,x

@@ -57,22 +57,37 @@ def main(argv=None):
         sourcepaths = [k for k, v in md.iteritems() if len(v) > 1]
         targpaths = [get_work_path(k) for k, v in md.iteritems() if len(v) > 1]
         
+        
         print os.linesep.join(map('FROM {}\nTO   {}'.format, sourcepaths, targpaths))    
-#        # Equivalent to above...    
-#        print os.linesep.join('FROM {}\nTO   {}'.format(k, get_work_path(k))
-#                              for k, v in md.iteritems() if len(v) > 1)          
+        # Equivalent to    
+        # print os.linesep.join('FROM {}\nTO   {}'.format(k, get_work_path(k)) for k, v in md.iteritems() if len(v) > 1)          
+        # or use zip 
+        
+        SKIP = None
+        if SKIP:
+            r = raw_input('Proceed with copy? y/[n] ')
+            if not r.lower() == 'y':
+                print 'Ok, stopping.'
+                sys.exit(0)
+            print
             
-        r = raw_input('Proceed with copy? y/[n] ')
-        if not r.lower() == 'y':
-            print 'Ok, stopping.'
-            sys.exit(0)
-        print
-        
-        map(shutil.copy, sourcepaths, targpaths)
+            map(shutil.copy, sourcepaths, targpaths)
         
         
         print
-        print '(OK DO MOD HERE.)'
+        print '(OK DO MOD HERE...)'
+
+        cm = ConfigMgr(dbsource=DBSOURCE, path=INPUT_DIR)     
+        print ConfigMgr.match_dict_summary(cm.go(env='dev'))
+        print
+        print
+        print 'MP, as sample, shows this'
+        print
+        print ConfigMgr.match_dict_summary(cm.go(app='MP', env='uat'))
+        
+
+
+        
         print
         
 #        print 'Copy the files back to remote:'

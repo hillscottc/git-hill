@@ -42,7 +42,7 @@ class ConfigMgr(object):
     
     def set_dbsource(self, value):
         self._dbsource = value
-        self.dbset = DbSet(cvsfile=value) 
+        self.dbset = DbSet(cvsfile=value)
 
     def get_dbsource(self):
         return self._dbsource
@@ -150,18 +150,26 @@ class ConfigMgr(object):
             if not env :
                 raise Exception('env is required for write.')
 
+        if app:
+            apps = [app]
+        else:
+            apps = DbSet.APPS
+            
         match_dict = {}
         #match_dict = MatchSet()
         match_msgs = []
         
-        appMsg = app if app else "DbSet filelist."
-        match_msgs.append("Checking filelist for env: {}, apps: {} ".format(env, appMsg))
+        match_msgs.append("Checking filelist for env: {}, apps: {} ".format(env, apps))
         
         for filename in filelist:            
             
-            # if we wanted specific app files from filelist...
-            if app:
-                if not re.search(app, filename): continue
+            
+            # skip file if it doesnt have one of the apps in its name
+            if not len([app for app in apps if re.search(app, filename)]) :
+                continue
+                
+            #if not re.search(app, filename):
+            #    continue
 
             if write: outfilename = self.get_output_filename(filename)
             
@@ -178,6 +186,9 @@ class ConfigMgr(object):
             # check lines
             for line in lines:
                 linenum = linenum +1
+                
+                dbset_matches = []
+                
                 # print 'line {}:{}    {}'.format(str(linenum), os.linesep, self.trim_line(line))
                 m = re.search(self.REGEX, line, re.IGNORECASE)
                 if m:
@@ -185,15 +196,26 @@ class ConfigMgr(object):
                     ci = ConnMatchInfo(m_boxname, m_dbname, linenum)
                     cmiList.append(ci)
 
-                    profDict = dict(boxname=ci.boxname.lower(), dbname=ci.dbname, env=env)
-                    if app: profDict['app'] = app
                     
-                    dbset_match = self.dbset.get_profiles_by_attribs(profDict)
+                    for app in apps:
+                        if re.search(app, filename):
+                            profDict = dict(boxname=ci.boxname.lower(), dbname=ci.dbname, env=env, app=app)
+                            #print 'CHECK THIS', profDict
+                            dbset_matches.append (self.dbset.get_profiles_by_attribs(profDict))
 
-                    match_msgs.append('  {} matched {} from the dbset.'.format(ci, dbset_match))
+
+                    match_msgs.append('  {} matched {} from the dbset.'.format(ci, dbset_matches[0]))
                     
-                    if not dbset_match:
-                        db_sugestions = self.dbset.get_profiles_by_attribs(dict(dbname=ci.dbname, app=app, env=env))
+                    if not dbset_matches:
+                        #TODO: loop two of em
+                        db_sugestions = []
+                        for app in apps:
+                            profs = self.dbset.get_profiles_by_attribs(dict(dbname=ci.dbname, app=app, env=env))
+                            db_sugestions.append(profs)
+                            match_msgs.append('    * dbset profile for {}/{} is {}'.format(app, env, profs))
+                            
+                        #db_sugestions = self.dbset.get_profiles_by_attribs(dict(dbname=ci.dbname, app=app, env=env))
+                        
                         for dbprof in db_sugestions:
                             match_msgs.append('    * dbset profile for {}/{} is {}'.format(app, env, dbprof))
                         

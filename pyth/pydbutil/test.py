@@ -1,10 +1,5 @@
 #! /usr/bin/python
 
-def check(*filenames):
-    for filename in filenames:
-        print "FILE:", os.path.abspath(filename)
+from ConfigMgr import ConfigMgr
 
-
-
-
-
+cm 

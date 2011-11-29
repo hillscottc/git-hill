@@ -19,7 +19,7 @@ class DbProfile(object):
     >>> print db
     MP RDxETL prod usfshwssql077
     >>> print db.long_str()
-    MP RDxETL uat usfshwssql104 sourcepath targpath
+    MP RDxETL prod usfshwssql077 sourcepath targpath
     
     Run these tests with ./DbProfile.py -v
     More tests in tests/test_DbProfile.txt

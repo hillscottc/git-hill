@@ -16,7 +16,7 @@ Found 23 matches in 8 of 22 files scanned.
 >>> print ConfigMgr.match_dict_summary(cm.go(app='MP', verbose=False))
 Found 4 matches in 1 of 4 files scanned.
 
-Verbose. Verify they are set for uat.       NOTE THAT (local) is FAILING IN MP.exe
+Verify they are set for uat.       NOTE THAT (local) is FAILING IN MP.exe
 >>> md = cm.go(verbose=True, app='MP', env='uat')
 Checking filelist for env: uat, apps: MP 
 In file input/ETL/MP/log4net.config:
@@ -71,6 +71,14 @@ In file input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config:
     * Connection on line 82 changing from Usfshwssql089 to usfshwssql084
 Wrote file output/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config
 Found 4 matches in 1 of 4 files scanned.
+
+
+#Go back to whole set.
+#>>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', path='input/ETL/')     
+#>>> print ConfigMgr.match_dict_summary(cm.go())
+
+
+
 
 
 

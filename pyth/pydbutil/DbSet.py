@@ -4,6 +4,7 @@
 Usage:
 Run tests with ./DbSet.py -v
 """
+import os
 import sys
 import csv
 from DbProfile import DbProfile
@@ -30,7 +31,9 @@ class DbSet(object):
         
     def set_cvsfile(self, value):
         dr = csv.DictReader(open(value, 'rb'), delimiter=',', quotechar="'")
-        dbprofiles = [DbProfile(**row) for row in dr]
+        #print 'ROWS:'
+        #print os.linesep.join(str(row.values()) for row in dr)
+        dbprofiles = [DbProfile(**row) for row in dr]    
         self.DB = [db for db in dbprofiles]
         self._cvsfile = value
         

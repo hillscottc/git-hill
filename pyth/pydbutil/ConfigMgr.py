@@ -16,12 +16,14 @@ from DbProfile import DbProfile
 #from MatchSet import MatchSet
 
 
+
 class ConfigMgr(object):
     """Handles database connection strings in files using DbProfiles.
     """
     #REGEX = 'Data Source=(Usfshwssql\w+);Initial Catalog=(RDx\w+);'
     #REGEX = 'Data Source=([\w\\\]+);Initial Catalog=(RDx\w+);'
     REGEX = 'Data Source=(.+);Initial Catalog=(RDx\w+);'
+    WORK_DIR = 'work'
     
     def __init__(self, dbsource=None, path=None, env=None, write=False, verbose=True):
         if dbsource: self.dbsource = dbsource
@@ -95,7 +97,7 @@ class ConfigMgr(object):
     @staticmethod
     def get_output_filename(infilename):
         """ Returns path to ./outdir/filename. Creates if necc."""
-        outfilename = re.sub('input', 'output', infilename)
+        outfilename = re.sub(ConfigMgr.WORK_DIR, 'output', infilename)
         ConfigMgr.ensure_dir(outfilename)
         return outfilename
 
@@ -236,7 +238,7 @@ class ConfigMgr(object):
                         
                         #print 'db_sugestions is {}'.format(db_sugestions)
                         
-                        if write and db_sugestions[0]:
+                        if write and db_sugestions:
                             #print 'db_sugestions[0]===', db_sugestions[0]
                             prof = DbProfile(db_sugestions[0])
 #                            if db_sugestions[0]:

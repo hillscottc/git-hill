@@ -18,23 +18,30 @@ class Usage(Exception):
 # No trailing slash for dirs.
 
 REMOTE_DIR = 'remote'
-INPUT_DIR = 'input'
-OUTPUT_DIR = 'output'
+WORK_DIR = 'work'  # to cm
+OUTPUT_DIR = 'output'  # to cm
 DBSOURCE = os.path.join('input', 'DbSet.data.csv')
 
-# uses md to return list of source-targ for copying, for files with matches
-#def remote_to_input(md, back=False, test=False):
-#    tups = []
-#    for k_file, v_info in md.iteritems():
-#        # at least one conmatch in file?
-#        if len(v_info) > 1:
-#            newfilename = re.sub(REMOTE_DIR, INPUT_DIR, k_file)
-#            tups.append((k_file, newfilename))
-#    return tups
-      
-
 def get_work_path(path):
-    return re.sub(REMOTE_DIR, INPUT_DIR, path)                             
+    return re.sub(REMOTE_DIR, WORK_DIR, path)                             
+
+def ensure_dir(f):
+    d = os.path.dirname(f)
+    if not os.path.exists(d):
+        os.makedirs(d)
+
+def copy_files(sourcepaths, targpaths, ask=True):
+    print 'The copying will be:'         
+    print os.linesep.join(map('FROM {}\nTO   {}'.format, sourcepaths, targpaths))   
+    print
+    if ask:
+        r = raw_input('Proceed with copy? [y]/n ')
+        if r.lower() == 'n':
+            print 'Ok, stopping.'
+            sys.exit(0)
+    [ensure_dir(f) for f in targpaths]
+    map(shutil.copy, sourcepaths, targpaths)
+    print len(sourcepaths), 'file(s) copied.'
 
 def main(argv=None):
     if argv is None:
@@ -42,8 +49,8 @@ def main(argv=None):
     try:
         try:
             opts, args = getopt.getopt(
-                argv[1:], "hd:p:e:MC", ["help", "dbsource=", "path=",
-                                        "env=", "no_Mod", "no_Copy"])
+                argv[1:], "hd:p:e:MCA", ["help", "dbsource=", "path=",
+                                        "env=", "no_mod", "no_copy", "no_ask"])
         except getopt.error, msg:
             raise Usage(msg)
 
@@ -52,6 +59,7 @@ def main(argv=None):
         env = None
         do_mod = True
         do_copy = True
+        do_ask = True
 
         for opt, arg in opts :
             if opt in ("-h", "--help"):
@@ -68,7 +76,8 @@ def main(argv=None):
                 do_mod = False
             elif opt in ("-C", "--no_copy"):
                 do_copy = False             
-    
+            elif opt in ("-A", "--no_ask"):
+                do_ask = False        
         print
         print "Checking files in remote path '{}' ...".format(REMOTE_DIR)
         print
@@ -81,49 +90,26 @@ def main(argv=None):
         print 'Files with NO matches: '
         print os.linesep.join(ConfigMgr.get_match_files(md, False))     
         print 
-                
-        print 'So, the copying will be:' 
-        
+
         sourcepaths = [k for k, v in md.iteritems() if len(v) > 1]
         targpaths = [get_work_path(k) for k, v in md.iteritems() if len(v) > 1]
-        
-        
-        print os.linesep.join(map('FROM {}\nTO   {}'.format, sourcepaths, targpaths))    
+                
+   
         # Equivalent to    
         # print os.linesep.join('FROM {}\nTO   {}'.format(k, get_work_path(k)) for k, v in md.iteritems() if len(v) > 1)          
         # or use zip 
         
+        # copy remote to work
         if do_copy:
-            r = raw_input('Proceed with copy? y/[n] ')
-            if not r.lower() == 'y':
-                print 'Ok, stopping.'
-                sys.exit(0)
-            print
-            
-            map(shutil.copy, sourcepaths, targpaths)
+            copy_files(sourcepaths, targpaths)
         
         if do_mod:        
             print
             print '(OK DO MOD HERE...)'
     
-            cm = ConfigMgr(dbsource=DBSOURCE, path=INPUT_DIR)     
+            cm = ConfigMgr(dbsource=DBSOURCE, path=WORK_DIR)     
             print ConfigMgr.match_dict_summary(cm.go(env='dev', write=True))
             
-    
-        
-#        print 'Copy the files back to remote:'
-#        for tup in remote_to_input(md):
-#            print 'FROM {}\nTO   {}'.format(tup[1], tup[0])      
-#        print   
-#               
-#        r = raw_input('Proceed with copy back to remote? y/[n] ')
-#        if not r.lower() == 'y':
-#            print 'Ok, stopping.'
-#            sys.exit(0)
-#        print
-#        for tup in remote_to_input(md):
-#            print 'FROM {}\nTO   {}'.format(tup[1], tup[0])  
-#            shutil.copy(tup[1], tup[0])            
             
         print
         print '(hows it look now?)'
@@ -132,6 +118,10 @@ def main(argv=None):
         cm = ConfigMgr(dbsource=DBSOURCE, path=OUTPUT_DIR)     
         print ConfigMgr.match_dict_summary(cm.go(env='dev'))  
         print    
+            
+#        # copy output back to remote
+#        if do_copy:
+#            copy_files(targpaths, sourcepaths)            
             
         print
         print "Complete."

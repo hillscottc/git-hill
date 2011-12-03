@@ -42,23 +42,21 @@ def main(argv=None):
     try:
         try:
             opts, args = getopt.getopt(
-                argv[1:], "hd:p:e:wv", ["help", "dbsource=", "path=",
-                                        "env=", "write", "verbose"])
+                argv[1:], "hd:p:e:MC", ["help", "dbsource=", "path=",
+                                        "env=", "no_Mod", "no_Copy"])
         except getopt.error, msg:
             raise Usage(msg)
 
         dbsource = None
         path = None
         env = None
-        write = True
-        verbose = True
+        do_mod = True
+        do_copy = True
 
         for opt, arg in opts :
             if opt in ("-h", "--help"):
                 print ConfigMgr.__doc__
                 sys.exit(0)
-            elif opt in ("-v", "--verbose"):
-                verbose = arg
             elif opt in ("-d", "--dbsource"):
                 dbsource = arg
             elif opt in ("-p", "--path"):
@@ -66,8 +64,10 @@ def main(argv=None):
             elif opt in ("-e", "--env"):
                 env = arg
                 if env!=None: env=env.upper()
-            elif opt in ("-w", "--write"):
-                write = arg
+            elif opt in ("-M", "--no_mod"):
+                no_mod = False
+            elif opt in ("-C", "--no_copy"):
+                do_copy = False             
     
         print
         print "Checking files in remote path '{}' ...".format(REMOTE_DIR)
@@ -93,8 +93,7 @@ def main(argv=None):
         # print os.linesep.join('FROM {}\nTO   {}'.format(k, get_work_path(k)) for k, v in md.iteritems() if len(v) > 1)          
         # or use zip 
         
-        SKIP = None
-        if SKIP:
+        if do_copy:
             r = raw_input('Proceed with copy? y/[n] ')
             if not r.lower() == 'y':
                 print 'Ok, stopping.'
@@ -103,20 +102,20 @@ def main(argv=None):
             
             map(shutil.copy, sourcepaths, targpaths)
         
-        
-        print
-        print '(OK DO MOD HERE...)'
-
-        cm = ConfigMgr(dbsource=DBSOURCE, path=INPUT_DIR)     
-        print ConfigMgr.match_dict_summary(cm.go(env='dev', write=True))
-        
-        print
-        print '(hows it look now?)'
-        print
-        
-        cm = ConfigMgr(dbsource=DBSOURCE, path=OUTPUT_DIR)     
-        print ConfigMgr.match_dict_summary(cm.go(env='dev'))  
-        print        
+        if not do_mod:        
+            print
+            print '(OK DO MOD HERE...)'
+    
+            cm = ConfigMgr(dbsource=DBSOURCE, path=INPUT_DIR)     
+            print ConfigMgr.match_dict_summary(cm.go(env='dev', write=True))
+            
+            print
+            print '(hows it look now?)'
+            print
+            
+            cm = ConfigMgr(dbsource=DBSOURCE, path=OUTPUT_DIR)     
+            print ConfigMgr.match_dict_summary(cm.go(env='dev'))  
+            print        
         
 #        print 'Copy the files back to remote:'
 #        for tup in remote_to_input(md):

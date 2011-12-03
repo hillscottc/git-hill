@@ -12,6 +12,7 @@ import re
 import os
 from DbSet import DbSet
 from ConnMatchInfo import ConnMatchInfo
+from DbProfile import DbProfile
 #from MatchSet import MatchSet
 
 
@@ -19,7 +20,8 @@ class ConfigMgr(object):
     """Handles database connection strings in files using DbProfiles.
     """
     #REGEX = 'Data Source=(Usfshwssql\w+);Initial Catalog=(RDx\w+);'
-    REGEX = 'Data Source=([\w\\\]+);Initial Catalog=(RDx\w+);'
+    #REGEX = 'Data Source=([\w\\\]+);Initial Catalog=(RDx\w+);'
+    REGEX = 'Data Source=(.+);Initial Catalog=(RDx\w+);'
     
     def __init__(self, dbsource=None, path=None, env=None, write=False, verbose=True):
         if dbsource: self.dbsource = dbsource
@@ -146,8 +148,8 @@ class ConfigMgr(object):
             raise Exception('filelist required.')
         
         if write:
-            if not env:
-                env = self.env
+#            if not env:
+#                env = self.env
             if not env :
                 raise Exception('env is required for write.')
 
@@ -202,17 +204,18 @@ class ConfigMgr(object):
                         if re.search(app, filename):
                             profDict = dict(boxname=ci.boxname.lower(), dbname=ci.dbname, env=env, app=app)
                             #print 'CHECK THIS', profDict
-                            dbset_matches.append (self.dbset.get_profiles_by_attribs(profDict))
+                            profs = self.dbset.get_profiles_by_attribs(profDict)
+                            if profs: dbset_matches.append (profs)
 
 
-                    match_msgs.append('  {} matched {} from the dbset.'.format(ci, dbset_matches[0]))
-                    
+                    match_msgs.append('  {} matched {} from the dbset.'.format(ci, dbset_matches))
+                    #print 'len of dbset_matches is {}'.format(len(dbset_matches))
                     if not dbset_matches:
-                        #TODO: loop two of em
                         db_sugestions = []
                         for app in apps:
                             profs = self.dbset.get_profiles_by_attribs(dict(dbname=ci.dbname, app=app, env=env))
-                            db_sugestions.append(profs)
+                            #print 'GOT', profs, 'for' , ci.dbname, app, env
+                            if profs: db_sugestions.append(profs)
                             match_msgs.append('    * dbset profile for {}/{} is {}'.format(app, env, profs))
                             
                         #db_sugestions = self.dbset.get_profiles_by_attribs(dict(dbname=ci.dbname, app=app, env=env))
@@ -220,12 +223,16 @@ class ConfigMgr(object):
                         for dbprof in db_sugestions:
                             match_msgs.append('    * dbset profile for {}/{} is {}'.format(app, env, dbprof))
                         
-                        if write:
-                            if len(db_sugestions) > 1:
-                                print 'WARN: using the first of multiple suggestions.'
-                            line = re.sub(m_boxname, db_sugestions[0].boxname, line, re.IGNORECASE)
+                        #print 'db_sugestions is {}'.format(db_sugestions)
+                        
+                        if write and db_sugestions[0]:
+                            #print 'db_sugestions[0]===', db_sugestions[0]
+                            prof = DbProfile(db_sugestions[0])
+#                            if db_sugestions[0]:
+#                                print 'WARN: using the first of multiple suggestions.'
+                            line = re.sub(m_boxname, prof.boxname, line, re.IGNORECASE)
                             match_msgs.append('    * Connection on line {} changing from {} to {}'.
-                                              format(linenum, m_boxname, db_sugestions[0].boxname))
+                                              format(linenum, m_boxname, prof.boxname))
                             
                 if write: outlines = outlines + line
 

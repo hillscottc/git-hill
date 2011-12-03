@@ -5,6 +5,7 @@
 """
 import sys
 import os
+import getopt
 import shutil
 import re
 from ConfigMgr import ConfigMgr
@@ -39,6 +40,35 @@ def main(argv=None):
     if argv is None:
         argv = sys.argv
     try:
+        try:
+            opts, args = getopt.getopt(
+                argv[1:], "hd:p:e:wv", ["help", "dbsource=", "path=",
+                                        "env=", "write", "verbose"])
+        except getopt.error, msg:
+            raise Usage(msg)
+
+        dbsource = None
+        path = None
+        env = None
+        write = True
+        verbose = True
+
+        for opt, arg in opts :
+            if opt in ("-h", "--help"):
+                print ConfigMgr.__doc__
+                sys.exit(0)
+            elif opt in ("-v", "--verbose"):
+                verbose = arg
+            elif opt in ("-d", "--dbsource"):
+                dbsource = arg
+            elif opt in ("-p", "--path"):
+                path = arg
+            elif opt in ("-e", "--env"):
+                env = arg
+                if env!=None: env=env.upper()
+            elif opt in ("-w", "--write"):
+                write = arg
+    
         print
         print "Checking files in remote path '{}' ...".format(REMOTE_DIR)
         print
@@ -88,8 +118,6 @@ def main(argv=None):
         print ConfigMgr.match_dict_summary(cm.go(env='dev'))  
         print        
         
-        
-        
 #        print 'Copy the files back to remote:'
 #        for tup in remote_to_input(md):
 #            print 'FROM {}\nTO   {}'.format(tup[1], tup[0])      
@@ -104,16 +132,14 @@ def main(argv=None):
 #            print 'FROM {}\nTO   {}'.format(tup[1], tup[0])  
 #            shutil.copy(tup[1], tup[0])            
             
-      
-        
         
         print
         print "Complete."
-
     except Usage, err:
         print >>sys.stderr, "Sorry, invalid options. For help, use --help"
         print >>sys.stderr, "Other errors:",err.msg
         return 2
+
         
 if __name__ == "__main__":
     sys.exit(main())        

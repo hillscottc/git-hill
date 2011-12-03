@@ -205,23 +205,34 @@ class ConfigMgr(object):
                             profDict = dict(boxname=ci.boxname.lower(), dbname=ci.dbname, env=env, app=app)
                             #print 'CHECK THIS', profDict
                             profs = self.dbset.get_profiles_by_attribs(profDict)
-                            if profs: dbset_matches.append (profs)
+                            if profs:
+                                dbset_matches.append (profs)
 
 
                     match_msgs.append('  {} matched {} from the dbset.'.format(ci, dbset_matches))
                     #print 'len of dbset_matches is {}'.format(len(dbset_matches))
                     if not dbset_matches:
                         db_sugestions = []
-                        for app in apps:
-                            profs = self.dbset.get_profiles_by_attribs(dict(dbname=ci.dbname, app=app, env=env))
-                            #print 'GOT', profs, 'for' , ci.dbname, app, env
-                            if profs: db_sugestions.append(profs)
-                            match_msgs.append('    * dbset profile for {}/{} is {}'.format(app, env, profs))
+                                    
+                        #print 'APPPPPP', [app for app in apps if re.search(app, filename)][0], filename
+                        
+                        app_to_check = [app for app in apps if re.search(app, filename)][0]
+                        
+                        profs = self.dbset.get_profiles_by_attribs(dict(dbname=ci.dbname,
+                                                                        app=app_to_check,
+                                                                        env=env))
+                        #print 'GOT', profs, 'for' , filename, ci.dbname, app_to_check, env
+                        
+                        if profs:
+                            db_sugestions.append(profs)
+                            match_msgs.append('    * dbset profile for {} - {} is {}'.format(app_to_check, env, db_sugestions))
+                        else:
+                            match_msgs.append('    ********** No suggestions for {} - {}'.format(app_to_check, env))
                             
                         #db_sugestions = self.dbset.get_profiles_by_attribs(dict(dbname=ci.dbname, app=app, env=env))
                         
-                        for dbprof in db_sugestions:
-                            match_msgs.append('    * dbset profile for {}/{} is {}'.format(app, env, dbprof))
+#                        for dbprof in db_sugestions:
+#                            match_msgs.append('    * dbset profile for {}/{} is {}'.format(app, env, dbprof))
                         
                         #print 'db_sugestions is {}'.format(db_sugestions)
                         

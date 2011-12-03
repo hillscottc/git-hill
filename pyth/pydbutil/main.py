@@ -65,7 +65,7 @@ def main(argv=None):
                 env = arg
                 if env!=None: env=env.upper()
             elif opt in ("-M", "--no_mod"):
-                no_mod = False
+                do_mod = False
             elif opt in ("-C", "--no_copy"):
                 do_copy = False             
     
@@ -102,20 +102,14 @@ def main(argv=None):
             
             map(shutil.copy, sourcepaths, targpaths)
         
-        if not do_mod:        
+        if do_mod:        
             print
             print '(OK DO MOD HERE...)'
     
             cm = ConfigMgr(dbsource=DBSOURCE, path=INPUT_DIR)     
             print ConfigMgr.match_dict_summary(cm.go(env='dev', write=True))
             
-            print
-            print '(hows it look now?)'
-            print
-            
-            cm = ConfigMgr(dbsource=DBSOURCE, path=OUTPUT_DIR)     
-            print ConfigMgr.match_dict_summary(cm.go(env='dev'))  
-            print        
+    
         
 #        print 'Copy the files back to remote:'
 #        for tup in remote_to_input(md):
@@ -131,7 +125,14 @@ def main(argv=None):
 #            print 'FROM {}\nTO   {}'.format(tup[1], tup[0])  
 #            shutil.copy(tup[1], tup[0])            
             
+        print
+        print '(hows it look now?)'
+        print
         
+        cm = ConfigMgr(dbsource=DBSOURCE, path=OUTPUT_DIR)     
+        print ConfigMgr.match_dict_summary(cm.go(env='dev'))  
+        print    
+            
         print
         print "Complete."
     except Usage, err:

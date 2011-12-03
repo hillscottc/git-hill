@@ -1,6 +1,15 @@
 #! /usr/bin/python
-"""Usage of the ConFigMgr and related classes. 
+"""Uses the ConFigMgr and related classes.
 
+Usage:
+    ./main.py 
+
+Args: 
+    -p: path to the remote dir
+    -e: the env to switch to {env, uat, or prod}
+    -M: do NOT mod files
+    -C: do NOT copy files
+    -A: do NOT ask user for input
 
 """
 import sys
@@ -14,16 +23,20 @@ class Usage(Exception):
     def __init__(self, msg):
         self.msg = msg
 
-
-# No trailing slash for dirs.
-
+# The source PATH to the files to be worked on.
+# Samples are in 'remote' 
 REMOTE_DIR = 'remote'
-WORK_DIR = 'work'  # to cm
-OUTPUT_DIR = 'output'  # to cm
+
+# Data file of app database connections by environment.
 DBSOURCE = os.path.join('input', 'DbSet.data.csv')
 
-def get_work_path(path):
-    return re.sub(REMOTE_DIR, WORK_DIR, path)                             
+def get_work_path(path, old_dir=None, new_dir=None):
+    if not old_dir:
+        old_dir = REMOTE_DIR
+    if not new_dir:
+        new_dir = ConfigMgr.WORK_DIR
+    
+    return re.sub(old_dir, new_dir, path)                             
 
 def ensure_dir(f):
     d = os.path.dirname(f)
@@ -49,13 +62,11 @@ def main(argv=None):
     try:
         try:
             opts, args = getopt.getopt(
-                argv[1:], "hd:p:e:MCA", ["help", "dbsource=", "path=",
-                                        "env=", "no_mod", "no_copy", "no_ask"])
+                argv[1:], "hd:p:e:MCA", ["help", "path=", "env=", "no_mod", "no_copy", "no_ask"])
         except getopt.error, msg:
             raise Usage(msg)
 
-        dbsource = None
-        path = None
+        path = REMOTE_DIR
         env = None
         do_mod = True
         do_copy = True
@@ -65,8 +76,6 @@ def main(argv=None):
             if opt in ("-h", "--help"):
                 print ConfigMgr.__doc__
                 sys.exit(0)
-            elif opt in ("-d", "--dbsource"):
-                dbsource = arg
             elif opt in ("-p", "--path"):
                 path = arg
             elif opt in ("-e", "--env"):
@@ -79,9 +88,9 @@ def main(argv=None):
             elif opt in ("-A", "--no_ask"):
                 do_ask = False        
         print
-        print "Checking files in remote path '{}' ...".format(REMOTE_DIR)
+        print "Checking files in remote path '{}' ...".format(path)
         print
-        cm = ConfigMgr(dbsource=DBSOURCE, path=REMOTE_DIR)
+        cm = ConfigMgr(dbsource=DBSOURCE, path=path)
         md = cm.go(verbose=False)     
         print os.linesep.join([str(k) + ' ' + str(v) for k, v in sorted(md.iteritems())])
         print
@@ -93,11 +102,8 @@ def main(argv=None):
 
         sourcepaths = [k for k, v in md.iteritems() if len(v) > 1]
         targpaths = [get_work_path(k) for k, v in md.iteritems() if len(v) > 1]
-                
-   
-        # Equivalent to    
+        # or use zip , or:    
         # print os.linesep.join('FROM {}\nTO   {}'.format(k, get_work_path(k)) for k, v in md.iteritems() if len(v) > 1)          
-        # or use zip 
         
         # copy remote to work
         if do_copy:
@@ -107,7 +113,7 @@ def main(argv=None):
             print
             print '(OK DO MOD HERE...)'
     
-            cm = ConfigMgr(dbsource=DBSOURCE, path=WORK_DIR)     
+            cm = ConfigMgr(dbsource=DBSOURCE, path=ConfigMgr.WORK_DIR)     
             print ConfigMgr.match_dict_summary(cm.go(env='dev', write=True))
             
             
@@ -115,7 +121,7 @@ def main(argv=None):
         print '(hows it look now?)'
         print
         
-        cm = ConfigMgr(dbsource=DBSOURCE, path=OUTPUT_DIR)     
+        cm = ConfigMgr(dbsource=DBSOURCE, path=ConfigMgr.OUTPUT_DIR)     
         print ConfigMgr.match_dict_summary(cm.go(env='dev'))  
         print    
             

@@ -24,6 +24,7 @@ class ConfigMgr(object):
     #REGEX = 'Data Source=([\w\\\]+);Initial Catalog=(RDx\w+);'
     REGEX = 'Data Source=(.+);Initial Catalog=(RDx\w+);'
     WORK_DIR = 'work'
+    OUTPUT_DIR = 'output'
     
     def __init__(self, dbsource=None, path=None, env=None, write=False, verbose=True):
         if dbsource: self.dbsource = dbsource
@@ -97,7 +98,7 @@ class ConfigMgr(object):
     @staticmethod
     def get_output_filename(infilename):
         """ Returns path to ./outdir/filename. Creates if necc."""
-        outfilename = re.sub(ConfigMgr.WORK_DIR, 'output', infilename)
+        outfilename = re.sub(ConfigMgr.WORK_DIR, ConfigMgr.OUTPUT_DIR, infilename)
         ConfigMgr.ensure_dir(outfilename)
         return outfilename
 

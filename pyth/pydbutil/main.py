@@ -91,11 +91,10 @@ def main(argv=None):
         print "Checking files in remote path '{}' ...".format(path)
         print
         cm = ConfigMgr(dbsource=DBSOURCE, path=path)
-        md = cm.go(verbose=False)     
-        print os.linesep.join([str(k) + ' ' + str(v) for k, v in sorted(md.iteritems())])
-        print
-        print ConfigMgr.match_dict_summary(md)
-        print
+        md = cm.go(env='dev')     
+        #print os.linesep.join([str(k) + ' ' + str(v) for k, v in sorted(md.iteritems())])
+        #print ConfigMgr.match_dict_summary(md)
+        #print
         print 'Files with NO matches: '
         print os.linesep.join(ConfigMgr.get_match_files(md, False))     
         print 
@@ -114,16 +113,13 @@ def main(argv=None):
             print '(OK DO MOD HERE...)'
     
             cm = ConfigMgr(dbsource=DBSOURCE, path=ConfigMgr.WORK_DIR)     
-            print ConfigMgr.match_dict_summary(cm.go(env='dev', write=True))
-            
-            
-        print
-        print '(hows it look now?)'
-        print
-        
-        cm = ConfigMgr(dbsource=DBSOURCE, path=ConfigMgr.OUTPUT_DIR)     
-        print ConfigMgr.match_dict_summary(cm.go(env='dev'))  
-        print    
+            print ConfigMgr.match_dict_summary(cm.go(env='dev', write=True))    
+            print
+            print "Scanning output directory..."
+            print
+            cm = ConfigMgr(dbsource=DBSOURCE, path=ConfigMgr.OUTPUT_DIR)     
+            print ConfigMgr.match_dict_summary(cm.go(env='dev'))  
+            print    
             
 #        # copy output back to remote
 #        if do_copy:
@@ -133,7 +129,7 @@ def main(argv=None):
         print "Complete."
     except Usage, err:
         print >>sys.stderr, "Sorry, invalid options. For help, use --help"
-        print >>sys.stderr, "Other errors:",err.msg
+        print >>sys.stderr, "Other errors:", err.msg
         return 2
 
         

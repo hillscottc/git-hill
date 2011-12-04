@@ -2,10 +2,11 @@
 """Handles database connection strings in files using DbProfiles.
 
 Usage: go() is the main function. Many examples in tests below.
+>>> from MatchSet import MatchSet
 >>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', path='input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config')
->>> match_dict = cm.go(verbose=False)
->>> print ConfigMgr.match_dict_summary(match_dict)
-Found 4 matches in 1 of 1 files scanned.
+>>> ms = cm.go(verbose=False)
+>>> ms.match_dict_summary()
+'Found 4 matches in 1 files.'
 """
 import sys
 import re
@@ -13,7 +14,7 @@ import os
 from DbSet import DbSet
 from ConnMatchInfo import ConnMatchInfo
 from DbProfile import DbProfile
-#from MatchSet import MatchSet
+from MatchSet import MatchSet
 
 
 
@@ -111,28 +112,28 @@ class ConfigMgr(object):
         
 
     # THESE MD STATICS SHOULD BELONG TO A CLASS
-    @staticmethod
-    def get_match_files(md, with_matches=True):
-        """ Returns files with or without matches.
-        """
-        if with_matches:
-            return [k for k, v in md.iteritems() if len(v) > 1]
-        else:
-            return [k for k, v in md.iteritems() if len(v) == 0]
+#    @staticmethod
+#    def get_match_files(md, with_matches=True):
+#        """ Returns files with or without matches.
+#        """
+#        if with_matches:
+#            return [k for k, v in md.iteritems() if len(v) > 1]
+#        else:
+#            return [k for k, v in md.iteritems() if len(v) == 0]
 
 
-    @staticmethod
-    def match_dict_summary(md):
-        """Usage:
-        >>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', path='input/ETL/')
-        >>> ConfigMgr.match_dict_summary(cm.go(verbose=False))
-        'Found 48 matches in 12 of 23 files scanned.'
-        """
-        return 'Found {} matches in {} of {} files scanned.'.format\
-            (sum([len(v) for v in md.values()]),
-             len([k for k, v in md.iteritems() if len(v) > 1]),
-             len(md.keys())
-            )
+#    @staticmethod
+#    def match_dict_summary(md):
+#        """Usage:
+#        >>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', path='input/ETL/')
+#        >>> ConfigMgr.match_dict_summary(cm.go(verbose=False))
+#        'Found 48 matches in 12 of 23 files scanned.'
+#        """
+#        return 'Found {} matches in {} of {} files scanned.'.format\
+#            (sum([len(v) for v in md.values()]),
+#             len([k for k, v in md.iteritems() if len(v) > 1]),
+#             len(md.keys())
+#            )
 
 
     def go(self, filelist=None, app=None, env=None, write=False, verbose=True) :
@@ -141,33 +142,29 @@ class ConfigMgr(object):
             
         Usage:
         >>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', path='input/ETL/MP/')
-        >>> ConfigMgr.match_dict_summary(cm.go(verbose=False))
-        'Found 9 matches in 2 of 4 files scanned.'
-        >>> md = cm.go(verbose=True)
-        Checking filelist for env: None, apps: ('CARL', 'CPRS', 'CTX', 'Common', 'D2', 'DRA', 'MP', 'PartsOrder', 'R2', 'gdrs') 
+        >>> ms = cm.go(verbose=False)
+        >>> ms.match_dict_summary()
+        'Found 9 matches in 4 files.'
+        >>> ms = cm.go(verbose=True, env='dev')
+        Checking filelist for env: dev, apps: ('CARL', 'CPRS', 'CTX', 'Common', 'D2', 'DRA', 'MP', 'PartsOrder', 'R2', 'gdrs') 
         In file input/ETL/MP/log4net.config:
         In file input/ETL/MP/UMG.RDx.ETL.MP.exe.config:
           (usfshwssql104) RDxETL 8 matched [] from the dbset.
-            ********** No suggestions for MP - None
+            * dbset profile for MP - dev is [[MP RDxETL dev usfshwssql104]]
           (usfshwssql104) RDxETL 13 matched [] from the dbset.
-            ********** No suggestions for MP - None
+            * dbset profile for MP - dev is [[MP RDxETL dev usfshwssql104]]
           (usfshwssql104) RDxETL 17 matched [] from the dbset.
-            ********** No suggestions for MP - None
+            * dbset profile for MP - dev is [[MP RDxETL dev usfshwssql104]]
           USFSHWSSQL104\RIGHTSDEV_2 RDxReport 21 matched [] from the dbset.
-            ********** No suggestions for MP - None
+            * dbset profile for MP - dev is [[MP RDxReport dev usfshwssql104]]
         In file input/ETL/MP/UMG.RDx.ETL.MP.Extract.dll.config:
-          usfshwssql104 RDxETL 10 matched [] from the dbset.
-            ********** No suggestions for MP - None
+          usfshwssql104 RDxETL 10 matched [[MP RDxETL dev usfshwssql104]] from the dbset.
         In file input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config:
-          usfshwssql104 RDxETL 69 matched [] from the dbset.
-            ********** No suggestions for MP - None
-          usfshwssql104 RDxETL 74 matched [] from the dbset.
-            ********** No suggestions for MP - None
-          usfshwssql104 RDxETL 78 matched [] from the dbset.
-            ********** No suggestions for MP - None
-          usfshwssql104 RDxReport 82 matched [] from the dbset.
-            ********** No suggestions for MP - None
-        Found 9 matches in 2 of 4 files scanned.
+          usfshwssql104 RDxETL 69 matched [[MP RDxETL dev usfshwssql104]] from the dbset.
+          usfshwssql104 RDxETL 74 matched [[MP RDxETL dev usfshwssql104]] from the dbset.
+          usfshwssql104 RDxETL 78 matched [[MP RDxETL dev usfshwssql104]] from the dbset.
+          usfshwssql104 RDxReport 82 matched [[MP RDxReport dev usfshwssql104]] from the dbset.
+        Found 9 matches in 4 files.
         """
         
         if not filelist:
@@ -186,8 +183,8 @@ class ConfigMgr(object):
         else:
             apps = DbSet.APPS
             
-        match_dict = {}
-        #match_dict = MatchSet()
+        #ms = {}
+        ms = MatchSet()
         match_msgs = []
         
         match_msgs.append("Checking filelist for env: {}, apps: {} ".format(env, apps))
@@ -276,7 +273,7 @@ class ConfigMgr(object):
                 if write: outlines = outlines + line
 
             # sort by linenum
-            match_dict[filename] = sorted(cmiList, key = lambda x: x.linenum)
+            ms.matches[filename] = sorted(cmiList, key = lambda x: x.linenum)
 
             if write:
                 outfilename = ConfigMgr.get_output_filename(filename)
@@ -284,12 +281,12 @@ class ConfigMgr(object):
                     outfile.write(outlines)
                 match_msgs.append('Wrote file ' + outfilename)
         
-        match_msgs.append(ConfigMgr.match_dict_summary(match_dict))
+        match_msgs.append(ms.match_dict_summary())
         
         if verbose:
             print os.linesep.join(match_msgs)
         
-        return match_dict
+        return ms
 
 
 if __name__ == "__main__":

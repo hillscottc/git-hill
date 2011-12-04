@@ -11,66 +11,105 @@ FOR THE NON_VERBOSE, JUST DO COUNTS.
 
 
 >>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', path='input/ETL/')     
->>> print ConfigMgr.match_dict_summary(cm.go(verbose=False))
-Found 23 matches in 8 of 22 files scanned.
->>> print ConfigMgr.match_dict_summary(cm.go(app='MP', verbose=False))
-Found 4 matches in 1 of 4 files scanned.
+>>> ConfigMgr.match_dict_summary(cm.go(verbose=False))
+'Found 48 matches in 12 of 23 files scanned.'
+>>> ConfigMgr.match_dict_summary(cm.go(app='MP', verbose=False))
+'Found 9 matches in 2 of 4 files scanned.'
 
 Verify they are set for uat.       NOTE THAT (local) is FAILING IN MP.exe
 >>> md = cm.go(verbose=True, app='MP', env='uat')
-Checking filelist for env: uat, apps: MP 
+Checking filelist for env: uat, apps: ['MP'] 
 In file input/ETL/MP/log4net.config:
 In file input/ETL/MP/UMG.RDx.ETL.MP.exe.config:
+  (usfshwssql104) RDxETL 8 matched [] from the dbset.
+    * dbset profile for MP - uat is [[MP RDxETL uat usfshwssql094]]
+  (usfshwssql104) RDxETL 13 matched [] from the dbset.
+    * dbset profile for MP - uat is [[MP RDxETL uat usfshwssql094]]
+  (usfshwssql104) RDxETL 17 matched [] from the dbset.
+    * dbset profile for MP - uat is [[MP RDxETL uat usfshwssql094]]
+  USFSHWSSQL104\RIGHTSDEV_2 RDxReport 21 matched [] from the dbset.
+    * dbset profile for MP - uat is [[MP RDxReport uat usfshwssql089]]
 In file input/ETL/MP/UMG.RDx.ETL.MP.Extract.dll.config:
+  usfshwssql104 RDxETL 10 matched [] from the dbset.
+    * dbset profile for MP - uat is [[MP RDxETL uat usfshwssql094]]
 In file input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config:
-  Usfshwssql094 RDxETL 69 matched [MP RDxETL uat usfshwssql094] from the dbset.
-  Usfshwssql094 RDxETL 74 matched [MP RDxETL uat usfshwssql094] from the dbset.
-  Usfshwssql094 RDxETL 78 matched [MP RDxETL uat usfshwssql094] from the dbset.
-  Usfshwssql089 RDxReport 82 matched [MP RDxReport uat usfshwssql089] from the dbset.
-Found 4 matches in 1 of 4 files scanned.
+  usfshwssql104 RDxETL 69 matched [] from the dbset.
+    * dbset profile for MP - uat is [[MP RDxETL uat usfshwssql094]]
+  usfshwssql104 RDxETL 74 matched [] from the dbset.
+    * dbset profile for MP - uat is [[MP RDxETL uat usfshwssql094]]
+  usfshwssql104 RDxETL 78 matched [] from the dbset.
+    * dbset profile for MP - uat is [[MP RDxETL uat usfshwssql094]]
+  usfshwssql104 RDxReport 82 matched [] from the dbset.
+    * dbset profile for MP - uat is [[MP RDxReport uat usfshwssql089]]
+Found 9 matches in 2 of 4 files scanned.
   
 
 Verify for prod when they are uat.
 >>> md = cm.go(app='MP', env='prod')
-Checking filelist for env: prod, apps: MP 
+Checking filelist for env: prod, apps: ['MP'] 
 In file input/ETL/MP/log4net.config:
 In file input/ETL/MP/UMG.RDx.ETL.MP.exe.config:
+  (usfshwssql104) RDxETL 8 matched [] from the dbset.
+    * dbset profile for MP - prod is [[MP RDxETL prod usfshwssql077]]
+  (usfshwssql104) RDxETL 13 matched [] from the dbset.
+    * dbset profile for MP - prod is [[MP RDxETL prod usfshwssql077]]
+  (usfshwssql104) RDxETL 17 matched [] from the dbset.
+    * dbset profile for MP - prod is [[MP RDxETL prod usfshwssql077]]
+  USFSHWSSQL104\RIGHTSDEV_2 RDxReport 21 matched [] from the dbset.
+    * dbset profile for MP - prod is [[MP RDxReport prod usfshwssql084]]
 In file input/ETL/MP/UMG.RDx.ETL.MP.Extract.dll.config:
+  usfshwssql104 RDxETL 10 matched [] from the dbset.
+    * dbset profile for MP - prod is [[MP RDxETL prod usfshwssql077]]
 In file input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config:
-  Usfshwssql094 RDxETL 69 matched [] from the dbset.
-    * dbset profile for MP/prod is MP RDxETL prod usfshwssql077
-  Usfshwssql094 RDxETL 74 matched [] from the dbset.
-    * dbset profile for MP/prod is MP RDxETL prod usfshwssql077
-  Usfshwssql094 RDxETL 78 matched [] from the dbset.
-    * dbset profile for MP/prod is MP RDxETL prod usfshwssql077
-  Usfshwssql089 RDxReport 82 matched [] from the dbset.
-    * dbset profile for MP/prod is MP RDxReport prod usfshwssql084
-Found 4 matches in 1 of 4 files scanned.
+  usfshwssql104 RDxETL 69 matched [] from the dbset.
+    * dbset profile for MP - prod is [[MP RDxETL prod usfshwssql077]]
+  usfshwssql104 RDxETL 74 matched [] from the dbset.
+    * dbset profile for MP - prod is [[MP RDxETL prod usfshwssql077]]
+  usfshwssql104 RDxETL 78 matched [] from the dbset.
+    * dbset profile for MP - prod is [[MP RDxETL prod usfshwssql077]]
+  usfshwssql104 RDxReport 82 matched [] from the dbset.
+    * dbset profile for MP - prod is [[MP RDxReport prod usfshwssql084]]
+Found 9 matches in 2 of 4 files scanned.
 
 Write.
->>> md = cm.go(app='MP', env='prod', write=True)
-Checking filelist for env: prod, apps: MP 
+>>> md = cm.go(app='MP', env='prod', write=True, verbose=True)
+Checking filelist for env: prod, apps: ['MP'] 
 In file input/ETL/MP/log4net.config:
-Wrote file output/ETL/MP/log4net.config
+Wrote file input/ETL/MP/log4net.config
 In file input/ETL/MP/UMG.RDx.ETL.MP.exe.config:
-Wrote file output/ETL/MP/UMG.RDx.ETL.MP.exe.config
+  (usfshwssql104) RDxETL 8 matched [] from the dbset.
+    * dbset profile for MP - prod is [[MP RDxETL prod usfshwssql077]]
+    * Connection on line 8 changing from (usfshwssql104) to usfshwssql104
+  (usfshwssql104) RDxETL 13 matched [] from the dbset.
+    * dbset profile for MP - prod is [[MP RDxETL prod usfshwssql077]]
+    * Connection on line 13 changing from (usfshwssql104) to usfshwssql104
+  (usfshwssql104) RDxETL 17 matched [] from the dbset.
+    * dbset profile for MP - prod is [[MP RDxETL prod usfshwssql077]]
+    * Connection on line 17 changing from (usfshwssql104) to usfshwssql104
+  USFSHWSSQL104\RIGHTSDEV_2 RDxReport 21 matched [] from the dbset.
+    * dbset profile for MP - prod is [[MP RDxReport prod usfshwssql084]]
+    * Connection on line 21 changing from USFSHWSSQL104\RIGHTSDEV_2 to usfshwssql104
+Wrote file input/ETL/MP/UMG.RDx.ETL.MP.exe.config
 In file input/ETL/MP/UMG.RDx.ETL.MP.Extract.dll.config:
-Wrote file output/ETL/MP/UMG.RDx.ETL.MP.Extract.dll.config
+  usfshwssql104 RDxETL 10 matched [] from the dbset.
+    * dbset profile for MP - prod is [[MP RDxETL prod usfshwssql077]]
+    * Connection on line 10 changing from usfshwssql104 to usfshwssql104
+Wrote file input/ETL/MP/UMG.RDx.ETL.MP.Extract.dll.config
 In file input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config:
-  Usfshwssql094 RDxETL 69 matched [] from the dbset.
-    * dbset profile for MP/prod is MP RDxETL prod usfshwssql077
-    * Connection on line 69 changing from Usfshwssql094 to usfshwssql077
-  Usfshwssql094 RDxETL 74 matched [] from the dbset.
-    * dbset profile for MP/prod is MP RDxETL prod usfshwssql077
-    * Connection on line 74 changing from Usfshwssql094 to usfshwssql077
-  Usfshwssql094 RDxETL 78 matched [] from the dbset.
-    * dbset profile for MP/prod is MP RDxETL prod usfshwssql077
-    * Connection on line 78 changing from Usfshwssql094 to usfshwssql077
-  Usfshwssql089 RDxReport 82 matched [] from the dbset.
-    * dbset profile for MP/prod is MP RDxReport prod usfshwssql084
-    * Connection on line 82 changing from Usfshwssql089 to usfshwssql084
-Wrote file output/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config
-Found 4 matches in 1 of 4 files scanned.
+  usfshwssql104 RDxETL 69 matched [] from the dbset.
+    * dbset profile for MP - prod is [[MP RDxETL prod usfshwssql077]]
+    * Connection on line 69 changing from usfshwssql104 to usfshwssql104
+  usfshwssql104 RDxETL 74 matched [] from the dbset.
+    * dbset profile for MP - prod is [[MP RDxETL prod usfshwssql077]]
+    * Connection on line 74 changing from usfshwssql104 to usfshwssql104
+  usfshwssql104 RDxETL 78 matched [] from the dbset.
+    * dbset profile for MP - prod is [[MP RDxETL prod usfshwssql077]]
+    * Connection on line 78 changing from usfshwssql104 to usfshwssql104
+  usfshwssql104 RDxReport 82 matched [] from the dbset.
+    * dbset profile for MP - prod is [[MP RDxReport prod usfshwssql084]]
+    * Connection on line 82 changing from usfshwssql104 to usfshwssql104
+Wrote file input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config
+Found 9 matches in 2 of 4 files scanned.
 
 
 #Go back to whole set.
@@ -87,24 +126,24 @@ these are just the statics. move the files round a bit
 Use the verbose = false to test a lot, quick. Use counts, not formatted output.
 
 >>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', path='input/ETL/')        
->>> print ConfigMgr.match_dict_summary(cm.go(verbose=False))
-Found 23 matches in 8 of 22 files scanned.
+>>> ConfigMgr.match_dict_summary(cm.go(verbose=False))
+'Found 48 matches in 12 of 23 files scanned.'
 
 Get the MP files from the full set by filtering it by app
 >>> md = cm.go(app='MP', verbose=False)
 >>> print os.linesep.join([str(k) + ' ' + str(v) for k, v in sorted(md.iteritems())])
-input/ETL/MP/UMG.RDx.ETL.MP.Extract.dll.config []
-input/ETL/MP/UMG.RDx.ETL.MP.exe.config []
-input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config [Usfshwssql094 RDxETL 69, Usfshwssql094 RDxETL 74, Usfshwssql094 RDxETL 78, Usfshwssql089 RDxReport 82]
+input/ETL/MP/UMG.RDx.ETL.MP.Extract.dll.config [usfshwssql104 RDxETL 10]
+input/ETL/MP/UMG.RDx.ETL.MP.exe.config [(usfshwssql104) RDxETL 8, (usfshwssql104) RDxETL 13, (usfshwssql104) RDxETL 17, USFSHWSSQL104\RIGHTSDEV_2 RDxReport 21]
+input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config [usfshwssql104 RDxETL 69, usfshwssql104 RDxETL 74, usfshwssql104 RDxETL 78, usfshwssql104 RDxReport 82]
 input/ETL/MP/log4net.config []
 
 Or, you could have specified the MP dir in the path at init.
 >>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', path='input/ETL/MP/')
 >>> md = cm.go(verbose=False)
 >>> print os.linesep.join([str(k) + ' ' + str(v) for k, v in sorted(md.iteritems())])
-input/ETL/MP/UMG.RDx.ETL.MP.Extract.dll.config []
-input/ETL/MP/UMG.RDx.ETL.MP.exe.config []
-input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config [Usfshwssql094 RDxETL 69, Usfshwssql094 RDxETL 74, Usfshwssql094 RDxETL 78, Usfshwssql089 RDxReport 82]
+input/ETL/MP/UMG.RDx.ETL.MP.Extract.dll.config [usfshwssql104 RDxETL 10]
+input/ETL/MP/UMG.RDx.ETL.MP.exe.config [(usfshwssql104) RDxETL 8, (usfshwssql104) RDxETL 13, (usfshwssql104) RDxETL 17, USFSHWSSQL104\RIGHTSDEV_2 RDxReport 21]
+input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config [usfshwssql104 RDxETL 69, usfshwssql104 RDxETL 74, usfshwssql104 RDxETL 78, usfshwssql104 RDxReport 82]
 input/ETL/MP/log4net.config []
 
 

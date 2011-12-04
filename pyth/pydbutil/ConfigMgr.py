@@ -65,7 +65,7 @@ class ConfigMgr(object):
         >>> path = 'input/ETL/'
         >>> filelist = ConfigMgr.get_filelist(path)
         >>> print '{} files are in path {}'.format(len(filelist), path)
-        22 files are in path input/ETL/
+        23 files are in path input/ETL/
         """
         if not path: raise Exception('path is required for get_filelist.')
         filelist = []
@@ -125,8 +125,8 @@ class ConfigMgr(object):
     def match_dict_summary(md):
         """Usage:
         >>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', path='input/ETL/')
-        >>> print ConfigMgr.match_dict_summary(cm.go(verbose=False))
-        Found 23 matches in 8 of 22 files scanned.
+        >>> ConfigMgr.match_dict_summary(cm.go(verbose=False))
+        'Found 48 matches in 12 of 23 files scanned.'
         """
         return 'Found {} matches in {} of {} files scanned.'.format\
             (sum([len(v) for v in md.values()]),
@@ -141,8 +141,33 @@ class ConfigMgr(object):
             
         Usage:
         >>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', path='input/ETL/MP/')
-        >>> print ConfigMgr.match_dict_summary(cm.go(verbose=False))
-        Found 4 matches in 1 of 4 files scanned.
+        >>> ConfigMgr.match_dict_summary(cm.go(verbose=False))
+        'Found 9 matches in 2 of 4 files scanned.'
+        >>> md = cm.go(verbose=True)
+        Checking filelist for env: None, apps: ('CARL', 'CPRS', 'CTX', 'Common', 'D2', 'DRA', 'MP', 'PartsOrder', 'R2', 'gdrs') 
+        In file input/ETL/MP/log4net.config:
+        In file input/ETL/MP/UMG.RDx.ETL.MP.exe.config:
+          (usfshwssql104) RDxETL 8 matched [] from the dbset.
+            ********** No suggestions for MP - None
+          (usfshwssql104) RDxETL 13 matched [] from the dbset.
+            ********** No suggestions for MP - None
+          (usfshwssql104) RDxETL 17 matched [] from the dbset.
+            ********** No suggestions for MP - None
+          USFSHWSSQL104\RIGHTSDEV_2 RDxReport 21 matched [] from the dbset.
+            ********** No suggestions for MP - None
+        In file input/ETL/MP/UMG.RDx.ETL.MP.Extract.dll.config:
+          usfshwssql104 RDxETL 10 matched [] from the dbset.
+            ********** No suggestions for MP - None
+        In file input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config:
+          usfshwssql104 RDxETL 69 matched [] from the dbset.
+            ********** No suggestions for MP - None
+          usfshwssql104 RDxETL 74 matched [] from the dbset.
+            ********** No suggestions for MP - None
+          usfshwssql104 RDxETL 78 matched [] from the dbset.
+            ********** No suggestions for MP - None
+          usfshwssql104 RDxReport 82 matched [] from the dbset.
+            ********** No suggestions for MP - None
+        Found 9 matches in 2 of 4 files scanned.
         """
         
         if not filelist:
@@ -261,7 +286,8 @@ class ConfigMgr(object):
         
         match_msgs.append(ConfigMgr.match_dict_summary(match_dict))
         
-        if verbose: print os.linesep.join(match_msgs)
+        if verbose:
+            print os.linesep.join(match_msgs)
         
         return match_dict
 

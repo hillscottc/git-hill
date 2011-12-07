@@ -15,6 +15,7 @@ from DbSet import DbSet
 from ConnMatchInfo import ConnMatchInfo
 from DbProfile import DbProfile
 from MatchSet import MatchSet
+import FileUtils
 
 
 
@@ -37,7 +38,7 @@ class ConfigMgr(object):
 
     def set_path(self, value):
         if not self.dbset: raise Exception('dbset is required when setting path.')
-        self.filelist = ConfigMgr.get_filelist(value)
+        self.filelist = FileUtils.get_filelist(value)
         #print 'Set path to ' + value
         self._path = value
 
@@ -57,83 +58,6 @@ class ConfigMgr(object):
     dbsource = property(get_dbsource, set_dbsource)
     
 
-    @staticmethod
-    def get_filelist(path=None, skipdir='Common'):
-        """Gets config files in given path. Walks ssubdirs.
-        Skips dirs named <skipdir>..
-
-        Usage:  
-        >>> path = 'input/ETL/'
-        >>> filelist = ConfigMgr.get_filelist(path)
-        >>> print '{} files are in path {}'.format(len(filelist), path)
-        23 files are in path input/ETL/
-        """
-        if not path: raise Exception('path is required for get_filelist.')
-        filelist = []
-        
-        if os.path.isfile(path) :
-            filelist.append(path)
-        elif os.path.isdir(path) :
-            for root, dirs, files in os.walk(path):
-                if skipdir in dirs:
-                    dirs.remove(skipdir)
-                for name in files:
-                    filepathname = os.path.join(root, name)
-                    ext = os.path.splitext(filepathname)[1]
-                    if ext == '.config':
-                        filelist.append(filepathname)
-        else: 
-            msg = path  + ' does not exist.'
-            raise Exception(msg)
-        return filelist
-
-
-    @staticmethod
-    def trim_line(self, longline, max_length=80, chars_trimmed=20, chars_shown=65):
-        """Returns a block from the middle of the line, with ellipsis."""
-        shortline = longline.strip()
-        if len(shortline) > chars_shown and len(shortline) > chars_trimmed :
-            shortline = '...' + shortline[chars_trimmed : chars_trimmed+chars_shown] + '...'
-        return shortline
-
-    @staticmethod
-    def get_output_filename(infilename):
-        """ Returns path to ./outdir/filename. Creates if necc."""
-        outfilename = re.sub(ConfigMgr.WORK_DIR, ConfigMgr.OUTPUT_DIR, infilename)
-        ConfigMgr.ensure_dir(outfilename)
-        return outfilename
-
-    @staticmethod
-    def ensure_dir(f):
-        """ Creates the dirs to f if they don't already exist. """
-        d = os.path.dirname(f)
-        if not os.path.exists(d):
-            os.makedirs(d)
-        
-
-    # THESE MD STATICS SHOULD BELONG TO A CLASS
-#    @staticmethod
-#    def get_match_files(md, with_matches=True):
-#        """ Returns files with or without matches.
-#        """
-#        if with_matches:
-#            return [k for k, v in md.iteritems() if len(v) > 1]
-#        else:
-#            return [k for k, v in md.iteritems() if len(v) == 0]
-
-
-#    @staticmethod
-#    def match_dict_summary(md):
-#        """Usage:
-#        >>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', path='input/ETL/')
-#        >>> ConfigMgr.match_dict_summary(cm.go(verbose=False))
-#        'Found 48 matches in 12 of 23 files scanned.'
-#        """
-#        return 'Found {} matches in {} of {} files scanned.'.format\
-#            (sum([len(v) for v in md.values()]),
-#             len([k for k, v in md.iteritems() if len(v) > 1]),
-#             len(md.keys())
-#            )
 
 
     def go(self, filelist=None, app=None, env=None, write=False, verbose=True) :
@@ -199,7 +123,7 @@ class ConfigMgr(object):
             #if not re.search(app, filename):
             #    continue
 
-            if write: outfilename = self.get_output_filename(filename)
+            if write: outfilename = FileUtils.get_output_filename(ConfigMgr.WORK_DIR, ConfigMgr.OUTPUT_DIR, filename)
             
             match_msgs.append('In file {}:'.format(filename))
 
@@ -276,7 +200,7 @@ class ConfigMgr(object):
             ms.matches[filename] = sorted(cmiList, key = lambda x: x.linenum)
 
             if write:
-                outfilename = ConfigMgr.get_output_filename(filename)
+                outfilename = FileUtils.get_output_filename(ConfigMgr.WORK_DIR, ConfigMgr.OUTPUT_DIR, filename)
                 with open(outfilename, 'w') as outfile:
                     outfile.write(outlines)
                 match_msgs.append('Wrote file ' + outfilename)
@@ -291,10 +215,9 @@ class ConfigMgr(object):
 
 if __name__ == "__main__":
     import doctest
-    doctest.testmod(verbose=True)
+    #doctest.testmod(verbose=True)
     doctest.testfile("tests/test_ConfigMgr.txt")
     sys.exit(0)
-    #sys.exit(main())
-
+   
 
 

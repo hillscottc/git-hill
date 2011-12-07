@@ -56,39 +56,17 @@ class ConfigMgr(object):
         return self._dbsource
 
     dbsource = property(get_dbsource, set_dbsource)
+
+
+    def handle_file(self, filename):
+        pass
     
-
-
-
+    def get_suggestion(self, aDict):
+        pass
+    
     def go(self, filelist=None, app=None, env=None, write=False, verbose=True) :
         """Checks file for lines which contain connection string information,
         for each file in filelist.
-            
-        Usage:
-        >>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', path='input/ETL/MP/')
-        >>> ms = cm.go(verbose=False)
-        >>> ms.match_dict_summary()
-        'Found 9 matches in 4 files.'
-        >>> ms = cm.go(verbose=True, env='dev')
-        Checking filelist for env: dev, apps: ('CARL', 'CPRS', 'CTX', 'Common', 'D2', 'DRA', 'MP', 'PartsOrder', 'R2', 'gdrs') 
-        In file input/ETL/MP/log4net.config:
-        In file input/ETL/MP/UMG.RDx.ETL.MP.exe.config:
-          (usfshwssql104) RDxETL 8 matched [] from the dbset.
-            * dbset profile for MP - dev is [[MP RDxETL dev usfshwssql104]]
-          (usfshwssql104) RDxETL 13 matched [] from the dbset.
-            * dbset profile for MP - dev is [[MP RDxETL dev usfshwssql104]]
-          (usfshwssql104) RDxETL 17 matched [] from the dbset.
-            * dbset profile for MP - dev is [[MP RDxETL dev usfshwssql104]]
-          USFSHWSSQL104\RIGHTSDEV_2 RDxReport 21 matched [] from the dbset.
-            * dbset profile for MP - dev is [[MP RDxReport dev usfshwssql104]]
-        In file input/ETL/MP/UMG.RDx.ETL.MP.Extract.dll.config:
-          usfshwssql104 RDxETL 10 matched [[MP RDxETL dev usfshwssql104]] from the dbset.
-        In file input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config:
-          usfshwssql104 RDxETL 69 matched [[MP RDxETL dev usfshwssql104]] from the dbset.
-          usfshwssql104 RDxETL 74 matched [[MP RDxETL dev usfshwssql104]] from the dbset.
-          usfshwssql104 RDxETL 78 matched [[MP RDxETL dev usfshwssql104]] from the dbset.
-          usfshwssql104 RDxReport 82 matched [[MP RDxReport dev usfshwssql104]] from the dbset.
-        Found 9 matches in 4 files.
         """
         
         if not filelist:
@@ -107,7 +85,6 @@ class ConfigMgr(object):
         else:
             apps = DbSet.APPS
             
-        #ms = {}
         ms = MatchSet()
         match_msgs = []
         
@@ -119,11 +96,11 @@ class ConfigMgr(object):
             # skip file if it doesnt have one of the apps in its name
             if not len([app for app in apps if re.search(app, filename)]) :
                 continue
-                
-            #if not re.search(app, filename):
-            #    continue
 
-            if write: outfilename = FileUtils.get_output_filename(ConfigMgr.WORK_DIR, ConfigMgr.OUTPUT_DIR, filename)
+            if write: 
+                outfilename = FileUtils.get_output_filename(ConfigMgr.WORK_DIR,
+                                                            ConfigMgr.OUTPUT_DIR,
+                                                            filename)
             
             match_msgs.append('In file {}:'.format(filename))
 
@@ -159,48 +136,36 @@ class ConfigMgr(object):
 
 
                     match_msgs.append('  {} matched {} from the dbset.'.format(ci, dbset_matches))
-                    #print 'len of dbset_matches is {}'.format(len(dbset_matches))
+
                     if not dbset_matches:
-                        db_sugestions = []
-                                    
-                        #print 'APPPPPP', [app for app in apps if re.search(app, filename)][0], filename
-                        
+                                                            
                         app_to_check = [app for app in apps if re.search(app, filename)][0]
                         
-                        profs = self.dbset.get_profiles_by_attribs(dict(dbname=ci.dbname,
+                        suggestions = self.dbset.get_profiles_by_attribs(dict(dbname=ci.dbname,
                                                                         app=app_to_check,
                                                                         env=env))
+                        
+                        suggested_prof = suggestions[0] if len(suggestions) else None
+                        
                         #print 'GOT', profs, 'for' , filename, ci.dbname, app_to_check, env
                         
-                        if profs:
-                            db_sugestions.append(profs)
-                            match_msgs.append('    * dbset profile for {} - {} is {}'.format(app_to_check, env, db_sugestions))
-                        else:
+                        if not suggested_prof:
                             match_msgs.append('    ********** No suggestions for {} - {}'.format(app_to_check, env))
-                            
-                        #db_sugestions = self.dbset.get_profiles_by_attribs(dict(dbname=ci.dbname, app=app, env=env))
-                        
-#                        for dbprof in db_sugestions:
-#                            match_msgs.append('    * dbset profile for {}/{} is {}'.format(app, env, dbprof))
-                        
-                        #print 'db_sugestions is {}'.format(db_sugestions)
-                        
-                        if write and db_sugestions:
-                            #print 'db_sugestions[0]===', db_sugestions[0]
-                            prof = DbProfile(db_sugestions[0])
-#                            if db_sugestions[0]:
-#                                print 'WARN: using the first of multiple suggestions.'
-                            line = re.sub(m_boxname, prof.boxname, line, re.IGNORECASE)
-                            match_msgs.append('    * Connection on line {} changing from {} to {}'.
-                                              format(linenum, m_boxname, prof.boxname))
+                        else:
+                            match_msgs.append('    * dbset profile for {} - {} is {}'.format(app_to_check, env, suggested_prof))                                                                                
+                            if write:
+                                line = re.sub(m_boxname, suggested_prof.boxname, line, re.IGNORECASE)
+                                match_msgs.append('    * Connection on line {} changing from {} to {}'.
+                                                  format(linenum, m_boxname, suggested_prof.boxname))
                             
                 if write: outlines = outlines + line
 
-            # sort by linenum
             ms.matches[filename] = sorted(cmiList, key = lambda x: x.linenum)
 
             if write:
-                outfilename = FileUtils.get_output_filename(ConfigMgr.WORK_DIR, ConfigMgr.OUTPUT_DIR, filename)
+                outfilename = FileUtils.get_output_filename(ConfigMgr.WORK_DIR,
+                                                            ConfigMgr.OUTPUT_DIR,
+                                                            filename)
                 with open(outfilename, 'w') as outfile:
                     outfile.write(outlines)
                 match_msgs.append('Wrote file ' + outfilename)

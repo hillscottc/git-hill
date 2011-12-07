@@ -21,28 +21,28 @@ Verify they are set for uat.       NOTE THAT (local) is FAILING IN MP.exe
 Checking filelist for env: uat, apps: ['MP'] 
 In file input/ETL/MP/log4net.config:
 In file input/ETL/MP/UMG.RDx.ETL.MP.exe.config:
-  (usfshwssql104) RDxETL 8 matched [] from the dbset.
-    * dbset profile for MP - uat is [[MP RDxETL uat usfshwssql094]]
-  (usfshwssql104) RDxETL 13 matched [] from the dbset.
-    * dbset profile for MP - uat is [[MP RDxETL uat usfshwssql094]]
-  (usfshwssql104) RDxETL 17 matched [] from the dbset.
-    * dbset profile for MP - uat is [[MP RDxETL uat usfshwssql094]]
+  (usfshwssql077) RDxETL 8 matched [] from the dbset.
+    * dbset profile for MP - uat is MP RDxETL uat usfshwssql094
+  (usfshwssql077) RDxETL 13 matched [] from the dbset.
+    * dbset profile for MP - uat is MP RDxETL uat usfshwssql094
+  (usfshwssql077) RDxETL 17 matched [] from the dbset.
+    * dbset profile for MP - uat is MP RDxETL uat usfshwssql094
   USFSHWSSQL104\RIGHTSDEV_2 RDxReport 21 matched [] from the dbset.
-    * dbset profile for MP - uat is [[MP RDxReport uat usfshwssql089]]
+    * dbset profile for MP - uat is MP RDxReport uat usfshwssql089
 In file input/ETL/MP/UMG.RDx.ETL.MP.Extract.dll.config:
-  usfshwssql104 RDxETL 10 matched [] from the dbset.
-    * dbset profile for MP - uat is [[MP RDxETL uat usfshwssql094]]
+  usfshwssql077 RDxETL 10 matched [] from the dbset.
+    * dbset profile for MP - uat is MP RDxETL uat usfshwssql094
 In file input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config:
-  usfshwssql104 RDxETL 69 matched [] from the dbset.
-    * dbset profile for MP - uat is [[MP RDxETL uat usfshwssql094]]
-  usfshwssql104 RDxETL 74 matched [] from the dbset.
-    * dbset profile for MP - uat is [[MP RDxETL uat usfshwssql094]]
-  usfshwssql104 RDxETL 78 matched [] from the dbset.
-    * dbset profile for MP - uat is [[MP RDxETL uat usfshwssql094]]
-  usfshwssql104 RDxReport 82 matched [] from the dbset.
-    * dbset profile for MP - uat is [[MP RDxReport uat usfshwssql089]]
+  usfshwssql077 RDxETL 69 matched [] from the dbset.
+    * dbset profile for MP - uat is MP RDxETL uat usfshwssql094
+  usfshwssql077 RDxETL 74 matched [] from the dbset.
+    * dbset profile for MP - uat is MP RDxETL uat usfshwssql094
+  usfshwssql077 RDxETL 78 matched [] from the dbset.
+    * dbset profile for MP - uat is MP RDxETL uat usfshwssql094
+  usfshwssql084 RDxReport 82 matched [] from the dbset.
+    * dbset profile for MP - uat is MP RDxReport uat usfshwssql089
 Found 9 matches in 4 files.
-  
+
 
 Verify for prod when they are uat.
 >>> ms = cm.go(app='MP', env='prod')
@@ -110,15 +110,6 @@ In file input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config:
     * Connection on line 82 changing from usfshwssql104 to usfshwssql104
 Wrote file input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config
 Found 9 matches in 4 files.
-
-
-#Go back to whole set.
-#>>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', path='input/ETL/')     
-#>>> print ConfigMgr.match_dict_summary(cm.go())
-
-
-
-
 
 
 these are just the statics. move the files round a bit

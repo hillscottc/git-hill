@@ -18,6 +18,9 @@ import getopt
 import shutil
 import re
 from ConfigMgr import ConfigMgr
+from MatchSet import MatchSet
+import FileUtils
+
 
 class Usage(Exception):
     def __init__(self, msg):
@@ -91,18 +94,11 @@ def main(argv=None):
         print "Checking files in remote path '{}' ...".format(path)
         print
         cm = ConfigMgr(dbsource=DBSOURCE, path=path)
-        md = cm.go(env='dev')     
-        #print os.linesep.join([str(k) + ' ' + str(v) for k, v in sorted(md.iteritems())])
-        #print ConfigMgr.match_dict_summary(md)
-        #print
-        print 'Files with NO matches: '
-        print os.linesep.join(ConfigMgr.get_match_files(md, False))     
-        print 
-
-        sourcepaths = [k for k, v in md.iteritems() if len(v) > 1]
-        targpaths = [get_work_path(k) for k, v in md.iteritems() if len(v) > 1]
-        # or use zip , or:    
-        # print os.linesep.join('FROM {}\nTO   {}'.format(k, get_work_path(k)) for k, v in md.iteritems() if len(v) > 1)          
+        ms = cm.go(env='dev')    
+        print
+    
+        sourcepaths = [k for k, v in ms.matches.iteritems() if len(v) > 1]
+        targpaths = [get_work_path(k) for k, v in ms.matches.iteritems() if len(v) > 1]
         
         # copy remote to work
         if do_copy:
@@ -110,15 +106,13 @@ def main(argv=None):
         
         if do_mod:        
             print
-            print '(OK DO MOD HERE...)'
-    
-            cm = ConfigMgr(dbsource=DBSOURCE, path=ConfigMgr.WORK_DIR)     
-            print ConfigMgr.match_dict_summary(cm.go(env='dev', write=True))    
+            print 'Performing file mod...'    
+            ms = ConfigMgr(dbsource=DBSOURCE, path=ConfigMgr.WORK_DIR).go(env='dev', write=True)     
             print
             print "Scanning output directory..."
             print
-            cm = ConfigMgr(dbsource=DBSOURCE, path=ConfigMgr.OUTPUT_DIR)     
-            print ConfigMgr.match_dict_summary(cm.go(env='dev'))  
+            ms = ConfigMgr(dbsource=DBSOURCE, path=ConfigMgr.OUTPUT_DIR).go(env='dev')     
+            #print ms.match_dict_summary()  
             print    
             
 #        # copy output back to remote

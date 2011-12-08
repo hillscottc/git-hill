@@ -47,7 +47,7 @@ class MatchSet(object):
     def match_dict_summary(self):
         """
         """
-        return 'Found {} matches in {} files.'.format(sum([len(v) for v in self.matches.values()]),
+        return '{0:3} total matches in {1} files.'.format(sum([len(v) for v in self.matches.values()]),
                                                       len(self.matches.keys()))
 
         

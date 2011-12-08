@@ -13,7 +13,6 @@ import re
 import os
 from DbSet import DbSet
 from ConnMatchInfo import ConnMatchInfo
-from DbProfile import DbProfile
 from MatchSet import MatchSet
 import FileUtils
 
@@ -75,8 +74,6 @@ class ConfigMgr(object):
             raise Exception('filelist required.')
         
         if write:
-#            if not env:
-#                env = self.env
             if not env :
                 raise Exception('env is required for write.')
 
@@ -87,11 +84,13 @@ class ConfigMgr(object):
             
         ms = MatchSet()
         match_msgs = []
+        properly_matched_count = 0
+        sug_count = 0
+        no_sug_count = 0        
         
         match_msgs.append("Checking filelist for env: {}, apps: {} ".format(env, apps))
         
-        for filename in filelist:            
-            
+        for filename in filelist:
             
             # skip file if it doesnt have one of the apps in its name
             if not len([app for app in apps if re.search(app, filename)]) :
@@ -116,28 +115,29 @@ class ConfigMgr(object):
             for line in lines:
                 linenum = linenum +1
                 
-                dbset_matches = []
-                
-                # print 'line {}:{}    {}'.format(str(linenum), os.linesep, self.trim_line(line))
+                properly_matched_prof = None
+                                
+                # Does this line look like a db?
                 m = re.search(self.REGEX, line, re.IGNORECASE)
                 if m:
                     m_boxname, m_dbname = m.group(1), m.group(2)
                     ci = ConnMatchInfo(m_boxname, m_dbname, linenum)
                     cmiList.append(ci)
 
-                    
-                    for app in apps:
-                        if re.search(app, filename):
-                            profDict = dict(boxname=ci.boxname.lower(), dbname=ci.dbname, env=env, app=app)
-                            #print 'CHECK THIS', profDict
-                            profs = self.dbset.get_profiles_by_attribs(profDict)
-                            if profs:
-                                dbset_matches.append (profs)
+                    # get the app is this file
+                    apps_for_file = [app for app in apps if re.search(app, filename)]
+                    if apps_for_file:
+                        profDict = dict(boxname=ci.boxname.lower(), dbname=ci.dbname,
+                                        env=env, app=apps_for_file[0])
+                        #print 'CHECK THIS', profDict
+                        profs = self.dbset.get_profiles_by_attribs(profDict)
+                        if profs:
+                            properly_matched_prof = profs[0]
+                            properly_matched_count = properly_matched_count + 1
 
+                    match_msgs.append('  {} matched {} from the dbset.'.format(ci, properly_matched_prof))
 
-                    match_msgs.append('  {} matched {} from the dbset.'.format(ci, dbset_matches))
-
-                    if not dbset_matches:
+                    if not properly_matched_prof:
                                                             
                         app_to_check = [app for app in apps if re.search(app, filename)][0]
                         
@@ -146,12 +146,12 @@ class ConfigMgr(object):
                                                                         env=env))
                         
                         suggested_prof = suggestions[0] if len(suggestions) else None
-                        
-                        #print 'GOT', profs, 'for' , filename, ci.dbname, app_to_check, env
-                        
+                                                
                         if not suggested_prof:
+                            no_sug_count =  no_sug_count + 1
                             match_msgs.append('    ********** No suggestions for {} - {}'.format(app_to_check, env))
                         else:
+                            sug_count = sug_count + 1 
                             match_msgs.append('    * dbset profile for {} - {} is {}'.format(app_to_check, env, suggested_prof))                                                                                
                             if write:
                                 line = re.sub(m_boxname, suggested_prof.boxname, line, re.IGNORECASE)
@@ -170,18 +170,25 @@ class ConfigMgr(object):
                     outfile.write(outlines)
                 match_msgs.append('Wrote file ' + outfilename)
         
-        match_msgs.append(ms.match_dict_summary())
+        #match_msgs.append(ms.match_dict_summary())
         
         if verbose:
             print os.linesep.join(match_msgs)
+            print
         
+        if env: 
+            print '{0:3} matches are properly configured for {1}'.format(properly_matched_count, env)
+            print '{0:3} matches have suggested changes.'.format(sug_count)
+            print '{0:3} matches have no suggested changes.'.format(no_sug_count)
+        
+        print ms.match_dict_summary()
         return ms
 
 
 if __name__ == "__main__":
     import doctest
     #doctest.testmod(verbose=True)
-    doctest.testfile("tests/test_ConfigMgr.txt")
+    doctest.testfile("tests/test_ConfigMgr.txt", verbose=True)
     sys.exit(0)
    
 

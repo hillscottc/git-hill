@@ -76,6 +76,6 @@ class DbSet(object):
 if __name__ == "__main__":
     import doctest
     doctest.testmod(verbose=True)
-    doctest.testfile("tests/test_DbSet.txt")
+    doctest.testfile("tests/test_DbSet.txt", verbose=True)
     sys.exit(0)
 

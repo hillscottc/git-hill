@@ -11,10 +11,10 @@ FOR THE NON_VERBOSE, JUST DO COUNTS.
 
 
 >>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', path='input/ETL/') 
->>> cm.go(verbose=False).match_dict_summary()
-'Found 48 matches in 23 files.'
->>> cm.go(app='MP', verbose=False).match_dict_summary()
-'Found 9 matches in 4 files.'
+>>> ms = cm.go(verbose=False)
+ 48 total matches in 23 files.
+>>> ms = cm.go(app='MP', verbose=False)
+  9 total matches in 4 files.
 
 Verify they are set for uat.       NOTE THAT (local) is FAILING IN MP.exe
 >>> ms = cm.go(verbose=True, app='MP', env='uat')
@@ -41,10 +41,11 @@ In file input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config:
     * dbset profile for MP - uat is MP RDxETL uat usfshwssql094
   usfshwssql084 RDxReport 82 matched None from the dbset.
     * dbset profile for MP - uat is MP RDxReport uat usfshwssql089
-Found 9 matches in 4 files.
-0 matches are properly configured for uat
-9 matches have suggested changes.
-0 matches have no suggested changes.
+<BLANKLINE>
+  0 matches are properly configured for uat
+  9 matches have suggested changes.
+  0 matches have no suggested changes.
+  9 total matches in 4 files.
 
 
 Verify for prod when they are uat.
@@ -67,10 +68,11 @@ In file input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config:
   usfshwssql077 RDxETL 74 matched MP RDxETL prod usfshwssql077 from the dbset.
   usfshwssql077 RDxETL 78 matched MP RDxETL prod usfshwssql077 from the dbset.
   usfshwssql084 RDxReport 82 matched MP RDxReport prod usfshwssql084 from the dbset.
-Found 9 matches in 4 files.
-5 matches are properly configured for prod
-4 matches have suggested changes.
-0 matches have no suggested changes.
+<BLANKLINE>
+  5 matches are properly configured for prod
+  4 matches have suggested changes.
+  0 matches have no suggested changes.
+  9 total matches in 4 files.
 
 Write.
 >>> ms = cm.go(app='MP', env='prod', write=True, verbose=True)
@@ -100,10 +102,11 @@ In file input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config:
   usfshwssql077 RDxETL 78 matched MP RDxETL prod usfshwssql077 from the dbset.
   usfshwssql084 RDxReport 82 matched MP RDxReport prod usfshwssql084 from the dbset.
 Wrote file input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config
-Found 9 matches in 4 files.
-5 matches are properly configured for prod
-4 matches have suggested changes.
-0 matches have no suggested changes.
+<BLANKLINE>
+  5 matches are properly configured for prod
+  4 matches have suggested changes.
+  0 matches have no suggested changes.
+  9 total matches in 4 files.
 
 
 these are just the statics. move the files round a bit
@@ -111,11 +114,12 @@ these are just the statics. move the files round a bit
 Use the verbose = false to test a lot, quick. Use counts, not formatted output.
 
 >>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', path='input/ETL/')        
->>> cm.go(verbose=False).match_dict_summary()
-'Found 48 matches in 23 files.'
+>>> ms = cm.go(verbose=False)
+ 48 total matches in 23 files.
 
 Get the MP files from the full set by filtering it by app
 >>> ms = cm.go(app='MP', verbose=False)
+  9 total matches in 4 files.
 >>> print os.linesep.join([str(k) + ' ' + str(v) for k, v in sorted(ms.matches.iteritems())])
 input/ETL/MP/UMG.RDx.ETL.MP.Extract.dll.config [usfshwssql077 RDxETL 10]
 input/ETL/MP/UMG.RDx.ETL.MP.exe.config [(usfshwssql077) RDxETL 8, (usfshwssql077) RDxETL 13, (usfshwssql077) RDxETL 17, USFSHWSSQL104\RIGHTSDEV_2 RDxReport 21]
@@ -124,7 +128,7 @@ input/ETL/MP/log4net.config []
 
 Or, you could have specified the MP dir in the path at init.
 >>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', path='input/ETL/MP/')
->>> cm.go(verbose=False).match_dict_summary()
-'Found 9 matches in 4 files.'
+>>> ms = cm.go(verbose=False)
+  9 total matches in 4 files.
 
 

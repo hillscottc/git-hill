@@ -102,7 +102,7 @@ def main(argv=None):
         
         # copy remote to work
         if do_copy:
-            copy_files(sourcepaths, targpaths)
+            copy_files(sourcepaths, targpaths, do_ask)
         
         if do_mod:        
             print
@@ -117,7 +117,7 @@ def main(argv=None):
             
 #        # copy output back to remote
 #        if do_copy:
-#            copy_files(targpaths, sourcepaths)            
+#            copy_files(targpaths, sourcepaths, do_ask)            
             
         print
         print "Complete."

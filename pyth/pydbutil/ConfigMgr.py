@@ -3,10 +3,8 @@
 
 Usage: go() is the main function. Many examples in tests below.
 >>> from MatchSet import MatchSet
->>> cm = ConfigMgr(dbsource='input/DbSet.data.csv', path='input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config')
->>> ms = cm.go(verbose=False)
->>> ms.match_dict_summary()
-'Found 4 matches in 1 files.'
+>>> ms = ConfigMgr(dbsource='input/DbSet.data.csv', path='input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config').go(verbose=False)
+  4 matches in 1 files.
 """
 import sys
 import re

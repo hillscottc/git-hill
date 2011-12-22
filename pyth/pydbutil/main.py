@@ -73,7 +73,7 @@ def main(argv=None):
         env = None
         do_mod = True
         do_copy = True
-        do_ask = True
+        do_ask = False
 
         for opt, arg in opts :
             if opt in ("-h", "--help"):
@@ -84,12 +84,13 @@ def main(argv=None):
             elif opt in ("-e", "--env"):
                 env = arg
                 if env!=None: env=env.upper()
+            elif opt in ("-a", "--ask"):
+                do_ask = True                  
             elif opt in ("-M", "--no_mod"):
                 do_mod = False
             elif opt in ("-C", "--no_copy"):
                 do_copy = False             
-            elif opt in ("-A", "--no_ask"):
-                do_ask = False        
+      
         print
         print "Checking files in remote path '{}' ...".format(path)
         print
@@ -111,7 +112,10 @@ def main(argv=None):
             print
             print "Scanning output directory..."
             print
-            ms = ConfigMgr(dbsource=DBSOURCE, path=ConfigMgr.OUTPUT_DIR).go(env='dev')     
+            
+            
+            
+            ms = ConfigMgr(dbsource=DBSOURCE, path=ConfigMgr.OUTPUT_DIR).go(env='dev')      
             #print ms.match_dict_summary()  
             print    
             

@@ -20,7 +20,10 @@ class DbSet(object):
     14
     """
     
-    APPS = ('CARL', 'CPRS', 'CTX', 'Common', 'D2', 'DRA', 'MP', 'PartsOrder', 'R2', 'gdrs')
+    #APPS = ('CARL', 'CART', 'CPRS', 'CRA', 'CTX', 'D2', 'DRA', 'ELS', 'GDRS', 'MP', 'PartsOrder', 'R2')
+    
+    # these are on 104
+    APPS = ('CARL', 'Common', 'CPRS', 'CTX', 'D2', 'DRA', 'GDRS', 'MP', 'PartsOrder', 'R2')
     
     DB = []
     
@@ -42,22 +45,22 @@ class DbSet(object):
     def __len__(self):
         return len(self.DB)
 
-    def get_profiles_by_attribs(self, aDict):
+    def get_by_atts(self, aDict):
         """Does given dict of attrib-vals match with self data?
         
         Usage:
         >>> dbset = DbSet('input/DbSet.data.csv')
         
         Have a training RDxETL?
-        >>> print dbset.get_profiles_by_attribs(dict(env='training', dbname='RDxETL'))
+        >>> print dbset.get_by_atts(dict(env='training', dbname='RDxETL'))
         []
         
         What are the MP dev boxes?
-        >>> print dbset.get_profiles_by_attribs(dict(app='MP', env='dev'))
+        >>> print dbset.get_by_atts(dict(app='MP', env='dev'))
         [MP RDxETL dev usfshwssql104, MP RDxReport dev usfshwssql104\RIGHTSDEV_2]
         
         What are the CARL boxes? (shows example of localhost or (loca) setting for db)
-        >>> print dbset.get_profiles_by_attribs(dict(app='CARL'))        
+        >>> print dbset.get_by_atts(dict(app='CARL'))        
         [CARL RDxETL dev (local), CARL RDxReport dev localhost]
         """
         profiles = []

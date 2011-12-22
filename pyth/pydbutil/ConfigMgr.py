@@ -86,7 +86,7 @@ class ConfigMgr(object):
         sug_count = 0
         no_sug_count = 0        
         
-        match_msgs.append("Checking filelist for env: {}, apps: {} ".format(env, apps))
+        match_msgs.append("Checking files for '{}', apps:{} ".format(env.upper(), apps))
         
         for filename in filelist:
             
@@ -128,20 +128,16 @@ class ConfigMgr(object):
                         profDict = dict(boxname=ci.boxname.lower(), dbname=ci.dbname,
                                         env=env, app=apps_for_file[0])
                         #print 'CHECK THIS', profDict
-                        profs = self.dbset.get_profiles_by_attribs(profDict)
+                        profs = self.dbset.get_by_atts(profDict)
                         if profs:
                             properly_matched_prof = profs[0]
                             properly_matched_count = properly_matched_count + 1
-
-                    match_msgs.append('  {} matched {} from the dbset.'.format(ci, properly_matched_prof))
 
                     if not properly_matched_prof:
                                                             
                         app_to_check = [app for app in apps if re.search(app, filename)][0]
                         
-                        suggestions = self.dbset.get_profiles_by_attribs(dict(dbname=ci.dbname,
-                                                                        app=app_to_check,
-                                                                        env=env))
+                        suggestions = self.dbset.get_by_atts(dict(dbname=ci.dbname, app=app_to_check, env=env))
                         
                         suggested_prof = suggestions[0] if len(suggestions) else None
                                                 
@@ -150,20 +146,19 @@ class ConfigMgr(object):
                             match_msgs.append('    ********** No suggestions for {} - {}'.format(app_to_check, env))
                         else:
                             sug_count = sug_count + 1 
-                            match_msgs.append('    * dbset profile for {} - {} is {}'.format(app_to_check, env, suggested_prof))                                                                                
+#                            match_msgs.append('    * dbset profile for {} - {} is {}'.format(app_to_check, env, suggested_prof))                                                                                
                             if write:
                                 line = re.sub(m_boxname, suggested_prof.boxname, line, re.IGNORECASE)
                                 match_msgs.append('    * Connection on line {} changing from {} to {}'.
                                                   format(linenum, m_boxname, suggested_prof.boxname))
                             
-                if write: outlines = outlines + line
+                if write:
+                    outlines = outlines + line
 
             ms.matches[filename] = sorted(cmiList, key = lambda x: x.linenum)
 
             if write:
-                outfilename = FileUtils.get_output_filename(ConfigMgr.WORK_DIR,
-                                                            ConfigMgr.OUTPUT_DIR,
-                                                            filename)
+                outfilename = FileUtils.get_output_filename(ConfigMgr.WORK_DIR, ConfigMgr.OUTPUT_DIR, filename)
                 with open(outfilename, 'w') as outfile:
                     outfile.write(outlines)
                 match_msgs.append('Wrote file ' + outfilename)
@@ -174,7 +169,8 @@ class ConfigMgr(object):
             print os.linesep.join(match_msgs)
             print
         
-        if env: 
+        
+        if  env: 
             print '{0:3} matches are properly configured for {1}'.format(properly_matched_count, env)
             print '{0:3} matches have suggested changes.'.format(sug_count)
             print '{0:3} matches have no suggested changes.'.format(no_sug_count)

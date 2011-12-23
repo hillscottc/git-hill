@@ -17,7 +17,7 @@ class DbSet(object):
     Usage:
     >>> dbset = DbSet('input/DbSet.data.csv')
     >>> print len(dbset)
-    14
+    24
     """
     
     #APPS = ('CARL', 'CART', 'CPRS', 'CRA', 'CTX', 'D2', 'DRA', 'ELS', 'GDRS', 'MP', 'PartsOrder', 'R2')
@@ -44,6 +44,12 @@ class DbSet(object):
 
     def __len__(self):
         return len(self.DB)
+    
+    def get(self, prof):
+        """ returns matching profs
+        """    
+        return self.get_by_atts(vars(prof))
+        
 
     def get_by_atts(self, aDict):
         """Does given dict of attrib-vals match with self data?
@@ -57,11 +63,11 @@ class DbSet(object):
         
         What are the MP dev boxes?
         >>> print dbset.get_by_atts(dict(app='MP', env='dev'))
-        [MP RDxETL dev usfshwssql104, MP RDxReport dev usfshwssql104\RIGHTSDEV_2]
+        [MP RDxETL dev USHPEPVSQL409, MP RDxReport dev USHPEPVSQL409]
         
         What are the CARL boxes? (shows example of localhost or (loca) setting for db)
         >>> print dbset.get_by_atts(dict(app='CARL'))        
-        [CARL RDxETL dev (local), CARL RDxReport dev localhost]
+        [CARL RDxETL dev USHPEPVSQL409, CARL RDxReport dev USHPEPVSQL409]
         """
         profiles = []
         for db in self.DB:
@@ -79,6 +85,6 @@ class DbSet(object):
 if __name__ == "__main__":
     import doctest
     doctest.testmod(verbose=True)
-    doctest.testfile("tests/test_DbSet.txt", verbose=True)
+    #doctest.testfile("tests/test_DbSet.txt", verbose=True)
     sys.exit(0)
 

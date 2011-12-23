@@ -1,10 +1,12 @@
 #! /usr/bin/python
-"""A conn match with the match and the suggested fix. 
+"""
+A conn match with the match and the suggested fix. 
+
+moced this to cmi
 
 
 """
 import sys
-#from ConnMatchInfo import ConnMatchInfo
 
 class Usage(Exception):
     def __init__(self, msg):

@@ -60,6 +60,7 @@ class DbProfile(object):
         True
         """
         
+        
         for k, v in aDict.iteritems():
             if not (vars(self)[k] == v) :
                 return False

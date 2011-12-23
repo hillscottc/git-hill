@@ -12,6 +12,7 @@ import os
 from DbSet import DbSet
 from ConnMatchInfo import ConnMatchInfo
 from MatchSet import MatchSet
+from DbProfile import DbProfile
 import FileUtils
 
 
@@ -89,10 +90,16 @@ class ConfigMgr(object):
         match_msgs.append("Checking files for '{}', apps:{} ".format(env.upper(), apps))
         
         for filename in filelist:
+                        
+            # the name of this file matches which of the apps?
+            apps_for_file = [app for app in apps if re.search(app, filename)]
             
-            # skip file if it doesnt have one of the apps in its name
-            if not len([app for app in apps if re.search(app, filename)]) :
+            # skip this file, if its none
+            if not len(apps_for_file) :
                 continue
+            else:
+                app_for_file = apps_for_file[0]
+                  
 
             if write: 
                 outfilename = FileUtils.get_output_filename(ConfigMgr.WORK_DIR,
@@ -113,44 +120,58 @@ class ConfigMgr(object):
             for line in lines:
                 linenum = linenum +1
                 
-                properly_matched_prof = None
+                #properly_matched_prof = None
                                 
                 # Does this line look like a db?
                 m = re.search(self.REGEX, line, re.IGNORECASE)
                 if m:
                     m_boxname, m_dbname = m.group(1), m.group(2)
-                    ci = ConnMatchInfo(m_boxname, m_dbname, linenum)
-                    cmiList.append(ci)
+        
+                    #cmi = ConnMatchInfo(m_boxname, m_dbname, linenum)
+                    matched_profile = DbProfile(boxname=m_boxname, dbname=m_dbname,
+                                                env=env, app=app_for_file)
+                    
+                    cmi = ConnMatchInfo(matched_profile, linenum)
+                    
+                    
+                    
+                    #print 'CHECK THIS', profDict
+                    #profs = self.dbset.get(profDict)
+                    sugg_profs = self.dbset.get(cmi.matchProf)
+                    if len(sugg_profs):
+                        # we have a perfect match already.
+                        cmi.suggProf = sugg_profs[0]
+                    
+                    #print 'cmi matchProf ', cmi.matchProf
+                    #print 'cmi is suggProf', cmi.suggProf
+                    
+                    
+                    
+                    # the sug is exact match, including the boxname
+#                    if cmi.suggProf:
+#                        properly_matched_prof = profs[0]
+#                        cmi.suggProf = profs[0]
+#                        properly_matched_count = properly_matched_count + 1
 
-                    # get the app is this file
-                    apps_for_file = [app for app in apps if re.search(app, filename)]
-                    if apps_for_file:
-                        profDict = dict(boxname=ci.boxname.lower(), dbname=ci.dbname,
-                                        env=env, app=apps_for_file[0])
-                        #print 'CHECK THIS', profDict
-                        profs = self.dbset.get_by_atts(profDict)
-                        if profs:
-                            properly_matched_prof = profs[0]
-                            properly_matched_count = properly_matched_count + 1
-
-                    if not properly_matched_prof:
-                                                            
-                        app_to_check = [app for app in apps if re.search(app, filename)][0]
+                    # if no (exact match) sug yet, get the correect prof for this app+dbname+env
+                    if not cmi.suggProf:
+                                                                                    
+                        suggestions = self.dbset.get_by_atts(dict(dbname=cmi.matchProf.dbname, app=app_for_file, env=env))
                         
-                        suggestions = self.dbset.get_by_atts(dict(dbname=ci.dbname, app=app_to_check, env=env))
-                        
-                        suggested_prof = suggestions[0] if len(suggestions) else None
-                                                
-                        if not suggested_prof:
-                            no_sug_count =  no_sug_count + 1
-                            match_msgs.append('    ********** No suggestions for {} - {}'.format(app_to_check, env))
-                        else:
-                            sug_count = sug_count + 1 
-#                            match_msgs.append('    * dbset profile for {} - {} is {}'.format(app_to_check, env, suggested_prof))                                                                                
+                        if len(suggestions):
+                            #sug_count = sug_count + 1                             
+                            cmi.suggProf = suggestions[0]
                             if write:
-                                line = re.sub(m_boxname, suggested_prof.boxname, line, re.IGNORECASE)
+                                line = re.sub(m_boxname, cmi.suggProf.boxname, line, re.IGNORECASE)
                                 match_msgs.append('    * Connection on line {} changing from {} to {}'.
-                                                  format(linenum, m_boxname, suggested_prof.boxname))
+                                                  format(linenum, m_boxname, cmi.suggProf.boxname))     
+                        else:
+
+                            #no_sug_count =  no_sug_count + 1
+                            match_msgs.append('    ********** No suggestions for {} - {}'.format(app_for_file, env))
+                    
+                    cmiList.append(cmi)
+                    
                             
                 if write:
                     outlines = outlines + line
@@ -171,7 +192,14 @@ class ConfigMgr(object):
         
         
         if  env: 
-            print '{0:3} matches are properly configured for {1}'.format(properly_matched_count, env)
+            
+            # roughtly this, but i need an equals func
+            #sug_count = len(cmi for cmi in cmiList if cmi.suggProf and cmi.suggProf is not cmi.matchProf)
+            sug_count = 'fixthis'
+            no_sug_count = 'fixthis'
+            
+            
+            print '{0:3} matches are properly configured for {1}'.format(len([cmi for cmi in cmiList if cmi.matchProf == cmi.suggProf]), env)
             print '{0:3} matches have suggested changes.'.format(sug_count)
             print '{0:3} matches have no suggested changes.'.format(no_sug_count)
         

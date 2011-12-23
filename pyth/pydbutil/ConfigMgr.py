@@ -82,10 +82,7 @@ class ConfigMgr(object):
             apps = DbSet.APPS
             
         ms = MatchSet()
-        match_msgs = []
-        properly_matched_count = 0
-        sug_count = 0
-        no_sug_count = 0        
+        match_msgs = []     
         
         match_msgs.append("Checking files for '{}', apps:{} ".format(env.upper(), apps))
         
@@ -133,25 +130,12 @@ class ConfigMgr(object):
                     
                     cmi = ConnMatchInfo(matched_profile, linenum)
                     
-                    
-                    
-                    #print 'CHECK THIS', profDict
-                    #profs = self.dbset.get(profDict)
+
                     sugg_profs = self.dbset.get(cmi.matchProf)
                     if len(sugg_profs):
                         # we have a perfect match already.
                         cmi.suggProf = sugg_profs[0]
                     
-                    #print 'cmi matchProf ', cmi.matchProf
-                    #print 'cmi is suggProf', cmi.suggProf
-                    
-                    
-                    
-                    # the sug is exact match, including the boxname
-#                    if cmi.suggProf:
-#                        properly_matched_prof = profs[0]
-#                        cmi.suggProf = profs[0]
-#                        properly_matched_count = properly_matched_count + 1
 
                     # if no (exact match) sug yet, get the correect prof for this app+dbname+env
                     if not cmi.suggProf:
@@ -191,17 +175,15 @@ class ConfigMgr(object):
             print
         
         
-        if  env: 
+        if env: 
+                        
+            no_sugs = [cmi for cmi in cmiList if not cmi.suggProf]
+            has_sugs = [cmi for cmi in cmiList if cmi.suggProf]
+            matched_sug = [cmi for cmi in has_sugs if cmi.matchProf == cmi.suggProf]
             
-            # roughtly this, but i need an equals func
-            #sug_count = len(cmi for cmi in cmiList if cmi.suggProf and cmi.suggProf is not cmi.matchProf)
-            sug_count = 'fixthis'
-            no_sug_count = 'fixthis'
-            
-            
-            print '{0:3} matches are properly configured for {1}'.format(len([cmi for cmi in cmiList if cmi.matchProf == cmi.suggProf]), env)
-            print '{0:3} matches have suggested changes.'.format(sug_count)
-            print '{0:3} matches have no suggested changes.'.format(no_sug_count)
+            print '{0:3} matches are properly configured for {1}'.format(len(matched_sug), env)
+            print '{0:3} matches have suggested changes.'.format(len(has_sugs))
+            print '{0:3} matches have no suggested changes.'.format(len(no_sugs))
         
         print ms.match_dict_summary()
         return ms

@@ -1,9 +1,7 @@
 #! /usr/bin/python
 
-import os
 import sys
-import getopt
-import csv
+
 
 class Usage(Exception):
     def __init__(self, msg):
@@ -45,6 +43,28 @@ class DbProfile(object):
             self.source = source
             self.targ = targ
 
+    def __eq__(self, other):
+        """
+        Usage: 
+        Pass in the values
+        >>> db  = DbProfile('MP', 'RDxETL', 'prod', 'usfshwssql077')
+        >>> db2 = DbProfile('MP', 'RDxETL', 'prod', 'usfshwssql077')
+        >>> db3 = DbProfile('CARL', 'RDxETL', 'prod', 'usfshwssql077')
+        >>> print db == db
+        True
+        >>> print db == db2
+        True
+        >>> print db == db3
+        False
+        """
+        if isinstance(other, self.__class__):
+            return self.__dict__ == other.__dict__
+        else:
+            return False
+
+    def __ne__(self, other):
+        return not self.__eq__(other)
+
 
     def match_attrib(self, aDict):
         """Does given dict of attib-vals match with self data?
@@ -80,7 +100,7 @@ class DbProfile(object):
 if __name__ == "__main__":
     import doctest
     doctest.testmod(verbose=True)    
-    doctest.testfile("tests/test_DbProfile.txt")
+    #doctest.testfile("tests/test_DbProfile.txt")
     sys.exit(0)
     #sys.exit(main())
 

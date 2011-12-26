@@ -83,9 +83,6 @@ class ConfigMgr(object):
             apps = DbSet.APPS
             
         ms = MatchSet()
-        match_msgs = []     
-        
-        match_msgs.append("Checking files for '{}', apps:{} ".format(env.upper(), apps))
         
         for filename in filelist:
                         
@@ -104,7 +101,7 @@ class ConfigMgr(object):
                                                             ConfigMgr.OUTPUT_DIR,
                                                             filename)
             
-            match_msgs.append('In file {}:'.format(filename))
+            #match_msgs.append('In file {}:'.format(filename))
 
             # read all lines of file into var
             with open(filename, 'r') as infile:
@@ -118,8 +115,6 @@ class ConfigMgr(object):
             for line in lines:
                 linenum = linenum +1
                 
-                #properly_matched_prof = None
-                                
                 # Does this line look like a db?
                 m = re.search(self.REGEX, line, re.IGNORECASE)
                 if m:
@@ -146,19 +141,12 @@ class ConfigMgr(object):
                         suggestions = self.dbset.get_by_atts(dict(dbname=cmi.matchProf.dbname, app=app_for_file, env=env))
                         
                         if len(suggestions):
-                            #sug_count = sug_count + 1                             
                             cmi.suggProf = suggestions[0]
                             if write:
                                 line = re.sub(m_boxname, cmi.suggProf.boxname, line, re.IGNORECASE)
-                                match_msgs.append('    * Connection on line {} changing from {} to {}'.
-                                                  format(linenum, m_boxname, cmi.suggProf.boxname))     
-                        else:
-
-                            #no_sug_count =  no_sug_count + 1
-                            match_msgs.append('    ********** No suggestions for {} - {}'.format(app_for_file, env))
+                                #match_msgs.append('    * Connection on line {} changing from {} to {}'.format(linenum, m_boxname, cmi.suggProf.boxname))     
                     
                     cmiList.append(cmi)
-                    
                             
                 if write:
                     outlines = outlines + line
@@ -169,51 +157,12 @@ class ConfigMgr(object):
                 outfilename = FileUtils.get_output_filename(ConfigMgr.WORK_DIR, ConfigMgr.OUTPUT_DIR, filename)
                 with open(outfilename, 'w') as outfile:
                     outfile.write(outlines)
-                match_msgs.append('Wrote file ' + outfilename)
+                #match_msgs.append('Wrote file ' + outfilename)
         
-        #match_msgs.append(ms.match_dict_summary())
         return ms
     
-#        if verbose:
-#            print os.linesep.join(match_msgs)
-#            print
-#  
-#        if env: 
-#            
-#            all_lists = [cmiList for cmiList in ms.matches.values()]
-            #all_matches = [cmi for cmi in all_lists]
-            # flatten. dont want a lists of lists. 
-            #all_matches = list(itertools.chain(*all_matches))
-            
-            #print os.linesep.join(str(cmi) for cmi in all_matches)
-            #print 'and'
-            
-            #print os.linesep.join(str(cmi) for cmi in ms.get_all_matches())
-            
-            #matched_sugs = [cmi for cmi in all_matches if cmi.matchProf == cmi.suggProf]
-            
-            
-            #print matched_sugs
-            
-            
-            #allmatches = [ cmi for cmi in [cmiList for cmiList in ms.matches.values()]]
-                        
-            #matched_sug = [cmi for cmi in allmatches if cmi.matchProf == cmi.suggProf]
-            #print matched_sug                        
-                        
-#            no_sugs = [cmi for cmi in cmiList if not cmi.suggProf]
-#            has_sugs = [cmi for cmi in cmiList if cmi.suggProf]
 
- 
-#            print '{0:3} matches are properly configured for {1}'.format(len(matched_sug), env)
-#            print matched_sug
-#            print '{0:3} matches have suggested changes.'.format(len(has_sugs))
-#            print has_sugs
-#            print '{0:3} matches have no suggested changes.'.format(len(no_sugs))
         
-        #print ms.match_dict_summary()
-        
-
 
 if __name__ == "__main__":
     import doctest

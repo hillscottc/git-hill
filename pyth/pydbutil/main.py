@@ -46,11 +46,11 @@ def ensure_dir(f):
     if not os.path.exists(d):
         os.makedirs(d)
 
-def copy_files(sourcepaths, targpaths, ask=True):
-    #print 'The copying will be:'         
-    #print os.linesep.join(map('FROM {}\nTO   {}'.format, sourcepaths, targpaths))   
-    print
+def copy_files(sourcepaths, targpaths, ask=True): 
     if ask:
+        print
+        print 'The copying will be:'         
+        print os.linesep.join(map('FROM {}\nTO   {}'.format, sourcepaths, targpaths))           
         r = raw_input('Proceed with copy? [y]/n ')
         if r.lower() == 'n':
             print 'Ok, stopping.'
@@ -127,19 +127,7 @@ def main(argv=None):
             
             print
             print 'New files written: '
-            print os.linesep.join(f for f in ms.get_new_filenames())
-            
-            
-            
-#            print "Scanning output directory..."
-#            print
-#            ms = ConfigMgr(dbsource=DBSOURCE, path=ConfigMgr.OUTPUT_DIR).go(env='dev')      
-            #print ms.match_dict_summary()  
-            print    
-            
-#        # copy output back to remote
-#        if do_copy:
-#            copy_files(targpaths, sourcepaths, do_ask)            
+            print os.linesep.join(f for f in ms.get_new_filenames())      
             
         print
         print "Complete."

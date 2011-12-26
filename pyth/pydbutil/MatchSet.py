@@ -78,7 +78,11 @@ class MatchSet(object):
         return '{0:3} total matches in {1} files.'.format(sum([len(v) for v in self.matches.values()]),
                                                       len(self.matches.keys()))
 
-
+#            print '{0:3} matches are properly configured for {1}'.format(len(matched_sug), env)
+#            print matched_sug
+#            print '{0:3} matches have suggested changes.'.format(len(has_sugs))
+#            print has_sugs
+#            print '{0:3} matches have no suggested changes.'.format(len(no_sugs))
 
 if __name__ == "__main__":
     import doctest

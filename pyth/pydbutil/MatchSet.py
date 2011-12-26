@@ -4,6 +4,10 @@
 Usage:
 """
 import sys
+import itertools
+from ConnMatchInfo import ConnMatchInfo
+
+
 #from ConnMatchInfo import ConnMatchInfo
 
 class Usage(Exception):
@@ -35,6 +39,17 @@ class MatchSet(object):
     
     def __init__(self, **matches):
         self.matches = matches
+        
+    def get_all_matches(self):
+        """ all the matches in all the lists """
+        all_lists = [cmiList for cmiList in self.matches.values()]
+        all_matches = [cmi for cmi in all_lists]
+        # flatten. dont want a lists of lists. 
+        return  list(itertools.chain(*all_matches))
+        
+    def match_count(self):
+        """ count of matches in all files """
+        sum(len(cmiList) for cmiList in self.matches.values())
 
     def get_match_files(self, with_matches=True):
         """ Returns files with or without matches.
@@ -43,6 +58,19 @@ class MatchSet(object):
             return [k for k, v in self.matches.iteritems() if len(v) > 1]
         else:
             return [k for k, v in self.matches.iteritems() if len(v) == 0]
+        
+    def get_new_filenames(self):
+        """ Returns files with or without matches.
+        """
+        outfilenames = []
+        for filename in self.matches.keys() :
+            for cmi in self.matches[filename]:
+                if cmi.suggProf:
+                    outfilenames.append(cmi.newFilename)
+                break
+        return outfilenames
+
+      
 
     def match_dict_summary(self):
         """

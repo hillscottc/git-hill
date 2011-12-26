@@ -47,8 +47,8 @@ def ensure_dir(f):
         os.makedirs(d)
 
 def copy_files(sourcepaths, targpaths, ask=True):
-    print 'The copying will be:'         
-    print os.linesep.join(map('FROM {}\nTO   {}'.format, sourcepaths, targpaths))   
+    #print 'The copying will be:'         
+    #print os.linesep.join(map('FROM {}\nTO   {}'.format, sourcepaths, targpaths))   
     print
     if ask:
         r = raw_input('Proceed with copy? [y]/n ')
@@ -57,7 +57,7 @@ def copy_files(sourcepaths, targpaths, ask=True):
             sys.exit(0)
     [ensure_dir(f) for f in targpaths]
     map(shutil.copy, sourcepaths, targpaths)
-    print len(sourcepaths), 'file(s) copied.'
+    print len(sourcepaths), 'file(s) copied to work directory', ConfigMgr.WORK_DIR
 
 def main(argv=None):
     if argv is None:
@@ -91,18 +91,23 @@ def main(argv=None):
             elif opt in ("-C", "--no_copy"):
                 do_copy = False             
       
-        print
-        print "Checking files in remote path '{}' ...".format(path)
-        print
-        cm = ConfigMgr(dbsource=DBSOURCE, path=path)
-        ms = cm.go(env='dev')    
-        print
-    
-        sourcepaths = [k for k, v in ms.matches.iteritems() if len(v) > 1]
-        targpaths = [get_work_path(k) for k, v in ms.matches.iteritems() if len(v) > 1]
         
         # copy remote to work
         if do_copy:
+            print
+            print "Remote path '{}' ...".format(path)
+            print
+            cm = ConfigMgr(dbsource=DBSOURCE, path=path)
+            ms = cm.go(env='dev')    
+            print 'Match check:'
+            for filename in ms.matches.keys() :
+                print 'In file', filename
+                for cmi in ms.matches[filename]:
+                    print '  line {}, {} is pointed to {} ({})'.format(cmi.linenum, cmi.matchProf.dbname, cmi.matchProf.boxname, cmi.matchProf.env)
+                
+            sourcepaths = [k for k, v in ms.matches.iteritems() if len(v) > 1]
+            targpaths = [get_work_path(k) for k, v in ms.matches.iteritems() if len(v) > 1]            
+            
             copy_files(sourcepaths, targpaths, do_ask)
         
         if do_mod:        
@@ -110,12 +115,25 @@ def main(argv=None):
             print 'Performing file mod...'    
             ms = ConfigMgr(dbsource=DBSOURCE, path=ConfigMgr.WORK_DIR).go(env='dev', write=True)     
             print
-            print "Scanning output directory..."
+            print 'Results:'
+            for filename in ms.matches.keys() :
+                print 'FILE:', filename
+                for cmi in ms.matches[filename]:
+                    print '  line {}, {} is pointed to {}'.format(cmi.linenum, cmi.matchProf.dbname, cmi.matchProf.boxname), 
+                    if cmi.suggProf:
+                        print '... changing to {}'.format(cmi.suggProf.boxname)
+                    else:
+                        print '... No suggested change.'
+            
             print
+            print 'New files written: '
+            print os.linesep.join(f for f in ms.get_new_filenames())
             
             
             
-            ms = ConfigMgr(dbsource=DBSOURCE, path=ConfigMgr.OUTPUT_DIR).go(env='dev')      
+#            print "Scanning output directory..."
+#            print
+#            ms = ConfigMgr(dbsource=DBSOURCE, path=ConfigMgr.OUTPUT_DIR).go(env='dev')      
             #print ms.match_dict_summary()  
             print    
             

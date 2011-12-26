@@ -16,10 +16,11 @@ class ConnMatchInfo(object):
     False
     """
 
-    def __init__(self, matchProf, linenum, suggProf=None):
+    def __init__(self, matchProf, linenum, suggProf=None, newFilename=None):
         self.linenum = linenum
         self.matchProf = matchProf
         self.suggProf = suggProf
+        self.newFilename = newFilename
 
 
     def is_correct(self):
@@ -30,7 +31,7 @@ class ConnMatchInfo(object):
 
 
     def __str__(self):
-        return '{} {} {}'.format(self.boxname, self.dbname, self.linenum)
+        return '{} {} {}'.format(self.matchProf, self.linenum, self.suggProf)
 
     def __repr__(self):
         return str(self.__str__())

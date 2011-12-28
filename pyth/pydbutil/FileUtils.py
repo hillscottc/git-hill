@@ -5,6 +5,9 @@ Usage:
 """
 import os
 import re
+import shutil
+import sys
+
 
 def get_filelist(path=None, skipdir='Common'):
     """Gets config files in given path. Walks ssubdirs.
@@ -54,4 +57,18 @@ def ensure_dir(f):
     d = os.path.dirname(f)
     if not os.path.exists(d):
         os.makedirs(d)
+        
+def copy_files(sourcepaths, targpaths, ask=True): 
+    if ask:
+        print
+        print 'The copying will be:'         
+        print os.linesep.join(map('FROM {}\nTO   {}'.format, sourcepaths, targpaths))           
+        r = raw_input('Proceed with copy? [y]/n ')
+        if r.lower() == 'n':
+            print 'Ok, stopping.'
+            sys.exit(0)
+    [ensure_dir(f) for f in targpaths]
+    map(shutil.copy, sourcepaths, targpaths)
+
+
 

@@ -15,23 +15,30 @@ Args:
 import sys
 import os
 import getopt
-import shutil
 import re
 from ConfigMgr import ConfigMgr
-from MatchSet import MatchSet
+from DbProfile import DbProfile
+from DbSet import DbSet
+from collections import namedtuple
 import FileUtils
 
+REMOTE_DIR = 'remote'
+
+# these are on 104
+#APPS = ('CARL', 'Common', 'CPRS', 'CTX', 'D2', 'DRA', 'GDRS', 'MP', 'PartsOrder', 'R2')
+APPS = ('CARL', 'CART', 'Common', 'CPRS', 'CRA', 'CTX', 'D2', 'DRA', 'ELS', 'GDRS', 'MP', 'PartsOrder', 'R2')
+
+# the lookup dbset of profiles used to specify connections 
+Db = namedtuple('Db', 'dbname boxname')
+_Dbs = (Db('RDxETL', 'USHPEPVSQL409'), Db('RDxReport', 'USHPEPVSQL409'))   
+
+ENVS = ('dev')
+
+DBSET = DbSet(DbProfile.get_profiles(envs=ENVS, apps=APPS, dbs=_Dbs))
 
 class Usage(Exception):
     def __init__(self, msg):
         self.msg = msg
-
-# The source PATH to the files to be worked on.
-# Samples are in 'remote' 
-REMOTE_DIR = 'remote'
-
-# Data file of app database connections by environment.
-DBSOURCE = os.path.join('input', 'DbSet.data.csv')
 
 def get_work_path(path, old_dir=None, new_dir=None):
     if not old_dir:
@@ -41,23 +48,6 @@ def get_work_path(path, old_dir=None, new_dir=None):
     
     return re.sub(old_dir, new_dir, path)                             
 
-def ensure_dir(f):
-    d = os.path.dirname(f)
-    if not os.path.exists(d):
-        os.makedirs(d)
-
-def copy_files(sourcepaths, targpaths, ask=True): 
-    if ask:
-        print
-        print 'The copying will be:'         
-        print os.linesep.join(map('FROM {}\nTO   {}'.format, sourcepaths, targpaths))           
-        r = raw_input('Proceed with copy? [y]/n ')
-        if r.lower() == 'n':
-            print 'Ok, stopping.'
-            sys.exit(0)
-    [ensure_dir(f) for f in targpaths]
-    map(shutil.copy, sourcepaths, targpaths)
-    print len(sourcepaths), 'file(s) copied to work directory', ConfigMgr.WORK_DIR
 
 def main(argv=None):
     if argv is None:
@@ -97,7 +87,7 @@ def main(argv=None):
             print
             print "Remote path '{}' ...".format(path)
             print
-            cm = ConfigMgr(dbsource=DBSOURCE, path=path)
+            cm = ConfigMgr(dbset=DBSET, path=path)
             ms = cm.go(env='dev')    
             print 'Match check:'
             for filename in ms.matches.keys() :
@@ -108,12 +98,13 @@ def main(argv=None):
             sourcepaths = [k for k, v in ms.matches.iteritems() if len(v) > 1]
             targpaths = [get_work_path(k) for k, v in ms.matches.iteritems() if len(v) > 1]            
             
-            copy_files(sourcepaths, targpaths, do_ask)
+            FileUtils.copy_files(sourcepaths, targpaths, do_ask)
+            print len(sourcepaths), 'file(s) copied to work directory', ConfigMgr.WORK_DIR
         
         if do_mod:        
             print
             print 'Performing file mod...'    
-            ms = ConfigMgr(dbsource=DBSOURCE, path=ConfigMgr.WORK_DIR).go(env='dev', write=True)     
+            ms = ConfigMgr(dbset=DBSET, path=ConfigMgr.WORK_DIR).go(env='dev', write=True)     
             print
             print 'Results:'
             for filename in ms.matches.keys() :

@@ -1,6 +1,13 @@
 #! /usr/bin/python
 
-
+#    def set_cvsfile(self, value):
+#        dr = csv.DictReader(open(value, 'rb'), delimiter=',', quotechar="'")
+#        dbprofiles = [DbProfile(**row) for row in dr]    
+#        self.DB = [db for db in dbprofiles]
+#        self._cvsfile = value
+#    def get_cvsfile(self):
+#        return self._cvsfile
+#    cvsfile = property(get_cvsfile, set_cvsfile)
 
 
 

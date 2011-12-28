@@ -1,73 +1,47 @@
 #! /usr/bin/python
-"""Manages database profiles. Takes a csv file as input.
 
-Usage:
-Run tests with ./DbSet.py -v
-"""
 import sys
-import csv
-from DbProfile import DbProfile
+from DbProfile  import DbProfile
 
 class Usage(Exception):
     def __init__(self, msg):
         self.msg = msg
 
 class DbSet(object):
-    """Manages database profiles. Takes a csv file as input.
+    """Manages database profiles. cvsfile is an option for input. maybe i dont need?
+    Defaults work well.
     Usage:
-    >>> dbset = DbSet('input/DbSet.data.csv')
+    >>> dbset = DbSet(apps=('CARL', 'MP'), dbs=(('RDxETL', 'USHPEPVSQL409'), ('RDxReport', 'USHPEPVSQL409')))
     >>> print len(dbset)
-    24
+    4
     """
-    
-    #APPS = ('CARL', 'CART', 'CPRS', 'CRA', 'CTX', 'D2', 'DRA', 'ELS', 'GDRS', 'MP', 'PartsOrder', 'R2')
-    
-    # these are on 104
-    APPS = ('CARL', 'Common', 'CPRS', 'CTX', 'D2', 'DRA', 'GDRS', 'MP', 'PartsOrder', 'R2')
-    
+        
     DB = []
     
-    def __init__(self, cvsfile=None, dbprofiles=[]):
-        self.DB = []
-        self.cvsfile = cvsfile
-        
-    def set_cvsfile(self, value):
-        dr = csv.DictReader(open(value, 'rb'), delimiter=',', quotechar="'")
-        dbprofiles = [DbProfile(**row) for row in dr]    
-        self.DB = [db for db in dbprofiles]
-        self._cvsfile = value
-        
-    def get_cvsfile(self):
-        return self._cvsfile
-
-    cvsfile = property(get_cvsfile, set_cvsfile)
+    def __init__(self, profs):
+        self.DB = profs
 
     def __len__(self):
         return len(self.DB)
+
+    def get_apps(self):
+        return set([prof.app for prof in self.DB])
     
     def get(self, prof):
         """ returns matching profs
         """    
         return self.get_by_atts(vars(prof))
         
-
     def get_by_atts(self, aDict):
         """Does given dict of attrib-vals match with self data?
         
         Usage:
-        >>> dbset = DbSet('input/DbSet.data.csv')
+        >>> dbset = DbSet(apps=('CARL', 'MP'), dbs=(('RDxETL', 'USHPEPVSQL409'), ('RDxReport', 'USHPEPVSQL409')))
         
-        Have a training RDxETL?
-        >>> print dbset.get_by_atts(dict(env='training', dbname='RDxETL'))
-        []
+        Have any CARL RDxETL?
+        >>> print dbset.get_by_atts(dict(app='CARL', dbname='RDxETL'))
+        [CARL RDxETL dev USHPEPVSQL409]
         
-        What are the MP dev boxes?
-        >>> print dbset.get_by_atts(dict(app='MP', env='dev'))
-        [MP RDxETL dev USHPEPVSQL409, MP RDxReport dev USHPEPVSQL409]
-        
-        What are the CARL boxes? (shows example of localhost or (loca) setting for db)
-        >>> print dbset.get_by_atts(dict(app='CARL'))        
-        [CARL RDxETL dev USHPEPVSQL409, CARL RDxReport dev USHPEPVSQL409]
         """
         profiles = []
         for db in self.DB:

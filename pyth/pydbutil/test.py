@@ -2,30 +2,34 @@
 
 import re
 import os
-from ConnMatchInfo import ConnMatchInfo
+from DbProfile import DbProfile
 from MatchSet import MatchSet
-
-cmi1 = (ConnMatchInfo('Usfshwssql104', 'RDxETL', 5),
-        ConnMatchInfo('Usfshwssql104', 'RDxReport', 10))
-
+from collections import namedtuple
+from DbSet import DbSet
 
 
-ms = MatchSet(file1=cmi1)
 
-print ms
+#def get_profiles(apps=None, dbs=None, envs=None, boxes=None):
 
-print ['{} {}'.format(k, v) for k, v in ms.matches.iteritems()]
+envs = ('dev', 'uat')
+apps= ('CARL', 'MP', 'R2')
+# the lookup dbset of profiles used to specify connections 
+Db = namedtuple('Db', 'dbname boxname')
+_Dbs = (Db('RDxETL', 'USHPEPVSQL409'), Db('RDxReport', 'USHPEPVSQL409'))   
 
-cmi2 = (ConnMatchInfo('Usfshwssql99', 'RDxETL', 5),
-        ConnMatchInfo('Usfshwssql99', 'RDxReport', 10))
+profs = []
+if apps:
+    for app in apps:
+        for db in _Dbs:
+            for env in envs:
+                profs.append(DbProfile(app=app, dbname=db.dbname, boxname=db.boxname, env=env))
 
-md = dict(file1=cmi1, file2=cmi2)
+#print os.linesep.join([str(prof) for prof in profs])
 
-ms = MatchSet(**md)
+dbset = DbSet(profs)
 
+print os.linesep.join([str(prof) for prof in dbset.DB])
 
-print ms
-
-print ['{} {}'.format(k, v) for k, v in ms.matches.iteritems()]
+print dbset.get_apps()
 
 

@@ -1,7 +1,7 @@
 #! /usr/bin/python
 
 import sys
-
+import itertools
 
 class Usage(Exception):
     def __init__(self, msg):
@@ -13,35 +13,55 @@ class DbProfile(object):
 
     Usage: 
     Pass in the values
-    >>> db = DbProfile('MP', 'RDxETL', 'prod', 'usfshwssql077', 'sourcepath', 'targpath' )
+    >>> db = DbProfile('MP', 'RDxETL', 'prod', 'usfshwssql077' )
     >>> print db
     MP RDxETL prod usfshwssql077
-    >>> print db.long_str()
-    MP RDxETL prod usfshwssql077 sourcepath targpath
+
     
     Run these tests with ./DbProfile.py -v
     More tests in tests/test_DbProfile.txt
     
     """
 
-    Keys = ('app', 'dbname', 'env', 'boxname', 'source', 'targ')
+    Keys = ('app', 'dbname', 'env', 'boxname')
     Envs = ('dev', 'uat', 'prod')
 
 
-    def __init__(self, app='MP', dbname='RDxETL', env='uat', boxname='usfshwssql104',
-                 source='sourcepath', targ='targpath', tup=None):
+    def __init__(self, app='MP', dbname='RDxETL', env='uat', boxname='usfshwssql104', tup=None):
         if tup:
             db_dict = dict(zip(self.Keys, tup))
             self.__init__(**db_dict)
         else:
             self.app = app
             self.dbname = dbname
-            if (env) and (env not in self.Envs):
-                raise Usage('{} is invalid environment. Must be in {}'.format(self.env, self.Envs))
+#            if (env) and (env not in self.Envs):
+#                raise Usage('{} is invalid environment. Must be in {}'.format(self.env, self.Envs))
             self.env = env
             self.boxname = boxname
-            self.source = source
-            self.targ = targ
+            
+
+    @staticmethod
+    def get_profiles(apps=None, dbs=None, envs=None, boxes=None):
+        """
+        Usage:
+        >>> envs = ('dev')
+        >>> apps= ('CARL', 'MP')
+        >>> profs = DbProfile.get_profiles( envs=envs, apps=apps)
+        >>> print [prof for prof in profs]
+        
+        #>>> dbs= ('RDxETL', 'USHPEPVSQL409'), ('RDxReport', 'USHPEPVSQL409') 
+        #>> print len(DbProfile.get_profiles( envs=envs, apps=apps))
+        #4
+        """    
+        profs = []
+        if apps:
+            for app in apps:
+                for db in dbs:
+                    for env in envs:
+                        profs.append(DbProfile(app, db.dbname, env, db.boxname))
+                                  
+        return profs    
+                        
 
     def __eq__(self, other):
         """
@@ -69,7 +89,7 @@ class DbProfile(object):
     def match_attrib(self, aDict):
         """Does given dict of attib-vals match with self data?
         
-        >>> db = DbProfile('MP', 'RDxETL', 'prod', 'usfshwssql077', 'sourcepath', 'targpath')
+        >>> db = DbProfile('MP', 'RDxETL', 'prod', 'usfshwssql077')
         
         Is it dev etl?
         >>> print db.match_attrib(dict(env='dev', dbname='RDxETL'))
@@ -86,9 +106,6 @@ class DbProfile(object):
                 return False
         return True
         
-    def long_str(self):
-        """ Includes the source and targ paths."""
-        return str(self.__str__() + ' ' + self.source + ' ' + self.targ)      
 
     def __str__(self):
         """ Doesn't include source and targ paths."""

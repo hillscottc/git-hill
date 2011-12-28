@@ -8,8 +8,6 @@ Usage: go() is the main function. Many examples in tests below.
 """
 import sys
 import re
-import os
-import itertools
 from DbSet import DbSet
 from ConnMatchInfo import ConnMatchInfo
 from MatchSet import MatchSet
@@ -18,18 +16,19 @@ import FileUtils
 
 
 
+
 class ConfigMgr(object):
     """Handles database connection strings in files using DbProfiles.
     """
-    #REGEX = 'Data Source=(Usfshwssql\w+);Initial Catalog=(RDx\w+);'
-    #REGEX = 'Data Source=([\w\\\]+);Initial Catalog=(RDx\w+);'
-    REGEX = 'Data Source=(.+);Initial Catalog=(RDx\w+);'
+    
     WORK_DIR = 'work'
     OUTPUT_DIR = 'output'
     
-    def __init__(self, dbsource=None, path=None, env=None, write=False, verbose=True):
-        if dbsource: self.dbsource = dbsource
-        if path: self.path = path
+    REGEX = 'Data Source=(.+);Initial Catalog=(RDx\w+);'
+    
+    def __init__(self, dbset=None, path=None, env=None, write=False, verbose=True):
+        self.dbset = dbset
+        self.path = path
         self.env = env
         self.write = write
         self.verbose = verbose
@@ -45,23 +44,8 @@ class ConfigMgr(object):
         return self._path
 
     path = property(get_path, set_path)
-    
-    
-    def set_dbsource(self, value):
-        self._dbsource = value
-        self.dbset = DbSet(cvsfile=value)
-
-    def get_dbsource(self):
-        return self._dbsource
-
-    dbsource = property(get_dbsource, set_dbsource)
 
 
-    def handle_file(self, filename):
-        pass
-    
-    def get_suggestion(self, aDict):
-        pass
     
     def go(self, filelist=None, app=None, env=None, write=False, verbose=True) :
         """Checks file for lines which contain connection string information,
@@ -80,7 +64,7 @@ class ConfigMgr(object):
         if app:
             apps = [app]
         else:
-            apps = DbSet.APPS
+            apps = self.dbset.get_apps()
             
         ms = MatchSet()
         

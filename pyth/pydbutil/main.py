@@ -81,7 +81,6 @@ def main(argv=None):
             elif opt in ("-C", "--no_copy"):
                 do_copy = False             
       
-        
         # copy remote to work
         if do_copy:
             print
@@ -117,9 +116,24 @@ def main(argv=None):
                         print '... No suggested change.'
             
             print
+            print ms.match_dict_summary()
+            print
             print 'New files written: '
             print os.linesep.join(f for f in ms.get_new_filenames())      
-            
+        
+        print    
+        print 'Quick Search, Path:', path
+        print '{0:3} .config files in path.'.format(len(FileUtils.get_filelist(path))) 
+
+        # a quick raw search, for a double check
+        s = FileUtils.search_files(path, 'Data Source=(.+);Initial Catalog=(RDx\w+);')
+        
+        print '{0:3} files with matches.'.format(len([k for k,v in s.iteritems() if len(v)]))
+        #print os.linesep.join(['{0:60} {1}'.format(k, len(v)) for k,v in s.iteritems() if len(v)])
+  
+        print '{0:3} files with NO matches.'.format(len([k for k,v in s.iteritems() if len(v) == 0]))
+        print os.linesep.join(['  ' + str(k) for k,v in s.iteritems() if not len(v)])
+                
         print
         print "Complete."
     except Usage, err:

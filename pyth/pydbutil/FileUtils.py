@@ -8,14 +8,29 @@ import re
 import shutil
 import sys
 
+def search_files(path, regex):
+    """ Returns: trimmed lines matching regex for given walked path."""
+    mDict = {}
+    for f in get_filelist(path):
+        with open(f, 'r') as infile:
+            lines = infile.readlines()
+        
+        matchlines = []
+        for line in lines:
+            if re.search(regex, line, re.IGNORECASE):
+                matchlines.append(trim_line(line))
+                
+        mDict[f] = matchlines
+    return mDict
+                   
 
 def get_filelist(path=None, skipdir=None):
-    """Gets config files in given path. Walks ssubdirs.
+    """Gets config files in given path. Walks subdirs.
     Skips dirs named <skipdir>..
 
     Usage:  
     >>> path = 'input/ETL/'
-    >>> filelist = ConfigMgr.get_filelist(path)
+    >>> filelist = get_filelist(path)
     >>> print '{} files are in path {}'.format(len(filelist), path)
     23 files are in path input/ETL/
     """
@@ -39,7 +54,7 @@ def get_filelist(path=None, skipdir=None):
     return filelist
 
 
-def trim_line(self, longline, max_length=80, chars_trimmed=20, chars_shown=65):
+def trim_line(longline, max_length=80, chars_trimmed=20, chars_shown=65):
     """Returns a block from the middle of the line, with ellipsis."""
     shortline = longline.strip()
     if len(shortline) > chars_shown and len(shortline) > chars_trimmed :

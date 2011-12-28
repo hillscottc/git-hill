@@ -4,11 +4,8 @@
 Usage:
 """
 import sys
+import os
 import itertools
-from ConnMatchInfo import ConnMatchInfo
-
-
-#from ConnMatchInfo import ConnMatchInfo
 
 class Usage(Exception):
     def __init__(self, msg):
@@ -44,24 +41,18 @@ class MatchSet(object):
         """ all the matches in all the lists """
         all_lists = [cmiList for cmiList in self.matches.values()]
         all_matches = [cmi for cmi in all_lists]
-        # flatten. dont want a lists of lists. 
+        # flattens. dont want a list of lists. 
         return  list(itertools.chain(*all_matches))
         
-    def match_count(self):
-        """ count of matches in all files """
-        sum(len(cmiList) for cmiList in self.matches.values())
 
     def get_match_files(self, with_matches=True):
-        """ Returns files with or without matches.
-        """
+        """ Returns files with or without matches."""
         if with_matches:
             return [k for k, v in self.matches.iteritems() if len(v) > 1]
         else:
             return [k for k, v in self.matches.iteritems() if len(v) == 0]
         
     def get_new_filenames(self):
-        """ Returns files with or without matches.
-        """
         outfilenames = []
         for filename in self.matches.keys() :
             for cmi in self.matches[filename]:
@@ -73,16 +64,26 @@ class MatchSet(object):
       
 
     def match_dict_summary(self):
-        """
-        """
-        return '{0:3} total matches in {1} files.'.format(sum([len(v) for v in self.matches.values()]),
-                                                      len(self.matches.keys()))
-
-#            print '{0:3} matches are properly configured for {1}'.format(len(matched_sug), env)
-#            print matched_sug
-#            print '{0:3} matches have suggested changes.'.format(len(has_sugs))
-#            print has_sugs
-#            print '{0:3} matches have no suggested changes.'.format(len(no_sugs))
+        lines = []
+    
+        lines.append('{0:3} total matches in {1} files.'
+                     .format(sum([len(v) for v in self.matches.values()]),
+                             len(self.matches.keys())))
+        
+        lines.append('{0:3} matches were already properly configured.'
+                     .format(len([cmi for cmi in self.get_all_matches() 
+                                  if cmi.matchProf == cmi.suggProf])))        
+        
+        lines.append('{0:3} matches had suggested changes.'
+                     .format(len([cmi for cmi in self.get_all_matches() 
+                                  if cmi.matchProf != cmi.suggProf])))            
+        
+        lines.append('{0:3} matches had NO suggestions.'
+                     .format(len([cmi for cmi in self.get_all_matches() 
+                                  if not cmi.suggProf])))   
+                
+        return os.linesep.join(lines)
+        
 
 if __name__ == "__main__":
     import doctest

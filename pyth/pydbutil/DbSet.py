@@ -25,15 +25,15 @@ class DbSet(object):
         return len(self.DB)
 
     def get_apps(self):
+        """ Returns: set of apps in the current DB profiles. """  
         return set([prof.app for prof in self.DB])
     
     def get(self, prof):
-        """ returns matching profs
-        """    
+        """ Returns:  matching profs """    
         return self.get_by_atts(vars(prof))
         
     def get_by_atts(self, aDict):
-        """Does given dict of attrib-vals match with self data?
+        """Returns: Profiles that have attributes matching the given set.
         Usage:
         >>> dbset = DbSet(apps=('CARL', 'MP'), dbs=(('RDxETL', 'USHPEPVSQL409'), ('RDxReport', 'USHPEPVSQL409')))
         

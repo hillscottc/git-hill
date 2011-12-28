@@ -74,6 +74,7 @@ class ConfigMgr(object):
             
             # skip this file, if its none
             if not len(apps_for_file) :
+                print 'Skipping file', filename
                 continue
             else:
                 app_for_file = apps_for_file[0]

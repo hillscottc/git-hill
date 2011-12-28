@@ -26,7 +26,7 @@ REMOTE_DIR = 'remote'
 
 # these are on 104
 #APPS = ('CARL', 'Common', 'CPRS', 'CTX', 'D2', 'DRA', 'GDRS', 'MP', 'PartsOrder', 'R2')
-APPS = ('CARL', 'CART', 'Common', 'CPRS', 'CRA', 'CTX', 'D2', 'DRA', 'ELS', 'GDRS', 'MP', 'PartsOrder', 'R2')
+APPS = ('CARL', 'CART', 'Common', 'CPRS', 'CRA', 'CTX', 'D2', 'DRA', 'ELS', 'FileService' , 'GDRS', 'MP', 'PartsOrder', 'R2')
 
 # the lookup dbset of profiles used to specify connections 
 Db = namedtuple('Db', 'dbname boxname')

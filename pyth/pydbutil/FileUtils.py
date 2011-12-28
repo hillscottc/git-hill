@@ -9,7 +9,7 @@ import shutil
 import sys
 
 
-def get_filelist(path=None, skipdir='Common'):
+def get_filelist(path=None, skipdir=None):
     """Gets config files in given path. Walks ssubdirs.
     Skips dirs named <skipdir>..
 

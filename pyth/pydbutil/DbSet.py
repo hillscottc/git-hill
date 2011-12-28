@@ -1,7 +1,7 @@
 #! /usr/bin/python
 
 import sys
-from DbProfile  import DbProfile
+
 
 class Usage(Exception):
     def __init__(self, msg):
@@ -34,20 +34,17 @@ class DbSet(object):
         
     def get_by_atts(self, aDict):
         """Does given dict of attrib-vals match with self data?
-        
         Usage:
         >>> dbset = DbSet(apps=('CARL', 'MP'), dbs=(('RDxETL', 'USHPEPVSQL409'), ('RDxReport', 'USHPEPVSQL409')))
         
         Have any CARL RDxETL?
         >>> print dbset.get_by_atts(dict(app='CARL', dbname='RDxETL'))
         [CARL RDxETL dev USHPEPVSQL409]
-        
         """
         profiles = []
-        for db in self.DB:
-            if db.match_attrib(aDict):
-                profiles.append(db)
-                #return db
+        for dbprof in self.DB:
+            if dbprof.match_attrib(aDict):
+                profiles.append(dbprof)
         return profiles
 
     def __str__(self):

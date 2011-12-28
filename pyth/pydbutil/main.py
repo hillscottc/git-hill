@@ -32,7 +32,7 @@ APPS = ('CARL', 'CART', 'Common', 'CPRS', 'CRA', 'CTX', 'D2', 'DRA', 'ELS', 'GDR
 Db = namedtuple('Db', 'dbname boxname')
 _Dbs = (Db('RDxETL', 'USHPEPVSQL409'), Db('RDxReport', 'USHPEPVSQL409'))   
 
-ENVS = ('dev')
+ENVS = ('dev',)
 
 DBSET = DbSet(DbProfile.get_profiles(envs=ENVS, apps=APPS, dbs=_Dbs))
 

@@ -8,7 +8,6 @@ Usage: go() is the main function. Many examples in tests below.
 """
 import sys
 import re
-from DbSet import DbSet
 from ConnMatchInfo import ConnMatchInfo
 from MatchSet import MatchSet
 from DbProfile import DbProfile
@@ -112,7 +111,6 @@ class ConfigMgr(object):
                     
                     cmi = ConnMatchInfo(matched_profile, linenum, newFilename=outfilename)
                     
-
                     sugg_profs = self.dbset.get(cmi.matchProf)
                     if len(sugg_profs):
                         # we have a perfect match already.

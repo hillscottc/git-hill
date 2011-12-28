@@ -1,26 +1,18 @@
 #! /usr/bin/python
 
 import sys
-import itertools
 
 class Usage(Exception):
     def __init__(self, msg):
         self.msg = msg
 
 class DbProfile(object):
-    """
-    Represents a database instance by dbname, env, boxname, and path. 
-
+    """Represents a database instance by dbname, env, boxname, and path. 
     Usage: 
     Pass in the values
     >>> db = DbProfile('MP', 'RDxETL', 'prod', 'usfshwssql077' )
     >>> print db
     MP RDxETL prod usfshwssql077
-
-    
-    Run these tests with ./DbProfile.py -v
-    More tests in tests/test_DbProfile.txt
-    
     """
 
     Keys = ('app', 'dbname', 'env', 'boxname')
@@ -42,16 +34,12 @@ class DbProfile(object):
 
     @staticmethod
     def get_profiles(apps=None, dbs=None, envs=None, boxes=None):
-        """
+        """Returns a list of profiles for criteria.
         Usage:
         >>> envs = ('dev')
         >>> apps= ('CARL', 'MP')
         >>> profs = DbProfile.get_profiles( envs=envs, apps=apps)
         >>> print [prof for prof in profs]
-        
-        #>>> dbs= ('RDxETL', 'USHPEPVSQL409'), ('RDxReport', 'USHPEPVSQL409') 
-        #>> print len(DbProfile.get_profiles( envs=envs, apps=apps))
-        #4
         """    
         profs = []
         if apps:
@@ -86,6 +74,7 @@ class DbProfile(object):
         return not self.__eq__(other)
 
 
+
     def match_attrib(self, aDict):
         """Does given dict of attib-vals match with self data?
         
@@ -99,8 +88,7 @@ class DbProfile(object):
         >>> print db.match_attrib(dict(app='MP', env='prod', dbname='RDxETL', boxname='usfshwssql077'))
         True
         """
-        
-        
+        #print 'Profile {} is trying to match {}'.format(self, aDict)
         for k, v in aDict.iteritems():
             if not (vars(self)[k] == v) :
                 return False

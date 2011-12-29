@@ -108,6 +108,22 @@ class MatchSet(object):
                            if not cmi.suggProf])))   
                 
         return os.linesep.join(lines)
+    
+    def summary_details(self):
+        
+        lines = []
+        
+        for filename in self.matches.keys() :
+            lines.append('FILE: ' + filename)
+            for cmi in self.matches[filename]:
+                l = '  line {}, {} is pointed to {}'.format(cmi.linenum, cmi.matchProf.dbname, cmi.matchProf.boxname)
+                if cmi.suggProf:
+                    l += '... changing to {}'.format(cmi.suggProf.boxname)
+                else:
+                    l +=  '... No suggested change.' 
+                lines.append(l) 
+        
+        return os.linesep.join(lines)    
         
 
 if __name__ == "__main__":

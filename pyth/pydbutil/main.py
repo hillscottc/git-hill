@@ -88,15 +88,7 @@ def main(argv=None):
             print
             cm = ConfigMgr(dbset=DBSET, path=path)
             ms = cm.go(env='dev')    
-            print 'Match check:'
-            for filename in ms.matches.keys() :
-                print 'In file', filename
-                for cmi in ms.matches[filename]:
-                    print '  line {}, {} is pointed to {} ({})'.format(
-                        cmi.linenum, cmi.matchProf.dbname, cmi.matchProf.boxname, cmi.matchProf.env)
             
-       
-            #print os.linesep.join(config_files) 
             sourcepaths = [k for k, v in ms.matches.iteritems() if len(v) > 0]
             targpaths = [get_work_path(k) for k, v in ms.matches.iteritems() if len(v) > 0]    
  
@@ -112,34 +104,13 @@ def main(argv=None):
             ms = ConfigMgr(dbset=DBSET, path=ConfigMgr.WORK_DIR).go(env='dev', write=True)     
             print
             print 'Results:'
-            for filename in ms.matches.keys() :
-                print 'FILE:', filename
-                for cmi in ms.matches[filename]:
-                    print '  line {}, {} is pointed to {}'.format(
-                      cmi.linenum, cmi.matchProf.dbname, cmi.matchProf.boxname), 
-                    if cmi.suggProf:
-                        print '... changing to {}'.format(cmi.suggProf.boxname)
-                    else:
-                        print '... No suggested change.'
+            print ms.summary_details()
             
             print
             print ms.summary_matches()
             print
             print "{0:3} files written to dir '{1}'.".format(len(ms.get_new_filenames()), ConfigMgr.OUTPUT_DIR)
-            #print os.linesep.join(f for f in ms.get_new_filenames())
         
-        
-#        print 'Quick Search, Path:', path
-#        print '{0:3} .config files in path.'.format(len(FileUtils.get_filelist(path))) 
-#
-#        # a quick raw search, for a double check
-#        s = FileUtils.search_files(path, 'Data Source=(.+);Initial Catalog=(RDx\w+);')
-#        
-#        print '{0:3} files with matches.'.format(len([k for k,v in s.iteritems() if len(v)]))
-#        #print os.linesep.join(['{0:60} {1}'.format(k, len(v)) for k,v in s.iteritems() if len(v)])
-#  
-#        print '{0:3} files with NO matches.'.format(len([k for k,v in s.iteritems() if len(v) == 0]))
-#        print os.linesep.join(['  ' + str(k) for k,v in s.iteritems() if not len(v)])
                 
         print
         print "Complete."

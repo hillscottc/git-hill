@@ -70,6 +70,7 @@ class ConfigMgr(object):
         for filename in filelist:
                         
             # the name of this file matches which of the apps?
+            print 'checking', app, filename
             apps_for_file = [app for app in apps if re.search(app, filename)]
             
             # skip this file, if its none

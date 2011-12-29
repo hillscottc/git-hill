@@ -60,27 +60,44 @@ class MatchSet(object):
                     outfilenames.append(cmi.newFilename)
                 break
         return outfilenames
-
-      
-
-    def match_dict_summary(self):
-        lines = []
     
-        lines.append('{0:3} total matches in {1} files.'
-                     .format(sum([len(v) for v in self.matches.values()]),
-                             len(self.matches.keys())))
+    def get_files_processed(self):
+        return self.matches.keys()
+   
+            
+    def get_files_with_matches(self, matches=True):
+        if matches:
+            return [k for k, v in self.matches.iteritems() if len(v)]
+        else:
+            return [k for k, v in self.matches.iteritems() if not len(v)]   
+    
+    def match_dict_summary(self):
         
-        lines.append('{0:3} matches were already properly configured.'
-                     .format(len([cmi for cmi in self.get_all_matches() 
-                                  if cmi.matchProf == cmi.suggProf])))        
+        lines = []
         
-        lines.append('{0:3} matches had suggested changes.'
-                     .format(len([cmi for cmi in self.get_all_matches() 
-                                  if cmi.matchProf != cmi.suggProf])))            
+        lines.append('{0:3} files processed.'.format
+                     (len(self.get_files_processed())))
+
+        lines.append('{0:3} files with NO matches.'.format
+                     (len(self.get_files_with_matches(False))))
+
+        lines.append('{0:3} files with at least one match.'.format
+                     (len(self.get_files_with_matches())))  
+ 
+        lines.append('{0:3} total matches.'.format
+                     (sum([len(v) for v in self.matches.values()])))
         
-        lines.append('{0:3} matches had NO suggestions.'
-                     .format(len([cmi for cmi in self.get_all_matches() 
-                                  if not cmi.suggProf])))   
+        lines.append('{0:3} matches were already properly configured.'.format
+                     (len([cmi for cmi in self.get_all_matches() 
+                           if cmi.matchProf == cmi.suggProf])))        
+        
+        lines.append('{0:3} matches had suggested changes.'.format
+                     (len([cmi for cmi in self.get_all_matches() 
+                           if cmi.matchProf != cmi.suggProf])))            
+        
+        lines.append('{0:3} matches had NO suggestions.'.format
+                     (len([cmi for cmi in self.get_all_matches() 
+                           if not cmi.suggProf])))   
                 
         return os.linesep.join(lines)
         

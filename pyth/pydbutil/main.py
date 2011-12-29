@@ -26,7 +26,7 @@ REMOTE_DIR = 'remote'
 
 # these are on 104
 #APPS = ('CARL', 'Common', 'CPRS', 'CTX', 'D2', 'DRA', 'GDRS', 'MP', 'PartsOrder', 'R2')
-APPS = ('CARL', 'CART', 'Common', 'CPRS', 'CRA', 'CTX', 'D2', 'DRA', 'ELS', 'FileService' , 'GDRS', 'MP', 'PartsOrder', 'R2')
+APPS = ('CARL', 'CART', 'Common', 'CPRS', 'CRA', 'CTX', 'D2', 'DRA', 'ELS', 'FileService' , 'gdrs', 'MP', 'PartsOrder', 'R2')
 
 # the lookup dbset of profiles used to specify connections 
 Db = namedtuple('Db', 'dbname boxname')
@@ -92,14 +92,20 @@ def main(argv=None):
             for filename in ms.matches.keys() :
                 print 'In file', filename
                 for cmi in ms.matches[filename]:
-                    print '  line {}, {} is pointed to {} ({})'.format(cmi.linenum, cmi.matchProf.dbname, cmi.matchProf.boxname, cmi.matchProf.env)
-                
-            sourcepaths = [k for k, v in ms.matches.iteritems() if len(v) > 1]
-            targpaths = [get_work_path(k) for k, v in ms.matches.iteritems() if len(v) > 1]            
+                    print '  line {}, {} is pointed to {} ({})'.format(
+                        cmi.linenum, cmi.matchProf.dbname, cmi.matchProf.boxname, cmi.matchProf.env)
             
+       
+            #print os.linesep.join(config_files) 
+            sourcepaths = [k for k, v in ms.matches.iteritems() if len(v) > 0]
+            targpaths = [get_work_path(k) for k, v in ms.matches.iteritems() if len(v) > 0]    
+ 
+            print
+            print ms.match_dict_summary()
+            print
             FileUtils.copy_files(sourcepaths, targpaths, do_ask)
             print len(sourcepaths), 'file(s) copied to work directory', ConfigMgr.WORK_DIR
-        
+            
         if do_mod:        
             print
             print 'Performing file mod...'    
@@ -119,9 +125,14 @@ def main(argv=None):
             print ms.match_dict_summary()
             print
             print 'New files written: '
-            print os.linesep.join(f for f in ms.get_new_filenames())      
+            print os.linesep.join(f for f in ms.get_new_filenames())
         
-        print    
+            
+        
+        
+        
+        
+        
         print 'Quick Search, Path:', path
         print '{0:3} .config files in path.'.format(len(FileUtils.get_filelist(path))) 
 

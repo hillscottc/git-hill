@@ -40,15 +40,6 @@ class Usage(Exception):
     def __init__(self, msg):
         self.msg = msg
 
-def get_work_path(path, old_dir=None, new_dir=None):
-    if not old_dir:
-        old_dir = REMOTE_DIR
-    if not new_dir:
-        new_dir = ConfigMgr.WORK_DIR
-    
-    return re.sub(old_dir, new_dir, path)                             
-
-
 def main(argv=None):
     if argv is None:
         argv = sys.argv
@@ -90,7 +81,7 @@ def main(argv=None):
             ms = cm.go(env='dev')    
             
             sourcepaths = [k for k, v in ms.matches.iteritems() if len(v) > 0]
-            targpaths = [get_work_path(k) for k, v in ms.matches.iteritems() if len(v) > 0]    
+            targpaths = [FileUtils.get_work_path(k, REMOTE_DIR) for k, v in ms.matches.iteritems() if len(v) > 0]    
  
             print
             print ms.summary_files()

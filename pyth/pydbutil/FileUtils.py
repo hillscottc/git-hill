@@ -8,6 +8,11 @@ import re
 import shutil
 import sys
 
+def get_work_path(path, old_dir, new_dir=None):
+    if not new_dir:
+        new_dir = 'work'
+    return re.sub(old_dir, new_dir, path)    
+
 def search_files(path, regex):
     """ Returns: trimmed lines matching regex for given walked path."""
     mDict = {}

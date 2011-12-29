@@ -101,7 +101,7 @@ def main(argv=None):
             targpaths = [get_work_path(k) for k, v in ms.matches.iteritems() if len(v) > 0]    
  
             print
-            print ms.match_dict_summary()
+            print ms.summary_files()
             print
             FileUtils.copy_files(sourcepaths, targpaths, do_ask)
             print len(sourcepaths), 'file(s) copied to work directory', ConfigMgr.WORK_DIR
@@ -115,35 +115,31 @@ def main(argv=None):
             for filename in ms.matches.keys() :
                 print 'FILE:', filename
                 for cmi in ms.matches[filename]:
-                    print '  line {}, {} is pointed to {}'.format(cmi.linenum, cmi.matchProf.dbname, cmi.matchProf.boxname), 
+                    print '  line {}, {} is pointed to {}'.format(
+                      cmi.linenum, cmi.matchProf.dbname, cmi.matchProf.boxname), 
                     if cmi.suggProf:
                         print '... changing to {}'.format(cmi.suggProf.boxname)
                     else:
                         print '... No suggested change.'
             
             print
-            print ms.match_dict_summary()
+            print ms.summary_matches()
             print
-            print 'New files written: '
-            print os.linesep.join(f for f in ms.get_new_filenames())
-        
-            
+            print "{0:3} files written to dir '{1}'.".format(len(ms.get_new_filenames()), ConfigMgr.OUTPUT_DIR)
+            #print os.linesep.join(f for f in ms.get_new_filenames())
         
         
-        
-        
-        
-        print 'Quick Search, Path:', path
-        print '{0:3} .config files in path.'.format(len(FileUtils.get_filelist(path))) 
-
-        # a quick raw search, for a double check
-        s = FileUtils.search_files(path, 'Data Source=(.+);Initial Catalog=(RDx\w+);')
-        
-        print '{0:3} files with matches.'.format(len([k for k,v in s.iteritems() if len(v)]))
-        #print os.linesep.join(['{0:60} {1}'.format(k, len(v)) for k,v in s.iteritems() if len(v)])
-  
-        print '{0:3} files with NO matches.'.format(len([k for k,v in s.iteritems() if len(v) == 0]))
-        print os.linesep.join(['  ' + str(k) for k,v in s.iteritems() if not len(v)])
+#        print 'Quick Search, Path:', path
+#        print '{0:3} .config files in path.'.format(len(FileUtils.get_filelist(path))) 
+#
+#        # a quick raw search, for a double check
+#        s = FileUtils.search_files(path, 'Data Source=(.+);Initial Catalog=(RDx\w+);')
+#        
+#        print '{0:3} files with matches.'.format(len([k for k,v in s.iteritems() if len(v)]))
+#        #print os.linesep.join(['{0:60} {1}'.format(k, len(v)) for k,v in s.iteritems() if len(v)])
+#  
+#        print '{0:3} files with NO matches.'.format(len([k for k,v in s.iteritems() if len(v) == 0]))
+#        print os.linesep.join(['  ' + str(k) for k,v in s.iteritems() if not len(v)])
                 
         print
         print "Complete."

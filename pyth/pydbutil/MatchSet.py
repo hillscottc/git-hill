@@ -29,7 +29,7 @@ class MatchSet(object):
     file3 (Usfshwssql88 RDxETL 5, Usfshwssql88 RDxReport 10)
     file2 (Usfshwssql99 RDxETL 5, Usfshwssql99 RDxReport 10)
     file1 (Usfshwssql104 RDxETL 5, Usfshwssql104 RDxReport 10)
-    >>> ms.match_dict_summary()
+    >>> ms.summary_matches()
     'Found 6 matches in 3 files.'
     """
     
@@ -70,8 +70,9 @@ class MatchSet(object):
             return [k for k, v in self.matches.iteritems() if len(v)]
         else:
             return [k for k, v in self.matches.iteritems() if not len(v)]   
+   
     
-    def match_dict_summary(self):
+    def summary_files(self):
         
         lines = []
         
@@ -83,9 +84,16 @@ class MatchSet(object):
 
         lines.append('{0:3} files with at least one match.'.format
                      (len(self.get_files_with_matches())))  
+                
+        return os.linesep.join(lines)    
+    
+    
+    def summary_matches(self):
+        
+        lines = []
  
-        lines.append('{0:3} total matches.'.format
-                     (sum([len(v) for v in self.matches.values()])))
+        lines.append('{0:3} total matches in {1} files.'.format
+                     (sum([len(v) for v in self.matches.values()]), len(self.get_files_processed()) ))
         
         lines.append('{0:3} matches were already properly configured.'.format
                      (len([cmi for cmi in self.get_all_matches() 

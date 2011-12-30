@@ -9,7 +9,7 @@ Args:
     -e: the env to switch to {env, uat, or prod}
     -M: do NOT mod files
     -C: do NOT copy files
-    -A: do NOT ask user for input
+    -a: ask for user input
 
 """
 import sys
@@ -30,7 +30,7 @@ APPS = ('CARL', 'CART', 'Common', 'CPRS', 'CRA', 'CTX', 'D2', 'DRA', 'ELS', 'Fil
 
 # the lookup dbset of profiles used to specify connections 
 Db = namedtuple('Db', 'dbname boxname')
-_Dbs = (Db('RDxETL', 'USHPEPVSQL409'), Db('RDxReport', 'USHPEPVSQL409'))   
+_Dbs = (Db('RDxETL', 'USHPEPVSQL409'), Db('RDxReport', r'USFSHWSSQL104\RIGHTSDEV_2'))   
 
 ENVS = ('dev',)
 
@@ -64,7 +64,8 @@ def main(argv=None):
                 path = arg
             elif opt in ("-e", "--env"):
                 env = arg
-                if env!=None: env=env.upper()
+                if env != None :
+                    env=env.upper()
             elif opt in ("-a", "--ask"):
                 do_ask = True                  
             elif opt in ("-M", "--no_mod"):
@@ -85,7 +86,8 @@ def main(argv=None):
  
             print
             print ms.summary_files()
-            print
+            print ms.summary_details()
+                        
             FileUtils.copy_files(sourcepaths, targpaths, do_ask)
             print len(sourcepaths), 'file(s) copied to work directory', ConfigMgr.WORK_DIR
             

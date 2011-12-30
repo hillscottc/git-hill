@@ -41,6 +41,7 @@ class DbSet(object):
         >>> print dbset.get_by_atts(dict(app='CARL', dbname='RDxETL'))
         [CARL RDxETL dev USHPEPVSQL409]
         """
+                
         profiles = []
         for dbprof in self.DB:
             if dbprof.match_attrib(aDict):

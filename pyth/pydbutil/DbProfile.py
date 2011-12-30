@@ -30,6 +30,18 @@ class DbProfile(object):
 #                raise Usage('{} is invalid environment. Must be in {}'.format(self.env, self.Envs))
             self.env = env
             self.boxname = boxname
+ 
+    
+# 
+#    def set_boxname(self, value):
+#        print 'prop'
+#        self._boxname = value.upper()
+#
+#    def get_boxname(self):
+#        print 'prop'
+#        return self._boxname.upper()
+#
+#    boxname = property(get_boxname, set_boxname) 
             
 
     @staticmethod
@@ -89,6 +101,7 @@ class DbProfile(object):
         True
         """
         #print 'Profile {} is trying to match {}'.format(self, aDict)
+          
         for k, v in aDict.iteritems():
             if not (vars(self)[k] == v) :
                 return False

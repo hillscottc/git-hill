@@ -105,7 +105,7 @@ class ConfigMgr(object):
                     m_boxname, m_dbname = m.group(1), m.group(2)
         
                     #cmi = ConnMatchInfo(m_boxname, m_dbname, linenum)
-                    matched_profile = DbProfile(boxname=m_boxname, dbname=m_dbname,
+                    matched_profile = DbProfile(boxname=m_boxname.upper(), dbname=m_dbname,
                                                 env=env, app=app_for_file)
                     
                     outfilename = FileUtils.get_output_filename(ConfigMgr.WORK_DIR, ConfigMgr.OUTPUT_DIR, filename)

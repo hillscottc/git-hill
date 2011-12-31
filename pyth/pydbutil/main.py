@@ -13,33 +13,40 @@ Args:
 
 """
 import sys
-import os
 import getopt
-import re
 from ConfigMgr import ConfigMgr
 from DbProfile import DbProfile
 from DbSet import DbSet
-from collections import namedtuple
 import FileUtils
 
 REMOTE_DIR = 'remote'
 
-# these are on 104
-#APPS = ('CARL', 'Common', 'CPRS', 'CTX', 'D2', 'DRA', 'GDRS', 'MP', 'PartsOrder', 'R2')
-APPS = ('CARL', 'CART', 'Common', 'CPRS', 'CRA', 'CTX', 'D2', 'DRA', 'ELS', 'FileService' , 'gdrs', 'MP', 'PartsOrder', 'R2')
-
-# the lookup dbset of profiles used to specify connections 
-Db = namedtuple('Db', 'dbname boxname')
-_Dbs = (Db('RDxETL', 'USHPEPVSQL409'), Db('RDxReport', r'USFSHWSSQL104\RIGHTSDEV_2'))   
-
-ENVS = ('dev',)
-
-DBSET = DbSet(DbProfile.get_profiles(envs=ENVS, apps=APPS, dbs=_Dbs))
 
 class Usage(Exception):
     def __init__(self, msg):
         self.msg = msg
 
+def create_model_dbset() :
+    """Describes the dbset which ConfigMgr uses as model to examine config files.
+    """
+    # these are on 104
+    #APPS = ('CARL', 'Common', 'CPRS', 'CTX', 'D2', 'DRA', 'GDRS', 'MP', 'PartsOrder', 'R2')
+    apps = ('CARL', 'CART', 'Common', 'CPRS', 'CRA', 'CTX', 'D2', 'DRA', 'ELS', 'FileService' , 'gdrs', 'MP', 'PartsOrder', 'R2')
+        
+    # The dbs for each app.
+    dbs = (
+           ('RDxETL', 'USHPEPVSQL409'),
+           ('RDxReport', r'USFSHWSSQL104\RIGHTSDEV_2')
+          )
+    
+    # The environs for each for each app+db.
+    envs = ('dev',)
+    
+    return DbSet(DbProfile.create_profiles(envs=envs, apps=apps, dbs=dbs))
+
+# Create the model dbset to be used for this run.  
+MODEL_DBSET = create_model_dbset() 
+    
 def main(argv=None):
     if argv is None:
         argv = sys.argv
@@ -76,33 +83,33 @@ def main(argv=None):
         # copy remote to work
         if do_copy:
             print
-            print "Remote path '{}' ...".format(path)
-            print
-            cm = ConfigMgr(dbset=DBSET, path=path)
+            print "Remote path '{}' ...".format(path)           
+            cm = ConfigMgr(dbset=MODEL_DBSET, path=path)
             ms = cm.go(env='dev')    
-            
             sourcepaths = [k for k, v in ms.matches.iteritems() if len(v) > 0]
             targpaths = [FileUtils.get_work_path(k, REMOTE_DIR) for k, v in ms.matches.iteritems() if len(v) > 0]    
- 
-            print
             print ms.summary_files()
-            print ms.summary_details()
-                        
+            #print ms.summary_details()
             FileUtils.copy_files(sourcepaths, targpaths, do_ask)
             print len(sourcepaths), 'file(s) copied to work directory', ConfigMgr.WORK_DIR
-            
         if do_mod:        
             print
             print 'Performing file mod...'    
-            ms = ConfigMgr(dbset=DBSET, path=ConfigMgr.WORK_DIR).go(env='dev', write=True)     
+            ms = ConfigMgr(dbset=MODEL_DBSET, path=ConfigMgr.WORK_DIR).go(env='dev', write=True)     
             print
             print 'Results:'
             print ms.summary_details()
-            
             print
             print ms.summary_matches()
             print
             print "{0:3} files written to dir '{1}'.".format(len(ms.get_new_filenames()), ConfigMgr.OUTPUT_DIR)
+            
+            
+#            print 'test'
+#            p = DbProfile('CPRS', 'RDxETL', 'dev', 'USHPEPVSQL409')
+#            print p.match_attrib(dict(env='dev', dbname='RDxETL'))
+#            cm = ConfigMgr(dbset=DBSET, path=path)
+#            print cm.dbset.get(p)
         
                 
         print

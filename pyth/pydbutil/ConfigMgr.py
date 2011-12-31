@@ -111,16 +111,16 @@ class ConfigMgr(object):
                     outfilename = FileUtils.get_output_filename(ConfigMgr.WORK_DIR, ConfigMgr.OUTPUT_DIR, filename)
                     
                     cmi = ConnMatchInfo(matched_profile, linenum, newFilename=outfilename)
+                
+                    sugg_profs = self.dbset.get(cmi.matchProf)     
                     
-                    sugg_profs = self.dbset.get(cmi.matchProf)
                     if len(sugg_profs):
                         # we have a perfect match already.
-                        cmi.suggProf = sugg_profs[0]
+                        cmi.suggProf = sugg_profs[0]       
                     
-
                     # if no (exact match) sug yet, get the correect prof for this app+dbname+env
                     if not cmi.suggProf:
-                                                                                    
+                        #print '####', cmi.matchProf, 'was  not', cmi.suggProf                                                        
                         suggestions = self.dbset.get_by_atts(dict(dbname=cmi.matchProf.dbname, app=app_for_file, env=env))
                         
                         if len(suggestions):

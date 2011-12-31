@@ -76,7 +76,7 @@ class MatchSet(object):
         
         lines = []
         
-        lines.append('{0:3} files processed.'.format
+        lines.append('{0:3} .config files found.'.format
                      (len(self.get_files_processed())))
 
         lines.append('{0:3} files with NO matches.'.format
@@ -117,10 +117,12 @@ class MatchSet(object):
             lines.append('FILE: ' + filename)
             for cmi in self.matches[filename]:
                 l = '  line {}, {} is pointed to {}'.format(cmi.linenum, cmi.matchProf.dbname, cmi.matchProf.boxname)
-                if cmi.suggProf:
-                    l += '... changing to {}'.format(cmi.suggProf.boxname)
+                if cmi.suggProf == cmi.matchProf:
+                    l += '...already matching...no change.'.format(cmi.suggProf.boxname)      
+                elif cmi.suggProf:
+                    l += '...changing to {}'.format(cmi.suggProf.boxname)
                 else:
-                    l +=  '... No suggested change.' 
+                    l +=  '...no suggestions...no change.' 
                 lines.append(l) 
         
         return os.linesep.join(lines)    

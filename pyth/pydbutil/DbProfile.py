@@ -30,35 +30,23 @@ class DbProfile(object):
 #                raise Usage('{} is invalid environment. Must be in {}'.format(self.env, self.Envs))
             self.env = env
             self.boxname = boxname
- 
-    
-# 
-#    def set_boxname(self, value):
-#        print 'prop'
-#        self._boxname = value.upper()
-#
-#    def get_boxname(self):
-#        print 'prop'
-#        return self._boxname.upper()
-#
-#    boxname = property(get_boxname, set_boxname) 
-            
+   
 
     @staticmethod
-    def get_profiles(apps=None, dbs=None, envs=None, boxes=None):
+    def create_profiles(apps=None, dbs=None, envs=None, boxes=None):
         """Returns a list of profiles for criteria.
         Usage:
         >>> envs = ('dev')
         >>> apps= ('CARL', 'MP')
-        >>> profs = DbProfile.get_profiles( envs=envs, apps=apps)
+        >>> profs = DbProfile.create_profiles( envs=envs, apps=apps)
         >>> print [prof for prof in profs]
         """    
         profs = []
         if apps:
             for app in apps:
-                for db in dbs:
+                for dbtup in dbs:
                     for env in envs:
-                        profs.append(DbProfile(app, db.dbname, env, db.boxname))
+                        profs.append(DbProfile(app, dbtup[0], env, dbtup[1]))
                                   
         return profs    
                         
@@ -99,10 +87,8 @@ class DbProfile(object):
         Is it MP app prod etl on usfshwssql077?
         >>> print db.match_attrib(dict(app='MP', env='prod', dbname='RDxETL', boxname='usfshwssql077'))
         True
-        """
-        #print 'Profile {} is trying to match {}'.format(self, aDict)
-          
-        for k, v in aDict.iteritems():
+        """          
+        for k, v in aDict.iteritems() :
             if not (vars(self)[k] == v) :
                 return False
         return True

@@ -93,7 +93,8 @@ class MatchSet(object):
         lines = []
  
         lines.append('{0:3} total matches in {1} files.'.format
-                     (sum([len(v) for v in self.matches.values()]), len(self.get_files_processed()) ))
+                     (sum([len(v) for v in self.matches.values()]),
+                       len(self.get_files_processed()) ))
         
         lines.append('{0:3} matches were already properly configured.'.format
                      (len([cmi for cmi in self.get_all_matches() 

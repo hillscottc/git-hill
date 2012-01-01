@@ -105,12 +105,14 @@ class ConfigMgr(object):
                     m_boxname, m_dbname = m.group(1), m.group(2)
         
                     #cmi = ConnMatchInfo(m_boxname, m_dbname, linenum)
-                    matched_profile = DbProfile(boxname=m_boxname.upper(), dbname=m_dbname,
-                                                env=env, app=app_for_file)
+                    matched_profile = DbProfile(boxname=m_boxname.upper(),
+                                       dbname=m_dbname, env=env, app=app_for_file)
                     
-                    outfilename = FileUtils.get_output_filename(ConfigMgr.WORK_DIR, ConfigMgr.OUTPUT_DIR, filename)
+                    outfilename = FileUtils.get_output_filename(
+                                  ConfigMgr.WORK_DIR, ConfigMgr.OUTPUT_DIR, filename)
                     
-                    cmi = ConnMatchInfo(matched_profile, linenum, newFilename=outfilename)
+                    cmi = ConnMatchInfo(matched_profile, linenum,
+                                        newFilename=outfilename)
                 
                     sugg_profs = self.dbset.get(cmi.matchProf)     
                     
@@ -121,13 +123,15 @@ class ConfigMgr(object):
                     # if no (exact match) sug yet, get the correect prof for this app+dbname+env
                     if not cmi.suggProf:
                         #print '####', cmi.matchProf, 'was  not', cmi.suggProf                                                        
-                        suggestions = self.dbset.get_by_atts(dict(dbname=cmi.matchProf.dbname, app=app_for_file, env=env))
+                        suggestions = self.dbset.get_by_atts(
+                                       dict(dbname=cmi.matchProf.dbname,
+                                            app=app_for_file, env=env))
                         
                         if len(suggestions):
                             cmi.suggProf = suggestions[0]
                             if write:
-                                line = re.sub(m_boxname, cmi.suggProf.boxname, line, re.IGNORECASE)
-                                #match_msgs.append('    * Connection on line {} changing from {} to {}'.format(linenum, m_boxname, cmi.suggProf.boxname))     
+                                line = re.sub(m_boxname, cmi.suggProf.boxname,
+                                              line, re.IGNORECASE)
                     
                     cmiList.append(cmi)
                             
@@ -137,7 +141,8 @@ class ConfigMgr(object):
             ms.matches[filename] = sorted(cmiList, key = lambda x: x.linenum)
 
             if write:
-                outfilename = FileUtils.get_output_filename(ConfigMgr.WORK_DIR, ConfigMgr.OUTPUT_DIR, filename)
+                outfilename = FileUtils.get_output_filename(
+                               ConfigMgr.WORK_DIR, ConfigMgr.OUTPUT_DIR, filename)
                 with open(outfilename, 'w') as outfile:
                     outfile.write(outlines)
                 #match_msgs.append('Wrote file ' + outfilename)

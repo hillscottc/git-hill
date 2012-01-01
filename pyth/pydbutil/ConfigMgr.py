@@ -14,8 +14,6 @@ from DbProfile import DbProfile
 import FileUtils
 
 
-
-
 class ConfigMgr(object):
     """Handles database connection strings in files using DbProfiles.
     """
@@ -32,7 +30,6 @@ class ConfigMgr(object):
         self.write = write
         self.verbose = verbose
         
-
     def set_path(self, value):
         if not self.dbset: raise Exception('dbset is required when setting path.')
         self.filelist = FileUtils.get_filelist(value)
@@ -44,21 +41,15 @@ class ConfigMgr(object):
 
     path = property(get_path, set_path)
 
-
     def parse_line(self, re_match, line, linenum, env, app):
         """Returns: cmi 
         """
 
         # get db data from re_match
-        #m_boxname, m_dbname = re_match.group(1), re_match.group(2)
-
         matched_profile = DbProfile(
                            boxname=re_match.group(1).upper(),
                            dbname=re_match.group(2), 
                            env=env, app=app)
-        
-#            outfilename = FileUtils.get_output_filename(
-#                          ConfigMgr.WORK_DIR, ConfigMgr.OUTPUT_DIR, filename)
         
         cmi = ConnMatchInfo(matched_profile, linenum)
     
@@ -77,15 +68,9 @@ class ConfigMgr(object):
             
             if len(suggestions):
                 cmi.suggProf = suggestions[0]
-#                    if write:
-#                        line = re.sub(m_boxname, cmi.suggProf.boxname,
-#                                      line, re.IGNORECASE)
             
         return cmi
         
-    
-
-    
     def go(self, filelist=None, app=None, env=None, write=False, verbose=True) :
         """Checks file for lines which contain connection string information,
         for each file in filelist.
@@ -150,7 +135,10 @@ class ConfigMgr(object):
                             
                     if write:                        
                         line = re.sub(re_match.group(1),
-                                      cmi.suggProf.boxname, line, re.IGNORECASE)                 
+                                      cmi.suggProf.boxname, line, re.IGNORECASE)  
+
+                # MAYBE HERE... 'Does this line look like a log?'
+                
                     
                 outlines = outlines + line
 
@@ -161,12 +149,9 @@ class ConfigMgr(object):
                                ConfigMgr.WORK_DIR, ConfigMgr.OUTPUT_DIR, filename)
                 with open(outfilename, 'w') as outfile:
                     outfile.write(outlines)
-                #match_msgs.append('Wrote file ' + outfilename)
         
         return ms
     
-
-        
 
 if __name__ == "__main__":
     import doctest

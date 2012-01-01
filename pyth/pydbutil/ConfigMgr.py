@@ -45,10 +45,51 @@ class ConfigMgr(object):
     path = property(get_path, set_path)
 
 
+    def parse_line(self, re_match, line, linenum, env, app):
+        """Returns: cmi 
+        """
+
+        # get db data from re_match
+        #m_boxname, m_dbname = re_match.group(1), re_match.group(2)
+
+        matched_profile = DbProfile(
+                           boxname=re_match.group(1).upper(),
+                           dbname=re_match.group(2), 
+                           env=env, app=app)
+        
+#            outfilename = FileUtils.get_output_filename(
+#                          ConfigMgr.WORK_DIR, ConfigMgr.OUTPUT_DIR, filename)
+        
+        cmi = ConnMatchInfo(matched_profile, linenum)
+    
+        sugg_profs = self.dbset.get(cmi.matchProf)     
+        
+        if len(sugg_profs):
+            # we have a perfect match already.
+            cmi.suggProf = sugg_profs[0]       
+        
+        # if no (exact match) sug yet, get the correect prof for this app+dbname+env
+        if not cmi.suggProf:
+            #print '####', cmi.matchProf, 'was  not', cmi.suggProf                                                        
+            suggestions = self.dbset.get_by_atts(
+                           dict(dbname=cmi.matchProf.dbname,
+                                app=app, env=env))
+            
+            if len(suggestions):
+                cmi.suggProf = suggestions[0]
+#                    if write:
+#                        line = re.sub(m_boxname, cmi.suggProf.boxname,
+#                                      line, re.IGNORECASE)
+            
+        return cmi
+        
+    
+
     
     def go(self, filelist=None, app=None, env=None, write=False, verbose=True) :
         """Checks file for lines which contain connection string information,
         for each file in filelist.
+        Returns: a MatchSet
         """
         
         if not filelist:
@@ -81,9 +122,8 @@ class ConfigMgr(object):
                   
 
             if write: 
-                outfilename = FileUtils.get_output_filename(ConfigMgr.WORK_DIR,
-                                                            ConfigMgr.OUTPUT_DIR,
-                                                            filename)
+                outfilename = FileUtils.get_output_filename(
+                          ConfigMgr.WORK_DIR,ConfigMgr.OUTPUT_DIR, filename)
             
             #match_msgs.append('In file {}:'.format(filename))
 
@@ -99,44 +139,20 @@ class ConfigMgr(object):
             for line in lines:
                 linenum = linenum +1
                 
+
                 # Does this line look like a db?
-                m = re.search(self.REGEX, line, re.IGNORECASE)
-                if m:
-                    m_boxname, m_dbname = m.group(1), m.group(2)
-        
-                    #cmi = ConnMatchInfo(m_boxname, m_dbname, linenum)
-                    matched_profile = DbProfile(boxname=m_boxname.upper(),
-                                       dbname=m_dbname, env=env, app=app_for_file)
+                re_match = re.search(self.REGEX, line, re.IGNORECASE)
+                if re_match:
                     
-                    outfilename = FileUtils.get_output_filename(
-                                  ConfigMgr.WORK_DIR, ConfigMgr.OUTPUT_DIR, filename)
-                    
-                    cmi = ConnMatchInfo(matched_profile, linenum,
-                                        newFilename=outfilename)
-                
-                    sugg_profs = self.dbset.get(cmi.matchProf)     
-                    
-                    if len(sugg_profs):
-                        # we have a perfect match already.
-                        cmi.suggProf = sugg_profs[0]       
-                    
-                    # if no (exact match) sug yet, get the correect prof for this app+dbname+env
-                    if not cmi.suggProf:
-                        #print '####', cmi.matchProf, 'was  not', cmi.suggProf                                                        
-                        suggestions = self.dbset.get_by_atts(
-                                       dict(dbname=cmi.matchProf.dbname,
-                                            app=app_for_file, env=env))
-                        
-                        if len(suggestions):
-                            cmi.suggProf = suggestions[0]
-                            if write:
-                                line = re.sub(m_boxname, cmi.suggProf.boxname,
-                                              line, re.IGNORECASE)
+                    cmi = self.parse_line(re_match, line, linenum, env, app_for_file)
                     
                     cmiList.append(cmi)
                             
-                if write:
-                    outlines = outlines + line
+                    if write:                        
+                        line = re.sub(re_match.group(1),
+                                      cmi.suggProf.boxname, line, re.IGNORECASE)                 
+                    
+                outlines = outlines + line
 
             ms.matches[filename] = sorted(cmiList, key = lambda x: x.linenum)
 

@@ -8,17 +8,10 @@ class Usage(Exception):
         self.msg = msg
 
 class MatchConn(MatchAbstract):
-    """
-    
-    before and after are instances of dbprofile
-    
-    """
+    """before and after are instances of dbprofile"""
 
     def __init__(self, before=None, linenum=None, after=None, newFilename=None):
-        self.linenum = linenum
-        self.before = before
-        self.after = after
-        self.newFilename = newFilename
+        super(MatchConn, self).__init__(before, linenum, after, newFilename)
 
 
     def is_correct(self):
@@ -27,12 +20,11 @@ class MatchConn(MatchAbstract):
                                                dbname=self.after.dbname, 
                                                boxname=self.after.boxname))
 
-
     def __str__(self):
-        return '{} {} {}'.format(self.before, self.linenum, self.after)
+        return super(MatchConn, self).__str__()
 
     def __repr__(self):
-        return str(self.__str__())
+        return super(MatchConn, self).__repr__()
 
 if __name__ == "__main__":
     import doctest

@@ -8,31 +8,19 @@ class Usage(Exception):
         self.msg = msg
 
 class MatchFtp(MatchAbstract):
-    """
-    before and after are the ftp filepaths
-
-    """
+    """before and after are the ftp filepaths"""
 
     def __init__(self, before=None, linenum=None, after=None, newFilename=None):
-        self.linenum = linenum
-        self.before = before
-        self.after = after
-        self.newFilename = newFilename
-
+        super(MatchFtp, self).__init__(before, linenum, after, newFilename)
 
     def is_correct(self):
-        """ Does before match before?"""     
-        if self.before.upper() == self.after.upper() :
-            return True
-        else :
-            return False
-
+        return super(MatchFtp, self).is_correct()
 
     def __str__(self):
-        return '{} {} {}'.format(self.before, self.linenum, self.after)
+        return super(MatchFtp, self).__str__()
 
     def __repr__(self):
-        return str(self.__str__())
+        return super(MatchFtp, self).__repr__()
 
 if __name__ == "__main__":
     import doctest

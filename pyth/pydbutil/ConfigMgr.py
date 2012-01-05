@@ -9,7 +9,7 @@ Usage: go() is the main function. Many examples in tests below.
 import sys
 import re
 import os
-from MatchAbstract import MatchAbstract
+from MatchFtp import MatchFtp
 from MatchConn import MatchConn
 from MatchLog import MatchLog
 from MatchSet import MatchSet
@@ -24,9 +24,14 @@ class ConfigMgr(object):
     WORK_DIR = 'work'
     OUTPUT_DIR = 'output'
     
+    # some of these maybe should be in the dbset
+    
     REGEX_DB = 'Data Source=(.+);Initial Catalog=(RDx\w+);'
     REGEX_LOG = '<file value="(.+)"'
     LOG_PATH = r'D:\RDx\ETL\logs'
+    REGEX_FTP = r'FilePathIn" value="\\\\(.+)\\d\$'
+    FTP_ROOT = 'USHPEWVAPP251'
+    
     
     def __init__(self, dbset=None, path=None, env=None, write=False, verbose=True):
         self.dbset = dbset
@@ -131,13 +136,13 @@ class ConfigMgr(object):
             maList = []
             linenum = 0
             outlines = ''
-
+            
             # check lines
             for line in lines:
                 linenum = linenum +1
                 
                 
-                if (re.search('log4net', filename, re.IGNORECASE)):
+                if re.search('log4net', filename, re.IGNORECASE):
                     re_match = re.search(self.REGEX_LOG, line, re.IGNORECASE)
                     if re_match:
                         
@@ -150,15 +155,28 @@ class ConfigMgr(object):
                                 line = re.sub(matchLog.before,
                                               matchLog.after, line, re.IGNORECASE)
                         except:
-                            print '*** File {} , line {} not updated.'.format(filename, line)
-                            print '*** Failed to change {} to {}'.format(matchLog.before, matchLog.after)
+                            print '*** File {} , line {} not updated.'.format(
+                                                   filename, line)
+                            print '*** Failed to change {} to {}'.format(
+                                                   matchLog.before, matchLog.after)
+                
+                elif re.search(self.REGEX_FTP, line, re.IGNORECASE):
+                    re_match = re.search(self.REGEX_FTP, line, re.IGNORECASE)
+                    
+                    matchFtp = MatchFtp(before=re_match.group(1),
+                                        linenum=linenum, after=self.FTP_ROOT)
+                    maList.append(matchFtp)       
+                    if write:                        
+                        line = re.sub(matchFtp.before, matchFtp.after,
+                                      line, re.IGNORECASE)                                                
                     
                 else:
                     # Does this line look like a db?
                     re_match = re.search(self.REGEX_DB, line, re.IGNORECASE)
                     if re_match:
                         
-                        matchConn = self.parse_line_db(re_match, line, linenum, env, app)
+                        matchConn = self.parse_line_db(re_match,
+                                            line, linenum, env, app)
                         
                         maList.append(matchConn)
                                 

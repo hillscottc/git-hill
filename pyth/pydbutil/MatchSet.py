@@ -8,6 +8,8 @@ import os
 import itertools
 from MatchConn import MatchConn
 from MatchLog import MatchLog
+from MatchFtp import MatchFtp
+
 
 class Usage(Exception):
     def __init__(self, msg):
@@ -110,7 +112,17 @@ class MatchSet(object):
         lines.append('{0:3} LOG file references had suggested changes.'.format
                      (len([ma for ma in self.get_all_matches() 
                            if isinstance(ma, MatchLog) and
-                           (ma.before != ma.after)])))           
+                           (ma.before != ma.after)])))       
+        
+        lines.append('{0:3} FTP filepath references were already properly configured.'.format
+                     (len([ma for ma in self.get_all_matches() 
+                           if isinstance(ma, MatchFtp) and 
+                           (ma.before == ma.after)])))               
+
+        lines.append('{0:3} FTP filepath references had suggested changes.'.format
+                     (len([ma for ma in self.get_all_matches() 
+                           if isinstance(ma, MatchFtp) and
+                           (ma.before != ma.after)])))                 
         
         lines.append('{0:3} matches had NO suggestions.'.format
                      (len([ma for ma in self.get_all_matches() 
@@ -143,8 +155,16 @@ class MatchSet(object):
                     else:
                         l +=  '...no suggestions...no change.' 
                     lines.append(l)                     
-                    pass
-        
+                elif isinstance(ma, MatchFtp):
+                    l = '  line {}, FTP filepath points to {}'.format(ma.linenum, ma.before)
+                    if ma.after == ma.before:
+                        l += '...OK...no change.'   
+                    elif ma.after:
+                        l += '...changing to {}'.format(ma.after)
+                    else:
+                        l +=  '...no suggestions...no change.' 
+                    lines.append(l)  
+                            
         return os.linesep.join(lines)    
         
 

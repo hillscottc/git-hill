@@ -92,13 +92,25 @@ class MatchSet(object):
                      (sum([len(v) for v in self.matches.values()]),
                        len(self.get_files_processed()) ))
         
-        lines.append('{0:3} matches were already properly configured.'.format
+        lines.append('{0:3} DB connections were already properly configured.'.format
                      (len([ma for ma in self.get_all_matches() 
-                           if ma.before == ma.after])))        
+                           if isinstance(ma, MatchConn) and
+                           (ma.before == ma.after)])))        
         
-        lines.append('{0:3} matches had suggested changes.'.format
+        lines.append('{0:3} DB connections had suggested changes.'.format
                      (len([ma for ma in self.get_all_matches() 
-                           if ma.before != ma.after])))            
+                           if isinstance(ma, MatchConn) and
+                           (ma.before != ma.after)])))       
+        
+        lines.append('{0:3} LOG file references were already properly configured.'.format
+                     (len([ma for ma in self.get_all_matches() 
+                           if isinstance(ma, MatchLog) and 
+                           (ma.before == ma.after)])))               
+
+        lines.append('{0:3} LOG file references had suggested changes.'.format
+                     (len([ma for ma in self.get_all_matches() 
+                           if isinstance(ma, MatchLog) and
+                           (ma.before != ma.after)])))           
         
         lines.append('{0:3} matches had NO suggestions.'.format
                      (len([ma for ma in self.get_all_matches() 

@@ -116,18 +116,18 @@ class MatchSet(object):
                 if isinstance(ma, MatchConn): 
                     l = '  line {}, {} is pointed to {}'.format(ma.linenum, ma.before.dbname, ma.before.boxname)
                     if ma.after == ma.before:
-                        l += '...already matching {} ...no change.'.format(ma.after.boxname)      
+                        l += '...OK...no change.'   
                     elif ma.after:
                         l += '...changing to {}'.format(ma.after.boxname)
                     else:
                         l +=  '...no suggestions...no change.' 
                     lines.append(l) 
                 elif isinstance(ma, MatchLog):
-                    l = '  line {}, log is pointed to {}'.format(ma.linenum, ma.before)
+                    l = '  line {}, LOGFILE is at {}'.format(ma.linenum, ma.before)
                     if ma.after == ma.before:
-                        l += '...already correct...no change.'   
+                        l += '...OK...no change.'   
                     elif ma.after:
-                        l += '...changing to {}'.format(ma.after)
+                        l += os.linesep + '   ...changing to {}'.format(ma.after)
                     else:
                         l +=  '...no suggestions...no change.' 
                     lines.append(l)                     

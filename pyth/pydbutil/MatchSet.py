@@ -6,6 +6,8 @@ Usage:
 import sys
 import os
 import itertools
+from MatchConn import MatchConn
+from MatchLog import MatchLog
 
 class Usage(Exception):
     def __init__(self, msg):
@@ -39,37 +41,31 @@ class MatchSet(object):
         
     def get_all_matches(self):
         """ all the matches in all the lists """
-        all_lists = [cmiList for cmiList in self.matches.values()]
-        all_matches = [cmi for cmi in all_lists]
+        all_lists = [maList for maList in self.matches.values()]
+        all_matches = [ma for ma in all_lists]
         # flattens. dont want a list of lists. 
         return  list(itertools.chain(*all_matches))
         
-
-    def get_match_files(self, with_matches=True):
-        """ Returns files with or without matches."""
-        if with_matches:
-            return [k for k, v in self.matches.iteritems() if len(v) > 1]
-        else:
-            return [k for k, v in self.matches.iteritems() if len(v) == 0]
         
-    def get_new_filenames(self):
-        outfilenames = []
-        for filename in self.matches.keys() :
-            for cmi in self.matches[filename]:
-                if cmi.suggProf:
-                    outfilenames.append(cmi.newFilename)
-                break
-        return outfilenames
-    
-    def get_files_processed(self):
-        return self.matches.keys()
-   
-            
     def get_files_with_matches(self, matches=True):
         if matches:
             return [k for k, v in self.matches.iteritems() if len(v)]
         else:
             return [k for k, v in self.matches.iteritems() if not len(v)]   
+        
+        
+    def get_new_filenames(self):
+        outfilenames = []
+        for filename in self.matches.keys() :
+            for cmi in self.matches[filename]:
+                if cmi.after:
+                    outfilenames.append(cmi.newFilename)
+                break
+        return outfilenames
+    
+    
+    def get_files_processed(self):
+        return self.matches.keys()
    
     
     def summary_files(self):
@@ -97,16 +93,16 @@ class MatchSet(object):
                        len(self.get_files_processed()) ))
         
         lines.append('{0:3} matches were already properly configured.'.format
-                     (len([cmi for cmi in self.get_all_matches() 
-                           if cmi.matchProf == cmi.suggProf])))        
+                     (len([ma for ma in self.get_all_matches() 
+                           if ma.before == ma.after])))        
         
         lines.append('{0:3} matches had suggested changes.'.format
-                     (len([cmi for cmi in self.get_all_matches() 
-                           if cmi.matchProf != cmi.suggProf])))            
+                     (len([ma for ma in self.get_all_matches() 
+                           if ma.before != ma.after])))            
         
         lines.append('{0:3} matches had NO suggestions.'.format
-                     (len([cmi for cmi in self.get_all_matches() 
-                           if not cmi.suggProf])))   
+                     (len([ma for ma in self.get_all_matches() 
+                           if not ma.after])))   
                 
         return os.linesep.join(lines)
     
@@ -116,15 +112,26 @@ class MatchSet(object):
         
         for filename in self.matches.keys() :
             lines.append('FILE: ' + filename)
-            for cmi in self.matches[filename]:
-                l = '  line {}, {} is pointed to {}'.format(cmi.linenum, cmi.matchProf.dbname, cmi.matchProf.boxname)
-                if cmi.suggProf == cmi.matchProf:
-                    l += '...already matching...no change.'.format(cmi.suggProf.boxname)      
-                elif cmi.suggProf:
-                    l += '...changing to {}'.format(cmi.suggProf.boxname)
-                else:
-                    l +=  '...no suggestions...no change.' 
-                lines.append(l) 
+            for ma in self.matches[filename]:
+                if isinstance(ma, MatchConn): 
+                    l = '  line {}, {} is pointed to {}'.format(ma.linenum, ma.before.dbname, ma.before.boxname)
+                    if ma.after == ma.before:
+                        l += '...already matching {} ...no change.'.format(ma.after.boxname)      
+                    elif ma.after:
+                        l += '...changing to {}'.format(ma.after.boxname)
+                    else:
+                        l +=  '...no suggestions...no change.' 
+                    lines.append(l) 
+                elif isinstance(ma, MatchLog):
+                    l = '  line {}, log is pointed to {}'.format(ma.linenum, ma.before)
+                    if ma.after == ma.before:
+                        l += '...already correct...no change.'   
+                    elif ma.after:
+                        l += '...changing to {}'.format(ma.after)
+                    else:
+                        l +=  '...no suggestions...no change.' 
+                    lines.append(l)                     
+                    pass
         
         return os.linesep.join(lines)    
         

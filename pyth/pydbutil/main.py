@@ -39,7 +39,10 @@ def create_model_dbset() :
 
 # Create the model dbset to be used for this run.  
 MODEL_DBSET = create_model_dbset() 
-REMOTE_DIR = 'remote'   
+REMOTE_DIR = 'remote'
+
+# template for the location of the log files
+APP_LOG_FILE = ''
 
 # global opts
 PATH = REMOTE_DIR

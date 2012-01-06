@@ -10,8 +10,9 @@ class Usage(Exception):
 class MatchFtp(MatchAbstract):
     """before and after are the ftp filepaths"""
 
-    def __init__(self, before=None, linenum=None, after=None, newFilename=None):
+    def __init__(self, before=None, linenum=None, after=None, newFilename=None, ftpname=None):
         super(MatchFtp, self).__init__(before, linenum, after, newFilename)
+        self.ftpname = ftpname
 
     def is_correct(self):
         return super(MatchFtp, self).is_correct()

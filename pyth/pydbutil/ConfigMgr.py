@@ -14,24 +14,25 @@ from MatchConn import MatchConn
 from MatchLog import MatchLog
 from MatchSet import MatchSet
 from DbProfile import DbProfile
+from collections import namedtuple
 import FileUtils
 
 
 class ConfigMgr(object):
-    """Handles database connection strings in files using DbProfiles.
-    """
+    """Handles database connection strings in files using DbProfiles."""
     
     WORK_DIR = 'work'
     OUTPUT_DIR = 'output'
     
-    # some of these maybe should be in the dbset
-    
-    REGEX_DB = 'Data Source=(.+);Initial Catalog=(RDx\w+);'
-    REGEX_LOG_A = '<file value="(.+)"'
-    REGEX_LOG_B = '"file" value="(.+)"'
-    LOG_PATH = r'D:\RDx\ETL\logs'
-    REGEX_FTP = r'FilePath.+" value="\\\\(.+)\\d\$'
     FTP_ROOT = 'USHPEWVAPP251'
+    LOG_PATH = r'D:\RDx\ETL\logs'
+        
+    re_type = namedtuple('re_type', 't regex')
+    RE_TYPES = (re_type('LOG_A', '<file value="(.+)"'),
+                re_type('LOG_B', '"file" value="(.+)"'),
+                re_type('DB', 'Data Source=(.+);Initial Catalog=(RDx\w+);'),
+                #re_type('FTP', r'FilePath.+" value="\\\\(.+)\\d\$'))
+                re_type('FTP', r'"(.+)" value="\\\\(.+)\\d\$'))
     
     
     def __init__(self, dbset=None, path=None, env=None, write=False, verbose=True):
@@ -60,9 +61,7 @@ class ConfigMgr(object):
 
 
     def parse_line_db(self, re_match, line, linenum, env, app):
-        """Returns: cmi 
-        """
-
+        """Returns: cmi """
         # get db data from re_match
         matched_profile = DbProfile(
                            boxname=re_match.group(1).upper(),
@@ -114,11 +113,11 @@ class ConfigMgr(object):
         for filename in filelist:
                         
             # the name of this file matches which of the apps?
-            apps_for_file = [app for app in apps if re.search(app, filename)]
+            apps_for_file = [app for app in apps if re.search(app, filename, re.IGNORECASE)]
             
             # skip this file, if its none
             if not len(apps_for_file) :
-                print 'Skipping file', filename
+                print '**************************Skipping file', filename
                 continue
             else:
                 app = apps_for_file[0]
@@ -137,28 +136,18 @@ class ConfigMgr(object):
                 linenum = linenum +1
                 
                 m = None
-                m_type = None
+                m_type = None                
                 
-                if re.search(self.REGEX_LOG_A, line, re.IGNORECASE):   
-                    m_type = 'LOG_A'
-                    m = re.search(self.REGEX_LOG_A, line, re.IGNORECASE)
-                    
-                elif re.search(self.REGEX_LOG_B, line, re.IGNORECASE):   
-                    m_type = 'LOG_B'             
-                    m = re.search(self.REGEX_LOG_B, line, re.IGNORECASE)   
-                              
-                elif re.search(self.REGEX_FTP, line, re.IGNORECASE):
-                    m_type = 'FTP'
-                    m = re.search(self.REGEX_FTP, line, re.IGNORECASE)
-                    
-                elif re.search(self.REGEX_DB, line, re.IGNORECASE) :
-                    m_type = 'DB'                    
-                    m = re.search(self.REGEX_DB, line, re.IGNORECASE)
+                # which of the RE_TYPES does this line match?
+                for re_type in self.RE_TYPES:
+                    m = re.search(re_type.regex, line, re.IGNORECASE) 
+                    if m:
+                        m_type = re_type.t
+                        break
                 
                 
                 if m_type is 'LOG_A' or m_type is 'LOG_B':
-                    print 'MATCH LOG', filename
-                        
+                    
                     matchLog = MatchLog(before=m.group(1), linenum=linenum,
                                         after=self.get_logname(app))
                     
@@ -174,9 +163,12 @@ class ConfigMgr(object):
                                                matchLog.before, matchLog.after)   
                                      
                 elif m_type is 'FTP':
+                                        
+                    matchFtp = MatchFtp(before=m.group(2),
+                                        linenum=linenum,
+                                        after=self.FTP_ROOT,
+                                        ftpname=m.group(1))
                     
-                    matchFtp = MatchFtp(before=m.group(1),
-                                        linenum=linenum, after=self.FTP_ROOT)
                     maList.append(matchFtp)       
                     if write:                        
                         line = re.sub(matchFtp.before, matchFtp.after,

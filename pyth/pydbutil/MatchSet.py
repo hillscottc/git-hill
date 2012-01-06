@@ -156,7 +156,7 @@ class MatchSet(object):
                         l +=  '...no suggestions...no change.' 
                     lines.append(l)                     
                 elif isinstance(ma, MatchFtp):
-                    l = '  line {}, FTP filepath points to {}'.format(ma.linenum, ma.before)
+                    l = '  line {}, {} points to {}'.format(ma.linenum, ma.ftpname, ma.before)
                     if ma.after == ma.before:
                         l += '...OK...no change.'   
                     elif ma.after:

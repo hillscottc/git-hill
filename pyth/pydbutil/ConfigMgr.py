@@ -180,9 +180,12 @@ class ConfigMgr(object):
                         
                         maList.append(matchConn)
                                 
-                        if write:                        
-                            line = re.sub(re_match.group(1),
+                        if write:    
+                            print 'FROM-------' , re.escape(re_match.group(1))
+                            print 'TO-------' , matchConn.after.boxname              
+                            line = re.sub(re.escape(re_match.group(1)),
                                           matchConn.after.boxname, line, re.IGNORECASE)  
+                            print 'NEWLINE', line
                         
                                         
                 outlines = outlines + line

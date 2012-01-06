@@ -29,7 +29,7 @@ class ConfigMgr(object):
     REGEX_DB = 'Data Source=(.+);Initial Catalog=(RDx\w+);'
     REGEX_LOG = '<file value="(.+)"'
     LOG_PATH = r'D:\RDx\ETL\logs'
-    REGEX_FTP = r'FilePathIn" value="\\\\(.+)\\d\$'
+    REGEX_FTP = r'FilePath.+" value="\\\\(.+)\\d\$'
     FTP_ROOT = 'USHPEWVAPP251'
     
     
@@ -159,7 +159,7 @@ class ConfigMgr(object):
                                                    filename, line)
                             print '*** Failed to change {} to {}'.format(
                                                    matchLog.before, matchLog.after)
-                
+                # ftp filepath
                 elif re.search(self.REGEX_FTP, line, re.IGNORECASE):
                     re_match = re.search(self.REGEX_FTP, line, re.IGNORECASE)
                     
@@ -181,11 +181,11 @@ class ConfigMgr(object):
                         maList.append(matchConn)
                                 
                         if write:    
-                            print 'FROM-------' , re.escape(re_match.group(1))
-                            print 'TO-------' , matchConn.after.boxname              
+                            #print 'FROM-------' , re.escape(re_match.group(1))
+                            #print 'TO-------' , matchConn.after.boxname              
                             line = re.sub(re.escape(re_match.group(1)),
                                           matchConn.after.boxname, line, re.IGNORECASE)  
-                            print 'NEWLINE', line
+                            #print 'NEWLINE', line
                         
                                         
                 outlines = outlines + line

@@ -150,7 +150,7 @@ class ConfigMgr(object):
                                             after=self.get_logname(app))
                         
                         maList.append(matchLog)
-                        try:                            
+                        try:     
                             if write:
                                 line = re.sub(matchLog.before,
                                               matchLog.after, line, re.IGNORECASE)

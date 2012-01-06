@@ -27,10 +27,10 @@ def create_model_dbset() :
     # these are on 104
     #APPS = ('CARL', 'Common', 'CPRS', 'CTX', 'D2', 'DRA', 'GDRS', 'MP', 'PartsOrder', 'R2')
     apps = ('CARL', 'CART', 'Common', 'CPRS', 'CRA', 'CTX', 'D2', 'DRA', 'ELS', 'FileService',
-            'gdrs', 'MP', 'PartsOrder', 'R2')
+            'GDRS', 'MP', 'PartsOrder', 'R2')
         
     # The dbs for each app.
-    dbs = (('RDxETL', 'USHPEPVSQL409'), ('RDxReport', r'USFSHWSSQL104\RIGHTSDEV_2'))
+    dbs = (('RDxETL', 'USHPEPVSQL409'), ('RDxReport', r'USHPEPVSQL435'))
     
     # The environs for each for each app+db.
     envs = ('dev',)
@@ -40,9 +40,6 @@ def create_model_dbset() :
 # Create the model dbset to be used for this run.  
 MODEL_DBSET = create_model_dbset() 
 REMOTE_DIR = 'remote'
-
-# template for the location of the log files
-APP_LOG_FILE = ''
 
 # global opts
 PATH = REMOTE_DIR

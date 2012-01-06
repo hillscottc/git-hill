@@ -27,7 +27,8 @@ class ConfigMgr(object):
     # some of these maybe should be in the dbset
     
     REGEX_DB = 'Data Source=(.+);Initial Catalog=(RDx\w+);'
-    REGEX_LOG = '<file value="(.+)"'
+    REGEX_LOG_A = '<file value="(.+)"'
+    REGEX_LOG_B = '"file" value="(.+)"'
     LOG_PATH = r'D:\RDx\ETL\logs'
     REGEX_FTP = r'FilePath.+" value="\\\\(.+)\\d\$'
     FTP_ROOT = 'USHPEWVAPP251'
@@ -123,12 +124,6 @@ class ConfigMgr(object):
                 app = apps_for_file[0]
                   
 
-            if write: 
-                outfilename = FileUtils.get_output_filename(
-                          ConfigMgr.WORK_DIR,ConfigMgr.OUTPUT_DIR, filename)
-            
-            #match_msgs.append('In file {}:'.format(filename))
-
             # read all lines of file into var
             with open(filename, 'r') as infile:
                 lines = infile.readlines()
@@ -141,53 +136,62 @@ class ConfigMgr(object):
             for line in lines:
                 linenum = linenum +1
                 
+                m = None
+                m_type = None
                 
-                if re.search('log4net', filename, re.IGNORECASE):
-                    re_match = re.search(self.REGEX_LOG, line, re.IGNORECASE)
-                    if re_match:
-                        
-                        matchLog = MatchLog(before=re_match.group(1), linenum=linenum,
-                                            after=self.get_logname(app))
-                        
-                        maList.append(matchLog)
-                        try:     
-                            if write:
-                                line = re.sub(matchLog.before,
-                                              matchLog.after, line, re.IGNORECASE)
-                        except:
-                            print '*** File {} , line {} not updated.'.format(
-                                                   filename, line)
-                            print '*** Failed to change {} to {}'.format(
-                                                   matchLog.before, matchLog.after)
-                # ftp filepath
-                elif re.search(self.REGEX_FTP, line, re.IGNORECASE):
-                    re_match = re.search(self.REGEX_FTP, line, re.IGNORECASE)
+                if re.search(self.REGEX_LOG_A, line, re.IGNORECASE):   
+                    m_type = 'LOG_A'
+                    m = re.search(self.REGEX_LOG_A, line, re.IGNORECASE)
                     
-                    matchFtp = MatchFtp(before=re_match.group(1),
+                elif re.search(self.REGEX_LOG_B, line, re.IGNORECASE):   
+                    m_type = 'LOG_B'             
+                    m = re.search(self.REGEX_LOG_B, line, re.IGNORECASE)   
+                              
+                elif re.search(self.REGEX_FTP, line, re.IGNORECASE):
+                    m_type = 'FTP'
+                    m = re.search(self.REGEX_FTP, line, re.IGNORECASE)
+                    
+                elif re.search(self.REGEX_DB, line, re.IGNORECASE) :
+                    m_type = 'DB'                    
+                    m = re.search(self.REGEX_DB, line, re.IGNORECASE)
+                
+                
+                if m_type is 'LOG_A' or m_type is 'LOG_B':
+                    print 'MATCH LOG', filename
+                        
+                    matchLog = MatchLog(before=m.group(1), linenum=linenum,
+                                        after=self.get_logname(app))
+                    
+                    maList.append(matchLog)
+                    try:     
+                        if write:
+                            line = re.sub(re.escape(matchLog.before),
+                                          matchLog.after, line, re.IGNORECASE)
+                    except:
+                        print '*** File {} , line {} not updated.'.format(
+                                               filename, line)
+                        print '*** Failed to change {} to {}'.format(
+                                               matchLog.before, matchLog.after)   
+                                     
+                elif m_type is 'FTP':
+                    
+                    matchFtp = MatchFtp(before=m.group(1),
                                         linenum=linenum, after=self.FTP_ROOT)
                     maList.append(matchFtp)       
                     if write:                        
                         line = re.sub(matchFtp.before, matchFtp.after,
-                                      line, re.IGNORECASE)                                                
+                                      line, re.IGNORECASE)                       
+                
+                elif m_type is 'DB':
+                    matchConn = self.parse_line_db(m, line, linenum, env, app)
                     
-                else:
-                    # Does this line look like a db?
-                    re_match = re.search(self.REGEX_DB, line, re.IGNORECASE)
-                    if re_match:
-                        
-                        matchConn = self.parse_line_db(re_match,
-                                            line, linenum, env, app)
-                        
-                        maList.append(matchConn)
-                                
-                        if write:    
-                            #print 'FROM-------' , re.escape(re_match.group(1))
-                            #print 'TO-------' , matchConn.after.boxname              
-                            line = re.sub(re.escape(re_match.group(1)),
-                                          matchConn.after.boxname, line, re.IGNORECASE)  
-                            #print 'NEWLINE', line
-                        
-                                        
+                    maList.append(matchConn)
+                            
+                    if write :
+                        line = re.sub(re.escape(m.group(1)),
+                                      matchConn.after.boxname, line, re.IGNORECASE)  
+                
+                  
                 outlines = outlines + line
 
             ms.matches[filename] = sorted(maList, key = lambda x: x.linenum)

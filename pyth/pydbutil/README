@@ -1,0 +1,9 @@
+
+The function of this module is to modify a set of .NET .config files.
+Specifically, the 14 interface apps for our RDx ETL process.
+
+The main.py contains constants specific to our environ.
+
+Usage:
+  ./main.py
+

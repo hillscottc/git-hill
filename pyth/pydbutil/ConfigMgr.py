@@ -31,7 +31,6 @@ class ConfigMgr(object):
     RE_TYPES = (re_type('LOG_A', '<file value="(.+)"'),
                 re_type('LOG_B', '"file" value="(.+)"'),
                 re_type('DB', 'Data Source=(.+);Initial Catalog=(RDx\w+);'),
-                #re_type('FTP', r'FilePath.+" value="\\\\(.+)\\d\$'))
                 re_type('FTP', r'"(.+)" value="\\\\(.+)\\d\$'))
     
     

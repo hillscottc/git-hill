@@ -24,7 +24,7 @@ ENVS = ('dev', )
 MODEL_DBSET = DbSet(DbProfile.create_profiles(envs=ENVS, apps=APPS, dbs=DBS)) 
 
 #REMOTE_DIR =  os.path.join(os.getcwd(), 'remote')
-REMOTE_DIR =  os.path.join( 'cygdrive', 'g', 'RDx', 'ETL')
+REMOTE_DIR =  os.path.join( '/cygdrive', 'g', 'RDx', 'ETL')
 
 import pdb; pdb.set_trace()
 

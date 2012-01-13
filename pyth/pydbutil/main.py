@@ -48,7 +48,7 @@ def main(argv=None):
                          for k, v in ms.matches.iteritems() if len(v) > 0]    
             print ms.summary_files()
             #print ms.summary_details()
-            
+            FileUtils.ensure_dir(ConfigMgr.WORK_DIR)
             shutil.rmtree(ConfigMgr.WORK_DIR)
             
             FileUtils.copy_files(sourcepaths, targpaths, DO_ASK)

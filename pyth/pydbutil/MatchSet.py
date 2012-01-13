@@ -138,29 +138,29 @@ class MatchSet(object):
             lines.append('FILE: ' + filename)
             for ma in self.matches[filename]:
                 if isinstance(ma, MatchConn): 
-                    l = '  line {}, {} is pointed to {}'.format(ma.linenum, ma.before.dbname, ma.before.boxname)
+                    l = '  line {0}, {1} is pointed to {2}'.format(ma.linenum, ma.before.dbname, ma.before.boxname)
                     if ma.after == ma.before:
                         l += '...OK...no change.'   
                     elif ma.after:
-                        l += '...changing to {}'.format(ma.after.boxname)
+                        l += '...changing to {0}'.format(ma.after.boxname)
                     else:
                         l +=  '...no suggestions...no change.' 
                     lines.append(l) 
                 elif isinstance(ma, MatchLog):
-                    l = '  line {}, LOGFILE is at {}'.format(ma.linenum, ma.before)
+                    l = '  line {0}, LOGFILE is at {1}'.format(ma.linenum, ma.before)
                     if ma.after == ma.before:
                         l += '...OK...no change.'   
                     elif ma.after:
-                        l += os.linesep + '   ...changing to {}'.format(ma.after)
+                        l += os.linesep + '   ...changing to {0}'.format(ma.after)
                     else:
                         l +=  '...no suggestions...no change.' 
                     lines.append(l)                     
                 elif isinstance(ma, MatchFtp):
-                    l = '  line {}, {} points to {}'.format(ma.linenum, ma.ftpname, ma.before)
+                    l = '  line {0}, {1} points to {2}'.format(ma.linenum, ma.ftpname, ma.before)
                     if ma.after == ma.before:
                         l += '...OK...no change.'   
                     elif ma.after:
-                        l += '...changing to {}'.format(ma.after)
+                        l += '...changing to {0}'.format(ma.after)
                     else:
                         l +=  '...no suggestions...no change.' 
                     lines.append(l)  

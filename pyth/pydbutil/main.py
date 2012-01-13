@@ -23,6 +23,8 @@ ENVS = ('dev', )
 
 MODEL_DBSET = DbSet(DbProfile.create_profiles(envs=ENVS, apps=APPS, dbs=DBS)) 
 
+print 'PWD  is ', os.getcwd()
+
 REMOTE_DIR =  os.path.join(os.getcwd(), 'remote')
 CHANGE_TO_ENV = 'dev'
 
@@ -38,7 +40,7 @@ def main(argv=None):
         # copy remote to work
         if DO_COPY:
             print
-            print "Remote PATH '{}' ...".format(PATH)           
+            print r"Remote PATH '{0}' ...".format(PATH)           
             cm = ConfigMgr(dbset=MODEL_DBSET, path=PATH)
             ms = cm.go(env=CHANGE_TO_ENV)    
             sourcepaths = [k for k, v in ms.matches.iteritems() if len(v) > 0]

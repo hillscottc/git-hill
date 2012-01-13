@@ -40,6 +40,8 @@ class ConfigMgr(object):
         self.env = env
         self.write = write
         self.verbose = verbose
+        self.WORK_DIR = FileUtils.ensure_dir(self.WORK_DIR)
+        self.OUTPUT_DIR = FileUtils.ensure_dir(self.OUTPUT_DIR)
         
     def set_path(self, value):
         if not self.dbset: raise Exception('dbset is required when setting path.')

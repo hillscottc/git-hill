@@ -23,8 +23,6 @@ ENVS = ('dev', )
 
 MODEL_DBSET = DbSet(DbProfile.create_profiles(envs=ENVS, apps=APPS, dbs=DBS)) 
 
-print 'PWD  is ', os.getcwd()
-
 REMOTE_DIR =  os.path.join(os.getcwd(), 'remote')
 CHANGE_TO_ENV = 'dev'
 

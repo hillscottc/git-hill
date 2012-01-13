@@ -1,6 +1,7 @@
 #! /usr/bin/python
 """Uses the ConFigMgr and related classes."""
 import sys
+import os
 import shutil
 from ConfigMgr import ConfigMgr
 from DbProfile import DbProfile
@@ -22,7 +23,7 @@ ENVS = ('dev', )
 
 MODEL_DBSET = DbSet(DbProfile.create_profiles(envs=ENVS, apps=APPS, dbs=DBS)) 
 
-REMOTE_DIR = 'remote'
+REMOTE_DIR =  os.path.join(os.getcwd(), 'remote')
 CHANGE_TO_ENV = 'dev'
 
 # global opts

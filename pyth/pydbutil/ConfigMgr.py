@@ -9,7 +9,6 @@ Usage: go() is the main function. Many examples in tests below.
 import sys
 import re
 import os
-import io
 from MatchFtp import MatchFtp
 from MatchConn import MatchConn
 from MatchLog import MatchLog
@@ -22,8 +21,8 @@ import FileUtils
 class ConfigMgr(object):
     """Handles database connection strings in files using DbProfiles."""
     
-    WORK_DIR = 'work'
-    OUTPUT_DIR = 'output'
+    WORK_DIR = os.path.join(os.getcwd(), 'work')
+    OUTPUT_DIR = os.path.join(os.getcwd(), 'output')
     
     FTP_ROOT = 'USHPEWVAPP251'
     LOG_PATH = r'D:\RDx\ETL\logs'

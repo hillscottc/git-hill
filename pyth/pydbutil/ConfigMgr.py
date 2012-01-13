@@ -9,6 +9,7 @@ Usage: go() is the main function. Many examples in tests below.
 import sys
 import re
 import os
+import io
 from MatchFtp import MatchFtp
 from MatchConn import MatchConn
 from MatchLog import MatchLog
@@ -182,7 +183,7 @@ class ConfigMgr(object):
                         line = re.sub(re.escape(m.group(1)),
                                       matchConn.after.boxname, line, re.IGNORECASE)  
                 
-                  
+                
                 outlines = outlines + line
 
             ms.matches[filename] = sorted(maList, key = lambda x: x.linenum)
@@ -191,7 +192,9 @@ class ConfigMgr(object):
                 outfilename = FileUtils.get_output_filename(
                                ConfigMgr.WORK_DIR, ConfigMgr.OUTPUT_DIR, filename)
                 with open(outfilename, 'w') as outfile:
+                    #str_lines = [re.sub('\r', '\r\n', line for line in outlines]
                     outfile.write(outlines)
+                
         
         return ms
     

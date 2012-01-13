@@ -40,7 +40,7 @@ def main(argv=None):
         # copy remote to work
         if DO_COPY:
             print
-            print "Remote PATH '{}' ...".format(PATH)           
+            print "Remote PATH '{0}' ...".format(PATH)           
             cm = ConfigMgr(dbset=MODEL_DBSET, path=PATH)
             ms = cm.go(env=CHANGE_TO_ENV)    
             sourcepaths = [k for k, v in ms.matches.iteritems() if len(v) > 0]

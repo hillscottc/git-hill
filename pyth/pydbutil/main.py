@@ -1,5 +1,14 @@
 #! /usr/bin/python
-"""Uses the ConFigMgr and related classes."""
+"""Uses the ConFigMgr and related classes.
+
+Usage: ./main.py -s ./remote
+
+Args: (switches for running ConfigMgr.py main)
+   -h: help
+   -s: source path to config files
+
+   
+"""
 import sys
 import os
 import shutil
@@ -7,6 +16,7 @@ from ConfigMgr import ConfigMgr
 from DbProfile import DbProfile
 from DbSet import DbSet
 import FileUtils
+import getopt
 
 class Usage(Exception):
     def __init__(self, msg):
@@ -21,49 +31,71 @@ DBS = (('RDxETL', 'USHPEPVSQL409'),
 
 ENVS = ('dev', )
 
+CHANGE_TO_ENV = 'dev'
+
 MODEL_DBSET = DbSet(DbProfile.create_profiles(envs=ENVS, apps=APPS, dbs=DBS)) 
 
 #REMOTE_DIR =  os.path.join(os.getcwd(), 'remote')
-REMOTE_DIR =  os.path.join( '/cygdrive', 'g', 'RDx', 'ETL')
+#REMOTE_DIR =  os.path.join( '/cygdrive', 'g', 'RDx', 'ETL')
 
-import pdb; pdb.set_trace()
-
-CHANGE_TO_ENV = 'dev'
 
 # global opts
-PATH = REMOTE_DIR
+#PATH = REMOTE_DIR
 ENV = None
 DO_MOD = True
 DO_COPY = True
 DO_ASK = False             
 
 def main(argv=None):
+    if argv is None:
+        argv = sys.argv    
     try:
         
-        #argparser = argparse.ArgumentParser(description='Process args.')
-        #argparser.add_argument('-a', action="store_true", default=False)  
+        try:
+            opts, args = getopt.getopt(
+                argv[1:], "hs:", ["help", "source="])
+        except getopt.error, msg:
+            raise Usage(msg)
         
+        # default value
+        source = None
+
+        for opt, arg in opts :
+            if opt in ("-h", "--help"):
+                print ConfigMgr.__doc__
+                sys.exit(0)
+            elif opt in ("-s", "--source"):
+                source = arg
+     
+        if not source :
+            raise Usage("option -s is required.")
+        
+                
         # copy remote to work
         if DO_COPY:
             print
-            print "Remote PATH '{0}' ...".format(PATH)           
-            cm = ConfigMgr(dbset=MODEL_DBSET, path=PATH)
+            print "Remote PATH '{0}' ...".format(source)           
+            cm = ConfigMgr(dbset=MODEL_DBSET, path=source)
             ms = cm.go(env=CHANGE_TO_ENV)    
             sourcepaths = [k for k, v in ms.matches.iteritems() if len(v) > 0]
-            targpaths = [FileUtils.get_work_path(k, REMOTE_DIR) 
+            targpaths = [FileUtils.get_work_path(k, source) 
                          for k, v in ms.matches.iteritems() if len(v) > 0]    
             print ms.summary_files()
             #print ms.summary_details()
             
             if os.path.exists(ConfigMgr.WORK_DIR) :
                 shutil.rmtree(ConfigMgr.WORK_DIR)
-                        
+                
+            #import pdb; pdb.set_trace()                   
+            
+            # COPY FROM REMOTE TO WORK               
             FileUtils.copy_files(sourcepaths, targpaths, DO_ASK)
             print len(sourcepaths), 'file(s) copied to work directory', ConfigMgr.WORK_DIR
         if DO_MOD:        
             print
             print 'Performing file mod...'    
-            ms = ConfigMgr(dbset=MODEL_DBSET, path=ConfigMgr.WORK_DIR).go(env=CHANGE_TO_ENV, write=True)     
+            ms = ConfigMgr(dbset=MODEL_DBSET, path=ConfigMgr.WORK_DIR
+                           ).go(env=CHANGE_TO_ENV, write=True)     
             print
             print 'Results:'
             print ms.summary_details()
@@ -71,7 +103,14 @@ def main(argv=None):
             print ms.summary_matches()
             print
             print "{0:3} files written to dir '{1}'.".format(
-                   len(ms.get_new_filenames()), ConfigMgr.OUTPUT_DIR)
+                   len(ms.get_work_files(ConfigMgr.WORK_DIR, ConfigMgr.OUTPUT_DIR)),
+                   ConfigMgr.OUTPUT_DIR)
+            print
+            # COPY BACK TO REMOTE      
+                  
+            FileUtils.copy_files(ms.get_work_files(ConfigMgr.WORK_DIR, ConfigMgr.OUTPUT_DIR),
+                                 sourcepaths, DO_ASK)
+            print 'The modified files have been copied back to', source
                     
         print
         print "Complete."

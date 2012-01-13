@@ -9,6 +9,7 @@ import itertools
 from MatchConn import MatchConn
 from MatchLog import MatchLog
 from MatchFtp import MatchFtp
+import FileUtils
 
 
 class Usage(Exception):
@@ -54,14 +55,15 @@ class MatchSet(object):
             return [k for k, v in self.matches.iteritems() if len(v)]
         else:
             return [k for k, v in self.matches.iteritems() if not len(v)]   
+       
         
-        
-    def get_new_filenames(self):
-        outfilenames = []
+    def get_work_files(self, workdir, outdir):
+        outfilenames = []      
+        #import pdb; pdb.set_trace()   
         for filename in self.matches.keys() :
-            for cmi in self.matches[filename]:
-                if cmi.after:
-                    outfilenames.append(cmi.newFilename)
+            for ma in self.matches[filename]:
+                if ma.after:
+                    outfilenames.append(FileUtils.get_output_filename(workdir, outdir, filename))
                 break
         return outfilenames
     

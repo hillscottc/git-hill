@@ -79,7 +79,7 @@ def ensure_dir(f):
         os.makedirs(d)
         
 def copy_files(sourcepaths, targpaths, ask=True): 
-    import pdb; pdb.set_trace()   
+    #import pdb; pdb.set_trace()   
     if ask:
         print
         print 'The copying will be:'         

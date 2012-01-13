@@ -74,24 +74,34 @@ def main(argv=None):
         # copy remote to work
         if DO_COPY:
             print
-            print "Remote PATH '{0}' ...".format(source)           
+            print "Remote PATH '{0}' ...".format(source)         
+            
+            # BACKUP REMOTE FILES
+            backup = source + '_bak'
+            if os.path.exists(backup) :
+                shutil.rmtree(backup)      
+            print 'Backing up {0} to {1}'.format(source, backup)
+            shutil.copytree(source, backup)            
+            print       
+                 
+            # Call mgr without write, to get summaries                  
             cm = ConfigMgr(dbset=MODEL_DBSET, path=source)
             ms = cm.go(env=CHANGE_TO_ENV)    
             sourcepaths = [k for k, v in ms.matches.iteritems() if len(v) > 0]
             targpaths = [FileUtils.get_work_path(k, source) 
                          for k, v in ms.matches.iteritems() if len(v) > 0]    
             print ms.summary_files()
-            #print ms.summary_details()
-            
-            if os.path.exists(ConfigMgr.WORK_DIR) :
-                shutil.rmtree(ConfigMgr.WORK_DIR)
                 
-            #import pdb; pdb.set_trace()                   
-            
-            # COPY FROM REMOTE TO WORK               
-            FileUtils.copy_files(sourcepaths, targpaths, DO_ASK)
-            print len(sourcepaths), 'file(s) copied to work directory', ConfigMgr.WORK_DIR
-        if DO_MOD:        
+
+        if DO_MOD:   
+            print
+            # COPY FROM REMOTE TO WORK             
+            if os.path.exists(ConfigMgr.WORK_DIR) :
+                shutil.rmtree(ConfigMgr.WORK_DIR)                 
+            print 'Copying {0} file(s) to work directory {1}'.format(
+                    len(sourcepaths), ConfigMgr.WORK_DIR)            
+            FileUtils.copy_files(sourcepaths, targpaths, DO_ASK)     
+                 
             print
             print 'Performing file mod...'    
             ms = ConfigMgr(dbset=MODEL_DBSET, path=ConfigMgr.WORK_DIR
@@ -106,6 +116,11 @@ def main(argv=None):
                    len(ms.get_work_files(ConfigMgr.WORK_DIR, ConfigMgr.OUTPUT_DIR)),
                    ConfigMgr.OUTPUT_DIR)
             print
+            
+            
+         
+                          
+            
             # COPY BACK TO REMOTE      
                   
             FileUtils.copy_files(ms.get_work_files(ConfigMgr.WORK_DIR, ConfigMgr.OUTPUT_DIR),

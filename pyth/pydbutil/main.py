@@ -7,7 +7,6 @@ from ConfigMgr import ConfigMgr
 from DbProfile import DbProfile
 from DbSet import DbSet
 import FileUtils
-import argparse
 
 class Usage(Exception):
     def __init__(self, msg):
@@ -25,9 +24,9 @@ ENVS = ('dev', )
 MODEL_DBSET = DbSet(DbProfile.create_profiles(envs=ENVS, apps=APPS, dbs=DBS)) 
 
 #REMOTE_DIR =  os.path.join(os.getcwd(), 'remote')
-REMOTE_DIR =  os.path.join(os.pathsep, 'cygdrive', 'g', 'RDx', 'ETL')
+REMOTE_DIR =  os.path.join( 'cygdrive', 'g', 'RDx', 'ETL')
 
-#import pdb; pdb.set_trace()
+import pdb; pdb.set_trace()
 
 CHANGE_TO_ENV = 'dev'
 

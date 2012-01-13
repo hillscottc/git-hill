@@ -40,7 +40,7 @@ def main(argv=None):
         # copy remote to work
         if DO_COPY:
             print
-            print r"Remote PATH '{0}' ...".format(PATH)           
+            print "Remote PATH '{}' ...".format(PATH)           
             cm = ConfigMgr(dbset=MODEL_DBSET, path=PATH)
             ms = cm.go(env=CHANGE_TO_ENV)    
             sourcepaths = [k for k, v in ms.matches.iteritems() if len(v) > 0]
@@ -48,7 +48,9 @@ def main(argv=None):
                          for k, v in ms.matches.iteritems() if len(v) > 0]    
             print ms.summary_files()
             #print ms.summary_details()
+            
             shutil.rmtree(ConfigMgr.WORK_DIR)
+            
             FileUtils.copy_files(sourcepaths, targpaths, DO_ASK)
             print len(sourcepaths), 'file(s) copied to work directory', ConfigMgr.WORK_DIR
         if DO_MOD:        

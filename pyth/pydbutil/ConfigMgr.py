@@ -21,6 +21,7 @@ import FileUtils
 class ConfigMgr(object):
     """Handles database connection strings in files using DbProfiles."""
     
+    #WORK_DIR = os.path.join(os.getcwd(), 'work')
     WORK_DIR = os.path.join(os.getcwd(), 'work')
     OUTPUT_DIR = os.path.join(os.getcwd(), 'output')
     
@@ -40,8 +41,6 @@ class ConfigMgr(object):
         self.env = env
         self.write = write
         self.verbose = verbose
-        self.WORK_DIR = FileUtils.ensure_dir(self.WORK_DIR)
-        self.OUTPUT_DIR = FileUtils.ensure_dir(self.OUTPUT_DIR)
         
     def set_path(self, value):
         if not self.dbset: raise Exception('dbset is required when setting path.')

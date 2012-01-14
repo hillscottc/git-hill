@@ -74,15 +74,7 @@ def main(argv=None):
         # copy remote to work
         if DO_COPY:
             print
-            print "Remote PATH '{0}' ...".format(source)         
-            
-            # BACKUP REMOTE FILES
-            backup = source + '_bak'
-            if os.path.exists(backup) :
-                shutil.rmtree(backup)      
-            print 'Backing up {0} to {1}'.format(source, backup)
-            shutil.copytree(source, backup)            
-            print       
+            print "Remote PATH '{0}' ...".format(source)          
                  
             # Call mgr without write, to get summaries                  
             cm = ConfigMgr(dbset=MODEL_DBSET, path=source)
@@ -94,13 +86,20 @@ def main(argv=None):
                 
 
         if DO_MOD:   
-            print
-            # COPY FROM REMOTE TO WORK             
+            print            
+            # remove work and back          
             if os.path.exists(ConfigMgr.WORK_DIR) :
-                shutil.rmtree(ConfigMgr.WORK_DIR)                 
-            print 'Copying {0} file(s) to work directory {1}'.format(
-                    len(sourcepaths), ConfigMgr.WORK_DIR)            
+                shutil.rmtree(ConfigMgr.WORK_DIR)  
+            if os.path.exists(ConfigMgr.WORK_DIR + '_bak') :
+                shutil.rmtree(ConfigMgr.WORK_DIR + '_bak')                 
+            
+            msg = 'Copying {0} file(s) to work directory {1}'                 
+            print msg.format(len(sourcepaths), ConfigMgr.WORK_DIR)            
             FileUtils.copy_files(sourcepaths, targpaths, DO_ASK)     
+            
+            # backup work to bak
+            shutil.copytree(ConfigMgr.WORK_DIR, ConfigMgr.WORK_DIR + '_bak')
+          
                  
             print
             print 'Performing file mod...'    
@@ -116,11 +115,7 @@ def main(argv=None):
                    len(ms.get_work_files(ConfigMgr.WORK_DIR, ConfigMgr.OUTPUT_DIR)),
                    ConfigMgr.OUTPUT_DIR)
             print
-            
-            
          
-                          
-            
             # COPY BACK TO REMOTE      
                   
             FileUtils.copy_files(ms.get_work_files(ConfigMgr.WORK_DIR, ConfigMgr.OUTPUT_DIR),

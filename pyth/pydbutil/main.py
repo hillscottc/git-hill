@@ -87,12 +87,10 @@ def main(argv=None):
 
         if DO_MOD:   
             print            
-            # remove work and back          
-            if os.path.exists(ConfigMgr.WORK_DIR) :
-                shutil.rmtree(ConfigMgr.WORK_DIR)  
-            if os.path.exists(ConfigMgr.WORK_DIR + '_bak') :
-                shutil.rmtree(ConfigMgr.WORK_DIR + '_bak')                 
-            
+            # remove work and back
+            workdirs = [ConfigMgr.WORK_DIR, ConfigMgr.WORK_DIR + '_bak']
+            [shutil.rmtree(dir) for dir in workdirs if os.path.exists(dir)]
+             
             msg = 'Copying {0} file(s) to work directory {1}'                 
             print msg.format(len(sourcepaths), ConfigMgr.WORK_DIR)            
             FileUtils.copy_files(sourcepaths, targpaths, DO_ASK)     
@@ -100,7 +98,6 @@ def main(argv=None):
             # backup work to bak
             shutil.copytree(ConfigMgr.WORK_DIR, ConfigMgr.WORK_DIR + '_bak')
           
-                 
             print
             print 'Performing file mod...'    
             ms = ConfigMgr(dbset=MODEL_DBSET, path=ConfigMgr.WORK_DIR
@@ -111,9 +108,10 @@ def main(argv=None):
             print
             print ms.summary_matches()
             print
-            print "{0:3} files written to dir '{1}'.".format(
-                   len(ms.get_work_files(ConfigMgr.WORK_DIR, ConfigMgr.OUTPUT_DIR)),
-                   ConfigMgr.OUTPUT_DIR)
+            msg = "{0:3} files written to dir '{1}'."
+            print msg.format(len(ms.get_work_files(
+                                  ConfigMgr.WORK_DIR, ConfigMgr.OUTPUT_DIR)),
+                                  ConfigMgr.OUTPUT_DIR)
             print
          
             # COPY BACK TO REMOTE      

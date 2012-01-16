@@ -9,9 +9,7 @@ Usage: go() is the main function. Many examples in tests below.
 import sys
 import re
 import os
-from MatchFtp import MatchFtp
-from MatchConn import MatchConn
-from MatchLog import MatchLog
+from MatchedConfig import MatchedConfig
 from MatchSet import MatchSet
 from DbProfile import DbProfile
 from collections import namedtuple
@@ -33,8 +31,8 @@ class ConfigMgr(object):
                 re_type('LOG_B', '"file" value="(.+)"'),
                 re_type('DB', 'Data Source=(.+);Initial Catalog=(RDx\w+);'),
                 re_type('FTP', r'"(.+)" value="\\\\(.+)\\d\$'))
-    
-    
+                    
+
     def __init__(self, dbset=None, path=None, env=None, write=False, verbose=True):
         self.dbset = dbset
         self.path = path
@@ -61,32 +59,31 @@ class ConfigMgr(object):
 
 
     def parse_line_db(self, re_match, line, linenum, env, app):
-        """Returns: cmi """
+        """Returns: mc """
         # get db data from re_match
         matched_profile = DbProfile(
                            boxname=re_match.group(1).upper(),
                            dbname=re_match.group(2), 
                            env=env, app=app)
         
-        cmi = MatchConn(matched_profile, linenum)
+        mc = MatchedConfig(mtype='DB', before=matched_profile, linenum=linenum)
     
-        sugg_profs = self.dbset.get(cmi.before)     
+        sugg_profs = self.dbset.get(mc.before)     
         
         if len(sugg_profs):
             # we have a perfect match already.
-            cmi.after = sugg_profs[0]       
+            mc.after = sugg_profs[0]       
         
         # if no (exact match) sug yet, get the correect prof for this app+dbname+env
-        if not cmi.after:
-            #print '####', cmi.before, 'was  not', cmi.after                                                        
+        if not mc.after:
+            #print '####', mc.before, 'was  not', mc.after                                                        
             suggestions = self.dbset.get_by_atts(
-                           dict(dbname=cmi.before.dbname,
-                                app=app, env=env))
+                           dict(dbname=mc.before.dbname, app=app, env=env))
             
             if len(suggestions):
-                cmi.after = suggestions[0]
+                mc.after = suggestions[0]
             
-        return cmi
+        return mc
 
     def go(self, filelist=None, app=None, env=None, write=False, verbose=True) :
         """Checks file for lines which contain connection string information,
@@ -148,40 +145,38 @@ class ConfigMgr(object):
                 
                 if m_type is 'LOG_A' or m_type is 'LOG_B':
                     
-                    matchLog = MatchLog(before=m.group(1), linenum=linenum,
-                                        after=self.get_logname(app))
+                    mc = MatchedConfig(mtype=m_type, before=m.group(1),
+                                       linenum=linenum, after=self.get_logname(app))
                     
-                    maList.append(matchLog)
+                    maList.append(mc)
                     try:     
                         if write:
-                            line = re.sub(re.escape(matchLog.before),
-                                          matchLog.after, line, re.IGNORECASE)
+                            line = re.sub(re.escape(mc.before),
+                                          mc.after, line, re.IGNORECASE)
                     except:
                         print '*** File {} , line {} not updated.'.format(
                                                filename, line)
                         print '*** Failed to change {} to {}'.format(
-                                               matchLog.before, matchLog.after)   
+                                               mc.before, mc.after)   
                                      
                 elif m_type is 'FTP':
                                         
-                    matchFtp = MatchFtp(before=m.group(2),
-                                        linenum=linenum,
-                                        after=self.FTP_ROOT,
-                                        ftpname=m.group(1))
+                    mc = MatchedConfig(mtype=m_type, before=m.group(2),
+                                       linenum=linenum, after=self.FTP_ROOT,
+                                       newname=m.group(1))
                     
-                    maList.append(matchFtp)       
+                    maList.append(mc)       
                     if write:                        
-                        line = re.sub(matchFtp.before, matchFtp.after,
-                                      line, re.IGNORECASE)                       
+                        line = re.sub(mc.before, mc.after, line, re.IGNORECASE)                       
                 
                 elif m_type is 'DB':
-                    matchConn = self.parse_line_db(m, line, linenum, env, app)
+                    mc = self.parse_line_db(m, line, linenum, env, app)
                     
-                    maList.append(matchConn)
+                    maList.append(mc)
                             
                     if write :
                         line = re.sub(re.escape(m.group(1)),
-                                      matchConn.after.boxname, line, re.IGNORECASE)  
+                                      mc.after.boxname, line, re.IGNORECASE)  
                 
                 
                 outlines = outlines + line

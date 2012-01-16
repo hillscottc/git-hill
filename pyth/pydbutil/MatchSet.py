@@ -6,9 +6,7 @@ Usage:
 import sys
 import os
 import itertools
-from MatchConn import MatchConn
-from MatchLog import MatchLog
-from MatchFtp import MatchFtp
+from MatchedConfig import MatchedConfig
 import FileUtils
 
 
@@ -44,8 +42,8 @@ class MatchSet(object):
         
     def get_all_matches(self):
         """ all the matches in all the lists """
-        all_lists = [maList for maList in self.matches.values()]
-        all_matches = [ma for ma in all_lists]
+        all_lists = [mcList for mcList in self.matches.values()]
+        all_matches = [mc for mc in all_lists]
         # flattens. dont want a list of lists. 
         return  list(itertools.chain(*all_matches))
         
@@ -61,8 +59,8 @@ class MatchSet(object):
         outfilenames = []      
         #import pdb; pdb.set_trace()   
         for filename in self.matches.keys() :
-            for ma in self.matches[filename]:
-                if ma.after:
+            for mc in self.matches[filename]:
+                if mc.after:
                     outfilenames.append(FileUtils.get_output_filename(workdir, outdir, filename))
                 break
         return outfilenames
@@ -97,38 +95,38 @@ class MatchSet(object):
                        len(self.get_files_processed()) ))
         
         lines.append('{0:3} DB connections were already properly configured.'.format
-                     (len([ma for ma in self.get_all_matches() 
-                           if isinstance(ma, MatchConn) and
-                           (ma.before == ma.after)])))        
+                     (len([mc for mc in self.get_all_matches() 
+                           if (mc.mtype is 'DB') and
+                           (mc.before == mc.after)])))        
         
         lines.append('{0:3} DB connections had suggested changes.'.format
-                     (len([ma for ma in self.get_all_matches() 
-                           if isinstance(ma, MatchConn) and
-                           (ma.before != ma.after)])))       
+                     (len([mc for mc in self.get_all_matches() 
+                           if (mc.mtype is 'DB') and
+                           (mc.before != mc.after)])))
         
         lines.append('{0:3} LOG file references were already properly configured.'.format
-                     (len([ma for ma in self.get_all_matches() 
-                           if isinstance(ma, MatchLog) and 
-                           (ma.before == ma.after)])))               
+                     (len([mc for mc in self.get_all_matches() 
+                      if mc.mtype in ('LOG_A', 'LOG_B')
+                          and mc.before == mc.after])))
 
         lines.append('{0:3} LOG file references had suggested changes.'.format
-                     (len([ma for ma in self.get_all_matches() 
-                           if isinstance(ma, MatchLog) and
-                           (ma.before != ma.after)])))       
+                     (len([mc for mc in self.get_all_matches() 
+                      if mc.mtype in ('LOG_A', 'LOG_B')
+                          and mc.before != mc.after])))
         
         lines.append('{0:3} FTP filepath references were already properly configured.'.format
-                     (len([ma for ma in self.get_all_matches() 
-                           if isinstance(ma, MatchFtp) and 
-                           (ma.before == ma.after)])))               
+                     (len([mc for mc in self.get_all_matches() 
+                           if (mc.mtype is 'FTP') and
+                           (mc.before == mc.after)])))               
 
         lines.append('{0:3} FTP filepath references had suggested changes.'.format
-                     (len([ma for ma in self.get_all_matches() 
-                           if isinstance(ma, MatchFtp) and
-                           (ma.before != ma.after)])))                 
+                     (len([mc for mc in self.get_all_matches() 
+                           if (mc.mtype is 'FTP') and
+                           (mc.before != mc.after)])))                 
         
         lines.append('{0:3} matches had NO suggestions.'.format
-                     (len([ma for ma in self.get_all_matches() 
-                           if not ma.after])))   
+                     (len([mc for mc in self.get_all_matches() 
+                           if not mc.after])))   
                 
         return os.linesep.join(lines)
     
@@ -138,31 +136,36 @@ class MatchSet(object):
         
         for filename in self.matches.keys() :
             lines.append('FILE: ' + filename)
-            for ma in self.matches[filename]:
-                if isinstance(ma, MatchConn): 
-                    l = '  line {0}, {1} is pointed to {2}'.format(ma.linenum, ma.before.dbname, ma.before.boxname)
-                    if ma.after == ma.before:
+            for mc in self.matches[filename]:
+                if mc.mtype is 'DB':
+                #if isinstance(mc, mctchConn): 
+                    l = '  line {0}, {1} is pointed to {2}'.format(
+                         mc.linenum, mc.before.dbname, mc.before.boxname)
+                    if mc.after == mc.before:
                         l += '...OK...no change.'   
-                    elif ma.after:
-                        l += '...changing to {0}'.format(ma.after.boxname)
+                    elif mc.after:
+                        l += '...changing to {0}'.format(mc.after.boxname)
                     else:
                         l +=  '...no suggestions...no change.' 
                     lines.append(l) 
-                elif isinstance(ma, MatchLog):
-                    l = '  line {0}, LOGFILE is at {1}'.format(ma.linenum, ma.before)
-                    if ma.after == ma.before:
+                elif mc.mtype in ('LOG_A', 'LOG_B') :    
+                #elif isinstance(mc, mctchLog):
+                    l = '  line {0}, LOGFILE is at {1}'.format(mc.linenum, mc.before)
+                    if mc.after == mc.before:
                         l += '...OK...no change.'   
-                    elif ma.after:
-                        l += os.linesep + '   ...changing to {0}'.format(ma.after)
+                    elif mc.after:
+                        l += os.linesep + '   ...changing to {0}'.format(mc.after)
                     else:
                         l +=  '...no suggestions...no change.' 
-                    lines.append(l)                     
-                elif isinstance(ma, MatchFtp):
-                    l = '  line {0}, {1} points to {2}'.format(ma.linenum, ma.ftpname, ma.before)
-                    if ma.after == ma.before:
+                    lines.append(l) 
+                elif mc.mtype is 'FTP' :                    
+                #elif isinstance(mc, mctchFtp):
+                    l = '  line {0}, {1} points to {2}'.format(
+                         mc.linenum, mc.newname, mc.before)
+                    if mc.after == mc.before:
                         l += '...OK...no change.'   
-                    elif ma.after:
-                        l += '...changing to {0}'.format(ma.after)
+                    elif mc.after:
+                        l += '...changing to {0}'.format(mc.after)
                     else:
                         l +=  '...no suggestions...no change.' 
                     lines.append(l)  

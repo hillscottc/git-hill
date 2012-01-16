@@ -3,8 +3,13 @@
 
 Usage: go() is the main function. Many examples in tests below.
 >>> from MatchSet import MatchSet
->>> ms = ConfigMgr(dbsource='input/DbSet.data.csv', path='input/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config').go(verbose=False)
-  4 matches in 1 files.
+>>> from DbSet import DbSet
+>>> from DbProfile import DbProfile
+>>> APPS = ('CARL', 'CART')
+>>> DBS = (('RDxETL', 'USHPEPVSQL409'), ('RDxReport', r'USHPEPVSQL435'))
+>>> ENVS = ('dev',)
+>>> MODEL_DBSET = DbSet(DbProfile.create_profiles(envs=ENVS, apps=APPS, dbs=DBS)) 
+>>> cm = ConfigMgr(dbset=MODEL_DBSET, path='remote')
 """
 import sys
 import re
@@ -14,6 +19,23 @@ from MatchSet import MatchSet
 from DbProfile import DbProfile
 from collections import namedtuple
 import FileUtils
+import logging
+
+logger = logging.getLogger('ConfigMgr')
+logger.setLevel(logging.DEBUG)
+# create file handler which logs even debug messages
+fh = logging.FileHandler('ConfigMgr.log')
+fh.setLevel(logging.DEBUG)
+# create console handler with a higher log level
+ch = logging.StreamHandler()
+ch.setLevel(logging.WARN)
+# create formatter and add it to the handlers
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+fh.setFormatter(formatter)
+ch.setFormatter(formatter)
+# add the handlers to the logger
+logger.addHandler(fh)
+logger.addHandler(ch)
 
 
 class ConfigMgr(object):
@@ -39,6 +61,10 @@ class ConfigMgr(object):
         self.env = env
         self.write = write
         self.verbose = verbose
+        logger.info("INIT ConfigMgr")
+        #logger.warn("Warning, Will Robinson.")
+        #logger.debug("Boss, debug, debug!")
+        #raise TypeError, "bogus type error for testing" 
         
     def set_path(self, value):
         if not self.dbset: raise Exception('dbset is required when setting path.')
@@ -196,8 +222,8 @@ class ConfigMgr(object):
 
 if __name__ == "__main__":
     import doctest
-    #doctest.testmod(verbose=True)
-    doctest.testfile("tests/test_ConfigMgr.txt", verbose=True)
+    doctest.testmod(verbose=True)
+    #doctest.testfile("tests/test_ConfigMgr.txt", verbose=True)
     sys.exit(0)
    
 

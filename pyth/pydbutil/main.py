@@ -49,8 +49,8 @@ DO_ASK = False
 def main(argv=None):
 
     # set log file
-    logging.basicConfig(level=logging.DEBUG,
-                        format='%(asctime)s %(levelname)-5s %(message)s',
+    logging.basicConfig(level=logging.INFO,
+                        format='%(asctime)s %(name)s %(levelname)-5s %(message)s',
                         datefmt='%m-%d %H:%M',
                         filename='main.log',
                         filemode='w')
@@ -58,7 +58,7 @@ def main(argv=None):
     # define a Handler which writes INFO messages or higher to the sys.stderr
     console = logging.StreamHandler()
     console.setLevel(logging.INFO)
-    console.setFormatter(logging.Formatter('%(levelname)-5s %(message)s'))
+    console.setFormatter(logging.Formatter('%(name)s %(levelname)-5s %(message)s'))
     # add the handler to the root logger
     logging.getLogger('').addHandler(console) 
 
@@ -104,17 +104,17 @@ def main(argv=None):
 
         if DO_MOD:   
             print          
-            # remove work and back
-            workdirs = [ConfigMgr.WORK_DIR, ConfigMgr.WORK_DIR + '_bak']
-            [shutil.rmtree(dir) for dir in workdirs if os.path.exists(dir)]
+            # remove old work dir
+            if os.path.exists(ConfigMgr.WORK_DIR) :
+                shutil.rmtree(ConfigMgr.WORK_DIR)
              
             logging.info('Copying %s file(s) to work directory %s',
-                         len(sourcepaths), ConfigMgr.WORK_DIR)       
+                         len(sourcepaths), ConfigMgr.WORK_DIR)                                
             FileUtils.copy_files(sourcepaths, targpaths, DO_ASK)     
             
-            # backup work to bak
-            shutil.copytree(ConfigMgr.WORK_DIR, ConfigMgr.WORK_DIR + '_bak')
-          
+            # make a backup work dir
+            shutil.copytree(ConfigMgr.WORK_DIR, FileUtils.get_bak_dir(ConfigMgr.WORK_DIR))
+
             print
             logging.info('Performing file mod...')
             ms = ConfigMgr(dbset=MODEL_DBSET, path=ConfigMgr.WORK_DIR

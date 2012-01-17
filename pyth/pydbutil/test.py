@@ -2,34 +2,21 @@
 
 import re
 import os
-from DbProfile import DbProfile
-from MatchSet import MatchSet
-from collections import namedtuple
-from DbSet import DbSet
+import time
+
+time_str = '_' + time.strftime('%m%d%H%M%S') + '_BAK'
+
+
+head, tail = os.path.split(path)
+
+newname = os.path.join(head, tail + time_str)
+
+print newname
+
+#filename = "%s_%d%s" % (base_name, str(time.strftime('%Y_%m_%d_%H_%M_%S')), ext)
 
 
 
-#def get_profiles(apps=None, dbs=None, envs=None, boxes=None):
 
-envs = ('dev', 'uat')
-apps= ('CARL', 'MP', 'R2')
-# the lookup dbset of profiles used to specify connections 
-Db = namedtuple('Db', 'dbname boxname')
-_Dbs = (Db('RDxETL', 'USHPEPVSQL409'), Db('RDxReport', 'USHPEPVSQL409'))   
-
-profs = []
-if apps:
-    for app in apps:
-        for db in _Dbs:
-            for env in envs:
-                profs.append(DbProfile(app=app, dbname=db.dbname, boxname=db.boxname, env=env))
-
-#print os.linesep.join([str(prof) for prof in profs])
-
-dbset = DbSet(profs)
-
-print os.linesep.join([str(prof) for prof in dbset.DB])
-
-print dbset.get_apps()
 
 

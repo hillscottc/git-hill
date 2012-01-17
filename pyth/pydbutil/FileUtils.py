@@ -7,6 +7,7 @@ import os
 import re
 import shutil
 import sys
+import time
 
 def get_work_path(path, old_dir, new_dir=None):
     if not new_dir:
@@ -65,6 +66,20 @@ def trim_line(longline, max_length=80, chars_trimmed=20, chars_shown=65):
     if len(shortline) > chars_shown and len(shortline) > chars_trimmed :
         shortline = '...' + shortline[chars_trimmed : chars_trimmed+chars_shown] + '...'
     return shortline
+
+def get_bak_dir(path) :
+    """ 
+    >>> print get_bak_dir('remote/ETL')
+    remote/ETL_..._BAK
+    """
+    if os.path.isdir(path) :
+        time_str = '_' + time.strftime('%m%d%H%M%S') + '_BAK'
+        head, tail = os.path.split(path)
+        return os.path.join(head, tail + time_str)
+    else:
+        raise Exception('Must supply a dir. Bad path:', path)
+
+ 
 
 def get_output_filename(before, after, infilename):
     """ Returns path to ./outdir/filename. Creates if necc."""

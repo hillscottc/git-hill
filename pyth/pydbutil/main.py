@@ -42,8 +42,8 @@ MODEL_DBSET = DbSet(DbProfile.create_profiles(envs=ENVS, apps=APPS, dbs=DBS))
 # global opts
 #PATH = REMOTE_DIR
 ENV = None
-DO_MOD = True
 DO_COPY = True
+DO_MOD = True
 DO_ASK = False             
 
 def main(argv=None):
@@ -70,12 +70,13 @@ def main(argv=None):
         
         try:
             opts, args = getopt.getopt(
-                argv[1:], "hs:", ["help", "source="])
+                argv[1:], "hs:r", ["help", "source=", "replace"])
         except getopt.error, msg:
             raise Usage(msg)
         
         # default value
         source = None
+        DO_REPLACE = False
 
         for opt, arg in opts :
             if opt in ("-h", "--help"):
@@ -83,7 +84,9 @@ def main(argv=None):
                 sys.exit(0)
             elif opt in ("-s", "--source"):
                 source = arg
-     
+            elif opt in ("-r", "--replace"):
+                DO_REPLACE = True
+                     
         if not source :
             raise Usage("option -s is required.")
         
@@ -113,7 +116,9 @@ def main(argv=None):
             FileUtils.copy_files(sourcepaths, targpaths, DO_ASK)     
             
             # make a backup work dir
-            shutil.copytree(ConfigMgr.WORK_DIR, FileUtils.get_bak_dir(ConfigMgr.WORK_DIR))
+            backupdir = FileUtils.get_bak_dir(ConfigMgr.WORK_DIR)
+            logging.info('Backup created at %s', backupdir)
+            shutil.copytree(ConfigMgr.WORK_DIR, backupdir)
 
             print
             logging.info('Performing file mod...')
@@ -131,7 +136,7 @@ def main(argv=None):
             print
          
             # COPY BACK TO REMOTE      
-                  
+        if DO_REPLACE:          
             FileUtils.copy_files(ms.get_work_files(ConfigMgr.WORK_DIR, ConfigMgr.OUTPUT_DIR),
                                  sourcepaths, DO_ASK)
             logging.info('The modified files have been copied back to %s', source)

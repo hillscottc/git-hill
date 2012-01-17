@@ -70,14 +70,13 @@ def trim_line(longline, max_length=80, chars_trimmed=20, chars_shown=65):
 def get_bak_dir(path) :
     """ 
     >>> print get_bak_dir('remote/ETL')
-    remote/ETL_..._BAK
+    bak/.../remote/ETL
     """
     if os.path.isdir(path) :
-        time_str = '_' + time.strftime('%m%d%H%M%S') + '_BAK'
-        head, tail = os.path.split(path)
-        return os.path.join(head, tail + time_str)
+        t = time.strftime('%m%d%H%M%S')
+        return os.path.join('bak', t, os.path.relpath(path))
     else:
-        raise Exception('Must supply a dir. Bad path:', path)
+        raise Exception('Must supply a valid dir. Bad path:', path)
 
  
 

@@ -20,10 +20,12 @@ from DbProfile import DbProfile
 from collections import namedtuple
 import FileUtils
 import logging
+from pprint import pformat
+#from pprint_data import data
 
 logger = logging.getLogger('ConfigMgr')
-logger.setLevel(logging.DEBUG)
-# create file handler which logs even debug messages
+logger.setLevel(logging.INFO)
+#create file handler which logs even debug messages
 fh = logging.FileHandler('ConfigMgr.log')
 fh.setLevel(logging.DEBUG)
 # create console handler with a higher log level
@@ -61,10 +63,7 @@ class ConfigMgr(object):
         self.env = env
         self.write = write
         self.verbose = verbose
-        logger.info("INIT ConfigMgr")
-        #logger.warn("Warning, Will Robinson.")
-        #logger.debug("Boss, debug, debug!")
-        #raise TypeError, "bogus type error for testing" 
+
         
     def set_path(self, value):
         if not self.dbset: raise Exception('dbset is required when setting path.')
@@ -130,7 +129,11 @@ class ConfigMgr(object):
             apps = [app]
         else:
             apps = self.dbset.get_apps()
-            
+
+        logger.debug('GO !!!!!!!!!!!!!!!')
+        logger.debug('ENV:%s    APPS:%s', env, apps)
+        #logger.debug('   APPS : %s', apps)
+                    
         ms = MatchSet()
         
         for filename in filelist:
@@ -169,7 +172,7 @@ class ConfigMgr(object):
                         break
                 
                 
-                if m_type is 'LOG_A' or m_type is 'LOG_B':
+                if m_type in ('LOG_A', 'LOG_B') :
                     
                     mc = MatchedConfig(mtype=m_type, before=m.group(1),
                                        linenum=linenum, after=self.get_logname(app))
@@ -192,7 +195,7 @@ class ConfigMgr(object):
                                        newname=m.group(1))
                     
                     maList.append(mc)       
-                    if write:                        
+                    if write:
                         line = re.sub(mc.before, mc.after, line, re.IGNORECASE)                       
                 
                 elif m_type is 'DB':
@@ -216,7 +219,9 @@ class ConfigMgr(object):
                 with open(outfilename, 'w') as outfile:
                     outfile.write(outlines)
                 
-        
+        #logger.debug('SUMMARY...........................................' + os.linesep + ms.summary_details())
+        logger.debug('SUMMARY...........................................' + os.linesep + pformat(ms.matches))
+        logger.info(os.linesep + ms.summary_matches())
         return ms
     
 

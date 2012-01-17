@@ -24,7 +24,7 @@ from pprint import pformat
 #from pprint_data import data
 
 logger = logging.getLogger('ConfigMgr')
-logger.setLevel(logging.INFO)
+logger.setLevel(logging.DEBUG)
 #create file handler which logs even debug messages
 fh = logging.FileHandler('ConfigMgr.log')
 fh.setLevel(logging.DEBUG)
@@ -220,8 +220,10 @@ class ConfigMgr(object):
                     outfile.write(outlines)
                 
         #logger.debug('SUMMARY...........................................' + os.linesep + ms.summary_details())
-        logger.debug('SUMMARY...........................................' + os.linesep + pformat(ms.matches))
-        logger.info(os.linesep + ms.summary_matches())
+        logger.debug('')
+        logger.debug(os.linesep.join([(str(k) + os.linesep) + pformat(v) for k, v in ms.matches.iteritems()]))
+        logger.debug('')
+        logger.debug(ms.summary_matches())
         return ms
     
 

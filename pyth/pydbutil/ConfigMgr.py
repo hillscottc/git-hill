@@ -26,7 +26,7 @@ from pprint import pformat
 logger = logging.getLogger('ConfigMgr')
 logger.setLevel(logging.DEBUG)
 #create file handler which logs even debug messages
-fh = logging.FileHandler('ConfigMgr.log')
+fh = logging.FileHandler('logs/ConfigMgr.log')
 fh.setLevel(logging.DEBUG)
 # create console handler with a higher log level
 ch = logging.StreamHandler()
@@ -221,7 +221,15 @@ class ConfigMgr(object):
                 
         #logger.debug('SUMMARY...........................................' + os.linesep + ms.summary_details())
         logger.debug('')
-        logger.debug(os.linesep.join([(str(k) + os.linesep) + pformat(v) for k, v in ms.matches.iteritems()]))
+        #logger.debug(os.linesep.join([(str(k) + os.linesep) + pformat(v) for k, v in ms.matches.iteritems()]))
+
+        for k in ms.matches.keys():
+            logger.debug('%s', k)
+            for v in ms.matches[k]:
+                logger.debug('  %s', v)
+
+
+
         logger.debug('')
         logger.debug(ms.summary_matches())
         return ms

@@ -52,7 +52,7 @@ def main(argv=None):
     logging.basicConfig(level=logging.INFO,
                         format='%(asctime)s %(name)s %(levelname)-5s %(message)s',
                         datefmt='%m-%d %H:%M',
-                        filename='main.log',
+                        filename='logs/main.log',
                         filemode='w')
 
     # define a Handler which writes INFO messages or higher to the sys.stderr

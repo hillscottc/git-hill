@@ -10,12 +10,7 @@ import sys
 import time
 import subprocess
 
-def get_map_path(drive):
-    """ returns the win path for given drive letter."""
-    resp = subprocess.call("net use", shell=True)
-    lines = resp.splitlines(True)
 
-    print [line in lines ]
 
 
 

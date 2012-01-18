@@ -58,7 +58,7 @@ def main(argv=None):
     # define a Handler which writes INFO messages or higher to the sys.stderr
     console = logging.StreamHandler()
     console.setLevel(logging.INFO)
-    console.setFormatter(logging.Formatter('%(name)s %(levelname)-5s %(message)s'))
+    console.setFormatter(logging.Formatter('%(asctime)s %(levelname)-5s %(message)s'))
     # add the handler to the root logger
     logging.getLogger('').addHandler(console) 
 

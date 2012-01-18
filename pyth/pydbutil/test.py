@@ -9,12 +9,6 @@ import time
 import logging
 
 
-
-logging.basicConfig(level=logging.DEBUG,
-                    format='%(asctime)s %(name)s %(levelname)-5s %(message)s',
-                    datefmt='%m-%d %H:%M',
-                    filename='test.log',
-                    filemode='w')
-
+FileUtils.get_map_path('g')
 
 

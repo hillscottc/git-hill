@@ -4,11 +4,13 @@ import re
 import os
 import FileUtils
 from ConfigMgr import ConfigMgr
-from pprint import pformat
+from pprint import pprint
 import time
 import logging
 
 
-FileUtils.get_map_path('g')
+pprint(FileUtils.get_filelist('remote', skipdir='Backup'))
+
+pprint(FileUtils.get_filelist('remote'))
 
 

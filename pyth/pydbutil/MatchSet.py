@@ -122,7 +122,20 @@ class MatchSet(object):
         lines.append('{0:3} FTP filepath references had suggested changes.'.format
                      (len([mc for mc in self.get_all_matches() 
                            if (mc.mtype is 'FTP') and
-                           (mc.before != mc.after)])))                 
+                           (mc.before != mc.after)])))      
+        
+        # these are easy cuz they loop easy. Can prolly do the above same.
+        ezmatches = ('SMTP', 'TO_VAL', 'FROM_VAL', 'SUBJ') 
+               
+        for ez in ezmatches:
+            
+            lines.append('{0:3} {1} references were already properly configured.'.format
+                       (len([mc for mc in self.get_all_matches() 
+                             if (mc.mtype is ez) and (mc.before == mc.after)]), ez))               
+
+            lines.append('{0:3} {1} references had suggested changes.'.format
+                       (len([mc for mc in self.get_all_matches() 
+                             if (mc.mtype is ez) and (mc.before != mc.after)]), ez))                                          
         
         lines.append('{0:3} matches had NO suggestions.'.format
                      (len([mc for mc in self.get_all_matches() 
@@ -149,7 +162,6 @@ class MatchSet(object):
                         l +=  '...no suggestions...no change.' 
                     lines.append(l) 
                 elif mc.mtype in ('LOG_A', 'LOG_B') :    
-                #elif isinstance(mc, mctchLog):
                     l = '  line {0}, LOGFILE is at {1}'.format(mc.linenum, mc.before)
                     if mc.after == mc.before:
                         l += '...OK...no change.'   
@@ -159,7 +171,6 @@ class MatchSet(object):
                         l +=  '...no suggestions...no change.' 
                     lines.append(l) 
                 elif mc.mtype is 'FTP' :                    
-                #elif isinstance(mc, mctchFtp):
                     l = '  line {0}, {1} points to {2}'.format(
                          mc.linenum, mc.newname, mc.before)
                     if mc.after == mc.before:
@@ -169,6 +180,15 @@ class MatchSet(object):
                     else:
                         l +=  '...no suggestions...no change.' 
                     lines.append(l)  
+                elif mc.mtype in ('SMTP', 'TO_VAL', 'FROM_VAL', 'SUBJ') :    
+                    l = '  line {0}, {1} is {2}'.format(mc.linenum, mc.mtype, mc.before)
+                    if mc.after == mc.before:
+                        l += '...OK...no change.'   
+                    elif mc.after:
+                        l += os.linesep + '   ...changing to {0}'.format(mc.after)
+                    else:
+                        l +=  '...no suggestions...no change.' 
+                    lines.append(l)                     
                             
         return os.linesep.join(lines)    
         

@@ -1,13 +1,12 @@
 #! /usr/bin/python
 """Uses the ConFigMgr and related classes.
 
-Usage: ./main.py -s ./remote
+Usage: ./main.py -s ./remote [-r]
 
 Args: (switches for running ConfigMgr.py main)
    -h: help
    -s: source path to config files
-
-   
+   -r: replace orig with modified files
 """
 import sys
 import os
@@ -117,7 +116,7 @@ def main(argv=None):
             
             # make a backup work dir
             backupdir = FileUtils.get_bak_dir(ConfigMgr.WORK_DIR)
-            logging.info('Backup created at %s', backupdir)
+            logging.info('Backup of work directory created at %s', backupdir)
             shutil.copytree(ConfigMgr.WORK_DIR, backupdir)
 
             print

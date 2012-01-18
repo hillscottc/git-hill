@@ -1,0 +1,32 @@
+#! /usr/bin/python
+""" The things being searched and managed. """
+import sys
+
+
+COTYPES = ('LOG_A', 'LOG_B', 'DB', 'FTP', 'TO_VAL', 'FROM_VAL',
+            'SMTP', 'SUBJ')
+
+
+class ConfigObj(object):
+    """ The things being searched and managed. """
+    def __init__(self, cotype=None, regex=None, changeval=None):
+        self.cotype = cotype
+        self.regex = regex
+        self.changeval = changeval
+        if self.cotype and self.cotype not in COTYPES:
+            raise Exception('{0} not valid cotype. {1}'.format
+                            (self.cotype, COTYPES))
+
+    def __str__(self):
+        return '{0} {1} {2}'.format(self.cotype, self.regex, self.changeval)
+
+    def __repr__(self):
+        return str(self.__str__())
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod(verbose=True)
+    sys.exit(0)
+   
+
+

@@ -16,6 +16,7 @@ import re
 import os
 from MatchedConfig import MatchedConfig
 from MatchSet import MatchSet
+from ConfigObj import ConfigObj
 from DbProfile import DbProfile
 from collections import namedtuple
 import FileUtils
@@ -40,6 +41,7 @@ logger.addHandler(fh)
 logger.addHandler(ch)
 
 
+
 class ConfigMgr(object):
     """Handles database connection strings in files using DbProfiles."""
     
@@ -49,14 +51,34 @@ class ConfigMgr(object):
     
     FTP_ROOT = 'USHPEWVAPP251'
     LOG_PATH = r'D:\RDx\ETL\logs'
-        
-    re_type = namedtuple('re_type', 't regex')
-    RE_TYPES = (re_type('LOG_A', '<file value="(.+)"'),
-                re_type('LOG_B', '"file" value="(.+)"'),
-                re_type('DB', 'Data Source=(.+);Initial Catalog=(RDx\w+);'),
-                re_type('FTP', r'"(.+)" value="\\\\(.+)\\d\$'))
-                    
+    SMTP_SERVER = 'usush-maildrop.amer.umusic.net'
+    TO_VAL = 'ar.umg.rights.dev@hp.com, Scott.Hill@umgtemp.com'
+    FROM_VAL = 'RDx@mgd.umusic.com'
+    SUBJ = 'RDxAlert Message'
 
+    CONFIG_OBJS = (ConfigObj('LOG_A', '<file value="(.+)"'),
+                    ConfigObj('LOG_B', '"file" value="(.+)"'),
+                    ConfigObj('DB', 'Data Source=(.+);Initial Catalog=(RDx\w+);'),
+                    ConfigObj('FTP', r'"(.+)" value="\\\\(.+)\\d\$'),
+                    ConfigObj('TO_VAL', '<to value="(.+)"', TO_VAL),
+                    ConfigObj('FROM_VAL', '<from value="(.+)"', FROM_VAL),
+                    ConfigObj('SMTP', '<smtpHost value="(.+)"', SMTP_SERVER),
+                    ConfigObj('SUBJ', '<subject value="(.+)"', SUBJ)
+                    )     
+        
+    # re_type = namedtuple('re_type', 't regex changeto')
+    # RE_TYPES = (re_type('LOG_A', '<file value="(.+)"', ''),
+    #             re_type('LOG_B', '"file" value="(.+)"', ''),
+    #             re_type('DB', 'Data Source=(.+);Initial Catalog=(RDx\w+);', ''),
+    #             re_type('FTP', r'"(.+)" value="\\\\(.+)\\d\$', ''),
+    #             re_type('TO_VAL', '<to value="(.+)"', TO_VAL),
+    #             re_type('FROM_VAL', '<from value="(.+)"', FROM_VAL),
+    #             re_type('SMTP', '<smtpHost value="(.+)"', SMTP_SERVER),
+    #             re_type('SUBJ', '<subject value="(.+)"', SUBJ)
+    #             )
+               
+
+                    
     def __init__(self, dbset=None, path=None, env=None, write=False, verbose=True):
         self.dbset = dbset
         self.path = path
@@ -67,7 +89,7 @@ class ConfigMgr(object):
         
     def set_path(self, value):
         if not self.dbset: raise Exception('dbset is required when setting path.')
-        self.filelist = FileUtils.get_filelist(value)
+        self.filelist = FileUtils.get_filelist(value, skipdir='Backup')
         #print 'Set path to ' + value
         self._path = value
 
@@ -162,52 +184,63 @@ class ConfigMgr(object):
                 linenum = linenum +1
                 
                 m = None
-                m_type = None                
-                
-                # which of the RE_TYPES does this line match?
-                for re_type in self.RE_TYPES:
-                    m = re.search(re_type.regex, line, re.IGNORECASE) 
+              
+                # which of the co's does this line match?
+                for co in self.CONFIG_OBJS:
+                    m = re.search(co.regex, line, re.IGNORECASE) 
                     if m:
-                        m_type = re_type.t
                         break
+    
                 
-                
-                if m_type in ('LOG_A', 'LOG_B') :
-                    
-                    mc = MatchedConfig(mtype=m_type, before=m.group(1),
-                                       linenum=linenum, after=self.get_logname(app))
-                    
-                    maList.append(mc)
-                    try:     
+                if m:
+
+
+                    if co.cotype in ('SMTP', 'TO_VAL', 'FROM_VAL', 'SUBJ') :
+
+                        mc = MatchedConfig(mtype=co.cotype, before=m.group(1),
+                                           linenum=linenum, after=co.changeval) 
+                                           
+                        maList.append(mc)       
                         if write:
-                            line = re.sub(re.escape(mc.before),
-                                          mc.after, line, re.IGNORECASE)
-                    except:
-                        print '*** File {0} , line {1} not updated.'.format(
-                                               filename, line)
-                        print '*** Failed to change {0} to {1}'.format(
-                                               mc.before, mc.after)   
-                                     
-                elif m_type is 'FTP':
-                                        
-                    mc = MatchedConfig(mtype=m_type, before=m.group(2),
-                                       linenum=linenum, after=self.FTP_ROOT,
-                                       newname=m.group(1))
+                            line = re.sub(mc.before, mc.after, line, re.IGNORECASE)                                                               
+
+
+                    elif co.cotype in ('LOG_A', 'LOG_B') :
+                        
+                        mc = MatchedConfig(mtype=co.cotype, before=m.group(1),
+                                           linenum=linenum, after=self.get_logname(app))
+                        
+                        maList.append(mc)
+                        try:     
+                            if write:
+                                line = re.sub(re.escape(mc.before),
+                                              mc.after, line, re.IGNORECASE)
+                        except:
+                            print '*** File {0} , line {1} not updated.'.format(
+                                                   filename, line)
+                            print '*** Failed to change {0} to {1}'.format(
+                                                   mc.before, mc.after)   
+                                         
+                    elif co.cotype is 'FTP':
+                                            
+                        mc = MatchedConfig(mtype=co.cotype, before=m.group(2),
+                                           linenum=linenum, after=self.FTP_ROOT,
+                                           newname=m.group(1))
+                        
+                        maList.append(mc)       
+                        if write:
+                            line = re.sub(mc.before, mc.after, line, re.IGNORECASE)                       
                     
-                    maList.append(mc)       
-                    if write:
-                        line = re.sub(mc.before, mc.after, line, re.IGNORECASE)                       
-                
-                elif m_type is 'DB':
-                    mc = self.parse_line_db(m, line, linenum, env, app)
+                    elif co.cotype is 'DB':
+                        mc = self.parse_line_db(m, line, linenum, env, app)
+                        
+                        maList.append(mc)
+                                
+                        if write :
+                            line = re.sub(re.escape(m.group(1)),
+                                          mc.after.boxname, line, re.IGNORECASE)  
                     
-                    maList.append(mc)
-                            
-                    if write :
-                        line = re.sub(re.escape(m.group(1)),
-                                      mc.after.boxname, line, re.IGNORECASE)  
-                
-                
+                    
                 outlines = outlines + line
                 
 

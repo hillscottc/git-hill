@@ -183,9 +183,9 @@ class ConfigMgr(object):
                             line = re.sub(re.escape(mc.before),
                                           mc.after, line, re.IGNORECASE)
                     except:
-                        print '*** File {} , line {} not updated.'.format(
+                        print '*** File {0} , line {1} not updated.'.format(
                                                filename, line)
-                        print '*** Failed to change {} to {}'.format(
+                        print '*** Failed to change {0} to {1}'.format(
                                                mc.before, mc.after)   
                                      
                 elif m_type is 'FTP':

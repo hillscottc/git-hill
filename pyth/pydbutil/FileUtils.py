@@ -97,7 +97,7 @@ def copy_files(sourcepaths, targpaths, ask=True):
     if ask:
         print
         print 'The copying will be:'         
-        print os.linesep.join(map('FROM {}\nTO   {}'.format, sourcepaths, targpaths))           
+        print os.linesep.join(map('FROM {0}\nTO   {1}'.format, sourcepaths, targpaths))           
         r = raw_input('Proceed with copy? [y]/n ')
         if r.lower() == 'n':
             print 'Ok, stopping.'

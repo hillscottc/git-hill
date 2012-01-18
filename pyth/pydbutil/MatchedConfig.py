@@ -25,7 +25,7 @@ class MatchedConfig(object):
             return False     
         
     def __str__(self):
-        return '{} {} {}'.format(self.mtype, self.before, self.linenum, self.after, self.newname)
+        return '{0} {1} {2}'.format(self.mtype, self.before, self.linenum, self.after, self.newname)
 
     def __repr__(self):
         return str(self.__str__())

@@ -57,51 +57,64 @@
         return filelist
 
 
-
-
-
-#this was part of configmgr. but i dont need xml here.
-
-def handle_xml(self, env=None, write=None, *xml_file_list):
-    """Find and change connectionStrings node of xmlfile.
-    Tests for this are function are in in 'test_ConfigMgr.txt'
-    Run ./ConfigMgr.py -v         
-    """
-
-    if env:
-        self.env = env
-    
-    self.write = write
-
-    if len(xml_file_list) > 0:
-        self.filelist = xml_file_list
-
-    tot_match_count = 0
-    match_msg = ''
-    for xmlfilename in self.filelist:
-
-        print "File:", os.path.abspath(xmlfilename)
-        matchcount = 0
-        tree = ElementTree()
-        root = tree.parse(xmlfilename)
-        for con_str_node in root.findall('connectionStrings'):
-            for add_node in con_str_node.findall('add'):
-                old_conn = add_node.attrib['connectionString']
-                # change the con node here
-                add_node.attrib['connectionString'] = self.change_conn(old_conn, self.env)
-                matchcount = matchcount + 1
-            tot_match_count = tot_match_count + matchcount
-            match_msg = match_msg + str(matchcount) + ' matches in file ' + xmlfilename + os.linesep
-
-        if self.write:
-            newfilename = self.get_output_filename(xmlfilename)
-            tree.write(newfilename)
-            print 'Wrote', newfilename
-
-    print
-    print match_msg
-    if len(self.filelist) > 1:
-        print str(tot_match_count) + ' TOTAL changes.'
-
+        # m = None
+        # # which of the co's does this line match?
+        # for co in self.CONFIG_OBJS:
+        #     m = re.search(co.regex, line, re.IGNORECASE)
+        #     if m:
+        #         break
+        # 
+        # if m:
+        # 
+        # 
+        #     if co.cotype in ('SMTP', 'TO_VAL', 'FROM_VAL', 'SUBJ') :
+        #         
+        #         
+        #         print 'FOUND', co.cotype 
+        # 
+        #         mc = MatchedConfig(mtype=co.cotype, before=m.group(1),
+        #                            linenum=linenum, after=co.changeval)
+        #                                             
+        #         print mc
+        # 
+        #         maList.append(mc)
+        #         if write:
+        #             line = re.sub(mc.before, mc.after, line, re.IGNORECASE)
+        # 
+        # 
+        #     elif co.cotype in ('LOG_A', 'LOG_B') :
+        # 
+        #         mc = MatchedConfig(mtype=co.cotype, before=m.group(1),
+        #                            linenum=linenum, after=self.get_logname(app))
+        # 
+        #         maList.append(mc)
+        #         try:
+        #             if write:
+        #                 line = re.sub(re.escape(mc.before),
+        #                               mc.after, line, re.IGNORECASE)
+        #         except:
+        #             print '*** File {0} , line {1} not updated.'.format(
+        #                                    filename, line)
+        #             print '*** Failed to change {0} to {1}'.format(
+        #                                    mc.before, mc.after)
+        # 
+        #     elif co.cotype is 'FTP':
+        # 
+        #         mc = MatchedConfig(mtype=co.cotype, before=m.group(2),
+        #                            linenum=linenum, after=self.FTP_ROOT,
+        #                            newname=m.group(1))
+        # 
+        #         maList.append(mc)
+        #         if write:
+        #             line = re.sub(mc.before, mc.after, line, re.IGNORECASE)
+        # 
+        #     elif co.cotype is 'DB':
+        #         mc = self.parse_line_db(m, line, linenum, env, app)
+        # 
+        #         maList.append(mc)
+        # 
+        #         if write :
+        #             line = re.sub(re.escape(m.group(1)),
+        #                           mc.after.boxname, line, re.IGNORECASE)
 
 

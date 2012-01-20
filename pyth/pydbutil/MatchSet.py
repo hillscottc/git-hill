@@ -8,6 +8,10 @@ import os
 import itertools
 from MatchedConfig import MatchedConfig
 import FileUtils
+import pprint
+
+
+
 
 
 class Usage(Exception):
@@ -125,13 +129,18 @@ class MatchSet(object):
                            (mc.before != mc.after)])))      
         
         # these are easy cuz they loop easy. Can prolly do the above same.
-        ezmatches = ('SMTP', 'TO_VAL', 'FROM_VAL', 'SUBJ') 
-               
-        for ez in ezmatches:
+        
+        for ez in ('SMTP', 'TO_VAL', 'FROM_VAL', 'SUBJ') :
+
+            the_matches = [mc for mc in self.get_all_matches() if (mc.mtype == ez) and (mc.before == mc.after)]
+            #  
+            #  print 'TESTING', ez
+            #  if ez == 'TO_VAL':
+            #      print '*begin', ez, len(the_matches)
+            #      print the_matches
+            #      print '*end', ez, len(the_matches)
             
-            lines.append('{0:3} {1} references were already properly configured.'.format
-                       (len([mc for mc in self.get_all_matches() 
-                             if (mc.mtype is ez) and (mc.before == mc.after)]), ez))               
+            lines.append('{0} {1} references were already properly configured.'.format(len(the_matches), ez))
 
             lines.append('{0:3} {1} references had suggested changes.'.format
                        (len([mc for mc in self.get_all_matches() 

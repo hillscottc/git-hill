@@ -27,15 +27,16 @@ def search_files(path, regex):
         for line in lines:
             if re.search(regex, line, re.IGNORECASE):
                 matchlines.append(trim_line(line))
-                
+        
         mDict[f] = matchlines
     return mDict
-                   
+
+
 
 def get_filelist(path=None, skipdir=None):
-    """Gets config files in given path. Walks subdirs.
-    Skips dirs named <skipdir>..
-
+    """
+    Gets config files in given path. Walks subdirs.
+    Skips dirs named <skipdir>. Skips files with spaces in path.
     Usage:  
     >>> path = 'input/ETL/'
     >>> filelist = get_filelist(path)
@@ -51,6 +52,7 @@ def get_filelist(path=None, skipdir=None):
         for root, dirs, files in os.walk(path):
             if skipdir in dirs:
                 dirs.remove(skipdir)
+                #print 'skipping', skipdir
             for name in files:
                 filepathname = os.path.join(root, name)
                 ext = os.path.splitext(filepathname)[1]
@@ -60,7 +62,7 @@ def get_filelist(path=None, skipdir=None):
         msg = path  + ' does not exist.'
         raise Exception(msg)
     return filelist
-
+    
 
 def trim_line(longline, max_length=80, chars_trimmed=20, chars_shown=65):
     """Returns a block from the middle of the line, with ellipsis."""
@@ -82,7 +84,7 @@ def get_bak_dir(path) :
 
  
 
-def get_output_filename(before, after, infilename):
+def get_outfilename(before, after, infilename):
     """ Returns path to ./outdir/filename. Creates if necc."""
     outfilename = re.sub(before, after, infilename)
     ensure_dir(outfilename)

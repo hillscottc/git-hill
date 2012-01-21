@@ -65,7 +65,7 @@ class MatchSet(object):
         for filename in self.matches.keys() :
             for mc in self.matches[filename]:
                 if mc.after:
-                    outfilenames.append(FileUtils.get_output_filename(workdir, outdir, filename))
+                    outfilenames.append(FileUtils.get_outfilename(workdir, outdir, filename))
                 break
         return outfilenames
     
@@ -140,7 +140,7 @@ class MatchSet(object):
             #      print the_matches
             #      print '*end', ez, len(the_matches)
             
-            lines.append('{0} {1} references were already properly configured.'.format(len(the_matches), ez))
+            lines.append('{0:3} {1} references were already properly configured.'.format(len(the_matches), ez))
 
             lines.append('{0:3} {1} references had suggested changes.'.format
                        (len([mc for mc in self.get_all_matches() 

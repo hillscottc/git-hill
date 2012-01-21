@@ -12,14 +12,13 @@ import pprint
 
 
 
-
-
 class Usage(Exception):
     def __init__(self, msg):
         self.msg = msg
 
 class MatchSet(object):
-    """Manages a set of matches.
+    """
+    Manages a set of matches.
     Usage:
     >>> import os
     >>> from ConnMatchInfo import ConnMatchInfo
@@ -39,7 +38,6 @@ class MatchSet(object):
     >>> ms.summary_matches()
     'Found 6 matches in 3 files.'
     """
-    
     
     def __init__(self, **matches):
         self.matches = matches
@@ -90,10 +88,12 @@ class MatchSet(object):
         return os.linesep.join(lines)    
     
     
+
+
     def summary_matches(self):
         
         lines = []
- 
+        
         lines.append('{0:3} total matches in {1} files.'.format
                      (sum([len(v) for v in self.matches.values()]),
                        len(self.get_files_processed()) ))
@@ -112,7 +112,7 @@ class MatchSet(object):
                      (len([mc for mc in self.get_all_matches() 
                       if mc.mtype in ('LOG_A', 'LOG_B')
                           and mc.before == mc.after])))
-
+        
         lines.append('{0:3} LOG file references had suggested changes.'.format
                      (len([mc for mc in self.get_all_matches() 
                       if mc.mtype in ('LOG_A', 'LOG_B')
@@ -122,7 +122,7 @@ class MatchSet(object):
                      (len([mc for mc in self.get_all_matches() 
                            if (mc.mtype is 'FTP') and
                            (mc.before == mc.after)])))               
-
+        
         lines.append('{0:3} FTP filepath references had suggested changes.'.format
                      (len([mc for mc in self.get_all_matches() 
                            if (mc.mtype is 'FTP') and
@@ -131,7 +131,7 @@ class MatchSet(object):
         # these are easy cuz they loop easy. Can prolly do the above same.
         
         for ez in ('SMTP', 'TO_VAL', 'FROM_VAL', 'SUBJ') :
-
+            
             the_matches = [mc for mc in self.get_all_matches() if (mc.mtype == ez) and (mc.before == mc.after)]
             #  
             #  print 'TESTING', ez
@@ -141,16 +141,17 @@ class MatchSet(object):
             #      print '*end', ez, len(the_matches)
             
             lines.append('{0:3} {1} references were already properly configured.'.format(len(the_matches), ez))
-
-            lines.append('{0:3} {1} references had suggested changes.'.format
-                       (len([mc for mc in self.get_all_matches() 
-                             if (mc.mtype is ez) and (mc.before != mc.after)]), ez))                                          
+            
+            lines.append('{0:3} {1} references had suggested changes.'.format(len
+                          ([mc for mc in self.get_all_matches() 
+                            if (mc.mtype is ez) and (mc.before != mc.after)]), ez))
         
-        lines.append('{0:3} matches had NO suggestions.'.format
-                     (len([mc for mc in self.get_all_matches() 
-                           if not mc.after])))   
-                
+        lines.append('{0:3} matches had NO suggestions.'.format(len
+                     ([mc for mc in self.get_all_matches() if not mc.after])))
+        
         return os.linesep.join(lines)
+    
+    
     
     def summary_details(self):
         
@@ -161,8 +162,8 @@ class MatchSet(object):
             for mc in self.matches[filename]:
                 if mc.mtype is 'DB':
                 #if isinstance(mc, mctchConn): 
-                    l = '  line {0}, {1} is pointed to {2}'.format(
-                         mc.linenum, mc.before.dbname, mc.before.boxname)
+                    l = '  line {0}, {1} is pointed to {2}'.format(mc.linenum, 
+                                            mc.before.dbname, mc.before.boxname)
                     if mc.after == mc.before:
                         l += '...OK...no change.'   
                     elif mc.after:
@@ -199,8 +200,10 @@ class MatchSet(object):
                         l +=  '...no suggestions...no change.' 
                     lines.append(l)                     
                             
-        return os.linesep.join(lines)    
-        
+        return os.linesep.join(lines)
+    
+
+
 
 if __name__ == "__main__":
     import doctest

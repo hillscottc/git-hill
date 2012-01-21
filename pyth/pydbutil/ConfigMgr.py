@@ -211,19 +211,14 @@ class ConfigMgr(object):
         ms = MatchSet()
         
         for filename in filelist:
-            
-            # the name of this file matches which of the apps?
-            apps_for_file = [app for app in apps if re.search(app, filename, re.IGNORECASE)]
-            
             # mcs for this file
             mcs = None
             
-            # skip this file, if its none
-            if not len(apps_for_file) :
+            # the name of this file matches which of the apps?
+            app = next((app for app in apps if re.search(app, filename, re.IGNORECASE)), None)
+            if not app:
                 logger.debug('* Skipping file', filename)
                 continue
-            else:
-                app = apps_for_file[0]
             
             # parse the file
             mcs = self.parse_file(filename, app, env)
@@ -250,6 +245,9 @@ class ConfigMgr(object):
         logger.debug('')
         logger.debug(ms.summary_matches())
         return ms
+    
+
+
 
 
 

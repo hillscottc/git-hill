@@ -1,41 +1,39 @@
+#! /usr/bin/python
+
+from ConfigObj import ConfigObj
+import pprint
+
+FTP_ROOT = 'USHPEWVAPP251'
+LOG_PATH = r'D:\RDx\ETL\logs'
+SMTP_SERVER = 'usush-maildrop.amer.umusic.net'
+TO_VAL = 'ar.umg.rights.dev@hp.com, Scott.Hill@umgtemp.com'
+FROM_VAL = 'RDx@mgd.umusic.com'
+SUBJ = 'RDxAlert Message'
 
 
-#    
-#    
-#    # read all lines of file into var
-#    with open(filename, 'r') as infile:
-#        lines = infile.readlines()
-#    
-#    mcList = []
-#    linenum = 0
-#    outlines = ''
-#    
-#    # check lines
-#    for line in lines:
-#        linenum = linenum +1
-#        
-#        mc = self.parse_line(line, env, app)
-#        
-#        if mc:
-#            mc.linenum = linenum
-#            mcList.append(mc)  
-#            if write:
-#                if mc.mtype in ('SMTP', 'TO_VAL', 'FROM_VAL', 'SUBJ', 'FTP') :
-#                    line = re.sub(mc.before, mc.after, line, re.IGNORECASE)
-#                elif mc.mtype in  ('LOG_A', 'LOG_B') :
-#                    line = re.sub(re.escape(mc.before), mc.after, line, re.IGNORECASE)
-#                elif mc.mtype is  'DB' :
-#                    #line = re.sub(re.escape(m.group(1)), mc.after.boxname, line, re.IGNORECASE)
-#                    line = re.sub(re.escape(mc.before_raw), mc.after.boxname, line, re.IGNORECASE)
-#                else :
-#                    raise 'why it not one of em?'
-#        
-#        outlines = outlines + line
-# 
-# ms.matches[filename] = sorted(mcList, key = lambda x: x.linenum)
-# 
-# if write:
-#     outfilename = FileUtils.get_output_filename(ConfigMgr.WORK_DIR, 
-#                                                 ConfigMgr.OUTPUT_DIR, filename)
-#     with open(outfilename, 'w') as outfile:
-#         outfile.write(outlines)
+CONFIG_OBJS = (ConfigObj('LOG_A', '<file value="(.+)"', LOG_PATH),
+                ConfigObj('LOG_B', '"file" value="(.+)"', LOG_PATH),
+                ConfigObj('DB', 'Data Source=(.+);Initial Catalog=(RDx\w+);', ''),
+                ConfigObj('FTP', r'"(.+)" value="\\\\(.+)\\d\$', FTP_ROOT),
+                ConfigObj('TO_VAL', '<to value="(.+)"', TO_VAL),
+                ConfigObj('FROM_VAL', '<from value="(.+)"', FROM_VAL),
+                ConfigObj('SMTP', '<smtpHost value="(.+)"', SMTP_SERVER),
+                ConfigObj('SUBJ', '<subject value="(.+)"', SUBJ))
+                
+configs = dict(zip([co.cotype for co in CONFIG_OBJS], CONFIG_OBJS))
+
+
+pprint.pprint(configs)
+
+# pprint.pprint(configDict['FTP'])
+
+# co = configDict['FTP']
+
+# print co.cotype
+
+# configDict['FTP']
+
+
+
+
+

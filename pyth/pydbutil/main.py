@@ -14,6 +14,7 @@ import shutil
 from ConfigMgr import ConfigMgr
 from DbProfile import DbProfile
 from DbSet import DbSet
+from ConfigObj import ConfigObj
 import FileUtils
 import getopt
 import logging
@@ -34,6 +35,24 @@ ENVS = ('dev', )
 CHANGE_TO_ENV = 'dev'
 
 MODEL_DBSET = DbSet(DbProfile.create_profiles(envs=ENVS, apps=APPS, dbs=DBS)) 
+
+FTP_ROOT = 'USHPEWVAPP251'
+LOG_PATH = r'D:\RDx\ETL\logs'
+SMTP_SERVER = 'usush-maildrop.amer.umusic.net'
+TO_VAL = 'ar.umg.rights.dev@hp.com, Scott.Hill@umgtemp.com'
+FROM_VAL = 'RDx@mgd.umusic.com'
+SUBJ = 'RDxAlert Message'
+
+CONFIG_OBJS = (ConfigObj('LOG_A', '<file value="(.+)"', LOG_PATH),
+                ConfigObj('LOG_B', '"file" value="(.+)"', LOG_PATH),
+                ConfigObj('DB', 'Data Source=(.+);Initial Catalog=(RDx\w+);', ''),
+                ConfigObj('FTP', r'"(.+)" value="\\\\(.+)\\d\$', FTP_ROOT),
+                ConfigObj('TO_VAL', '<to value="(.+)"', TO_VAL),
+                ConfigObj('FROM_VAL', '<from value="(.+)"', FROM_VAL),
+                ConfigObj('SMTP', '<smtpHost value="(.+)"', SMTP_SERVER),
+                ConfigObj('SUBJ', '<subject value="(.+)"', SUBJ))
+                
+configs = dict(zip([co.cotype for co in CONFIG_OBJS], CONFIG_OBJS))
 
 #REMOTE_DIR =  os.path.join(os.getcwd(), 'remote')
 #REMOTE_DIR =  os.path.join( '/cygdrive', 'g', 'RDx', 'ETL')
@@ -96,7 +115,7 @@ def main(argv=None):
             logging.info("Remote PATH '%s' ...", source)          
                  
             # Call mgr without write, to get summaries                  
-            cm = ConfigMgr(dbset=MODEL_DBSET, path=source)
+            cm = ConfigMgr(dbset=MODEL_DBSET, path=source, configs=configs)
             ms = cm.go(env=CHANGE_TO_ENV)    
             sourcepaths = [k for k, v in ms.matches.iteritems() if len(v) > 0]
             targpaths = [FileUtils.get_work_path(k, source) 
@@ -121,13 +140,13 @@ def main(argv=None):
 
             print
             logging.info('Performing file mod...')
-            ms = ConfigMgr(dbset=MODEL_DBSET, path=ConfigMgr.WORK_DIR
-                           ).go(env=CHANGE_TO_ENV, write=True)     
+            ms = ConfigMgr(dbset=MODEL_DBSET, path=ConfigMgr.WORK_DIR,
+                            configs=configs).go(env=CHANGE_TO_ENV, write=True)     
             print
             logging.info('Results:')
             logging.info(ms.summary_details())
             print
-            logging.info(ms.summary_matches())
+            logging.info(ms.summary_matches(configs))
             print
             logging.info("%s files written to dir '%s'.",
                          len(ms.get_work_files(ConfigMgr.WORK_DIR, ConfigMgr.OUTPUT_DIR)),

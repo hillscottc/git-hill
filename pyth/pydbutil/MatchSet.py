@@ -9,6 +9,7 @@ import itertools
 from MatchedConfig import MatchedConfig
 import FileUtils
 import pprint
+#from clint.textui import puts, colored, indent
 
 
 
@@ -90,64 +91,51 @@ class MatchSet(object):
     
 
 
-    def summary_matches(self):
+    def summary_matches(self, config_objs):
         
         lines = []
+        lines.append(os.linesep)
+        msg = '{0:3} total matches in {1} files.'
+        lines.append(msg.format(sum([len(v) for v in self.matches.values()]),
+                                len(self.get_files_processed())))
+                                
+        msg = '{0:3} DB connections were already properly configured.'
+        lines.append(msg.format(len([mc for mc in self.get_all_matches()
+                                     if (mc.mtype is 'DB') and (mc.before == mc.after)])))
+                                     
+        msg = '{0:3} DB connections had suggested changes.'
+        lines.append(msg.format(len([mc for mc in self.get_all_matches() 
+                                     if (mc.mtype is 'DB') and (mc.before != mc.after)])))
+                                     
+        msg = '{0:3} FTP filepath references were already properly configured.'
+        lines.append(msg.format(len([mc for mc in self.get_all_matches() 
+                                     if (mc.mtype is 'FTP') and (mc.before == mc.after)]))) 
+        msg = '{0:3} FTP filepath references had suggested changes.'
+        lines.append(msg.format(len([mc for mc in self.get_all_matches() 
+                                     if (mc.mtype is 'FTP') and (mc.before != mc.after)])))
         
-        lines.append('{0:3} total matches in {1} files.'.format
-                     (sum([len(v) for v in self.matches.values()]),
-                       len(self.get_files_processed()) ))
+        msg = '{0:3} LOG file references were already properly configured.'
+        lines.append(msg.format(len([mc for mc in self.get_all_matches() 
+                                     if mc.mtype in ('LOG_A', 'LOG_B') 
+                                     and mc.before == mc.after])))
+        msg = '{0:3} LOG file references had suggested changes.'
+        lines.append(msg.format(len([mc for mc in self.get_all_matches() 
+                                     if mc.mtype in ('LOG_A', 'LOG_B')
+                                     and mc.before != mc.after])))
         
-        lines.append('{0:3} DB connections were already properly configured.'.format
-                     (len([mc for mc in self.get_all_matches() 
-                           if (mc.mtype is 'DB') and
-                           (mc.before == mc.after)])))        
+        lines.append('ORRRRRRRR')
         
-        lines.append('{0:3} DB connections had suggested changes.'.format
-                     (len([mc for mc in self.get_all_matches() 
-                           if (mc.mtype is 'DB') and
-                           (mc.before != mc.after)])))
         
-        lines.append('{0:3} LOG file references were already properly configured.'.format
-                     (len([mc for mc in self.get_all_matches() 
-                      if mc.mtype in ('LOG_A', 'LOG_B')
-                          and mc.before == mc.after])))
-        
-        lines.append('{0:3} LOG file references had suggested changes.'.format
-                     (len([mc for mc in self.get_all_matches() 
-                      if mc.mtype in ('LOG_A', 'LOG_B')
-                          and mc.before != mc.after])))
-        
-        lines.append('{0:3} FTP filepath references were already properly configured.'.format
-                     (len([mc for mc in self.get_all_matches() 
-                           if (mc.mtype is 'FTP') and
-                           (mc.before == mc.after)])))               
-        
-        lines.append('{0:3} FTP filepath references had suggested changes.'.format
-                     (len([mc for mc in self.get_all_matches() 
-                           if (mc.mtype is 'FTP') and
-                           (mc.before != mc.after)])))      
-        
-        # these are easy cuz they loop easy. Can prolly do the above same.
-        
-        for ez in ('SMTP', 'TO_VAL', 'FROM_VAL', 'SUBJ') :
+        for mtype in config_objs :
             
-            the_matches = [mc for mc in self.get_all_matches() if (mc.mtype == ez) and (mc.before == mc.after)]
-            #  
-            #  print 'TESTING', ez
-            #  if ez == 'TO_VAL':
-            #      print '*begin', ez, len(the_matches)
-            #      print the_matches
-            #      print '*end', ez, len(the_matches)
+            hit_count = sum(1 for mc in self.get_all_matches() if (mc.mtype == mtype) and (mc.before is mc.after))
+            miss_count = sum(1 for mc in self.get_all_matches() if (mc.mtype == mtype) and (mc.before is not mc.after))
             
-            lines.append('{0:3} {1} references were already properly configured.'.format(len(the_matches), ez))
-            
-            lines.append('{0:3} {1} references had suggested changes.'.format(len
-                          ([mc for mc in self.get_all_matches() 
-                            if (mc.mtype is ez) and (mc.before != mc.after)]), ez))
+            lines.append('{0:3} {1} references were already properly configured.'.format(hit_count, mtype))
+            lines.append('{0:3} {1} references had suggested changes.'.format(miss_count, mtype))
         
-        lines.append('{0:3} matches had NO suggestions.'.format(len
-                     ([mc for mc in self.get_all_matches() if not mc.after])))
+        msg = '{0:3} matches had NO suggestions.'
+        lines.append(msg.format(len([mc for mc in self.get_all_matches() if not mc.after])))
         
         return os.linesep.join(lines)
     

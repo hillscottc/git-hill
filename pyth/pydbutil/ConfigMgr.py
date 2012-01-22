@@ -21,7 +21,7 @@ from DbProfile import DbProfile
 from collections import namedtuple
 import FileUtils
 import logging
-from pprint import pformat
+#from pprint import pformat
 #from pprint_data import data
 
 logger = logging.getLogger('ConfigMgr')
@@ -40,21 +40,7 @@ ch.setFormatter(formatter)
 logger.addHandler(fh)
 logger.addHandler(ch)
 
-FTP_ROOT = 'USHPEWVAPP251'
-LOG_PATH = r'D:\RDx\ETL\logs'
-SMTP_SERVER = 'usush-maildrop.amer.umusic.net'
-TO_VAL = 'ar.umg.rights.dev@hp.com, Scott.Hill@umgtemp.com'
-FROM_VAL = 'RDx@mgd.umusic.com'
-SUBJ = 'RDxAlert Message'
 
-CONFIG_OBJS = (ConfigObj('LOG_A', '<file value="(.+)"'),
-                ConfigObj('LOG_B', '"file" value="(.+)"'),
-                ConfigObj('DB', 'Data Source=(.+);Initial Catalog=(RDx\w+);'),
-                ConfigObj('FTP', r'"(.+)" value="\\\\(.+)\\d\$'),
-                ConfigObj('TO_VAL', '<to value="(.+)"', TO_VAL),
-                ConfigObj('FROM_VAL', '<from value="(.+)"', FROM_VAL),
-                ConfigObj('SMTP', '<smtpHost value="(.+)"', SMTP_SERVER),
-                ConfigObj('SUBJ', '<subject value="(.+)"', SUBJ))
 
 class ConfigMgr(object):
     """Handles database connection strings in files using DbProfiles."""
@@ -62,12 +48,16 @@ class ConfigMgr(object):
     WORK_DIR = os.path.join(os.getcwd(), 'work')
     OUTPUT_DIR = os.path.join(os.getcwd(), 'output')
     
-    def __init__(self, dbset=None, path=None, env=None, write=False, verbose=True):
+    def __init__(self, dbset=None, path=None, configs=None, env=None, write=False, verbose=True):
         self.dbset = dbset
         self.path = path
         self.env = env
         self.write = write
         self.verbose = verbose
+        self.configs = configs
+        
+        if not self.configs:
+            raise 'configs required.'
     
     
     def set_path(self, value):
@@ -86,7 +76,7 @@ class ConfigMgr(object):
     
     def get_logname(self, app):
         # or, logpath = os.path.join(self.LOG_PATH, app)
-        logpath = LOG_PATH + "\\" + app
+        logpath = self.configs['LOG_A'].changeval + "\\" + app
         return logpath + "\\" + app + '_etl.txt'
     
     
@@ -101,7 +91,7 @@ class ConfigMgr(object):
         m = None
         
         # which of the co's does this line match?
-        for c in CONFIG_OBJS:
+        for c in self.configs.values():
             m = re.search(c.regex, line, re.IGNORECASE)
             if m:
                 co = c
@@ -119,7 +109,10 @@ class ConfigMgr(object):
                 mc.after = self.get_logname(app)
             elif co.cotype is 'FTP':
                 mc.before = m.group(2)
-                mc.after = FTP_ROOT
+                
+                # maybe changeval or get_log_name?
+                mc.after = self.configs['FTP'].changeval
+
                 mc.newname = m.group(1)
             elif co.cotype is 'DB':
                 m_prof = DbProfile(boxname=m.group(1).upper(),
@@ -243,7 +236,7 @@ class ConfigMgr(object):
                 logger.debug('  %s', v)
         
         logger.debug('')
-        logger.debug(ms.summary_matches())
+        logger.debug(ms.summary_matches(self.configs))
         return ms
     
 

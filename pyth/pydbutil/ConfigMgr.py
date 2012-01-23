@@ -44,10 +44,10 @@ logger.addHandler(ch)
 
 class ConfigMgr(object):
     """Handles database connection strings in files using DbProfiles."""
-    
+
     WORK_DIR = os.path.join(os.getcwd(), 'work')
     OUTPUT_DIR = os.path.join(os.getcwd(), 'output')
-    
+
     def __init__(self, dbset=None, path=None, configs=None, env=None, write=False, verbose=True):
         self.dbset = dbset
         self.path = path
@@ -55,48 +55,48 @@ class ConfigMgr(object):
         self.write = write
         self.verbose = verbose
         self.configs = configs
-        
+
         if not self.configs:
             raise 'configs required.'
-    
-    
+
+
     def set_path(self, value):
         if not self.dbset: raise Exception('dbset is required when setting path.')
         self.filelist = FileUtils.get_filelist(value, skipdir='Backup')
         #print 'Set path to ' + value
         self._path = value
-    
-    
+
+
     def get_path(self):
         return self._path
-    
-    
+
+
     path = property(get_path, set_path)
-    
-    
+
+
     def get_logname(self, app):
         # or, logpath = os.path.join(self.LOG_PATH, app)
         logpath = self.configs['LOG_A'].changeval + "\\" + app
         return logpath + "\\" + app + '_etl.txt'
-    
-    
-    
+
+
+
     def parse_line(self, linenum, line, env, app):
         """
         Returns: MatchedConfig for given line if matches any CONFIG_OBJS.
-        mtype will be None if no match. 
+        mtype will be None if no match.
         """
         mc = MatchedConfig(mtype=None, linenum=linenum)
         co = None
         m = None
-        
+
         # which of the co's does this line match?
         for c in self.configs.values():
             m = re.search(c.regex, line, re.IGNORECASE)
             if m:
                 co = c
                 break
-        
+
         if not co:
             return mc
         else :
@@ -109,7 +109,7 @@ class ConfigMgr(object):
                 mc.after = self.get_logname(app)
             elif co.cotype is 'FTP':
                 mc.before = m.group(2)
-                
+
                 # maybe changeval or get_log_name?
                 mc.after = self.configs['FTP'].changeval
 
@@ -120,11 +120,11 @@ class ConfigMgr(object):
                                    env=env, app=app)
                 mc.before = m_prof
                 mc.before_raw = m.group(1)
-                
+
                 # perfact match already?
                 if len(self.dbset.get(mc.before)):
                     mc.after = (self.dbset.get(mc.before))[0]
-                
+
                 # if no perfect match, get suggested profs by
                 # getting matches for this app + dbname + env
                 if not mc.after:
@@ -132,13 +132,13 @@ class ConfigMgr(object):
                                    dict(dbname=mc.before.dbname, app=app, env=env))
                     if len(sugs):
                         mc.after = sugs[0]
-                
+
             else :
                 raise 'why it not one of these-a-ones'
         return mc
-    
-    
-    
+
+
+
     def parse_file(self, filename, app, env):
         """ Returns mclist for the file. """
         mcList = []
@@ -149,9 +149,9 @@ class ConfigMgr(object):
             if mc.mtype:
                 mcList.append(mc)
         return mcList
-    
-    
-    
+
+
+
     def get_newlines(self, filename, mcs):
         """ gets set of modded lines for given mcs """
         with open(filename, 'r') as infile:
@@ -175,9 +175,9 @@ class ConfigMgr(object):
             #newlines.append(line)
             newlines += line
         return newlines
-    
-    
-    
+
+
+
     def go(self, filelist=None, app=None, env=None, write=False, verbose=True) :
         """
         Checks file for lines which contain connection string information,
@@ -188,57 +188,57 @@ class ConfigMgr(object):
             filelist = self.filelist
         if not filelist:
             raise Exception('filelist required.')
-        
+
         if write:
             if not env :
                 raise Exception('env is required for write.')
-        
+
         if app:
             apps = [app]
         else:
             apps = self.dbset.get_apps()
-        
+
         logger.debug('GO !!!!!!!!!!!!!!!')
         logger.debug('ENV:%s    APPS:%s', env, apps)
-        
+
         ms = MatchSet()
-        
+
         for filename in filelist:
             # mcs for this file
             mcs = None
-            
+
             # the name of this file matches which of the apps?
             app = next((app for app in apps if re.search(app, filename, re.IGNORECASE)), None)
             if not app:
                 logger.debug('* Skipping file', filename)
                 continue
-            
+
             # parse the file
             mcs = self.parse_file(filename, app, env)
-            
+
             # sort mcs and append to dict keyed by file
             ms.matches[filename] = sorted(mcs, key = lambda x: x.linenum)
-            
+
             if write:
                 outfilename = FileUtils.get_outfilename(ConfigMgr.WORK_DIR,
                                 ConfigMgr.OUTPUT_DIR, filename)
                 outlines = self.get_newlines(filename, mcs)
-                
+
                 with open(outfilename, 'w') as outfile :
                      outfile.write(outlines)
-        
+
         #logger.debug(ms.summary_details())
         logger.debug('')
-        
+
         for k in ms.matches.keys():
             logger.debug('%s', k)
             for v in ms.matches[k]:
                 logger.debug('  %s', v)
-        
+
         logger.debug('')
         logger.debug(ms.summary_matches(self.configs))
         return ms
-    
+
 
 
 

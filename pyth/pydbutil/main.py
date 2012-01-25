@@ -24,7 +24,7 @@ class Usage(Exception):
         self.msg = msg
 
 
-APPS = ('CARL', 'CART', 'Common', 'CPRS', 'CRA', 'CTX', 'D2', 'DRA', 'ELS', 
+APPS = ('CARL', 'CART', 'Common', 'CPRS', 'CRA', 'CTX', 'D2', 'DRA', 'ELS',
         'FileService', 'GDRS', 'MP', 'PartsOrder', 'R2')
 
 DBS = (('RDxETL', 'USHPEPVSQL409'),
@@ -34,7 +34,9 @@ ENVS = ('dev', )
 
 CHANGE_TO_ENV = 'dev'
 
-MODEL_DBSET = DbSet(DbProfile.create_profiles(envs=ENVS, apps=APPS, dbs=DBS)) 
+FILE_EXTS = ('.config', '.bat')
+
+MODEL_DBSET = DbSet(DbProfile.create_profiles(envs=ENVS, apps=APPS, dbs=DBS))
 
 FTP_ROOT = 'USHPEWVAPP251'
 LOG_PATH = r'D:\RDx\ETL\logs'
@@ -51,7 +53,7 @@ CONFIG_OBJS = (ConfigObj('LOG_A', '<file value="(.+)"', LOG_PATH),
                 ConfigObj('FROM_VAL', '<from value="(.+)"', FROM_VAL),
                 ConfigObj('SMTP', '<smtpHost value="(.+)"', SMTP_SERVER),
                 ConfigObj('SUBJ', '<subject value="(.+)"', SUBJ))
-                
+
 configs = dict(zip([co.cotype for co in CONFIG_OBJS], CONFIG_OBJS))
 
 #REMOTE_DIR =  os.path.join(os.getcwd(), 'remote')
@@ -62,7 +64,7 @@ configs = dict(zip([co.cotype for co in CONFIG_OBJS], CONFIG_OBJS))
 ENV = None
 DO_COPY = True
 DO_MOD = True
-DO_ASK = False             
+DO_ASK = False
 
 def main(argv=None):
 
@@ -78,20 +80,20 @@ def main(argv=None):
     console.setLevel(logging.INFO)
     console.setFormatter(logging.Formatter('%(asctime)s %(levelname)-5s %(message)s'))
     # add the handler to the root logger
-    logging.getLogger('').addHandler(console) 
+    logging.getLogger('').addHandler(console)
 
     logging.info('Begin.')
 
     if argv is None:
-        argv = sys.argv    
+        argv = sys.argv
     try:
-        
+
         try:
             opts, args = getopt.getopt(
                 argv[1:], "hs:r", ["help", "source=", "replace"])
         except getopt.error, msg:
             raise Usage(msg)
-        
+
         # default value
         source = None
         DO_REPLACE = False
@@ -104,35 +106,35 @@ def main(argv=None):
                 source = arg
             elif opt in ("-r", "--replace"):
                 DO_REPLACE = True
-                     
+
         if not source :
             raise Usage("option -s is required.")
-        
-                
+
+
         # copy remote to work
         if DO_COPY:
             print
-            logging.info("Remote PATH '%s' ...", source)          
-                 
-            # Call mgr without write, to get summaries                  
-            cm = ConfigMgr(dbset=MODEL_DBSET, path=source, configs=configs)
-            ms = cm.go(env=CHANGE_TO_ENV)    
-            sourcepaths = [k for k, v in ms.matches.iteritems() if len(v) > 0]
-            targpaths = [FileUtils.get_work_path(k, source) 
-                         for k, v in ms.matches.iteritems() if len(v) > 0]    
-            logging.info(ms.summary_files())
-                
+            logging.info("Remote PATH %s ...", source)
 
-        if DO_MOD:   
-            print          
+            # Call mgr without write, to get summaries
+            cm = ConfigMgr(dbset=MODEL_DBSET, path=source, configs=configs, file_exts=FILE_EXTS)
+            ms = cm.go(env=CHANGE_TO_ENV)
+            sourcepaths = [k for k, v in ms.matches.iteritems() if len(v) > 0]
+            targpaths = [FileUtils.get_work_path(k, source)
+                         for k, v in ms.matches.iteritems() if len(v) > 0]
+            logging.info(ms.summary_files())
+
+
+        if DO_MOD:
+            print
             # remove old work dir
             if os.path.exists(ConfigMgr.WORK_DIR) :
                 shutil.rmtree(ConfigMgr.WORK_DIR)
-             
+
             logging.info('Copying %s file(s) to work directory %s',
-                         len(sourcepaths), ConfigMgr.WORK_DIR)                                
-            FileUtils.copy_files(sourcepaths, targpaths, DO_ASK)     
-            
+                         len(sourcepaths), ConfigMgr.WORK_DIR)
+            FileUtils.copy_files(sourcepaths, targpaths, DO_ASK)
+
             # make a backup work dir
             backupdir = FileUtils.get_bak_dir(ConfigMgr.WORK_DIR)
             logging.info('Backup of work directory created at %s', backupdir)
@@ -140,8 +142,8 @@ def main(argv=None):
 
             print
             logging.info('Performing file mod...')
-            ms = ConfigMgr(dbset=MODEL_DBSET, path=ConfigMgr.WORK_DIR,
-                            configs=configs).go(env=CHANGE_TO_ENV, write=True)     
+            ms = ConfigMgr(dbset=MODEL_DBSET, path=ConfigMgr.WORK_DIR, file_exts=FILE_EXTS,
+                            configs=configs).go(env=CHANGE_TO_ENV, write=True)
             print
             logging.info('Results:')
             logging.info(ms.summary_details())
@@ -152,20 +154,20 @@ def main(argv=None):
                          len(ms.get_work_files(ConfigMgr.WORK_DIR, ConfigMgr.OUTPUT_DIR)),
                          ConfigMgr.OUTPUT_DIR)
             print
-         
-            # COPY BACK TO REMOTE      
-        if DO_REPLACE:          
+
+            # COPY BACK TO REMOTE
+        if DO_REPLACE:
             FileUtils.copy_files(ms.get_work_files(ConfigMgr.WORK_DIR, ConfigMgr.OUTPUT_DIR),
                                  sourcepaths, DO_ASK)
             logging.info('The modified files have been copied back to %s', source)
-                    
+
         print
         logging.info('Complete.')
     except :
         print >>sys.stderr, "Unexpected error:", sys.exc_info()[0]
-        raise        
-        
-     
+        raise
+
+
 if __name__ == "__main__":
-    sys.exit(main())       
-    
+    sys.exit(main())
+

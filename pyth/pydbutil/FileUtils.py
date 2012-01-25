@@ -11,41 +11,30 @@ import time
 import subprocess
 
 
-def get_work_path(path, old_dir, new_dir=None):
-    if not new_dir:
-        new_dir = 'work'
-    return re.sub(old_dir, new_dir, path)    
+def get_work_path(path, old_dir, new_dir='work'):
+    """
+    Usage:
+    >>> get_work_path('./remote/ETL/D2/_log4net.config',  './remote')
+    'work/ETL/D2/_log4net.config'
+    """
+    return re.sub(old_dir, new_dir, path)
 
-def search_files(path, regex):
-    """ Returns: trimmed lines matching regex for given walked path."""
-    mDict = {}
-    for f in get_filelist(path):
-        with open(f, 'r') as infile:
-            lines = infile.readlines()
-        
-        matchlines = []
-        for line in lines:
-            if re.search(regex, line, re.IGNORECASE):
-                matchlines.append(trim_line(line))
-        
-        mDict[f] = matchlines
-    return mDict
-
-
-
-def get_filelist(path=None, skipdir=None):
+def get_filelist(path=None, *extentions):
     """
     Gets config files in given path. Walks subdirs.
     Skips dirs named <skipdir>. Skips files with spaces in path.
-    Usage:  
+    Usage:
     >>> path = 'input/ETL/'
     >>> filelist = get_filelist(path)
     >>> print '{} files are in path {}'.format(len(filelist), path)
     23 files are in path input/ETL/
     """
+    skipdir='Backup'
     if not path: raise Exception('path is required for get_filelist.')
     filelist = []
-    
+
+    print extentions
+
     if os.path.isfile(path) :
         filelist.append(path)
     elif os.path.isdir(path) :
@@ -56,13 +45,13 @@ def get_filelist(path=None, skipdir=None):
             for name in files:
                 filepathname = os.path.join(root, name)
                 ext = os.path.splitext(filepathname)[1]
-                if ext == '.config':
+                if ext in extentions:
                     filelist.append(filepathname)
-    else: 
+    else:
         msg = path  + ' does not exist.'
         raise Exception(msg)
     return filelist
-    
+
 
 def trim_line(longline, max_length=80, chars_trimmed=20, chars_shown=65):
     """Returns a block from the middle of the line, with ellipsis."""
@@ -72,7 +61,7 @@ def trim_line(longline, max_length=80, chars_trimmed=20, chars_shown=65):
     return shortline
 
 def get_bak_dir(path) :
-    """ 
+    """
     >>> print get_bak_dir('remote/ETL')
     bak/.../remote/ETL
     """
@@ -82,7 +71,7 @@ def get_bak_dir(path) :
     else:
         raise Exception('Must supply a valid dir. Bad path:', path)
 
- 
+
 
 def get_outfilename(before, after, infilename):
     """ Returns path to ./outdir/filename. Creates if necc."""
@@ -95,13 +84,13 @@ def ensure_dir(f):
     d = os.path.dirname(f)
     if not os.path.exists(d):
         os.makedirs(d)
-        
-def copy_files(sourcepaths, targpaths, ask=True): 
-    #import pdb; pdb.set_trace()   
+
+def copy_files(sourcepaths, targpaths, ask=True):
+    #import pdb; pdb.set_trace()
     if ask:
         print
-        print 'The copying will be:'         
-        #print os.linesep.join(map('FROM {0}\nTO   {1}'.format, sourcepaths, targpaths))           
+        print 'The copying will be:'
+        #print os.linesep.join(map('FROM {0}\nTO   {1}'.format, sourcepaths, targpaths))
         r = raw_input('Proceed with copy? [y]/n ')
         if r.lower() == 'n':
             print 'Ok, stopping.'

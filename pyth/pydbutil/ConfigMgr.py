@@ -48,22 +48,25 @@ class ConfigMgr(object):
     WORK_DIR = os.path.join(os.getcwd(), 'work')
     OUTPUT_DIR = os.path.join(os.getcwd(), 'output')
 
-    def __init__(self, dbset=None, path=None, configs=None, env=None, write=False, verbose=True):
+    def __init__(self, dbset=None, path=None, configs=None, env=None,
+                 file_exts=None, write=False, verbose=True):
         self.dbset = dbset
-        self.path = path
         self.env = env
         self.write = write
         self.verbose = verbose
         self.configs = configs
-
         if not self.configs:
             raise 'configs required.'
+        self.file_exts = file_exts
+        if not file_exts:
+            self.file_exts = ('.config',)
+        self.path = path
 
 
     def set_path(self, value):
         if not self.dbset: raise Exception('dbset is required when setting path.')
-        self.filelist = FileUtils.get_filelist(value, skipdir='Backup')
-        #print 'Set path to ' + value
+        self.filelist = FileUtils.get_filelist(value, *self.file_exts)
+        print 'Set path to ' + value
         self._path = value
 
 
@@ -238,10 +241,6 @@ class ConfigMgr(object):
         logger.debug('')
         logger.debug(ms.summary_matches(self.configs))
         return ms
-
-
-
-
 
 
 if __name__ == "__main__":

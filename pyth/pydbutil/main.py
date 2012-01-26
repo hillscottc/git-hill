@@ -18,6 +18,7 @@ from ConfigObj import ConfigObj
 import FileUtils
 import getopt
 import logging
+import pprint
 
 class Usage(Exception):
     def __init__(self, msg):
@@ -116,34 +117,52 @@ def main(argv=None):
             print
             logging.info("Remote PATH %s ...", source)
 
-            # Call mgr without write, to get summaries
-            cm = ConfigMgr(dbset=MODEL_DBSET, path=source, configs=configs, file_exts=FILE_EXTS)
-            ms = cm.go(env=CHANGE_TO_ENV)
-            sourcepaths = [k for k, v in ms.matches.iteritems() if len(v) > 0]
-            targpaths = [FileUtils.get_work_path(k, source)
-                         for k, v in ms.matches.iteritems() if len(v) > 0]
-            logging.info(ms.summary_files())
+
+            filelist = FileUtils.get_filelist(source, *FILE_EXTS)
+
+            targpaths = [FileUtils.get_work_path(f, source) for f in filelist]
 
 
-        if DO_MOD:
-            print
+
             # remove old work dir
             if os.path.exists(ConfigMgr.WORK_DIR) :
                 shutil.rmtree(ConfigMgr.WORK_DIR)
 
+            print
+
             logging.info('Copying %s file(s) to work directory %s',
-                         len(sourcepaths), ConfigMgr.WORK_DIR)
-            FileUtils.copy_files(sourcepaths, targpaths, DO_ASK)
+                         len(filelist), ConfigMgr.WORK_DIR)
+
+            FileUtils.copy_files(filelist, targpaths, DO_ASK)
+
+
+        if DO_MOD:
 
             # make a backup work dir
             backupdir = FileUtils.get_bak_dir(ConfigMgr.WORK_DIR)
             logging.info('Backup of work directory created at %s', backupdir)
             shutil.copytree(ConfigMgr.WORK_DIR, backupdir)
 
-            print
-            logging.info('Performing file mod...')
-            ms = ConfigMgr(dbset=MODEL_DBSET, path=ConfigMgr.WORK_DIR, file_exts=FILE_EXTS,
-                            configs=configs).go(env=CHANGE_TO_ENV, write=True)
+
+
+
+            # TRY TO USE THE FILELIST METHOD TO CREATE. CLEARER.
+            # new way
+            filelist = FileUtils.get_filelist(ConfigMgr.WORK_DIR, *FILE_EXTS)
+
+
+            cm = ConfigMgr(dbset=MODEL_DBSET, filelist=filelist, configs=configs)
+            ms = cm.go(env=CHANGE_TO_ENV, write=True)
+
+
+
+
+            # prev way
+
+            # print
+            # logging.info('Performing file mod...')
+            # ms = ConfigMgr(dbset=MODEL_DBSET, path=ConfigMgr.WORK_DIR, file_exts=FILE_EXTS,
+            #                 configs=configs).go(env=CHANGE_TO_ENV, write=True)
             print
             logging.info('Results:')
             logging.info(ms.summary_details())

@@ -49,7 +49,7 @@ class ConfigMgr(object):
     OUTPUT_DIR = os.path.join(os.getcwd(), 'output')
 
     def __init__(self, dbset=None, path=None, configs=None, env=None,
-                 file_exts=None, write=False, verbose=True):
+                 file_exts=None, filelist=None, write=False, verbose=True):
         self.dbset = dbset
         self.env = env
         self.write = write
@@ -59,22 +59,32 @@ class ConfigMgr(object):
             raise 'configs required.'
         self.file_exts = file_exts
         if not file_exts:
+            # default
             self.file_exts = ('.config',)
         self.path = path
-
-
-    def set_path(self, value):
-        if not self.dbset: raise Exception('dbset is required when setting path.')
-        self.filelist = FileUtils.get_filelist(value, *self.file_exts)
-        print 'Set path to ' + value
-        self._path = value
-
+        if filelist:
+            self.filelist = filelist
 
     def get_path(self):
+        """ The path to the config files. """
         return self._path
 
+    def set_path(self, value):
+        """Setting the path sets the filelist."""
+        self.filelist = FileUtils.get_filelist(value, *self.file_exts)
+        self._path = value
 
     path = property(get_path, set_path)
+
+    def get_filelist(self):
+        return self._filelist
+
+    def set_filelist(self, value):
+        """Setting the path sets the filelist."""
+        print 'Filelist set to {0} files'.format(len(value))
+        self._filelist = value
+
+    filelist = property(get_filelist, set_filelist)
 
 
     def get_logname(self, app):

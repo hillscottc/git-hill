@@ -18,11 +18,11 @@ from MatchedConfig import MatchedConfig
 from MatchSet import MatchSet
 from ConfigObj import ConfigObj
 from DbProfile import DbProfile
+from DbSet import DbSet
 from collections import namedtuple
 import FileUtils
 import logging
-#from pprint import pformat
-#from pprint_data import data
+
 
 logger = logging.getLogger('ConfigMgr')
 logger.setLevel(logging.DEBUG)
@@ -39,7 +39,6 @@ ch.setFormatter(formatter)
 # add the handlers to the logger
 logger.addHandler(fh)
 logger.addHandler(ch)
-
 
 
 class ConfigMgr(object):
@@ -65,17 +64,6 @@ class ConfigMgr(object):
         if filelist:
             self.filelist = filelist
 
-    # def get_path(self):
-    #     """ The path to the config files. """
-    #     return self._path
-
-    # def set_path(self, value):
-    #     """Setting the path sets the filelist."""
-    #     self.filelist = FileUtils.get_filelist(path=value, *self.file_exts)
-    #     self._path = value
-
-
-    # path = property(get_path, set_path)
 
     def get_filelist(self):
         return self._filelist
@@ -86,6 +74,34 @@ class ConfigMgr(object):
         self._filelist = value
 
     filelist = property(get_filelist, set_filelist)
+
+
+    @staticmethod
+    def GET_DEFAULT_CONFIG():
+        FTP_ROOT = 'USHPEWVAPP251'
+        LOG_PATH = r'D:\RDx\ETL\logs'
+        SMTP_SERVER = 'usush-maildrop.amer.umusic.net'
+        TO_VAL = 'ar.umg.rights.dev@hp.com, Scott.Hill@umgtemp.com'
+        FROM_VAL = 'RDx@mgd.umusic.com'
+        SUBJ = 'RDxAlert Message'
+        CONFIG_OBJS = (ConfigObj('LOG_A', '<file value="(.+)"', LOG_PATH),
+                        ConfigObj('LOG_B', '"file" value="(.+)"', LOG_PATH),
+                        ConfigObj('DB', 'Data Source=(.+);Initial Catalog=(RDx\w+);', ''),
+                        ConfigObj('FTP', r'"(.+)" value="\\\\(.+)\\d\$', FTP_ROOT),
+                        ConfigObj('TO_VAL', '<to value="(.+)"', TO_VAL),
+                        ConfigObj('FROM_VAL', '<from value="(.+)"', FROM_VAL),
+                        ConfigObj('SMTP', '<smtpHost value="(.+)"', SMTP_SERVER),
+                        ConfigObj('SUBJ', '<subject value="(.+)"', SUBJ))
+        return dict(zip([co.cotype for co in CONFIG_OBJS], CONFIG_OBJS))
+
+
+    @staticmethod
+    def GET_DEFAULT_DBSET():
+        APPS = ('CARL', 'CART', 'Common', 'CPRS', 'CRA', 'CTX', 'D2', 'DRA',
+                'ELS', 'FileService', 'GDRS', 'MP', 'PartsOrder', 'R2')
+        DBS = (('RDxETL', 'USHPEPVSQL409'), ('RDxReport', r'USHPEPVSQL435'))
+        ENVS = ('dev', )
+        return DbSet(DbProfile.create_profiles(envs=ENVS, apps=APPS, dbs=DBS))
 
 
     def get_logname(self, app):
@@ -165,7 +181,6 @@ class ConfigMgr(object):
         return mcList
 
 
-
     def get_newlines(self, filename, mcs):
         """ gets set of modded lines for given mcs """
         with open(filename, 'r') as infile:
@@ -189,7 +204,6 @@ class ConfigMgr(object):
             #newlines.append(line)
             newlines += line
         return newlines
-
 
 
     def go(self, filelist=None, app=None, env=None, write=False, verbose=True) :

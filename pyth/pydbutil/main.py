@@ -25,37 +25,12 @@ class Usage(Exception):
         self.msg = msg
 
 
-APPS = ('CARL', 'CART', 'Common', 'CPRS', 'CRA', 'CTX', 'D2', 'DRA', 'ELS',
-        'FileService', 'GDRS', 'MP', 'PartsOrder', 'R2')
-
-DBS = (('RDxETL', 'USHPEPVSQL409'),
-       ('RDxReport', r'USHPEPVSQL435'))
-
-ENVS = ('dev', )
-
 CHANGE_TO_ENV = 'dev'
 
 FILE_EXTS = ('.config', '.bat')
 
-MODEL_DBSET = DbSet(DbProfile.create_profiles(envs=ENVS, apps=APPS, dbs=DBS))
-
-FTP_ROOT = 'USHPEWVAPP251'
-LOG_PATH = r'D:\RDx\ETL\logs'
-SMTP_SERVER = 'usush-maildrop.amer.umusic.net'
-TO_VAL = 'ar.umg.rights.dev@hp.com, Scott.Hill@umgtemp.com'
-FROM_VAL = 'RDx@mgd.umusic.com'
-SUBJ = 'RDxAlert Message'
-
-CONFIG_OBJS = (ConfigObj('LOG_A', '<file value="(.+)"', LOG_PATH),
-                ConfigObj('LOG_B', '"file" value="(.+)"', LOG_PATH),
-                ConfigObj('DB', 'Data Source=(.+);Initial Catalog=(RDx\w+);', ''),
-                ConfigObj('FTP', r'"(.+)" value="\\\\(.+)\\d\$', FTP_ROOT),
-                ConfigObj('TO_VAL', '<to value="(.+)"', TO_VAL),
-                ConfigObj('FROM_VAL', '<from value="(.+)"', FROM_VAL),
-                ConfigObj('SMTP', '<smtpHost value="(.+)"', SMTP_SERVER),
-                ConfigObj('SUBJ', '<subject value="(.+)"', SUBJ))
-
-configs = dict(zip([co.cotype for co in CONFIG_OBJS], CONFIG_OBJS))
+MODEL_DBSET = ConfigMgr.GET_DEFAULT_DBSET()
+CONFIGS = ConfigMgr.GET_DEFAULT_CONFIG()
 
 #REMOTE_DIR =  os.path.join(os.getcwd(), 'remote')
 #REMOTE_DIR =  os.path.join( '/cygdrive', 'g', 'RDx', 'ETL')
@@ -143,31 +118,16 @@ def main(argv=None):
             logging.info('Backup of work directory created at %s', backupdir)
             shutil.copytree(ConfigMgr.WORK_DIR, backupdir)
 
-
-
-
-            # TRY TO USE THE FILELIST METHOD TO CREATE. CLEARER.
-            # new way
             filelist = FileUtils.get_filelist(ConfigMgr.WORK_DIR, *FILE_EXTS)
 
-
-            cm = ConfigMgr(dbset=MODEL_DBSET, filelist=filelist, configs=configs)
+            cm = ConfigMgr(dbset=MODEL_DBSET, filelist=filelist, configs=CONFIGS)
             ms = cm.go(env=CHANGE_TO_ENV, write=True)
 
-
-
-
-            # prev way
-
-            # print
-            # logging.info('Performing file mod...')
-            # ms = ConfigMgr(dbset=MODEL_DBSET, path=ConfigMgr.WORK_DIR, file_exts=FILE_EXTS,
-            #                 configs=configs).go(env=CHANGE_TO_ENV, write=True)
             print
             logging.info('Results:')
             logging.info(ms.summary_details())
             print
-            logging.info(ms.summary_matches(configs))
+            logging.info(ms.summary_matches(CONFIGS))
             print
             logging.info("%s files written to dir '%s'.",
                          len(ms.get_work_files(ConfigMgr.WORK_DIR, ConfigMgr.OUTPUT_DIR)),

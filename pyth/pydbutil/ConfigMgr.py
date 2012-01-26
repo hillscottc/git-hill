@@ -48,7 +48,7 @@ class ConfigMgr(object):
     WORK_DIR = os.path.join(os.getcwd(), 'work')
     OUTPUT_DIR = os.path.join(os.getcwd(), 'output')
 
-    def __init__(self, dbset=None, path=None, configs=None, env=None,
+    def __init__(self, dbset=None, configs=None, env=None,
                  file_exts=None, filelist=None, write=False, verbose=True):
         self.dbset = dbset
         self.env = env
@@ -61,20 +61,21 @@ class ConfigMgr(object):
         if not file_exts:
             # default
             self.file_exts = ('.config',)
-        self.path = path
+        #self.path = path
         if filelist:
             self.filelist = filelist
 
-    def get_path(self):
-        """ The path to the config files. """
-        return self._path
+    # def get_path(self):
+    #     """ The path to the config files. """
+    #     return self._path
 
-    def set_path(self, value):
-        """Setting the path sets the filelist."""
-        self.filelist = FileUtils.get_filelist(value, *self.file_exts)
-        self._path = value
+    # def set_path(self, value):
+    #     """Setting the path sets the filelist."""
+    #     self.filelist = FileUtils.get_filelist(path=value, *self.file_exts)
+    #     self._path = value
 
-    path = property(get_path, set_path)
+
+    # path = property(get_path, set_path)
 
     def get_filelist(self):
         return self._filelist

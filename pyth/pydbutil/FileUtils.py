@@ -21,19 +21,18 @@ def get_work_path(path, old_dir, new_dir='work'):
 
 def get_filelist(path=None, *extentions):
     """
-    Gets config files in given path. Walks subdirs.
-    Skips dirs named <skipdir>. Skips files with spaces in path.
+    Gets config files in given path. Walks subdirs. Skips dirs named <skipdir>.
     Usage:
     >>> path = 'input/ETL/'
-    >>> filelist = get_filelist(path)
-    >>> print '{} files are in path {}'.format(len(filelist), path)
-    23 files are in path input/ETL/
+    >>> file_exts = ('.config', '.bat')
+    >>> filelist = get_filelist(path, *file_exts)
+    >>> print 'Found {} files in path {}, exts={}'.format(len(filelist), path, file_exts) # doctest: +ELLIPSIS
+    Found ... files in path input/ETL/, exts=('.config', '.bat')
     """
     skipdir='Backup'
     if not path: raise Exception('path is required for get_filelist.')
-    filelist = []
 
-    print extentions
+    filelist = []
 
     if os.path.isfile(path) :
         filelist.append(path)
@@ -61,8 +60,8 @@ def trim_line(longline, max_length=80, chars_trimmed=20, chars_shown=65):
     return shortline
 
 def get_bak_dir(path) :
-    """
-    >>> print get_bak_dir('remote/ETL')
+    """ Usage:
+    >>> print get_bak_dir('remote/ETL') # doctest: +ELLIPSIS
     bak/.../remote/ETL
     """
     if os.path.isdir(path) :
@@ -72,9 +71,12 @@ def get_bak_dir(path) :
         raise Exception('Must supply a valid dir. Bad path:', path)
 
 
-
 def get_outfilename(before, after, infilename):
-    """ Returns path to ./outdir/filename. Creates if necc."""
+    """ Returns path to ./outdir/filename. Creates if necc.
+    Usage:
+    >>> print get_outfilename('remote', 'work', 'remote/etl/carl/somefile.txt')
+    work/etl/carl/somefile.txt
+    """
     outfilename = re.sub(before, after, infilename)
     ensure_dir(outfilename)
     return outfilename
@@ -98,5 +100,8 @@ def copy_files(sourcepaths, targpaths, ask=True):
     [ensure_dir(f) for f in targpaths]
     map(shutil.copy, sourcepaths, targpaths)
 
-
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod(verbose=True)
+    sys.exit(0)
 

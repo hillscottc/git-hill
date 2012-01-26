@@ -98,7 +98,6 @@ def main(argv=None):
             targpaths = [FileUtils.get_work_path(f, source) for f in filelist]
 
 
-
             # remove old work dir
             if os.path.exists(ConfigMgr.WORK_DIR) :
                 shutil.rmtree(ConfigMgr.WORK_DIR)

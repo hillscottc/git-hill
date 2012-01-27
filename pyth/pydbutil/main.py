@@ -90,7 +90,7 @@ def main(argv=None):
         # copy remote to work
         if DO_COPY:
             print
-            print "Remote PATH %s ...".format(source)
+            print "Remote PATH {0} ...".format(source)
 
 
             filelist = FileUtils.get_filelist(source, *FILE_EXTS)
@@ -104,7 +104,7 @@ def main(argv=None):
 
             print
 
-            print 'Copying %s file(s) to work directory %s'.format(
+            print 'Copying {0} file(s) to work directory {1}'.format(
                    len(filelist), ConfigMgr.WORK_DIR)
 
             FileUtils.copy_files(filelist, targpaths, DO_ASK)
@@ -114,7 +114,7 @@ def main(argv=None):
 
             # make a backup work dir
             backupdir = FileUtils.get_bak_dir(ConfigMgr.WORK_DIR)
-            print 'Backup of work directory created at %s'.format(backupdir)
+            print 'Backup of work directory created at {0}'.format(backupdir)
             shutil.copytree(ConfigMgr.WORK_DIR, backupdir)
 
             filelist = FileUtils.get_filelist(ConfigMgr.WORK_DIR, *FILE_EXTS)
@@ -128,7 +128,7 @@ def main(argv=None):
             print
             print ms.summary_matches(CONFIGS)
             print
-            print "%s files written to dir '%s'.".format(
+            print "{0} files written to dir '{1}'.".format(
                     len(ms.get_work_files(ConfigMgr.WORK_DIR, ConfigMgr.OUTPUT_DIR)),
                     ConfigMgr.OUTPUT_DIR)
             print
@@ -137,7 +137,7 @@ def main(argv=None):
         if DO_REPLACE:
             FileUtils.copy_files(ms.get_work_files(ConfigMgr.WORK_DIR, ConfigMgr.OUTPUT_DIR),
                                  sourcepaths, DO_ASK)
-            print 'The modified files have been copied back to %s'.format(source)
+            print 'The modified files have been copied back to {0}'.format(source)
 
         print
         print 'Complete.'

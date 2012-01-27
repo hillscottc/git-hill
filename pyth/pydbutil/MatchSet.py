@@ -1,5 +1,5 @@
 #! /usr/bin/python
-"""Manages a set of matches.
+"""Manages a set of matches. Mainly provides reporting.
 
 Usage:
 """
@@ -21,30 +21,13 @@ class MatchSet(object):
     """
     Manages a set of matches.
     Usage:
-    >>> import os
-    >>> from ConnMatchInfo import ConnMatchInfo
-    >>> cmi1 = (ConnMatchInfo('Usfshwssql104', 'RDxETL', 5), ConnMatchInfo('Usfshwssql104', 'RDxReport', 10))
-    >>> cmi2 = (ConnMatchInfo('Usfshwssql99', 'RDxETL', 5), ConnMatchInfo('Usfshwssql99', 'RDxReport', 10))
-    >>> cmi3 = (ConnMatchInfo('Usfshwssql88', 'RDxETL', 5), ConnMatchInfo('Usfshwssql88', 'RDxReport', 10))
-    >>> md = dict(file1=cmi1, file2=cmi2)
-    >>> ms = MatchSet(**md)
-    >>> print os.linesep.join(['{} {}'.format(k, v) for k, v in ms.matches.iteritems()])
-    file2 (Usfshwssql99 RDxETL 5, Usfshwssql99 RDxReport 10)
-    file1 (Usfshwssql104 RDxETL 5, Usfshwssql104 RDxReport 10)
-    >>> ms.matches['file3'] = cmi3
-    >>> print os.linesep.join(['{} {}'.format(k, v) for k, v in ms.matches.iteritems()])
-    file3 (Usfshwssql88 RDxETL 5, Usfshwssql88 RDxReport 10)
-    file2 (Usfshwssql99 RDxETL 5, Usfshwssql99 RDxReport 10)
-    file1 (Usfshwssql104 RDxETL 5, Usfshwssql104 RDxReport 10)
-    >>> ms.summary_matches()
-    'Found 6 matches in 3 files.'
     """
 
     def __init__(self, **matches):
         self.matches = matches
 
     def get_all_matches(self):
-        """ all the matches in all the lists """
+        """ Returns all the matches in all the lists, flattened. """
         all_lists = [mcList for mcList in self.matches.values()]
         all_matches = [mc for mc in all_lists]
         # flattens. dont want a list of lists.
@@ -95,34 +78,6 @@ class MatchSet(object):
 
         lines = []
         lines.append('')
-        msg = '{0:3} total matches in {1} files.'
-        lines.append(msg.format(sum([len(v) for v in self.matches.values()]),
-                                len(self.get_files_processed())))
-
-        msg = '{0:3} DB connections were already properly configured.'
-        lines.append(msg.format(len([mc for mc in self.get_all_matches()
-                                     if (mc.mtype is 'DB') and (mc.before == mc.after)])))
-
-        msg = '{0:3} DB connections had suggested changes.'
-        lines.append(msg.format(len([mc for mc in self.get_all_matches()
-                                     if (mc.mtype is 'DB') and (mc.before != mc.after)])))
-
-        msg = '{0:3} FTP filepath references were already properly configured.'
-        lines.append(msg.format(len([mc for mc in self.get_all_matches()
-                                     if (mc.mtype is 'FTP') and (mc.before == mc.after)])))
-        msg = '{0:3} FTP filepath references had suggested changes.'
-        lines.append(msg.format(len([mc for mc in self.get_all_matches()
-                                     if (mc.mtype is 'FTP') and (mc.before != mc.after)])))
-
-        msg = '{0:3} LOG file references were already properly configured.'
-        lines.append(msg.format(len([mc for mc in self.get_all_matches()
-                                     if mc.mtype in ('LOG_A', 'LOG_B')
-                                     and mc.before == mc.after])))
-        msg = '{0:3} LOG file references had suggested changes.'
-        lines.append(msg.format(len([mc for mc in self.get_all_matches()
-                                     if mc.mtype in ('LOG_A', 'LOG_B')
-                                     and mc.before != mc.after])))
-        lines.append('ORRRRRRRR')
 
 
         for mtype in sorted(config_objs.keys()) :

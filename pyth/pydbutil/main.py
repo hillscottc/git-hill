@@ -63,7 +63,6 @@ def main(argv=None):
     if argv is None:
         argv = sys.argv
     try:
-
         try:
             opts, args = getopt.getopt(
                 argv[1:], "hp:r", ["help", "path=", "replace"])
@@ -91,24 +90,16 @@ def main(argv=None):
         if DO_COPY:
             print
             print "Remote PATH {0} ...".format(path)
-
-
             sourcepaths = FileUtils.get_filelist(path, *FILE_EXTS)
-
             targpaths = [FileUtils.get_work_path(file, path) for file in sourcepaths]
-
-
             # remove old work dir
             if os.path.exists(ConfigMgr.WORK_DIR) :
                 shutil.rmtree(ConfigMgr.WORK_DIR)
-
             print
-
             print 'Copying {0} file(s) to work directory {1}'.format(
                    len(sourcepaths), ConfigMgr.WORK_DIR)
 
             FileUtils.copy_files(sourcepaths, targpaths, DO_ASK)
-
 
         if DO_MOD:
 
@@ -131,14 +122,13 @@ def main(argv=None):
                     ConfigMgr.OUTPUT_DIR)
             print
             if DO_ASK:
-                r = raw_input('Print match details? [y]/n ')
-                if r.lower() != 'n':
+                r = raw_input('Print match details? y/[n] ')
+                if r.lower() is 'y':
                     print ms.summary_details()
             print
 
             # COPY BACK TO REMOTE
         if DO_REPLACE:
-            print
             print "Preparing to copy modified files back to source."
             FileUtils.copy_files(targpaths, sourcepaths, DO_ASK)
 

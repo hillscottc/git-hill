@@ -58,7 +58,7 @@ def main(argv=None):
     # add the handler to the root logger
     logging.getLogger('').addHandler(console)
 
-    logging.info('Begin.')
+    print 'Begin.'
 
     if argv is None:
         argv = sys.argv
@@ -90,7 +90,7 @@ def main(argv=None):
         # copy remote to work
         if DO_COPY:
             print
-            logging.info("Remote PATH %s ...", source)
+            print "Remote PATH %s ...".format(source)
 
 
             filelist = FileUtils.get_filelist(source, *FILE_EXTS)
@@ -104,8 +104,8 @@ def main(argv=None):
 
             print
 
-            logging.info('Copying %s file(s) to work directory %s',
-                         len(filelist), ConfigMgr.WORK_DIR)
+            print 'Copying %s file(s) to work directory %s'.format(
+                   len(filelist), ConfigMgr.WORK_DIR)
 
             FileUtils.copy_files(filelist, targpaths, DO_ASK)
 
@@ -114,7 +114,7 @@ def main(argv=None):
 
             # make a backup work dir
             backupdir = FileUtils.get_bak_dir(ConfigMgr.WORK_DIR)
-            logging.info('Backup of work directory created at %s', backupdir)
+            print 'Backup of work directory created at %s'.format(backupdir)
             shutil.copytree(ConfigMgr.WORK_DIR, backupdir)
 
             filelist = FileUtils.get_filelist(ConfigMgr.WORK_DIR, *FILE_EXTS)
@@ -123,24 +123,24 @@ def main(argv=None):
             ms = cm.go(env=CHANGE_TO_ENV, write=True)
 
             print
-            logging.info('Results:')
-            logging.info(ms.summary_details())
+            print 'Results:'
+            print ms.summary_details()
             print
-            logging.info(ms.summary_matches(CONFIGS))
+            print ms.summary_matches(CONFIGS)
             print
-            logging.info("%s files written to dir '%s'.",
-                         len(ms.get_work_files(ConfigMgr.WORK_DIR, ConfigMgr.OUTPUT_DIR)),
-                         ConfigMgr.OUTPUT_DIR)
+            print "%s files written to dir '%s'.".format(
+                    len(ms.get_work_files(ConfigMgr.WORK_DIR, ConfigMgr.OUTPUT_DIR)),
+                    ConfigMgr.OUTPUT_DIR)
             print
 
             # COPY BACK TO REMOTE
         if DO_REPLACE:
             FileUtils.copy_files(ms.get_work_files(ConfigMgr.WORK_DIR, ConfigMgr.OUTPUT_DIR),
                                  sourcepaths, DO_ASK)
-            logging.info('The modified files have been copied back to %s', source)
+            print 'The modified files have been copied back to %s'.format(source)
 
         print
-        logging.info('Complete.')
+        print 'Complete.'
     except :
         print >>sys.stderr, "Unexpected error:", sys.exc_info()[0]
         raise

@@ -2,6 +2,7 @@
 """Handles database connection strings in files using DbProfiles.
 
 Usage: go() is the main function. Many examples in tests below.
+
 >>> from MatchSet import MatchSet
 >>> from DbSet import DbSet
 >>> from DbProfile import DbProfile
@@ -94,7 +95,6 @@ class ConfigMgr(object):
                         ConfigObj('SUBJ', '<subject value="(.+)"', SUBJ))
         return dict(zip([co.cotype for co in CONFIG_OBJS], CONFIG_OBJS))
 
-
     @staticmethod
     def GET_DEFAULT_DBSET():
         APPS = ('CARL', 'CART', 'Common', 'CPRS', 'CRA', 'CTX', 'D2', 'DRA',
@@ -103,12 +103,36 @@ class ConfigMgr(object):
         ENVS = ('dev', )
         return DbSet(DbProfile.create_profiles(envs=ENVS, apps=APPS, dbs=DBS))
 
-
-    def get_logname(self, app):
+    @staticmethod
+    def get_logname(configs, app):
         # or, logpath = os.path.join(self.LOG_PATH, app)
-        logpath = self.configs['LOG_A'].changeval + "\\" + app
+        logpath = configs['LOG_A'].changeval + "\\" + app
         return logpath + "\\" + app + '_etl.txt'
 
+    @staticmethod
+    def get_newlines(filename, mcs):
+        """ gets set of modded lines for given mcs """
+        with open(filename, 'r') as infile:
+             lines = infile.readlines()
+        newlines = ""
+        for i, line in enumerate(lines) :
+            if i not in (mc.linenum for mc in mcs):
+                #newlines.append(line)
+                newlines += line
+                continue
+            mc = [mc for mc in mcs if mc.linenum is i][0]
+            if mc.mtype in ('SMTP', 'TO_VAL', 'FROM_VAL', 'SUBJ', 'FTP') :
+                line = re.sub(mc.before, mc.after, line, re.IGNORECASE)
+            elif mc.mtype in  ('LOG_A', 'LOG_B') :
+                line = re.sub(re.escape(mc.before), mc.after, line, re.IGNORECASE)
+            elif mc.mtype is  'DB' :
+                #line = re.sub(re.escape(m.group(1)), mc.after.boxname, line, re.IGNORECASE)
+                line = re.sub(re.escape(mc.before_raw), mc.after.boxname, line, re.IGNORECASE)
+            else :
+                raise 'why it not one of em?'
+            #newlines.append(line)
+            newlines += line
+        return newlines
 
 
     def parse_line(self, linenum, line, env, app):
@@ -136,7 +160,7 @@ class ConfigMgr(object):
                 mc.after = co.changeval
             elif co.cotype in ('LOG_A', 'LOG_B') :
                 mc.before = m.group(1)
-                mc.after = self.get_logname(app)
+                mc.after = ConfigMgr.get_logname(self.configs, app)
             elif co.cotype is 'FTP':
                 mc.before = m.group(2)
 
@@ -168,7 +192,6 @@ class ConfigMgr(object):
         return mc
 
 
-
     def parse_file(self, filename, app, env):
         """ Returns mclist for the file. """
         mcList = []
@@ -179,31 +202,6 @@ class ConfigMgr(object):
             if mc.mtype:
                 mcList.append(mc)
         return mcList
-
-
-    def get_newlines(self, filename, mcs):
-        """ gets set of modded lines for given mcs """
-        with open(filename, 'r') as infile:
-             lines = infile.readlines()
-        newlines = ""
-        for i, line in enumerate(lines) :
-            if i not in (mc.linenum for mc in mcs):
-                #newlines.append(line)
-                newlines += line
-                continue
-            mc = [mc for mc in mcs if mc.linenum is i][0]
-            if mc.mtype in ('SMTP', 'TO_VAL', 'FROM_VAL', 'SUBJ', 'FTP') :
-                line = re.sub(mc.before, mc.after, line, re.IGNORECASE)
-            elif mc.mtype in  ('LOG_A', 'LOG_B') :
-                line = re.sub(re.escape(mc.before), mc.after, line, re.IGNORECASE)
-            elif mc.mtype is  'DB' :
-                #line = re.sub(re.escape(m.group(1)), mc.after.boxname, line, re.IGNORECASE)
-                line = re.sub(re.escape(mc.before_raw), mc.after.boxname, line, re.IGNORECASE)
-            else :
-                raise 'why it not one of em?'
-            #newlines.append(line)
-            newlines += line
-        return newlines
 
 
     def go(self, filelist=None, app=None, env=None, write=False, verbose=True) :
@@ -250,7 +248,7 @@ class ConfigMgr(object):
             if write:
                 outfilename = FileUtils.get_outfilename(ConfigMgr.WORK_DIR,
                                 ConfigMgr.OUTPUT_DIR, filename)
-                outlines = self.get_newlines(filename, mcs)
+                outlines = ConfigMgr.get_newlines(filename, mcs)
 
                 with open(outfilename, 'w') as outfile :
                      outfile.write(outlines)

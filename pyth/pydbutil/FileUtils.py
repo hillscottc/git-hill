@@ -109,7 +109,7 @@ def copy_files(sourcepaths, targpaths, ask=True):
         pp.pprint(clipped_file_list(sourcepaths))
         print 'copying TO:'
         pp.pprint(clipped_file_list(targpaths))
-        r = raw_input('Proceed with copy? [y]/n ')
+        r = raw_input('Proceed? [y]/n ')
         if r.lower() == 'n':
             print 'Ok, stopping.'
             sys.exit(0)

@@ -124,18 +124,21 @@ def main(argv=None):
 
             print
             print 'Results:'
-            print ms.summary_details()
-            print
             print ms.summary_matches(CONFIGS)
             print
             print "{0} files written to dir '{1}'.".format(
                     len(ms.get_work_files(ConfigMgr.WORK_DIR, ConfigMgr.OUTPUT_DIR)),
                     ConfigMgr.OUTPUT_DIR)
             print
+            if DO_ASK:
+                r = raw_input('Print match details? [y]/n ')
+                if r.lower() != 'n':
+                    print ms.summary_details()
+            print
 
             # COPY BACK TO REMOTE
         if DO_REPLACE:
-
+            print
             print "Preparing to copy modified files back to source."
             FileUtils.copy_files(targpaths, sourcepaths, DO_ASK)
 

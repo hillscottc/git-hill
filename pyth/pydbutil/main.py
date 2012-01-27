@@ -1,11 +1,11 @@
 #! /usr/bin/python
 """Uses the ConFigMgr and related classes.
 
-Usage: ./main.py -s ./remote [-r]
+Usage: ./main.py -p ./remote [-r]
 
 Args: (switches for running ConfigMgr.py main)
    -h: help
-   -s: source path to config files
+   -p: path to config files to be changed
    -r: replace orig with modified files
 """
 import sys
@@ -40,7 +40,7 @@ CONFIGS = ConfigMgr.GET_DEFAULT_CONFIG()
 ENV = None
 DO_COPY = True
 DO_MOD = True
-DO_ASK = False
+DO_ASK = True
 
 def main(argv=None):
 
@@ -66,36 +66,36 @@ def main(argv=None):
 
         try:
             opts, args = getopt.getopt(
-                argv[1:], "hs:r", ["help", "source=", "replace"])
+                argv[1:], "hp:r", ["help", "path=", "replace"])
         except getopt.error, msg:
             raise Usage(msg)
 
         # default value
-        source = None
+        path = None
         DO_REPLACE = False
 
         for opt, arg in opts :
             if opt in ("-h", "--help"):
                 print ConfigMgr.__doc__
                 sys.exit(0)
-            elif opt in ("-s", "--source"):
-                source = arg
+            elif opt in ("-p", "--path"):
+                path = arg
             elif opt in ("-r", "--replace"):
                 DO_REPLACE = True
 
-        if not source :
-            raise Usage("option -s is required.")
+        if not path :
+            raise Usage("option -p is required.")
 
 
         # copy remote to work
         if DO_COPY:
             print
-            print "Remote PATH {0} ...".format(source)
+            print "Remote PATH {0} ...".format(path)
 
 
-            filelist = FileUtils.get_filelist(source, *FILE_EXTS)
+            sourcepaths = FileUtils.get_filelist(path, *FILE_EXTS)
 
-            targpaths = [FileUtils.get_work_path(f, source) for f in filelist]
+            targpaths = [FileUtils.get_work_path(file, path) for file in sourcepaths]
 
 
             # remove old work dir
@@ -105,9 +105,9 @@ def main(argv=None):
             print
 
             print 'Copying {0} file(s) to work directory {1}'.format(
-                   len(filelist), ConfigMgr.WORK_DIR)
+                   len(sourcepaths), ConfigMgr.WORK_DIR)
 
-            FileUtils.copy_files(filelist, targpaths, DO_ASK)
+            FileUtils.copy_files(sourcepaths, targpaths, DO_ASK)
 
 
         if DO_MOD:
@@ -117,9 +117,9 @@ def main(argv=None):
             print 'Backup of work directory created at {0}'.format(backupdir)
             shutil.copytree(ConfigMgr.WORK_DIR, backupdir)
 
-            filelist = FileUtils.get_filelist(ConfigMgr.WORK_DIR, *FILE_EXTS)
+            workfiles = FileUtils.get_filelist(ConfigMgr.WORK_DIR, *FILE_EXTS)
 
-            cm = ConfigMgr(dbset=MODEL_DBSET, filelist=filelist, configs=CONFIGS)
+            cm = ConfigMgr(dbset=MODEL_DBSET, filelist=workfiles, configs=CONFIGS)
             ms = cm.go(env=CHANGE_TO_ENV, write=True)
 
             print
@@ -135,9 +135,11 @@ def main(argv=None):
 
             # COPY BACK TO REMOTE
         if DO_REPLACE:
-            FileUtils.copy_files(ms.get_work_files(ConfigMgr.WORK_DIR, ConfigMgr.OUTPUT_DIR),
-                                 sourcepaths, DO_ASK)
-            print 'The modified files have been copied back to {0}'.format(source)
+
+            print "Preparing to copy modified files back to source."
+            FileUtils.copy_files(targpaths, sourcepaths, DO_ASK)
+
+            print 'The modified files have been copied back to {0}'.format(path)
 
         print
         print 'Complete.'

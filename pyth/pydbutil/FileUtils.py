@@ -9,6 +9,8 @@ import shutil
 import sys
 import time
 import subprocess
+import pprint
+
 
 
 def get_work_path(path, old_dir, new_dir='work'):
@@ -70,6 +72,18 @@ def get_bak_dir(path) :
     else:
         raise Exception('Must supply a valid dir. Bad path:', path)
 
+def clipped_file_list(files, maxlength=5) :
+    """ Given a long list of files, prints a few, then ellipsis.
+    """
+    clipped_list = []
+    for i, file in enumerate(files):
+        clipped_list.append(file)
+        if i is maxlength:
+            clipped_list.append('. . . [clipped] . . .{0} total files.'.format(len(files)))
+            break
+    return clipped_list
+
+
 
 def get_outfilename(before, after, infilename):
     """ Returns path to ./outdir/filename. Creates if necc.
@@ -90,9 +104,11 @@ def ensure_dir(f):
 def copy_files(sourcepaths, targpaths, ask=True):
     #import pdb; pdb.set_trace()
     if ask:
-        print
-        print 'The copying will be:'
-        #print os.linesep.join(map('FROM {0}\nTO   {1}'.format, sourcepaths, targpaths))
+        pp = pprint.PrettyPrinter(indent=4)
+        print 'The copying will be FROM:'
+        pp.pprint(clipped_file_list(sourcepaths))
+        print 'copying TO:'
+        pp.pprint(clipped_file_list(targpaths))
         r = raw_input('Proceed with copy? [y]/n ')
         if r.lower() == 'n':
             print 'Ok, stopping.'

@@ -40,23 +40,24 @@ CONFIGS = ConfigMgr.GET_DEFAULT_CONFIG()
 ENV = None
 DO_COPY = True
 DO_MOD = True
-DO_ASK = True
+DO_ASK = False
 
 def main(argv=None):
 
     # set log file
-    logging.basicConfig(level=logging.INFO,
+    logpathname = os.path.join(os.getcwd(), 'logs', 'main.log')
+    logging.basicConfig(level=logging.DEBUG,
                         format='%(asctime)s %(name)s %(levelname)-5s %(message)s',
                         datefmt='%m-%d %H:%M',
-                        filename='logs/main.log',
+                        filename=logpathname,
                         filemode='w')
 
     # define a Handler which writes INFO messages or higher to the sys.stderr
-    console = logging.StreamHandler()
-    console.setLevel(logging.INFO)
-    console.setFormatter(logging.Formatter('%(asctime)s %(levelname)-5s %(message)s'))
-    # add the handler to the root logger
-    logging.getLogger('').addHandler(console)
+    # console = logging.StreamHandler()
+    # console.setLevel(logging.INFO)
+    # console.setFormatter(logging.Formatter('%(asctime)s %(levelname)-5s %(message)s'))
+    # # add the handler to the root logger
+    # logging.getLogger('').addHandler(console)
 
     print 'Begin.'
 
@@ -121,11 +122,13 @@ def main(argv=None):
                     len(ms.get_work_files(ConfigMgr.WORK_DIR, ConfigMgr.OUTPUT_DIR)),
                     ConfigMgr.OUTPUT_DIR)
             print
-            if DO_ASK:
-                r = raw_input('Print match details? y/[n] ')
-                if r.lower() is 'y':
-                    print ms.summary_details()
-            print
+            print 'Match results written to', logpathname
+            logging.info(ms.summary_details())
+            # if DO_ASK:
+            #     r = raw_input('Print match details? y/[n] ')
+            #     if r.lower() is 'y':
+            #         print ms.summary_details()
+            # print
 
             # COPY BACK TO REMOTE
         if DO_REPLACE:

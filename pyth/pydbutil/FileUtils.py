@@ -103,12 +103,12 @@ def ensure_dir(f):
 
 def copy_files(sourcepaths, targpaths, ask=True):
     #import pdb; pdb.set_trace()
+    pp = pprint.PrettyPrinter(indent=4)
+    print 'The copying will be FROM:'
+    pp.pprint(clipped_file_list(sourcepaths))
+    print 'copying TO:'
+    pp.pprint(clipped_file_list(targpaths))
     if ask:
-        pp = pprint.PrettyPrinter(indent=4)
-        print 'The copying will be FROM:'
-        pp.pprint(clipped_file_list(sourcepaths))
-        print 'copying TO:'
-        pp.pprint(clipped_file_list(targpaths))
         r = raw_input('Proceed? [y]/n ')
         if r.lower() == 'n':
             print 'Ok, stopping.'

@@ -53,11 +53,11 @@ def main(argv=None):
                         filemode='w')
 
     # define a Handler which writes INFO messages or higher to the sys.stderr
-    # console = logging.StreamHandler()
-    # console.setLevel(logging.INFO)
-    # console.setFormatter(logging.Formatter('%(asctime)s %(levelname)-5s %(message)s'))
+    # console = logger.StreamHandler()
+    # console.setLevel(logger.INFO)
+    # console.setFormatter(logger.Formatter('%(asctime)s %(levelname)-5s %(message)s'))
     # # add the handler to the root logger
-    # logging.getLogger('').addHandler(console)
+    # logger.getLogger('').addHandler(console)
 
     print 'Begin.'
 

@@ -25,21 +25,12 @@ import FileUtils
 import logging
 
 
-logger = logging.getLogger('ConfigMgr')
-logger.setLevel(logging.DEBUG)
-#create file handler which logs even debug messages
-fh = logging.FileHandler('logs/ConfigMgr.log')
-fh.setLevel(logging.DEBUG)
-# create console handler with a higher log level
-ch = logging.StreamHandler()
-ch.setLevel(logging.WARN)
-# create formatter and add it to the handlers
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-fh.setFormatter(formatter)
-ch.setFormatter(formatter)
-# add the handlers to the logger
-logger.addHandler(fh)
-logger.addHandler(ch)
+# logpathname = os.path.join(os.getcwd(), 'logs', 'ConfigMgr.log')
+# logging.basicConfig(level=logging.DEBUG,
+#                     format='%(asctime)s %(name)s %(levelname)-5s %(message)s',
+#                     datefmt='%m-%d %H:%M',
+#                     filename=logpathname,
+#                     filemode='w')
 
 
 class ConfigMgr(object):
@@ -224,8 +215,8 @@ class ConfigMgr(object):
         else:
             apps = self.dbset.get_apps()
 
-        logger.debug('GO !!!!!!!!!!!!!!!')
-        logger.debug('ENV:%s    APPS:%s', env, apps)
+        logging.debug('GO !!!!!!!!!!!!!!!')
+        logging.debug('ENV:%s    APPS:%s', env, apps)
 
         ms = MatchSet()
 
@@ -254,15 +245,15 @@ class ConfigMgr(object):
                      outfile.write(outlines)
 
         #logger.debug(ms.summary_details())
-        logger.debug('')
+        # logging.debug('')
 
-        for k in ms.matches.keys():
-            logger.debug('%s', k)
-            for v in ms.matches[k]:
-                logger.debug('  %s', v)
+        # for k in ms.matches.keys():
+        #     logging.debug('%s', k)
+        #     for v in ms.matches[k]:
+        #         logging.debug('  %s', v)
 
-        logger.debug('')
-        logger.debug(ms.summary_matches(self.configs))
+        logging.debug('')
+        logging.debug(ms.summary_matches(self.configs))
         return ms
 
 

@@ -3,14 +3,14 @@
 
 Usage: go() is the main function. Many examples in tests below.
 
->>> from MatchSet import MatchSet
+>>> from ConfigObj import ConfigObj
 >>> from DbSet import DbSet
->>> from DbProfile import DbProfile
->>> APPS = ('CARL', 'CART')
->>> DBS = (('RDxETL', 'USHPEPVSQL409'), ('RDxReport', r'USHPEPVSQL435'))
->>> ENVS = ('dev',)
->>> MODEL_DBSET = DbSet(DbProfile.create_profiles(envs=ENVS, apps=APPS, dbs=DBS))
->>> cm = ConfigMgr(dbset=MODEL_DBSET, path='remote')
+>>> FILE_EXTS = ('.config', '.bat')
+>>> MODEL_DBSET = DbSet.get_dbset('RDxETL')
+>>> CONFIGS = ConfigObj.get_configs('RDxETL')
+>>> workfiles = FileUtils.get_filelist(ConfigMgr.WORK_DIR, *FILE_EXTS)
+>>> cm = ConfigMgr(dbset=MODEL_DBSET, filelist=workfiles, configs=CONFIGS)
+Filelist set to 35 files
 """
 import sys
 import re
@@ -61,31 +61,7 @@ class ConfigMgr(object):
     filelist = property(get_filelist, set_filelist)
 
 
-    @staticmethod
-    def GET_DEFAULT_CONFIG():
-        FTP_ROOT = 'USHPEWVAPP251'
-        LOG_PATH = r'D:\RDx\ETL\logs'
-        SMTP_SERVER = 'usush-maildrop.amer.umusic.net'
-        TO_VAL = 'ar.umg.rights.dev@hp.com, Scott.Hill@umgtemp.com'
-        FROM_VAL = 'RDx@mgd.umusic.com'
-        SUBJ = 'RDxAlert Message'
-        CONFIG_OBJS = (ConfigObj('LOG_A', '<file value="(.+)"', LOG_PATH),
-                        ConfigObj('LOG_B', '"file" value="(.+)"', LOG_PATH),
-                        ConfigObj('DB', 'Data Source=(.+);Initial Catalog=(RDx\w+);', ''),
-                        ConfigObj('FTP', r'"(.+)" value="\\\\(.+)\\d\$', FTP_ROOT),
-                        ConfigObj('TO_VAL', '<to value="(.+)"', TO_VAL),
-                        ConfigObj('FROM_VAL', '<from value="(.+)"', FROM_VAL),
-                        ConfigObj('SMTP', '<smtpHost value="(.+)"', SMTP_SERVER),
-                        ConfigObj('SUBJ', '<subject value="(.+)"', SUBJ))
-        return dict(zip([co.cotype for co in CONFIG_OBJS], CONFIG_OBJS))
 
-    @staticmethod
-    def GET_DEFAULT_DBSET():
-        APPS = ('CARL', 'CART', 'Common', 'CPRS', 'CRA', 'CTX', 'D2', 'DRA',
-                'ELS', 'FileService', 'GDRS', 'MP', 'PartsOrder', 'R2')
-        DBS = (('RDxETL', 'USHPEPVSQL409'), ('RDxReport', r'USHPEPVSQL435'))
-        ENVS = ('dev', )
-        return DbSet(DbProfile.create_profiles(envs=ENVS, apps=APPS, dbs=DBS))
 
     @staticmethod
     def get_logname(configs, app):

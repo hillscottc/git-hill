@@ -29,8 +29,8 @@ CHANGE_TO_ENV = 'dev'
 
 FILE_EXTS = ('.config', '.bat')
 
-MODEL_DBSET = ConfigMgr.GET_DEFAULT_DBSET()
-CONFIGS = ConfigMgr.GET_DEFAULT_CONFIG()
+MODEL_DBSET = DbSet.get_dbset('RDxETL')
+CONFIGS = ConfigObj.get_configs('RDxETL')
 
 #REMOTE_DIR =  os.path.join(os.getcwd(), 'remote')
 #REMOTE_DIR =  os.path.join( '/cygdrive', 'g', 'RDx', 'ETL')

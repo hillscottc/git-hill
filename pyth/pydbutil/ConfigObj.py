@@ -17,6 +17,30 @@ class ConfigObj(object):
             raise Exception('{0} not valid cotype. {1}'.format
                             (self.cotype, COTYPES))
 
+    @staticmethod
+    def get_configs(configset='RDxETL') :
+        """ Returns dict of configsobjs for configset set. """
+        if configset is 'RDxETL' :
+
+            FTP_ROOT = 'USHPEWVAPP251'
+            LOG_PATH = r'D:\RDx\ETL\logs'
+            SMTP_SERVER = 'usush-maildrop.amer.umusic.net'
+            TO_VAL = 'ar.umg.rights.dev@hp.com, Scott.Hill@umgtemp.com'
+            FROM_VAL = 'RDx@mgd.umusic.com'
+            SUBJ = 'RDxAlert Message'
+            CONFIG_OBJS = (ConfigObj('LOG_A', '<file value="(.+)"', LOG_PATH),
+                            ConfigObj('LOG_B', '"file" value="(.+)"', LOG_PATH),
+                            ConfigObj('DB', 'Data Source=(.+);Initial Catalog=(RDx\w+);', ''),
+                            ConfigObj('FTP', r'"(.+)" value="\\\\(.+)\\d\$', FTP_ROOT),
+                            ConfigObj('TO_VAL', '<to value="(.+)"', TO_VAL),
+                            ConfigObj('FROM_VAL', '<from value="(.+)"', FROM_VAL),
+                            ConfigObj('SMTP', '<smtpHost value="(.+)"', SMTP_SERVER),
+                            ConfigObj('SUBJ', '<subject value="(.+)"', SUBJ))
+            return dict(zip([co.cotype for co in CONFIG_OBJS], CONFIG_OBJS))
+        else:
+            raise Exception('Invalid configset', configset)
+
+
     def __str__(self):
         return '{0} {1} {2}'.format(self.cotype, self.regex, self.changeval)
 
@@ -27,6 +51,6 @@ if __name__ == "__main__":
     import doctest
     doctest.testmod(verbose=True)
     sys.exit(0)
-   
+
 
 

@@ -1,8 +1,5 @@
 #! /usr/bin/python
-"""Some static file methods.
-
-Usage:
-"""
+""" Some static file methods. """
 import os
 import re
 import shutil

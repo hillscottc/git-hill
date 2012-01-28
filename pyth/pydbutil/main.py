@@ -69,7 +69,7 @@ def main(argv=None):
 
         for opt, arg in opts :
             if opt in ("-h", "--help"):
-                print ConfigMgr.__doc__
+                print __doc__
                 sys.exit(0)
             elif opt in ("-p", "--path"):
                 path = arg

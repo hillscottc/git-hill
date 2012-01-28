@@ -52,13 +52,6 @@ def main(argv=None):
                         filename=logpathname,
                         filemode='w')
 
-    # define a Handler which writes INFO messages or higher to the sys.stderr
-    # console = logger.StreamHandler()
-    # console.setLevel(logger.INFO)
-    # console.setFormatter(logger.Formatter('%(asctime)s %(levelname)-5s %(message)s'))
-    # # add the handler to the root logger
-    # logger.getLogger('').addHandler(console)
-
     print 'Begin.'
 
     if argv is None:
@@ -124,11 +117,6 @@ def main(argv=None):
             print
             print 'Match results written to', logpathname
             logging.info(ms.summary_details())
-            # if DO_ASK:
-            #     r = raw_input('Print match details? y/[n] ')
-            #     if r.lower() is 'y':
-            #         print ms.summary_details()
-            # print
 
             # COPY BACK TO REMOTE
         if DO_REPLACE:
@@ -139,7 +127,11 @@ def main(argv=None):
 
         print
         print 'Complete.'
-    except :
+    except Usage, err:
+        print >>sys.stderr, err.msg
+        print >>sys.stderr, "for help use --help"
+        return 2
+
         print >>sys.stderr, "Unexpected error:", sys.exc_info()[0]
         raise
 

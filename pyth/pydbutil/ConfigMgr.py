@@ -25,13 +25,6 @@ import FileUtils
 import logging
 
 
-# logpathname = os.path.join(os.getcwd(), 'logs', 'ConfigMgr.log')
-# logging.basicConfig(level=logging.DEBUG,
-#                     format='%(asctime)s %(name)s %(levelname)-5s %(message)s',
-#                     datefmt='%m-%d %H:%M',
-#                     filename=logpathname,
-#                     filemode='w')
-
 
 class ConfigMgr(object):
     """Handles database connection strings in files using DbProfiles."""
@@ -243,14 +236,6 @@ class ConfigMgr(object):
 
                 with open(outfilename, 'w') as outfile :
                      outfile.write(outlines)
-
-        #logger.debug(ms.summary_details())
-        # logging.debug('')
-
-        # for k in ms.matches.keys():
-        #     logging.debug('%s', k)
-        #     for v in ms.matches[k]:
-        #         logging.debug('  %s', v)
 
         logging.debug('')
         logging.debug(ms.summary_matches(self.configs))

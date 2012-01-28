@@ -32,6 +32,22 @@ import FileUtils
 pprint.pprint(FileUtils.get_filelist('./remote', 'Backup', '.bat', '.config'))
 
 
+    # define a Handler which writes INFO messages or higher to the sys.stderr
+    # console = logger.StreamHandler()
+    # console.setLevel(logger.INFO)
+    # console.setFormatter(logger.Formatter('%(asctime)s %(levelname)-5s %(message)s'))
+    # # add the handler to the root logger
+    # logger.getLogger('').addHandler(console)
+
+
+
+
+# logpathname = os.path.join(os.getcwd(), 'logs', 'ConfigMgr.log')
+# logging.basicConfig(level=logging.DEBUG,
+#                     format='%(asctime)s %(name)s %(levelname)-5s %(message)s',
+#                     datefmt='%m-%d %H:%M',
+#                     filename=logpathname,
+#                     filemode='w')
 
 
 

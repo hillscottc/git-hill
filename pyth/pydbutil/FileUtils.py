@@ -11,7 +11,18 @@ import time
 import subprocess
 import pprint
 
+# def find_oldest_file(dirname="..", extension=".avi"):
+#     oldest_file, oldest_time = None, None
+#     for dirpath, dirs, files in os.walk(dirname):
+#         for filename in files:
+#             file_path = os.path.join(dirpath, filename)
+#             file_time = os.stat(file_path).st_mtime
+#             if file_path.endswith(extension) and (file_time<oldest_time or oldest_time is None):
+#                     oldest_file, oldest_time = file_path, file_time
+#     return oldest_file, oldest_time
 
+
+#, followlinks=False]
 
 def get_work_path(path, old_dir, new_dir='work'):
     """

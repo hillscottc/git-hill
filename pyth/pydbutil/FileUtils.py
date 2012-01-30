@@ -22,12 +22,17 @@ import pprint
 #, followlinks=False]
 
 def get_work_path(path, old_dir, new_dir='work'):
-    """
-    Usage:
+    """Usage:
     >>> get_work_path('./remote/ETL/D2/_log4net.config',  './remote')
     'work/ETL/D2/_log4net.config'
     """
     return re.sub(old_dir, new_dir, path)
+
+def get_logname(configs, app):
+    # logpath = configs['LOG_A'].changeval + "\\" + app
+    # return logpath + "\\" + app + '_etl.txt'
+    return os.path.join(configs['LOG_A'].changeval, app, app + '_etl.txt')
+
 
 def get_filelist(path=None, *extentions):
     """
@@ -43,6 +48,7 @@ def get_filelist(path=None, *extentions):
     if not path: raise Exception('path is required for get_filelist.')
 
     filelist = []
+
 
     if os.path.isfile(path) :
         filelist.append(path)

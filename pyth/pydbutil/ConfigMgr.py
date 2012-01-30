@@ -1,17 +1,5 @@
 #! /usr/bin/python
-"""Handles database connection strings in files using DbProfiles.
 
-Usage: go() is the main function. Many examples in tests below.
-
->>> from ConfigObj import ConfigObj
->>> from DbSet import DbSet
->>> FILE_EXTS = ('.config', '.bat')
->>> MODEL_DBSET = DbSet.get_dbset('RDxETL')
->>> CONFIGS = ConfigObj.get_configs('RDxETL')
->>> workfiles = FileUtils.get_filelist(ConfigMgr.WORK_DIR, *FILE_EXTS)
->>> cm = ConfigMgr(dbset=MODEL_DBSET, filelist=workfiles, configs=CONFIGS)
-Filelist set to 35 files
-"""
 import sys
 import re
 import os
@@ -24,20 +12,26 @@ from collections import namedtuple
 import FileUtils
 import logging
 
-
-
 class ConfigMgr(object):
-    """Handles database connection strings in files using DbProfiles."""
-
+    """Handles database connection strings in files using DbProfiles.
+    Usage:
+    >>> from ConfigObj import ConfigObj
+    >>> from DbSet import DbSet
+    >>> FILE_EXTS = ('.config', '.bat')
+    >>> MODEL_DBSET = DbSet.get_dbset('RDxETL')
+    >>> CONFIGS = ConfigObj.get_configs('RDxETL')
+    >>> workfiles = FileUtils.get_filelist(ConfigMgr.WORK_DIR, *FILE_EXTS)
+    >>> cm = ConfigMgr(dbset=MODEL_DBSET, filelist=workfiles, configs=CONFIGS) # doctest: +ELLIPSIS
+    Filelist set to ... files
+    """
     WORK_DIR = os.path.join(os.getcwd(), 'work')
     OUTPUT_DIR = os.path.join(os.getcwd(), 'output')
 
     def __init__(self, dbset=None, configs=None, env=None,
-                 file_exts=None, filelist=None, write=False, verbose=True):
+                 file_exts=None, filelist=None, write=False):
         self.dbset = dbset
         self.env = env
         self.write = write
-        self.verbose = verbose
         self.configs = configs
         if not self.configs:
             raise 'configs required.'
@@ -60,14 +54,6 @@ class ConfigMgr(object):
 
     filelist = property(get_filelist, set_filelist)
 
-
-
-
-    @staticmethod
-    def get_logname(configs, app):
-        # or, logpath = os.path.join(self.LOG_PATH, app)
-        logpath = configs['LOG_A'].changeval + "\\" + app
-        return logpath + "\\" + app + '_etl.txt'
 
     @staticmethod
     def get_newlines(filename, mcs):
@@ -120,7 +106,7 @@ class ConfigMgr(object):
                 mc.after = co.changeval
             elif co.cotype in ('LOG_A', 'LOG_B') :
                 mc.before = m.group(1)
-                mc.after = ConfigMgr.get_logname(self.configs, app)
+                mc.after = FileUtils.get_logname(self.configs, app)
             elif co.cotype is 'FTP':
                 mc.before = m.group(2)
 
@@ -164,20 +150,19 @@ class ConfigMgr(object):
         return mcList
 
 
-    def go(self, filelist=None, app=None, env=None, write=False, verbose=True) :
+    def go(self, app=None, env=None, write=False) :
         """
         Checks file for lines which contain connection string information,
         for each file in filelist.
         Returns: a MatchSet
         """
-        if not filelist:
-            filelist = self.filelist
+
+        filelist = self.filelist
         if not filelist:
             raise Exception('filelist required.')
 
-        if write:
-            if not env :
-                raise Exception('env is required for write.')
+        if not env :
+            raise Exception('env is required.')
 
         if app:
             apps = [app]

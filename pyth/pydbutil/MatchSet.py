@@ -18,8 +18,7 @@ class Usage(Exception):
         self.msg = msg
 
 class MatchSet(object):
-    """
-    Manages a set of matches.
+    """Manages a set of matches.
     Usage:
     """
 

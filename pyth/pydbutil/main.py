@@ -1,13 +1,6 @@
 #! /usr/bin/python
-"""Uses the ConFigMgr and related classes.
 
-Usage: ./main.py -p ./remote [-r]
-
-Args: (switches for running ConfigMgr.py main)
-   -h: help
-   -p: path to config files to be changed
-   -r: replace orig with modified files
-"""
+""" Uses the ConFigMgr and related classes to parse and mod config files."""
 import sys
 import os
 import shutil
@@ -20,13 +13,8 @@ import getopt
 import logging
 import pprint
 
-class Usage(Exception):
-    def __init__(self, msg):
-        self.msg = msg
-
 
 CHANGE_TO_ENV = 'dev'
-
 FILE_EXTS = ('.config', '.bat')
 
 MODEL_DBSET = DbSet.get_dbset('RDxETL')
@@ -36,13 +24,28 @@ CONFIGS = ConfigObj.get_configs('RDxETL')
 #REMOTE_DIR =  os.path.join( '/cygdrive', 'g', 'RDx', 'ETL')
 
 # global opts
-#PATH = REMOTE_DIR
-ENV = None
 DO_COPY = True
 DO_MOD = True
 DO_ASK = False
 
+class Usage(Exception):
+    def __init__(self, msg):
+        self.msg = msg
+
+
 def main(argv=None):
+    """Uses the ConFigMgr and related classes.
+
+    Usage: ./main.py -p ./remote [-r]
+
+    Args: (switches for running ConfigMgr.py main)
+       -h: help
+       -p: path to config files to be changed
+       -r: replace orig with modified files
+    """
+
+    # print FileUtils.get_logname(CONFIGS, 'MP')
+    # sys.exit()
 
     # set log file
     logpathname = os.path.join(os.getcwd(), 'logs', 'main.log')

@@ -101,7 +101,7 @@ def main(argv=None):
         if DO_MOD:
 
             # make a backup work dir
-            backupdir = FileUtils.get_bak_dir(ConfigMgr.WORK_DIR)
+            backupdir = FileUtils.get_bak_dir(sourcedir=ConfigMgr.WORK_DIR, timestamped=True)
             print 'Backup of work directory created at {0}'.format(backupdir)
             shutil.copytree(ConfigMgr.WORK_DIR, backupdir)
 

@@ -75,16 +75,29 @@ def trim_line(longline, max_length=80, chars_trimmed=20, chars_shown=65):
         shortline = '...' + shortline[chars_trimmed : chars_trimmed+chars_shown] + '...'
     return shortline
 
-def get_bak_dir(path) :
-    """ Usage:
-    >>> print get_bak_dir('remote/ETL') # doctest: +ELLIPSIS
-    bak/.../remote/ETL
+def get_bak_dir(sourcedir, targ='.', timestamped=False) :
+    """ Gets name of backup dir for soourcedir. With timestamping option.
+    Usage:
+    >>> sources = ['./remote', './remote/']
+    >>> print [get_bak_dir(sourcedir=path, timestamped=True) for path in sources] # doctest: +ELLIPSIS
+    ['./bak/.../remote', './bak/.../remote']
+    >>> print [get_bak_dir(path) for path in sources]
+    ['./bak/remote', './bak/remote']
+    >>> print [get_bak_dir(path, './temp/', False) for path in sources]
+    ['./temp/bak/remote', './temp/bak/remote']
     """
-    if os.path.isdir(path) :
+    if not os.path.isdir(sourcedir):
+        raise Exception('Must supply a valid dir. Bad path:', sourcedir)
+
+    if targ and targ != '.':
+        ensure_dir(targ)
+
+    if timestamped :
         t = time.strftime('%m%d%H%M%S')
-        return os.path.join('bak', t, os.path.relpath(path))
-    else:
-        raise Exception('Must supply a valid dir. Bad path:', path)
+        return os.path.join(targ, 'bak', t, os.path.relpath(sourcedir))
+    else :
+        return os.path.join(targ, 'bak', os.path.relpath(sourcedir))
+
 
 def clipped_file_list(files, maxlength=5) :
     """ Given a long list of files, prints a few, then ellipsis.

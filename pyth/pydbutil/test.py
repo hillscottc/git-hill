@@ -9,8 +9,14 @@ import time
 import logging
 
 
-pprint(FileUtils.get_filelist('remote', skipdir='Backup'))
+#pprint(FileUtils.get_filelist('remote', skipdir='Backup'))
 
-pprint(FileUtils.get_filelist('remote'))
+paths = ['./remote', './remote/']
+
+for path in paths:
+    print FileUtils.get_bak_dir(path, False)
+    print FileUtils.get_bak_dir(path)
+
+
 
 

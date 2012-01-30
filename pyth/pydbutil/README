@@ -5,5 +5,8 @@ Specifically, the 14 interface apps for our RDx ETL process.
 The main.py contains constants specific to our environ.
 
 Usage:
-  ./main.py
+  ./main.py.....
+
+
+Config contrax with CfgCtx.py.
 

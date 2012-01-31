@@ -1,8 +1,14 @@
 #! /usr/bin/python
-""" Some static file methods. """
+""" Some static file methods.
+
+Usage: Any of the funcs can be called from the bash shell. (See main.)
+
+-> ./FileUtils.py "backup('./temp')"
+
+ """
 import os
 import re
-import shutil
+from shutil import copy, copytree, rmtree, ignore_patterns
 import sys
 import time
 import subprocess
@@ -45,10 +51,10 @@ def get_filelist(path=None, *extentions):
     Found ... files in path input/ETL/, exts=('.config', '.bat')
     """
     skipdir='Backup'
-    if not path: raise Exception('path is required for get_filelist.')
+    if not path:
+        raise Exception('path is required for get_filelist.')
 
     filelist = []
-
 
     if os.path.isfile(path) :
         filelist.append(path)
@@ -99,9 +105,25 @@ def get_bak_dir(sourcedir, targ='.', timestamped=False) :
         return os.path.join(targ, 'bak', os.path.relpath(sourcedir))
 
 
-def clipped_file_list(files, maxlength=5) :
-    """ Given a long list of files, prints a few, then ellipsis.
+def backup(source, timestamped=False):
+    """ Backup source dir to targ, skipping indicated dirs.
+    Usage:
+    >>> s = './temp'
+    >>> backup(s)
+    Backed up ./temp to ./bak/temp
+    >>> backup(s, timestamped=True) # doctest: +ELLIPSIS
+    Backed up ./temp to ./bak/.../temp
     """
+    targ = get_bak_dir(source, timestamped=timestamped)
+    if not timestamped and os.path.exists(targ) :
+        rmtree(targ)
+    copytree(source, targ, ignore=ignore_patterns(
+             '*.pyc', 'tmp*','Backup*', '.git', '.svn'))
+    print 'Backed up', source, 'to', targ
+
+
+def clipped_file_list(files, maxlength=5) :
+    """ Given a long list of files, prints a few, then ellipsis."""
     clipped_list = []
     for i, file in enumerate(files):
         clipped_list.append(file)
@@ -141,10 +163,24 @@ def copy_files(sourcepaths, targpaths, ask=True):
             print 'Ok, stopping.'
             sys.exit(0)
     [ensure_dir(f) for f in targpaths]
-    map(shutil.copy, sourcepaths, targpaths)
+    map(copy, sourcepaths, targpaths)
 
 if __name__ == "__main__":
-    import doctest
-    doctest.testmod(verbose=True)
-    sys.exit(0)
+    """Any of the funcs can be called from the bash shell, for example
+       -> ./FileUtils.py "backup('./temp')"
+    """
+    import sys
+    try:
+        func = sys.argv[1]
+    except: func = None
+    if func:
+        try:
+            exec 'print %s' % func
+        except:
+            print "Error: incorrect syntax '%s'" % func
+            exec 'print %s.__doc__' % func.split('(')[0]
+    else:
+        import doctest
+        doctest.testmod(verbose=True)
+        sys.exit(0)
 

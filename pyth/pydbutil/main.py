@@ -89,14 +89,6 @@ def main(argv=None):
             print "Remote PATH {0} ...".format(path)
             sourcepaths = FileUtils.get_filelist(path, *FILE_EXTS)
 
-
-    def action(x, y): copy2(x, y)
-
-    walk_wrap(src, dst, False, action, *extentions)
-
-
-
-
             targpaths = [FileUtils.get_work_path(file, path) for file in sourcepaths]
             # remove old work dir
             if os.path.exists(ConfigMgr.WORK_DIR) :

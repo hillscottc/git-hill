@@ -21,13 +21,6 @@ class Error(Exception):
 
 
 
-
-# def get_logname(configs, app):
-#     # logpath = configs['LOG_A'].changeval + "\\" + app
-#     # return logpath + "\\" + app + '_etl.txt'
-#     return os.path.join(configs['LOG_A'].changeval, app, app + '_etl.txt')
-
-
 def get_filelist(path=None, *extentions):
     """
     Gets config files in given path. Walks subdirs. Skips dirs named <skipdir>.
@@ -75,18 +68,14 @@ def filecount(path) :
     return sum(1 for root, dirs, files in os.walk(path) for name in files)
 
 
-def walk_wrap(src=None, dst=None, action=None, *extentions):
+def copytree_by_ext(src=None, dst=None, *extentions):
     """ I modified the 2.7 implementation of shutils.copytree
     to take a list of extentions to INCLUDE, instead of an ignore list.
-    Then, I pass a function as an action for each found item.
-    The action is performed, and a before and afer
     """
     symlinks = False
     names = os.listdir(src)
     os.makedirs(dst)
     errors = []
-    srclist = []
-    dstlist = []
     for name in names:
         srcname = os.path.join(src, name)
         dstname = os.path.join(dst, name)
@@ -95,15 +84,13 @@ def walk_wrap(src=None, dst=None, action=None, *extentions):
                 linkto = os.readlink(srcname)
                 os.symlink(linkto, dstname)
             elif os.path.isdir(srcname):
-                walk_wrap(srcname, dstname, action, *extentions)
+                copytree_by_ext(srcname, dstname, *extentions)
             else:
                 ext = os.path.splitext(srcname)[1]
                 if not ext in extentions:
                     # skip the file
                     continue
-                action(srcname, dstname)
-                srclist.append(srcname)
-                dstlist.append()
+                copy2(srcname, dstname)
         except (IOError, os.error), why:
             errors.append((srcname, dstname, str(why)))
         except Error, err:
@@ -116,13 +103,24 @@ def walk_wrap(src=None, dst=None, action=None, *extentions):
         errors.extend((src, dst, str(why)))
     if errors:
         raise Error(errors)
-    return srclist
+    return
 
 
-def change_base(src=None, dst=None, timestamped=False) :
-    """Replaces the base dir of the src with the dst
+# get_newroot
+def get_work_path(path, old_dir, new_dir='work', ensure=False):
+    """Usage:
+    >>> get_work_path('./remote/ETL/D2/_log4net.config',  './remote')
+    'work/ETL/D2/_log4net.config'
+    """
+    outfilename = re.sub(old_dir, new_dir, path)
+    if ensure : ensure_dir(outfilename)
+    return outfilename
+
+
+def get_newbase(src=None, dst=None, timestamped=False) :
+    """Replaces the base dir of the src with the dst, returns it.
     Usage:
-    >>> print change_base('./temp', os.path.join(os.getcwd(), 'bak'))
+    >>> print get_newbase('./temp', os.path.join(os.getcwd(), 'bak'))
     ./temp/bak
     """
     srcbase = None
@@ -133,7 +131,7 @@ def change_base(src=None, dst=None, timestamped=False) :
     elif not os.path.basename(src) and os.path.isdir(src):
         srcbase = os.path.basename(os.path.dirname(src))
     else:
-        raise Exception('Must supply a valid directory. You said:', src)
+        raise Exception('Must supply a valid directory. You said: ' + src)
 
     if not dst:
         dst = os.getcwd()
@@ -159,19 +157,22 @@ def backup(src=None, dst=None, *extentions):
     if not dst :
         dst = os.getcwd()
 
-    dst = change_base(src, dst)
+    dst = get_newbase(src, os.path.join(os.getcwd(), 'bak'))
 
     if os.path.exists(dst) :
         if not os.path.samefile(dst, os.getcwd()) :
+            r = raw_input('Replace {0} ? [y]/n '.format(dst))
+            if r.lower() == 'n':
+                print 'Ok, stopping.'
+                sys.exit(0)
             rmtree(dst)
 
-    # define a function to use shutil.copy2
-    def action(x, y): copy2(x, y)
 
-    walk_wrap(src, dst, action, *extentions)
+    copytree_by_ext(src, dst, *extentions)
 
     msg = 'Backed up {0} files from {1} to {2}'
     print msg.format(filecount(dst), src, dst)
+    return
 
 
 def clipped_file_list(files, maxlength=5) :
@@ -183,19 +184,6 @@ def clipped_file_list(files, maxlength=5) :
             clipped_list.append('. . . [clipped] . . .{0} total files.'.format(len(files)))
             break
     return clipped_list
-
-
-
-# change name to get_workname
-def get_work_path(path, old_dir, new_dir='work', ensure=False):
-    """Usage:
-    >>> get_work_path('./remote/ETL/D2/_log4net.config',  './remote')
-    'work/ETL/D2/_log4net.config'
-    """
-    outfilename = re.sub(old_dir, new_dir, path)
-    if ensure : ensure_dir(outfilename)
-    return outfilename
-
 
 
 def ensure_dir(f):

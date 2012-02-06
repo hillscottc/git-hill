@@ -82,12 +82,55 @@ def filecount(path) :
 
 
 
-def my_copytree(src=None, dst=None, symlinks=False, *extentions):
+
+
+
+# def my_copytree(src=None, dst=None, symlinks=False, *extentions):
+#     """ I modified the 2.7 implementation of shutils.copytree
+#     to take a list of extentions to INCLUDE, instead of an ignore list.
+#     """
+#     #import pdb; pdb.set_trace()
+
+#     names = os.listdir(src)
+#     os.makedirs(dst)
+#     errors = []
+#     for name in names:
+#         srcname = os.path.join(src, name)
+#         dstname = os.path.join(dst, name)
+#         try:
+#             if symlinks and os.path.islink(srcname):
+#                 linkto = os.readlink(srcname)
+#                 os.symlink(linkto, dstname)
+#             elif os.path.isdir(srcname):
+#                 my_copytree(srcname, dstname, symlinks, *extentions)
+#             else:
+#                 ext = os.path.splitext(srcname)[1]
+#                 if not ext in extentions:
+#                     # skip the file
+#                     continue
+#                 copy2(srcname, dstname)
+#             # XXX What about devices, sockets etc.?
+#         except (IOError, os.error), why:
+#             errors.append((srcname, dstname, str(why)))
+#         # catch the Error from the recursive copytree so that we can
+#         # continue with other files
+#         except Error, err:
+#             errors.extend(err.args[0])
+#     try:
+#         copystat(src, dst)
+#     # except WindowsError: # cant copy file access times on Windows
+#     #     pass
+#     except OSError, why:
+#         errors.extend((src, dst, str(why)))
+#     if errors:
+#         raise Error(errors)
+
+
+def walk_wrap(src=None, dst=None, symlinks=False, action=None, *extentions):
     """ I modified the 2.7 implementation of shutils.copytree
     to take a list of extentions to INCLUDE, instead of an ignore list.
+    Then, I pass a function as an action for each found item.
     """
-    #import pdb; pdb.set_trace()
-
     names = os.listdir(src)
     os.makedirs(dst)
     errors = []
@@ -99,13 +142,15 @@ def my_copytree(src=None, dst=None, symlinks=False, *extentions):
                 linkto = os.readlink(srcname)
                 os.symlink(linkto, dstname)
             elif os.path.isdir(srcname):
-                my_copytree(srcname, dstname, symlinks, *extentions)
+                #my_copytree(srcname, dstname, symlinks, *extentions)
+                walk_wrap(srcname, dstname, symlinks, action, *extentions)
             else:
                 ext = os.path.splitext(srcname)[1]
                 if not ext in extentions:
                     # skip the file
                     continue
-                copy2(srcname, dstname)
+                #copy2(srcname, dstname)
+                action(srcname, dstname)
             # XXX What about devices, sockets etc.?
         except (IOError, os.error), why:
             errors.append((srcname, dstname, str(why)))
@@ -123,8 +168,7 @@ def my_copytree(src=None, dst=None, symlinks=False, *extentions):
         raise Error(errors)
 
 
-
-def backup(src=None, targ=None, timestamped=False):
+def backup(src=None, targ=None, timestamped=False, *extentions):
     """ Backup src dir to targ, skipping indicated dirs.
     Usage:
     >>> s = './temp'
@@ -133,32 +177,35 @@ def backup(src=None, targ=None, timestamped=False):
     >>> backup(s, timestamped=True) # doctest: +ELLIPSIS
     Backed up ./temp to ./bak/.../temp
     """
-    if not os.path.isdir(src):
-        raise Exception('Must supply a valid dir..you said...', src)
 
+    # path like ./temp
+    if os.path.basename(src) and os.path.isdir(src):
+        src = os.path.basename(src)
+    # path like ./temp/
+    elif not os.path.basename(src) and os.path.isdir(src):
+        src = os.path.basename(os.path.dirname(src))
+    else:
+        raise Exception('Must supply a valid directory. You said:', source)
 
+    #import pdb; pdb.set_trace()
 
     if not targ:
         targ = os.getcwd()
 
-    targ = os.path.join(targ, 'bak')
-
+    targ = os.path.join(targ, 'bak', src)
 
     if timestamped :
         targ = os.path.join(targ, time.strftime('%m%d%H%M%S'))
 
-    #targ = os.path.join(targ, os.path.relpath(src))
-
     if os.path.exists(targ) :
         rmtree(targ)
 
-    #import pdb; pdb.set_trace()
 
-    #copytree(src, targ, ignore=ignored_files)
-    #copytree(src, targ, ignore=ignore_patterns('*.txt'))
-    FILE_EXTS = ('.config', '.bat')
 
-    my_copytree(src, targ, False, *FILE_EXTS)
+    def act_copy(x, y):
+        copy2(x, y)
+
+    walk_wrap(src, targ, False, act_copy, *extentions)
 
     msg = 'Backed up {0} files from {1} to {2}'
     print msg.format(filecount(targ), src, targ)

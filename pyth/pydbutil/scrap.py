@@ -12,8 +12,18 @@ def get_bak_dir(source, targ='.', timestamped=False) :
     ['./temp/bak/remote', './temp/bak/remote']
     """
 
-    if not os.path.isdir(source):
+    # path like ./temp
+    if os.path.basename(src) and os.path.isdir(src):
+        src = src
+    elif not os.path.basename(src) and os.path.isdir(src):
+        src = os.path.dirname(src)
+    else:
         raise Exception('Must supply a valid dir. Bad path:', source)
+
+
+
+    # if not os.path.isdir(source):
+    #     raise Exception('Must supply a valid dir. Bad path:', source)
 
     if targ and targ != '.':
         ensure_dir(targ)
@@ -40,3 +50,12 @@ def backup(source, timestamped=False):
     copytree(source, targ, ignore=ignore_patterns(
              '*.pyc', 'tmp*','Backup*', '.git', '.svn'))
     print 'Backed up', source, 'to', targ
+
+
+    (Pdb) print os.path.dirname(src)
+.
+(Pdb) print os.path.basename(src)
+temp
+(Pdb) print os.path.isdir(os.path.basename(src))
+
+print os.path.isdir(src)

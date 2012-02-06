@@ -48,7 +48,7 @@ def main(argv=None):
     # sys.exit()
 
     # set log file
-    logpathname = os.path.join(os.getcwd(), 'logs', 'main.log')
+    logpathname = os.path.join(os.getcwd(), 'logs', 'pydbutil.main.log')
     logging.basicConfig(level=logging.DEBUG,
                         format='%(asctime)s %(name)s %(levelname)-5s %(message)s',
                         datefmt='%m-%d %H:%M',

@@ -35,5 +35,10 @@ logging.basicConfig(level=logging.DEBUG,
                     filemode='w')
 
 FILE_EXTS = ('.config', '.bat')
+src, dst = './temp', os.getcwd()
 
-FileUtils.backup('./temp', os.getcwd(), False, *FILE_EXTS)
+
+
+FileUtils.backup(src, dst, '.config', '.bat')
+
+#FileUtils.backup(src)

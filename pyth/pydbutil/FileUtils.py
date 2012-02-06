@@ -84,48 +84,6 @@ def filecount(path) :
 
 
 
-
-# def my_copytree(src=None, dst=None, symlinks=False, *extentions):
-#     """ I modified the 2.7 implementation of shutils.copytree
-#     to take a list of extentions to INCLUDE, instead of an ignore list.
-#     """
-#     #import pdb; pdb.set_trace()
-
-#     names = os.listdir(src)
-#     os.makedirs(dst)
-#     errors = []
-#     for name in names:
-#         srcname = os.path.join(src, name)
-#         dstname = os.path.join(dst, name)
-#         try:
-#             if symlinks and os.path.islink(srcname):
-#                 linkto = os.readlink(srcname)
-#                 os.symlink(linkto, dstname)
-#             elif os.path.isdir(srcname):
-#                 my_copytree(srcname, dstname, symlinks, *extentions)
-#             else:
-#                 ext = os.path.splitext(srcname)[1]
-#                 if not ext in extentions:
-#                     # skip the file
-#                     continue
-#                 copy2(srcname, dstname)
-#             # XXX What about devices, sockets etc.?
-#         except (IOError, os.error), why:
-#             errors.append((srcname, dstname, str(why)))
-#         # catch the Error from the recursive copytree so that we can
-#         # continue with other files
-#         except Error, err:
-#             errors.extend(err.args[0])
-#     try:
-#         copystat(src, dst)
-#     # except WindowsError: # cant copy file access times on Windows
-#     #     pass
-#     except OSError, why:
-#         errors.extend((src, dst, str(why)))
-#     if errors:
-#         raise Error(errors)
-
-
 def walk_wrap(src=None, dst=None, symlinks=False, action=None, *extentions):
     """ I modified the 2.7 implementation of shutils.copytree
     to take a list of extentions to INCLUDE, instead of an ignore list.
@@ -168,15 +126,7 @@ def walk_wrap(src=None, dst=None, symlinks=False, action=None, *extentions):
         raise Error(errors)
 
 
-def backup(src=None, targ=None, timestamped=False, *extentions):
-    """ Backup src dir to targ, skipping indicated dirs.
-    Usage:
-    >>> s = './temp'
-    >>> backup(s)
-    Backed up ./temp to ./bak/temp
-    >>> backup(s, timestamped=True) # doctest: +ELLIPSIS
-    Backed up ./temp to ./bak/.../temp
-    """
+def get_backupdir(src=None, dst=None, timestamped=False) :
 
     # path like ./temp
     if os.path.basename(src) and os.path.isdir(src):
@@ -185,32 +135,47 @@ def backup(src=None, targ=None, timestamped=False, *extentions):
     elif not os.path.basename(src) and os.path.isdir(src):
         src = os.path.basename(os.path.dirname(src))
     else:
-        raise Exception('Must supply a valid directory. You said:', source)
+        raise Exception('Must supply a valid directory. You said:', src)
 
-    #import pdb; pdb.set_trace()
-
-    if not targ:
-        targ = os.getcwd()
-
-    targ = os.path.join(targ, 'bak', src)
+    if not dst:
+        dst = os.getcwd()
+    dst = os.path.join(dst, 'bak', src)
 
     if timestamped :
-        targ = os.path.join(targ, time.strftime('%m%d%H%M%S'))
+        dst = os.path.join(dst, time.strftime('%m%d%H%M%S'))
 
-    if os.path.exists(targ) :
-        rmtree(targ)
+    return dst
 
+def backup(src=None, dst=None, *extentions):
+    """ Backup files with matching extentions from src dir to dst.
+    Usage:
+    >>> backup('./temp')                                   # doctest: +ELLIPSIS
+    Backed up ... files from ./temp to ./bak/temp
+    >>> exts = ('.config', '.bat')
+    >>> backup('./temp', os.getcwd(), '.config', '.bat')                # doctest: +ELLIPSIS
+    Backed up ... files from ./temp to ./bak/temp
+    """
+    #import pdb; pdb.set_trace()
 
+    if not extentions:
+        extentions = ('.config', '.bat')
 
-    def act_copy(x, y):
-        copy2(x, y)
+    if not dst :
+        dst = os.getcwd()
 
-    walk_wrap(src, targ, False, act_copy, *extentions)
+    dst = get_backupdir(src, dst)
+
+    if os.path.exists(dst) :
+        if not os.path.samefile(dst, os.getcwd()) :
+            rmtree(dst)
+
+    # define a function to use shutil.copy2
+    def action(x, y): copy2(x, y)
+
+    walk_wrap(src, dst, False, action, *extentions)
 
     msg = 'Backed up {0} files from {1} to {2}'
-    print msg.format(filecount(targ), src, targ)
-
-
+    print msg.format(filecount(dst), src, dst)
 
 
 def clipped_file_list(files, maxlength=5) :
@@ -222,7 +187,6 @@ def clipped_file_list(files, maxlength=5) :
             clipped_list.append('. . . [clipped] . . .{0} total files.'.format(len(files)))
             break
     return clipped_list
-
 
 
 def get_outfilename(before, after, infilename):

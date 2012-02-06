@@ -152,7 +152,7 @@ def backup(src=None, dst=None, *extentions):
     >>> backup('./temp')                                   # doctest: +ELLIPSIS
     Backed up ... files from ./temp to ./bak/temp
     >>> exts = ('.config', '.bat')
-    >>> backup('./temp', os.getcwd(), '.config', '.bat')                # doctest: +ELLIPSIS
+    >>> backup('./temp', os.getcwd(), '.config', '.bat')    # doctest: +ELLIPSIS
     Backed up ... files from ./temp to ./bak/temp
     """
     #import pdb; pdb.set_trace()

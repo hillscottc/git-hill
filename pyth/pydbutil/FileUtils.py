@@ -75,12 +75,13 @@ def filecount(path) :
     return sum(1 for root, dirs, files in os.walk(path) for name in files)
 
 
-def walk_wrap(src=None, dst=None, symlinks=False, action=None, *extentions):
+def walk_wrap(src=None, dst=None, action=None, *extentions):
     """ I modified the 2.7 implementation of shutils.copytree
     to take a list of extentions to INCLUDE, instead of an ignore list.
     Then, I pass a function as an action for each found item.
     The action is performed, and a before and afer
     """
+    symlinks = False
     names = os.listdir(src)
     os.makedirs(dst)
     errors = []
@@ -94,7 +95,7 @@ def walk_wrap(src=None, dst=None, symlinks=False, action=None, *extentions):
                 linkto = os.readlink(srcname)
                 os.symlink(linkto, dstname)
             elif os.path.isdir(srcname):
-                walk_wrap(srcname, dstname, symlinks, action, *extentions)
+                walk_wrap(srcname, dstname, action, *extentions)
             else:
                 ext = os.path.splitext(srcname)[1]
                 if not ext in extentions:
@@ -102,6 +103,7 @@ def walk_wrap(src=None, dst=None, symlinks=False, action=None, *extentions):
                     continue
                 action(srcname, dstname)
                 srclist.append(srcname)
+                dstlist.append()
         except (IOError, os.error), why:
             errors.append((srcname, dstname, str(why)))
         except Error, err:
@@ -117,20 +119,25 @@ def walk_wrap(src=None, dst=None, symlinks=False, action=None, *extentions):
     return srclist
 
 
-def get_backupdir(src=None, dst=None, timestamped=False) :
-
+def change_base(src=None, dst=None, timestamped=False) :
+    """Replaces the base dir of the src with the dst
+    Usage:
+    >>> print change_base('./temp', os.path.join(os.getcwd(), 'bak'))
+    ./temp/bak
+    """
+    srcbase = None
     # path like ./temp
     if os.path.basename(src) and os.path.isdir(src):
-        src = os.path.basename(src)
+        srcbase = os.path.basename(src)
     # path like ./temp/
     elif not os.path.basename(src) and os.path.isdir(src):
-        src = os.path.basename(os.path.dirname(src))
+        srcbase = os.path.basename(os.path.dirname(src))
     else:
         raise Exception('Must supply a valid directory. You said:', src)
 
     if not dst:
         dst = os.getcwd()
-    dst = os.path.join(dst, 'bak', src)
+    dst = os.path.join(dst, srcbase)
 
     if timestamped :
         dst = os.path.join(dst, time.strftime('%m%d%H%M%S'))
@@ -152,7 +159,7 @@ def backup(src=None, dst=None, *extentions):
     if not dst :
         dst = os.getcwd()
 
-    dst = get_backupdir(src, dst)
+    dst = change_base(src, dst)
 
     if os.path.exists(dst) :
         if not os.path.samefile(dst, os.getcwd()) :
@@ -161,7 +168,7 @@ def backup(src=None, dst=None, *extentions):
     # define a function to use shutil.copy2
     def action(x, y): copy2(x, y)
 
-    walk_wrap(src, dst, False, action, *extentions)
+    walk_wrap(src, dst, action, *extentions)
 
     msg = 'Backed up {0} files from {1} to {2}'
     print msg.format(filecount(dst), src, dst)

@@ -19,8 +19,14 @@ import logging
 
 
 
-print FileUtils.get_outfilename('remote', 'work', 'remote/etl/carl/somefile.txt')
+# print FileUtils.get_outfilename('remote', 'work', 'remote/etl/carl/somefile.txt')
 
 
-print FileUtils.get_work_path('remote/etl/carl/somefile.txt','remote')
+# print FileUtils.get_work_path('remote/etl/carl/somefile.txt','remote')
+
+
+#print FileUtils.backup('./remote')
+
+
+print FileUtils.change_base('./temp', os.path.join(os.getcwd(), 'bak'))
 

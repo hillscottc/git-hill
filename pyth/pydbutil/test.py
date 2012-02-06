@@ -2,6 +2,7 @@
 
 import re
 import os
+import sys
 from shutil import copytree, rmtree, ignore_patterns
 import FileUtils
 from ConfigMgr import ConfigMgr
@@ -24,4 +25,14 @@ import logging
 # copytree(s, FileUtils.get_bak_dir(s),
 #          ignore=ignore_patterns('*.pyc', 'tmp*','Backup*','.git', '.svn'))
 
-FileUtils.backup('./temp', timestamped=False)
+#print os.getcwd()
+
+logpathname = os.path.join(os.getcwd(), 'logs', 'test.log')
+logging.basicConfig(level=logging.DEBUG,
+                    format='%(asctime)s %(name)s %(levelname)-5s %(message)s',
+                    datefmt='%m-%d %H:%M',
+                    filename=logpathname,
+                    filemode='w')
+
+
+FileUtils.backup(src='./temp')

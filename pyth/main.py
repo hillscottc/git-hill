@@ -1,58 +1,42 @@
 #! /usr/bin/python
-"""Demo of the pydbutil classes. 
-Usage: ./main.py
+"""
+Uses the pydbutil classes.
 
-
-
-I dont think i need this top level main above it
-
-
-
-Args:
 Returns:
 Raises:
 """
 import sys
 import os
 import getopt
-import glob
-import pydbutil.DbSet
-import pydbutil.DbProfile
-import pydbutil.ConfigMgr
+import logging
+import pprint
+import shutil
+import pydbutil.FileUtils
+from pydbutil.ConfigMgr import ConfigMgr
+from pydbutil.DbProfile import DbProfile
+from pydbutil.DbSet import DbSet
+from pydbutil.ConfigObj import ConfigObj
 
 class Usage(Exception):
     def __init__(self, msg):
         self.msg = msg
 
-def main(argv=None):
-    if argv is None:
-        argv = sys.argv
-    try:
-        try:
-            opts, args = getopt.getopt(
-                argv[1:], "h", ["help"])
-        except getopt.error, msg:
-            raise Usage(msg)
+CHANGE_TO_ENV = 'dev'
+FILE_EXTS = ('.config', '.bat')
 
-        for opt, arg in opts :
-            if opt in ("-h", "--help"):
-                print __doc__
-                sys.exit(0)
-  
-        import doctest
-        os.chdir('pydbutil')
-        
-        doctest.testmod(pydbutil.DbProfile, verbose=True)
-        doctest.testmod(pydbutil.DbSet, verbose=True)
-        doctest.testfile("test_ConfigMgr.txt", verbose=True)
-        
-        print "Complete."
-        print
-        
-    except Usage, err:
-        print >>sys.stderr, "Sorry, invalid options. For help, use --help"
-        print >>sys.stderr, "Other errors:",err.msg
-        return 2
+MODEL_DBSET = DbSet.get_dbset('RDxETL')
+CONFIGS = ConfigObj.get_configs('RDxETL')
+
+#REMOTE_DIR =  os.path.join(os.getcwd(), 'remote')
+#REMOTE_DIR =  os.path.join( '/cygdrive', 'g', 'RDx', 'ETL')
+
+# global opts
+DO_COPY = True
+DO_MOD = True
+DO_ASK = False
+
+def main(argv=None):
+    pass
 
 if __name__ == "__main__":
     sys.exit(main())

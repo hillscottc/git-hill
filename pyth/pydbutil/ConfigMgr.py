@@ -106,7 +106,8 @@ class ConfigMgr(object):
                 mc.after = co.changeval
             elif co.cotype in ('LOG_A', 'LOG_B') :
                 mc.before = m.group(1)
-                mc.after = FileUtils.get_logname(self.configs, app)
+                logroot
+                mc.after = ConfigObj.get_logname(self.configs['LOG_A'].changeval, app)
             elif co.cotype is 'FTP':
                 mc.before = m.group(2)
 

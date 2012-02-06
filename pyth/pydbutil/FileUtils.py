@@ -8,24 +8,16 @@ Usage: Any of the funcs can be called from the bash shell. (See main.)
  """
 import os
 import re
-from shutil import copy, copytree, rmtree, ignore_patterns
 import sys
 import time
 import subprocess
 import pprint
+import logging
+from shutil import copy, copy2, copystat, rmtree, ignore_patterns
 
-# def find_oldest_file(dirname="..", extension=".avi"):
-#     oldest_file, oldest_time = None, None
-#     for dirpath, dirs, files in os.walk(dirname):
-#         for filename in files:
-#             file_path = os.path.join(dirpath, filename)
-#             file_time = os.stat(file_path).st_mtime
-#             if file_path.endswith(extension) and (file_time<oldest_time or oldest_time is None):
-#                     oldest_file, oldest_time = file_path, file_time
-#     return oldest_file, oldest_time
-
-
-#, followlinks=False]
+class Error(Exception):
+    def __init__(self, msg):
+        self.msg = msg
 
 def get_work_path(path, old_dir, new_dir='work'):
     """Usage:
@@ -34,10 +26,11 @@ def get_work_path(path, old_dir, new_dir='work'):
     """
     return re.sub(old_dir, new_dir, path)
 
-def get_logname(configs, app):
-    # logpath = configs['LOG_A'].changeval + "\\" + app
-    # return logpath + "\\" + app + '_etl.txt'
-    return os.path.join(configs['LOG_A'].changeval, app, app + '_etl.txt')
+
+# def get_logname(configs, app):
+#     # logpath = configs['LOG_A'].changeval + "\\" + app
+#     # return logpath + "\\" + app + '_etl.txt'
+#     return os.path.join(configs['LOG_A'].changeval, app, app + '_etl.txt')
 
 
 def get_filelist(path=None, *extentions):
@@ -81,32 +74,58 @@ def trim_line(longline, max_length=80, chars_trimmed=20, chars_shown=65):
         shortline = '...' + shortline[chars_trimmed : chars_trimmed+chars_shown] + '...'
     return shortline
 
-def get_bak_dir(sourcedir, targ='.', timestamped=False) :
-    """ Gets name of backup dir for soourcedir. With timestamping option.
-    Usage:
-    >>> sources = ['./remote', './remote/']
-    >>> print [get_bak_dir(sourcedir=path, timestamped=True) for path in sources] # doctest: +ELLIPSIS
-    ['./bak/.../remote', './bak/.../remote']
-    >>> print [get_bak_dir(path) for path in sources]
-    ['./bak/remote', './bak/remote']
-    >>> print [get_bak_dir(path, './temp/', False) for path in sources]
-    ['./temp/bak/remote', './temp/bak/remote']
+
+def filecount(path) :
+    """Walks path to return file count."""
+    return sum(1 for root, dirs, files in os.walk(path) for name in files)
+
+
+
+
+def my_copytree(src=None, dst=None, symlinks=False, *extentions):
+    """ I modified the 2.7 implementation of shutils.copytree
+    to take a list of extentions to INCLUDE, instead of an ignore list.
     """
-    if not os.path.isdir(sourcedir):
-        raise Exception('Must supply a valid dir. Bad path:', sourcedir)
+    #import pdb; pdb.set_trace()
 
-    if targ and targ != '.':
-        ensure_dir(targ)
+    names = os.listdir(src)
+    os.makedirs(dst)
+    errors = []
+    for name in names:
+        srcname = os.path.join(src, name)
+        dstname = os.path.join(dst, name)
+        try:
+            if symlinks and os.path.islink(srcname):
+                linkto = os.readlink(srcname)
+                os.symlink(linkto, dstname)
+            elif os.path.isdir(srcname):
+                my_copytree(srcname, dstname, symlinks, *extentions)
+            else:
+                ext = os.path.splitext(srcname)[1]
+                if not ext in extentions:
+                    # skip the file
+                    continue
+                copy2(srcname, dstname)
+            # XXX What about devices, sockets etc.?
+        except (IOError, os.error), why:
+            errors.append((srcname, dstname, str(why)))
+        # catch the Error from the recursive copytree so that we can
+        # continue with other files
+        except Error, err:
+            errors.extend(err.args[0])
+    try:
+        copystat(src, dst)
+    # except WindowsError: # cant copy file access times on Windows
+    #     pass
+    except OSError, why:
+        errors.extend((src, dst, str(why)))
+    if errors:
+        raise Error(errors)
 
-    if timestamped :
-        t = time.strftime('%m%d%H%M%S')
-        return os.path.join(targ, 'bak', t, os.path.relpath(sourcedir))
-    else :
-        return os.path.join(targ, 'bak', os.path.relpath(sourcedir))
 
 
-def backup(source, timestamped=False):
-    """ Backup source dir to targ, skipping indicated dirs.
+def backup(src=None, targ=None, timestamped=False):
+    """ Backup src dir to targ, skipping indicated dirs.
     Usage:
     >>> s = './temp'
     >>> backup(s)
@@ -114,12 +133,37 @@ def backup(source, timestamped=False):
     >>> backup(s, timestamped=True) # doctest: +ELLIPSIS
     Backed up ./temp to ./bak/.../temp
     """
-    targ = get_bak_dir(source, timestamped=timestamped)
-    if not timestamped and os.path.exists(targ) :
+    if not os.path.isdir(src):
+        raise Exception('Must supply a valid dir..you said...', src)
+
+
+
+    if not targ:
+        targ = os.getcwd()
+
+    targ = os.path.join(targ, 'bak')
+
+
+    if timestamped :
+        targ = os.path.join(targ, time.strftime('%m%d%H%M%S'))
+
+    #targ = os.path.join(targ, os.path.relpath(src))
+
+    if os.path.exists(targ) :
         rmtree(targ)
-    copytree(source, targ, ignore=ignore_patterns(
-             '*.pyc', 'tmp*','Backup*', '.git', '.svn'))
-    print 'Backed up', source, 'to', targ
+
+    #import pdb; pdb.set_trace()
+
+    #copytree(src, targ, ignore=ignored_files)
+    #copytree(src, targ, ignore=ignore_patterns('*.txt'))
+    FILE_EXTS = ('.config', '.bat')
+
+    my_copytree(src, targ, False, *FILE_EXTS)
+
+    msg = 'Backed up {0} files from {1} to {2}'
+    print msg.format(filecount(targ), src, targ)
+
+
 
 
 def clipped_file_list(files, maxlength=5) :
@@ -144,13 +188,16 @@ def get_outfilename(before, after, infilename):
     ensure_dir(outfilename)
     return outfilename
 
+
 def ensure_dir(f):
     """ Creates the dirs to f if they don't already exist. """
     d = os.path.dirname(f)
     if not os.path.exists(d):
         os.makedirs(d)
 
+
 def copy_files(sourcepaths, targpaths, ask=True):
+    """ Copy each source file to targ. """
     #import pdb; pdb.set_trace()
     pp = pprint.PrettyPrinter(indent=4)
     print 'The copying will be FROM:'
@@ -164,6 +211,7 @@ def copy_files(sourcepaths, targpaths, ask=True):
             sys.exit(0)
     [ensure_dir(f) for f in targpaths]
     map(copy, sourcepaths, targpaths)
+
 
 if __name__ == "__main__":
     """Any of the funcs can be called from the bash shell, for example

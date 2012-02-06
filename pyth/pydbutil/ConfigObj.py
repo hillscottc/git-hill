@@ -40,6 +40,12 @@ class ConfigObj(object):
         else:
             raise Exception('Invalid configset', configset)
 
+    @staticmethod
+    def get_logname(logroot, app):
+        """ Returns the path to the logfile based on the app name."""
+        # logpath = configs['LOG_A'].changeval + "\\" + app
+        # return logpath + "\\" + app + '_etl.txt'
+        return os.path.join(logroot, app, app + '_etl.txt')
 
     def __str__(self):
         return '{0} {1} {2}'.format(self.cotype, self.regex, self.changeval)

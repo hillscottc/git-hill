@@ -46,7 +46,7 @@ class MatchSet(object):
         for filename in self.matches.keys() :
             for mc in self.matches[filename]:
                 if mc.after:
-                    outfilenames.append(FileUtils.get_outfilename(workdir, outdir, filename))
+                    outfilenames.append(FileUtils.get_work_path(filename, workdir, outdir))
                 break
         return outfilenames
 

@@ -19,12 +19,7 @@ class Error(Exception):
     def __init__(self, msg):
         self.msg = msg
 
-def get_work_path(path, old_dir, new_dir='work'):
-    """Usage:
-    >>> get_work_path('./remote/ETL/D2/_log4net.config',  './remote')
-    'work/ETL/D2/_log4net.config'
-    """
-    return re.sub(old_dir, new_dir, path)
+
 
 
 # def get_logname(configs, app):
@@ -84,6 +79,7 @@ def walk_wrap(src=None, dst=None, symlinks=False, action=None, *extentions):
     """ I modified the 2.7 implementation of shutils.copytree
     to take a list of extentions to INCLUDE, instead of an ignore list.
     Then, I pass a function as an action for each found item.
+    The action is performed, and a before and afer
     """
     names = os.listdir(src)
     os.makedirs(dst)
@@ -182,15 +178,17 @@ def clipped_file_list(files, maxlength=5) :
     return clipped_list
 
 
-def get_outfilename(before, after, infilename):
-    """ Returns path to ./outdir/filename. Creates if necc.
-    Usage:
-    >>> print get_outfilename('remote', 'work', 'remote/etl/carl/somefile.txt')
-    work/etl/carl/somefile.txt
+
+# change name to get_workname
+def get_work_path(path, old_dir, new_dir='work', ensure=False):
+    """Usage:
+    >>> get_work_path('./remote/ETL/D2/_log4net.config',  './remote')
+    'work/ETL/D2/_log4net.config'
     """
-    outfilename = re.sub(before, after, infilename)
-    ensure_dir(outfilename)
+    outfilename = re.sub(old_dir, new_dir, path)
+    if ensure : ensure_dir(outfilename)
     return outfilename
+
 
 
 def ensure_dir(f):

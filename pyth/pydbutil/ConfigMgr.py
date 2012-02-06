@@ -191,8 +191,14 @@ class ConfigMgr(object):
             ms.matches[filename] = sorted(mcs, key = lambda x: x.linenum)
 
             if write:
-                outfilename = FileUtils.get_outfilename(ConfigMgr.WORK_DIR,
-                                ConfigMgr.OUTPUT_DIR, filename)
+                # outfilename = FileUtils.get_outfilename(ConfigMgr.WORK_DIR,
+                #                 ConfigMgr.OUTPUT_DIR, filename)
+
+                outfilename = FileUtils.get_work_path(filename, ConfigMgr.WORK_DIR,
+                                                      ConfigMgr.OUTPUT_DIR, ensure=True)
+
+
+
                 outlines = ConfigMgr.get_newlines(filename, mcs)
 
                 with open(outfilename, 'w') as outfile :

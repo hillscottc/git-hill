@@ -80,10 +80,6 @@ def filecount(path) :
     return sum(1 for root, dirs, files in os.walk(path) for name in files)
 
 
-
-
-
-
 def walk_wrap(src=None, dst=None, symlinks=False, action=None, *extentions):
     """ I modified the 2.7 implementation of shutils.copytree
     to take a list of extentions to INCLUDE, instead of an ignore list.
@@ -92,6 +88,8 @@ def walk_wrap(src=None, dst=None, symlinks=False, action=None, *extentions):
     names = os.listdir(src)
     os.makedirs(dst)
     errors = []
+    srclist = []
+    dstlist = []
     for name in names:
         srcname = os.path.join(src, name)
         dstname = os.path.join(dst, name)
@@ -100,20 +98,16 @@ def walk_wrap(src=None, dst=None, symlinks=False, action=None, *extentions):
                 linkto = os.readlink(srcname)
                 os.symlink(linkto, dstname)
             elif os.path.isdir(srcname):
-                #my_copytree(srcname, dstname, symlinks, *extentions)
                 walk_wrap(srcname, dstname, symlinks, action, *extentions)
             else:
                 ext = os.path.splitext(srcname)[1]
                 if not ext in extentions:
                     # skip the file
                     continue
-                #copy2(srcname, dstname)
                 action(srcname, dstname)
-            # XXX What about devices, sockets etc.?
+                srclist.append(srcname)
         except (IOError, os.error), why:
             errors.append((srcname, dstname, str(why)))
-        # catch the Error from the recursive copytree so that we can
-        # continue with other files
         except Error, err:
             errors.extend(err.args[0])
     try:
@@ -124,6 +118,7 @@ def walk_wrap(src=None, dst=None, symlinks=False, action=None, *extentions):
         errors.extend((src, dst, str(why)))
     if errors:
         raise Error(errors)
+    return srclist
 
 
 def get_backupdir(src=None, dst=None, timestamped=False) :
@@ -155,8 +150,6 @@ def backup(src=None, dst=None, *extentions):
     >>> backup('./temp', os.getcwd(), '.config', '.bat')    # doctest: +ELLIPSIS
     Backed up ... files from ./temp to ./bak/temp
     """
-    #import pdb; pdb.set_trace()
-
     if not extentions:
         extentions = ('.config', '.bat')
 

@@ -98,6 +98,9 @@ def main(argv=None):
 
             FileUtils.copy_files(sourcepaths, targpaths, DO_ASK)
 
+            #import pdb; pdb.set_trace()
+
+
         if DO_MOD:
 
             # make a backup of the work dir

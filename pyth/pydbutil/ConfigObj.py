@@ -1,6 +1,8 @@
 #! /usr/bin/python
 """ The things being searched and managed. """
 import sys
+import os
+
 
 
 COTYPES = ('LOG_A', 'LOG_B', 'DB', 'FTP', 'TO_VAL', 'FROM_VAL',

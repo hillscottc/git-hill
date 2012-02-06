@@ -34,11 +34,11 @@ logging.basicConfig(level=logging.DEBUG,
                     filename=logpathname,
                     filemode='w')
 
-FILE_EXTS = ('.config', '.bat')
-src, dst = './temp', os.getcwd()
+# FILE_EXTS = ('.config', '.bat')
+# src, dst = './temp', os.getcwd()
 
 
 
-FileUtils.backup(src, dst, '.config', '.bat')
+FileUtils.backup( '../pydbutil', '/Users/hills/temp', '.py')
 
 #FileUtils.backup(src)

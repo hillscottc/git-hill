@@ -17,6 +17,7 @@ import logging
 # t = FileUtils.get_bak_dir(s)
 # print s, t
 
+    #import pdb; pdb.set_trace()
 
 
 # print FileUtils.get_outfilename('remote', 'work', 'remote/etl/carl/somefile.txt')
@@ -25,41 +26,10 @@ import logging
 # print FileUtils.get_work_path('remote/etl/carl/somefile.txt','remote')
 
 
-#print FileUtils.backup('./temp')
+#print FileUtils.backup('/Users/hills/git-hill/pyth/pydbutil', '/Users/hills/Dropbox', '.py', '.config', '.bat')
 
+print os.getcwd()
+print os.path.join(os.getcwd(), 'bak')
 
-#print os.path.basename('./remote/ETL/D2/_log4net.config')
+print FileUtils.backup('/Users/hills/git-hill/pyth/pydbutil', '/Users/hills/Dropbox', '.py')
 
-print  FileUtils.get_work_path('./remote/ETL/D2/_log4net.config',
-                                './remote', new_dir='work')
-
-
-
-print FileUtils.get_newbase('./temp', os.path.join(os.getcwd(), 'bak'))
-
-print FileUtils.get_newbase('/Users/hills/git-hill/pyth/pydbutil/temp',
-                            'temp', 'bak'))
-
-
-
-
-
-# print  FileUtils.get_work_path('./remote/ETL/D2/_log4net.config',
-#                                 './remote', new_dir='work')
-
-
-# l = FileUtils.get_filelist('input/ETL', '.config', '.bat')
-# pprint(l)
-# print len(l)
-
-# def action(x, y): print(x, y)
-# l = FileUtils.walk_wrap('input/ETL', '', action, '.config', '.bat')
-
-
-#pprint(l)
-#print len(l)
-
-
-#print FileUtils.get_newbase('./temp', os.path.join(os.getcwd(), 'bak'))
-
-    #import pdb; pdb.set_trace()

@@ -3,7 +3,7 @@
 
 Usage: Any of the funcs can be called from the bash shell. (See main.)
 
--> ./FileUtils.py "backup('./temp')"
+-> ./FileUtils.py "backup('/Users/hills/git-hill/pyth/pydbutil', '/Users/hills/Dropbox', '.py', '.config', '.bat')"
 
  """
 import os
@@ -72,8 +72,14 @@ def copytree_by_ext(src=None, dst=None, *extentions):
     """ I modified the 2.7 implementation of shutils.copytree
     to take a list of extentions to INCLUDE, instead of an ignore list.
     """
+    skipdirs=('Backup', 'bak')
+
     symlinks = False
     names = os.listdir(src)
+    #import pdb; pdb.set_trace()
+    names = [name for name in names if not name in skipdirs]
+    #import pdb; pdb.set_trace()
+
     os.makedirs(dst)
     errors = []
     for name in names:
@@ -142,22 +148,32 @@ def get_newbase(src=None, dst=None, timestamped=False) :
 
     return dst
 
+
 def backup(src=None, dst=None, *extentions):
     """ Backup files with matching extentions from src dir to dst.
     Usage:
     >>> backup('./temp')                                   # doctest: +ELLIPSIS
     Backed up ... files from ./temp to ./bak/temp
-    >>> exts = ('.config', '.bat')
-    >>> backup('./temp', os.getcwd(), '.config', '.bat')    # doctest: +ELLIPSIS
-    Backed up ... files from ./temp to ./bak/temp
+    >>> backup('/Users/hills/git-hill/pyth/pydbutil', '/Users/hills/Dropbox', '.py') # doctest: +ELLIPSIS
+    Backed up ... files from /Users/hills/git-hill/pyth/pydbutil to /Users/hills/Dropbox/bak/pydbutil
     """
+    if os.path.basename(src) and os.path.isdir(src):
+        srcbase = os.path.basename(src)
+    else:
+        raise Exception('Invalid src: ' + src)
+
+
     if not extentions:
         extentions = ('.config', '.bat')
+    #import pdb; pdb.set_trace()
 
     if not dst :
-        dst = os.getcwd()
+        dst = get_newbase(src, os.getcwd())
 
-    dst = get_newbase(src, os.path.join(os.getcwd(), 'bak'))
+    dst = os.path.join(dst, 'bak', srcbase)
+
+    #import pdb; pdb.set_trace()
+
 
     if os.path.exists(dst) :
         if not os.path.samefile(dst, os.getcwd()) :
@@ -166,6 +182,7 @@ def backup(src=None, dst=None, *extentions):
                 print 'Ok, stopping.'
                 sys.exit(0)
             rmtree(dst)
+
 
 
     copytree_by_ext(src, dst, *extentions)

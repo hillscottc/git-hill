@@ -20,6 +20,17 @@ class Error(Exception):
         self.msg = msg
 
 
+def trim_line(longline, max_length=80, chars_trimmed=20, chars_shown=65):
+    """Returns a block from the middle of the line, with ellipsis."""
+    shortline = longline.strip()
+    if len(shortline) > chars_shown and len(shortline) > chars_trimmed :
+        shortline = '...' + shortline[chars_trimmed : chars_trimmed+chars_shown] + '...'
+    return shortline
+
+
+def filecount(path) :
+    """Walks path to return file count."""
+    return sum(1 for root, dirs, files in os.walk(path) for name in files)
 
 def get_filelist(path=None, *extentions):
     """
@@ -55,17 +66,58 @@ def get_filelist(path=None, *extentions):
     return filelist
 
 
-def trim_line(longline, max_length=80, chars_trimmed=20, chars_shown=65):
-    """Returns a block from the middle of the line, with ellipsis."""
-    shortline = longline.strip()
-    if len(shortline) > chars_shown and len(shortline) > chars_trimmed :
-        shortline = '...' + shortline[chars_trimmed : chars_trimmed+chars_shown] + '...'
-    return shortline
 
 
-def filecount(path) :
-    """Walks path to return file count."""
-    return sum(1 for root, dirs, files in os.walk(path) for name in files)
+def walk_wrap(src=None, dst=None, *extentions):
+    """ I modified the 2.7 implementation of shutils.copytree
+    to take a list of extentions to INCLUDE, instead of an ignore list.
+    """
+
+    srclist = []
+    dstlist = []
+
+    symlinks = False
+    names = os.listdir(src)
+
+    #import pdb; pdb.set_trace()
+
+    skipdirs=('Backup', 'bak')
+    names = [name for name in names if not name in skipdirs]
+
+    if not os.path.exists(dst):
+        os.makedirs(dst)
+    errors = []
+    for name in names:
+        srcname = os.path.join(src, name)
+        dstname = os.path.join(dst, name)
+        try:
+            if symlinks and os.path.islink(srcname):
+                linkto = os.readlink(srcname)
+                os.symlink(linkto, dstname)
+            elif os.path.isdir(srcname):
+                walk_wrap(srcname, dstname,  *extentions)
+            else:
+                ext = os.path.splitext(srcname)[1]
+                if not ext in extentions:
+                    # skip the file
+                    continue
+                #copy2(srcname, dstname)
+                srclist.append(srcname)
+                dstlist.append(dstname)
+
+        except (IOError, os.error), why:
+            errors.append((srcname, dstname, str(why)))
+        except Error, err:
+            errors.extend(err.args[0])
+    try:
+        copystat(src, dst)
+    # except WindowsError: # cant copy file access times on Windows
+    #     pass
+    except OSError, why:
+        errors.extend((src, dst, str(why)))
+    if errors:
+        raise Error(errors)
+    return (srclist, dstlist)
 
 
 def copytree_by_ext(src=None, dst=None, *extentions):
@@ -78,7 +130,8 @@ def copytree_by_ext(src=None, dst=None, *extentions):
     names = os.listdir(src)
     #import pdb; pdb.set_trace()
     names = [name for name in names if not name in skipdirs]
-    #import pdb; pdb.set_trace()
+
+    import pdb; pdb.set_trace()
 
     os.makedirs(dst)
     errors = []
@@ -172,7 +225,10 @@ def backup(src=None, dst=None, *extentions):
 
     dst = os.path.join(dst, 'bak', srcbase)
 
-    #import pdb; pdb.set_trace()
+
+    import pdb; pdb.set_trace()
+
+    walk_wrap(src, dst, *extentions )
 
 
     if os.path.exists(dst) :
@@ -182,7 +238,6 @@ def backup(src=None, dst=None, *extentions):
                 print 'Ok, stopping.'
                 sys.exit(0)
             rmtree(dst)
-
 
 
     copytree_by_ext(src, dst, *extentions)

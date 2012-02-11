@@ -68,13 +68,18 @@ def get_filelist(path=None, *extentions):
 
 
 
+
 def walk_wrap(src=None, dst=None, *extentions):
     """ I modified the 2.7 implementation of shutils.copytree
     to take a list of extentions to INCLUDE, instead of an ignore list.
+    Walks the sourcedir, finds files that match the ext,
+    returns a dict of sourcefilename/dstfilename.
     """
 
     srclist = []
     dstlist = []
+
+    files = {}
 
     symlinks = False
     names = os.listdir(src)
@@ -98,13 +103,12 @@ def walk_wrap(src=None, dst=None, *extentions):
                 walk_wrap(srcname, dstname,  *extentions)
             else:
                 ext = os.path.splitext(srcname)[1]
+                print extentions
                 if not ext in extentions:
                     # skip the file
                     continue
                 #copy2(srcname, dstname)
-                srclist.append(srcname)
-                dstlist.append(dstname)
-
+                files[srcname] = dstname
         except (IOError, os.error), why:
             errors.append((srcname, dstname, str(why)))
         except Error, err:
@@ -117,7 +121,7 @@ def walk_wrap(src=None, dst=None, *extentions):
         errors.extend((src, dst, str(why)))
     if errors:
         raise Error(errors)
-    return (srclist, dstlist)
+    return files
 
 
 def copytree_by_ext(src=None, dst=None, *extentions):

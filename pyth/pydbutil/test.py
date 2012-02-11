@@ -13,17 +13,24 @@ import logging
 
 #FileUtils.backup('/Users/hills/git-hill/pyth/pydbutil', '/Users/hills/Dropbox', '.py', '.config', '.bat')
 
+src = '/Users/hills/git-hill/pyth/pydbutil/temp'
+dst = '/Users/hills/Dropbox'
+extentions =  ('.py', '.config', '.bat')
+
+files = FileUtils.walk_wrap(src, dst, *extentions)
 
 
+pprint(files)
 
-srclist, dstlist = FileUtils.walk_wrap('/Users/hills/git-hill/pyth/pydbutil', '/Users/hills/Dropbox', '.py', '.config', '.bat')
+
+# src = './temp/test.config'
+# print os.path.basename(src), os.path.dirname(src)
 
 
-pprint(srclist)
-print len(srclist)
+# print len(srclist)
 
-pprint(dstlist)
-print len(dstlist)
+# pprint(dstlist)
+# print len(dstlist)
 
 #pprint(FileUtils.get_filelist('remote', skipdir='Backup'))
 

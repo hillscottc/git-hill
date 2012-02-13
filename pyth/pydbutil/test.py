@@ -14,13 +14,18 @@ import logging
 #FileUtils.backup('/Users/hills/git-hill/pyth/pydbutil', '/Users/hills/Dropbox', '.py', '.config', '.bat')
 
 src = '/Users/hills/git-hill/pyth/pydbutil/temp'
-dst = '/Users/hills/Dropbox'
-extentions =  ('.py', '.config', '.bat')
-
-files = FileUtils.walk_wrap(src, dst, *extentions)
+dst = '/Users/hills/git-hill/pyth/pydbutil/bak'
+#extentions =  ('.config')
 
 
-pprint(files)
+FileUtils.backup(src, dst)
+
+
+# #fdict = [FileUtils.walk_wrap(src, dst, *extentions)]
+
+# d = {k:v for k, v in FileUtils.walk_wrap(src, dst, *extentions)}
+# pprint(d)
+
 
 
 # src = './temp/test.config'

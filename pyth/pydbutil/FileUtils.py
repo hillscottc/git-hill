@@ -13,7 +13,7 @@ import time
 import subprocess
 import pprint
 import logging
-from shutil import copy, copy2, copystat, rmtree, ignore_patterns
+from shutil import copy, copy2, copystat, rmtree, ignore_patterns,copytree
 
 class Error(Exception):
     def __init__(self, msg):
@@ -69,104 +69,109 @@ def get_filelist(path=None, *extentions):
 
 
 
-def walk_wrap(src=None, dst=None, *extentions):
-    """ I modified the 2.7 implementation of shutils.copytree
-    to take a list of extentions to INCLUDE, instead of an ignore list.
-    Walks the sourcedir, finds files that match the ext,
-    returns a dict of sourcefilename/dstfilename.
-    """
+# def walk_wrap(src=None, dst=None, *extentions):
+#     """ I modified the 2.7 implementation of shutils.copytree
+#     to take a list of extentions to INCLUDE, instead of an ignore list.
+#     Walks the sourcedir, finds files that match the ext,
+#     returns a dict of sourcefilename/dstfilename.
+#     """
 
-    srclist = []
-    dstlist = []
+#     srclist = []
+#     dstlist = []
 
-    files = {}
+#     #fileDic = {}
 
-    symlinks = False
-    names = os.listdir(src)
+#     symlinks = False
+#     names = os.listdir(src)
 
-    #import pdb; pdb.set_trace()
+#     #import pdb; pdb.set_trace()
 
-    skipdirs=('Backup', 'bak')
-    names = [name for name in names if not name in skipdirs]
+#     # skipdirs=('Backup', 'bak')
+#     # names = [name for name in names if not name in skipdirs]
 
-    if not os.path.exists(dst):
-        os.makedirs(dst)
-    errors = []
-    for name in names:
-        srcname = os.path.join(src, name)
-        dstname = os.path.join(dst, name)
-        try:
-            if symlinks and os.path.islink(srcname):
-                linkto = os.readlink(srcname)
-                os.symlink(linkto, dstname)
-            elif os.path.isdir(srcname):
-                walk_wrap(srcname, dstname,  *extentions)
-            else:
-                ext = os.path.splitext(srcname)[1]
-                print extentions
-                if not ext in extentions:
-                    # skip the file
-                    continue
-                #copy2(srcname, dstname)
-                files[srcname] = dstname
-        except (IOError, os.error), why:
-            errors.append((srcname, dstname, str(why)))
-        except Error, err:
-            errors.extend(err.args[0])
-    try:
-        copystat(src, dst)
-    # except WindowsError: # cant copy file access times on Windows
-    #     pass
-    except OSError, why:
-        errors.extend((src, dst, str(why)))
-    if errors:
-        raise Error(errors)
-    return files
+#     if not os.path.exists(dst):
+#         os.makedirs(dst)
+#     errors = []
+#     for name in names:
+#         srcname = os.path.join(src, name)
+#         dstname = os.path.join(dst, name)
+#         print 'on ', srcname
+#         try:
+#             if symlinks and os.path.islink(srcname):
+#                 linkto = os.readlink(srcname)
+#                 os.symlink(linkto, dstname)
+#             elif os.path.isdir(srcname):
+#                 walk_wrap(srcname, dstname, *extentions)
+#             else:
+#                 ext = os.path.splitext(srcname)[1]
+#                 # print extensions
+#                 # if not ext in extentions:
+#                 #     # skip the file
+#                 #     print 'SKIP', srcname
+#                 #     msg = 'BECAUSE {0} is not in {1}'
+#                 #     print msg.format(ext, extentions)
+#                 #     continue
+#                 # #copy2(srcname, dstname)
+#                 print 'ADD', srcname ,  dstname
+#                 #fileDic[srcname] = dstname
+#                 yield (srcname, dstname)
+#         except (IOError, os.error), why:
+#             errors.append((srcname, dstname, str(why)))
+#         except Error, err:
+#             errors.extend(err.args[0])
+#     try:
+#         copystat(src, dst)
+#     # except WindowsError: # cant copy file access times on Windows
+#     #     pass
+#     except OSError, why:
+#         errors.extend((src, dst, str(why)))
+#     if errors:
+#         raise Error(errors)
 
 
-def copytree_by_ext(src=None, dst=None, *extentions):
-    """ I modified the 2.7 implementation of shutils.copytree
-    to take a list of extentions to INCLUDE, instead of an ignore list.
-    """
-    skipdirs=('Backup', 'bak')
+# def copytree_by_ext(src=None, dst=None, *extentions):
+#     """ I modified the 2.7 implementation of shutils.copytree
+#     to take a list of extentions to INCLUDE, instead of an ignore list.
+#     """
+#     skipdirs=('Backup', 'bak')
 
-    symlinks = False
-    names = os.listdir(src)
-    #import pdb; pdb.set_trace()
-    names = [name for name in names if not name in skipdirs]
+#     symlinks = False
+#     names = os.listdir(src)
+#     #import pdb; pdb.set_trace()
+#     names = [name for name in names if not name in skipdirs]
 
-    import pdb; pdb.set_trace()
+#     import pdb; pdb.set_trace()
 
-    os.makedirs(dst)
-    errors = []
-    for name in names:
-        srcname = os.path.join(src, name)
-        dstname = os.path.join(dst, name)
-        try:
-            if symlinks and os.path.islink(srcname):
-                linkto = os.readlink(srcname)
-                os.symlink(linkto, dstname)
-            elif os.path.isdir(srcname):
-                copytree_by_ext(srcname, dstname, *extentions)
-            else:
-                ext = os.path.splitext(srcname)[1]
-                if not ext in extentions:
-                    # skip the file
-                    continue
-                copy2(srcname, dstname)
-        except (IOError, os.error), why:
-            errors.append((srcname, dstname, str(why)))
-        except Error, err:
-            errors.extend(err.args[0])
-    try:
-        copystat(src, dst)
-    # except WindowsError: # cant copy file access times on Windows
-    #     pass
-    except OSError, why:
-        errors.extend((src, dst, str(why)))
-    if errors:
-        raise Error(errors)
-    return
+#     os.makedirs(dst)
+#     errors = []
+#     for name in names:
+#         srcname = os.path.join(src, name)
+#         dstname = os.path.join(dst, name)
+#         try:
+#             if symlinks and os.path.islink(srcname):
+#                 linkto = os.readlink(srcname)
+#                 os.symlink(linkto, dstname)
+#             elif os.path.isdir(srcname):
+#                 copytree_by_ext(srcname, dstname, *extentions)
+#             else:
+#                 ext = os.path.splitext(srcname)[1]
+#                 if not ext in extentions:
+#                     # skip the file
+#                     continue
+#                 copy2(srcname, dstname)
+#         except (IOError, os.error), why:
+#             errors.append((srcname, dstname, str(why)))
+#         except Error, err:
+#             errors.extend(err.args[0])
+#     try:
+#         copystat(src, dst)
+#     # except WindowsError: # cant copy file access times on Windows
+#     #     pass
+#     except OSError, why:
+#         errors.extend((src, dst, str(why)))
+#     if errors:
+#         raise Error(errors)
+#     return
 
 
 # get_newroot
@@ -206,12 +211,12 @@ def get_newbase(src=None, dst=None, timestamped=False) :
     return dst
 
 
-def backup(src=None, dst=None, *extentions):
+def backup(src=None, dst=None, ignore=None):
     """ Backup files with matching extentions from src dir to dst.
     Usage:
     >>> backup('./temp')                                   # doctest: +ELLIPSIS
     Backed up ... files from ./temp to ./bak/temp
-    >>> backup('/Users/hills/git-hill/pyth/pydbutil', '/Users/hills/Dropbox', '.py') # doctest: +ELLIPSIS
+    >>> backup('/Users/hills/git-hill/pyth/pydbutil', '/Users/hills/Dropbox') # doctest: +ELLIPSIS
     Backed up ... files from /Users/hills/git-hill/pyth/pydbutil to /Users/hills/Dropbox/bak/pydbutil
     """
     if os.path.basename(src) and os.path.isdir(src):
@@ -220,20 +225,14 @@ def backup(src=None, dst=None, *extentions):
         raise Exception('Invalid src: ' + src)
 
 
-    if not extentions:
-        extentions = ('.config', '.bat')
+
+    if not dst:
+       raise Exception('Invalid dst: ' + dst)
+
+    dst = os.path.join(dst, srcbase)
+
+
     #import pdb; pdb.set_trace()
-
-    if not dst :
-        dst = get_newbase(src, os.getcwd())
-
-    dst = os.path.join(dst, 'bak', srcbase)
-
-
-    import pdb; pdb.set_trace()
-
-    walk_wrap(src, dst, *extentions )
-
 
     if os.path.exists(dst) :
         if not os.path.samefile(dst, os.getcwd()) :
@@ -244,10 +243,11 @@ def backup(src=None, dst=None, *extentions):
             rmtree(dst)
 
 
-    copytree_by_ext(src, dst, *extentions)
+    copytree(src, dst, ignore)
 
-    msg = 'Backed up {0} files from {1} to {2}'
-    print msg.format(filecount(dst), src, dst)
+    print 'Backed up from {0} ({1} files)'.format(src, filecount(src))
+    print '            to {0} ({1} files)'.format(dst, filecount(dst))
+
     return
 
 

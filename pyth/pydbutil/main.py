@@ -14,21 +14,32 @@ import logging
 import pprint
 
 
-CHANGE_TO_ENV = 'dev'
-FILE_EXTS = ('.config', '.bat')
-
-BAKDIR = os.path.join(os.getcwd(), 'bak', 'work')
-
-MODEL_DBSET = DbSet.get_dbset('RDxETL')
-CONFIGS = ConfigObj.get_configs('RDxETL')
-
-#REMOTE_DIR =  os.path.join(os.getcwd(), 'remote')
-#REMOTE_DIR =  os.path.join( '/cygdrive', 'g', 'RDx', 'ETL')
-
-# global opts
 DO_COPY = True
 DO_MOD = True
 DO_ASK = False
+
+BAKDIR = os.path.join(os.getcwd(), 'bak', 'work')
+CHANGE_TO_ENV = 'dev'
+
+FILE_EXTS = ('.config', '.bat')
+MODEL_DBSET = DbSet.get_dbset('RDxETL')
+CONFIGS = ConfigObj.get_configs('RDxETL')
+
+print
+print 'MODULE CONFIGURATION:'
+pp = pprint.PrettyPrinter(indent=4)
+pp.pprint('Handling file extensions: {0}'.format(str(FILE_EXTS)))
+print
+print "Using model dbset:"
+pp.pprint(sorted(MODEL_DBSET.DB))
+print
+pp.pprint('Searching for configurations:')
+pp.pprint([co for co in CONFIGS])
+print
+#REMOTE_DIR =  os.path.join(os.getcwd(), 'remote')
+#REMOTE_DIR =  os.path.join( '/cygdrive', 'g', 'RDx', 'ETL')
+
+
 
 class Usage(Exception):
     def __init__(self, msg):
@@ -57,7 +68,7 @@ def main(argv=None):
                         filename=logpathname,
                         filemode='w')
 
-    print 'Begin.'
+    print 'BEGIN.'
 
     if argv is None:
         argv = sys.argv
@@ -92,8 +103,11 @@ def main(argv=None):
             #sourcepaths = FileUtils.get_filelist(path, *FILE_EXTS)
             #targpaths = [FileUtils.change_root(file, path) for file in sourcepaths]
 
-            pathDict = dict([(s, FileUtils.change_root(s, path))
-                              for s in FileUtils.get_filelist(path, *FILE_EXTS)])
+            # pathDict = dict([(s, FileUtils.change_root(s, path))
+            #                   for s in FileUtils.get_filelist(path, *FILE_EXTS)])
+
+
+            pathDict =  FileUtils.change_roots(path, ConfigMgr.WORK_DIR, *FILE_EXTS)
 
 
             # remove old work dir
@@ -112,8 +126,10 @@ def main(argv=None):
 
             # make a backup of the work dir
 
-            pathDict = dict([(s, FileUtils.change_root(s, ConfigMgr.WORK_DIR, BAKDIR))
-                              for s in FileUtils.get_filelist(ConfigMgr.WORK_DIR, *FILE_EXTS)])
+            # pathDict = dict([(s, FileUtils.change_root(s, ConfigMgr.WORK_DIR, BAKDIR))
+            #                   for s in FileUtils.get_filelist(ConfigMgr.WORK_DIR, *FILE_EXTS)])
+
+            pathDict =  FileUtils.change_roots(ConfigMgr.WORK_DIR, BAKDIR, *FILE_EXTS)
 
 
             FileUtils.copy_files(pathDict, DO_ASK)
@@ -143,7 +159,7 @@ def main(argv=None):
             print 'The modified files have been copied back to {0}'.format(path)
 
         print
-        print 'Complete.'
+        print 'END.'
     except Usage, err:
         print >>sys.stderr, err.msg
         print >>sys.stderr, "for help use --help"

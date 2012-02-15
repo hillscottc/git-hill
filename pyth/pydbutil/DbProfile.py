@@ -7,8 +7,8 @@ class Usage(Exception):
         self.msg = msg
 
 class DbProfile(object):
-    """Represents a database instance by dbname, env, boxname, and path. 
-    Usage: 
+    """Represents a database instance by dbname, env, boxname, and path.
+    Usage:
     Pass in the values
     >>> db = DbProfile('MP', 'RDxETL', 'prod', 'usfshwssql077' )
     >>> print db
@@ -30,7 +30,7 @@ class DbProfile(object):
 #                raise Usage('{} is invalid environment. Must be in {}'.format(self.env, self.Envs))
             self.env = env
             self.boxname = boxname
-   
+
 
     @staticmethod
     def create_profiles(apps=None, dbs=None, envs=None, boxes=None):
@@ -40,20 +40,20 @@ class DbProfile(object):
         >>> apps= ('CARL', 'MP')
         >>> profs = DbProfile.create_profiles( envs=envs, apps=apps)
         >>> print [prof for prof in profs]
-        """    
+        """
         profs = []
         if apps:
             for app in apps:
                 for dbtup in dbs:
                     for env in envs:
                         profs.append(DbProfile(app, dbtup[0], env, dbtup[1]))
-                                  
-        return profs    
-                        
+
+        return profs
+
 
     def __eq__(self, other):
         """
-        Usage: 
+        Usage:
         Pass in the values
         >>> db  = DbProfile('MP', 'RDxETL', 'prod', 'usfshwssql077')
         >>> db2 = DbProfile('MP', 'RDxETL', 'prod', 'usfshwssql077')
@@ -77,36 +77,35 @@ class DbProfile(object):
 
     def match_attrib(self, aDict):
         """Does given dict of attib-vals match with self data?
-        
+
         >>> db = DbProfile('MP', 'RDxETL', 'prod', 'usfshwssql077')
-        
+
         Is it dev etl?
         >>> print db.match_attrib(dict(env='dev', dbname='RDxETL'))
         False
-        
+
         Is it MP app prod etl on usfshwssql077?
         >>> print db.match_attrib(dict(app='MP', env='prod', dbname='RDxETL', boxname='usfshwssql077'))
         True
-        """          
+        """
         for k, v in aDict.iteritems() :
             if not (vars(self)[k] == v) :
                 return False
         return True
-        
+
 
     def __str__(self):
         """ Doesn't include source and targ paths."""
         return self.app + ' ' + self.dbname + ' ' + self.env + ' ' + self.boxname
 
     def __repr__(self):
-        return str(self.__str__())
+        return '{0:11} {1:10} {2:14} {3}'.format(self.app, self.dbname, self.boxname, self.env)
 
 if __name__ == "__main__":
     import doctest
-    doctest.testmod(verbose=True)    
+    doctest.testmod(verbose=True)
     #doctest.testfile("tests/test_DbProfile.txt")
     sys.exit(0)
     #sys.exit(main())
 
 
-    

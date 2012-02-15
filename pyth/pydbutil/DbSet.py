@@ -60,8 +60,9 @@ class DbSet(object):
 
     def __str__(self):
         return str([str(dbprofile) for dbprofile in self.DB])
+
     def __repr__(self):
-        return str(self.__str__())
+        return str(['{0:30}'.format(dbprofile) for dbprofile in self.DB])
 
 
 if __name__ == "__main__":

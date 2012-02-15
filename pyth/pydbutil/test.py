@@ -6,45 +6,53 @@ import sys
 from shutil import copytree, rmtree, ignore_patterns
 import FileUtils
 from ConfigMgr import ConfigMgr
+from DbSet import DbSet
+from ConfigObj import ConfigObj
 from pprint import pprint
 import time
 import logging
 
 
-#FileUtils.backup('/Users/hills/git-hill/pyth/pydbutil', '/Users/hills/Dropbox', '.py', '.config', '.bat')
-
-# src = '/Users/hills/git-hill/pyth/pydbutil/temp'
-# dst = '/Users/hills/git-hill/pyth/pydbutil/bak'
-# #extentions =  ('.config')
-
-BAKDIR = os.path.join(os.getcwd(), 'bak')
-
-FileUtils.backup(ConfigMgr.WORK_DIR, BAKDIR)
-
-# FileUtils.backup(src, dst)
 
 path = './remote'
+BAKDIR = os.path.join(os.getcwd(), 'bak', 'remote')
 FILE_EXTS = ('.config', '.bat')
 
-sourcepaths = FileUtils.get_filelist(path, *FILE_EXTS)
-#targpaths = [FileUtils.change_root(file, path) for file in sourcepaths]
 
-pathDict = dict([(s, FileUtils.change_root(s, path))
-                  for s in sourcepaths])
 
-pprint(pathDict)
-pprint(dict([(t, s)for s, t in pathDict.iteritems()]))
+# sourcepaths = FileUtils.get_filelist(path, *FILE_EXTS)
+# #targpaths = [FileUtils.change_root(file, path) for file in sourcepaths]
 
-# FileUtils.copy_files(pathDict, True)
+# pathDict = dict([(s, FileUtils.change_root(s, path, BAKDIR))
+#                   for s in sourcepaths])
 
-# print sorted(k for k, v in pathDict.iteritems())
-
+# pprint(pathDict)
+# print len(pathDict)
 # print
 
-# print sorted(v for k, v in pathDict.iteritems())
+pathDict =  FileUtils.change_roots(path, os.path.join(os.getcwd(), 'work'), *FILE_EXTS)
 
-# print len(pathDict)
+pprint(pathDict)
+print len(pathDict)
+print
 
-# FileUtils.copy_files(dict([(t, s)for s, t in pathDict.iteritems()]), True)
+
+# MODEL_DBSET = DbSet.get_dbset('RDxETL')
+# print "Using model dbset:"
+# pprint(sorted(MODEL_DBSET.DB))
+
+
+# print
+# CONFIGS = ConfigObj.get_configs('RDxETL')
+# print 'Searching for configurations:'
+# print([co for co in CONFIGS])
+
+
+# BAKDIR = os.path.join(os.getcwd(), 'bak')
+
+
+
+
+
 
 #  #import pdb; pdb.set_trace()

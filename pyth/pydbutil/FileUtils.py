@@ -64,8 +64,19 @@ def get_filelist(path=None, *extentions):
     return filelist
 
 
+def change_roots(srcdir, newdir, *inc_exts) :
+    """Returns a dict of every file in srcdir matching exts. oldname:newname
+    Usage:
+    >>> print change_roots('./remote', os.path.join(os.getcwd(), 'work'), '.config', '.bat')
+
+    """
+    return dict([(s, change_root(s, srcdir, newdir))
+                  for s in get_filelist(srcdir, *inc_exts)])
+
+
 def change_root(filepath, old_root, new_root='work', ensure=False):
-    """Usage:
+    """Returns the new pathname, switching old_root for new_root dir.
+    Usage:
     >>> change_root('./remote/ETL/D2/_log4net.config',  './remote')
     'work/ETL/D2/_log4net.config'
     """

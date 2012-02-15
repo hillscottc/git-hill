@@ -1,9 +1,7 @@
 #! /usr/bin/python
 """ Some static file methods.
-
-Usage: Any of the funcs can be called from the bash shell. (See main.)
-
--> ./FileUtils.py "backup('/Users/hills/git-hill/pyth/pydbutil', '/Users/hills/Dropbox', '.py', '.config', '.bat')"
+Usage: Any of the funcs can be called from the bash shell. (See main)
+-> ./FileUtils.py "filecount('./temp')"
 
  """
 import os
@@ -13,7 +11,7 @@ import time
 import subprocess
 import pprint
 import logging
-from shutil import copy, copy2, copystat, rmtree, ignore_patterns,copytree
+from shutil import rmtree, copy, ignore_patterns, copytree
 
 class Error(Exception):
     def __init__(self, msg):
@@ -66,189 +64,15 @@ def get_filelist(path=None, *extentions):
     return filelist
 
 
-
-
-
-# def walk_wrap(src=None, dst=None, *extentions):
-#     """ I modified the 2.7 implementation of shutils.copytree
-#     to take a list of extentions to INCLUDE, instead of an ignore list.
-#     Walks the sourcedir, finds files that match the ext,
-#     returns a dict of sourcefilename/dstfilename.
-#     """
-
-#     srclist = []
-#     dstlist = []
-
-#     #fileDic = {}
-
-#     symlinks = False
-#     names = os.listdir(src)
-
-#     #import pdb; pdb.set_trace()
-
-#     # skipdirs=('Backup', 'bak')
-#     # names = [name for name in names if not name in skipdirs]
-
-#     if not os.path.exists(dst):
-#         os.makedirs(dst)
-#     errors = []
-#     for name in names:
-#         srcname = os.path.join(src, name)
-#         dstname = os.path.join(dst, name)
-#         print 'on ', srcname
-#         try:
-#             if symlinks and os.path.islink(srcname):
-#                 linkto = os.readlink(srcname)
-#                 os.symlink(linkto, dstname)
-#             elif os.path.isdir(srcname):
-#                 walk_wrap(srcname, dstname, *extentions)
-#             else:
-#                 ext = os.path.splitext(srcname)[1]
-#                 # print extensions
-#                 # if not ext in extentions:
-#                 #     # skip the file
-#                 #     print 'SKIP', srcname
-#                 #     msg = 'BECAUSE {0} is not in {1}'
-#                 #     print msg.format(ext, extentions)
-#                 #     continue
-#                 # #copy2(srcname, dstname)
-#                 print 'ADD', srcname ,  dstname
-#                 #fileDic[srcname] = dstname
-#                 yield (srcname, dstname)
-#         except (IOError, os.error), why:
-#             errors.append((srcname, dstname, str(why)))
-#         except Error, err:
-#             errors.extend(err.args[0])
-#     try:
-#         copystat(src, dst)
-#     # except WindowsError: # cant copy file access times on Windows
-#     #     pass
-#     except OSError, why:
-#         errors.extend((src, dst, str(why)))
-#     if errors:
-#         raise Error(errors)
-
-
-# def copytree_by_ext(src=None, dst=None, *extentions):
-#     """ I modified the 2.7 implementation of shutils.copytree
-#     to take a list of extentions to INCLUDE, instead of an ignore list.
-#     """
-#     skipdirs=('Backup', 'bak')
-
-#     symlinks = False
-#     names = os.listdir(src)
-#     #import pdb; pdb.set_trace()
-#     names = [name for name in names if not name in skipdirs]
-
-#     import pdb; pdb.set_trace()
-
-#     os.makedirs(dst)
-#     errors = []
-#     for name in names:
-#         srcname = os.path.join(src, name)
-#         dstname = os.path.join(dst, name)
-#         try:
-#             if symlinks and os.path.islink(srcname):
-#                 linkto = os.readlink(srcname)
-#                 os.symlink(linkto, dstname)
-#             elif os.path.isdir(srcname):
-#                 copytree_by_ext(srcname, dstname, *extentions)
-#             else:
-#                 ext = os.path.splitext(srcname)[1]
-#                 if not ext in extentions:
-#                     # skip the file
-#                     continue
-#                 copy2(srcname, dstname)
-#         except (IOError, os.error), why:
-#             errors.append((srcname, dstname, str(why)))
-#         except Error, err:
-#             errors.extend(err.args[0])
-#     try:
-#         copystat(src, dst)
-#     # except WindowsError: # cant copy file access times on Windows
-#     #     pass
-#     except OSError, why:
-#         errors.extend((src, dst, str(why)))
-#     if errors:
-#         raise Error(errors)
-#     return
-
-
-# get_newroot
-def get_work_path(path, old_dir, new_dir='work', ensure=False):
+def change_root(filepath, old_root, new_root='work', ensure=False):
     """Usage:
-    >>> get_work_path('./remote/ETL/D2/_log4net.config',  './remote')
+    >>> change_root('./remote/ETL/D2/_log4net.config',  './remote')
     'work/ETL/D2/_log4net.config'
     """
-    outfilename = re.sub(old_dir, new_dir, path)
-    if ensure : ensure_dir(outfilename)
+    outfilename = re.sub(old_root, new_root, filepath)
+    if ensure :
+        ensure_dir(outfilename)
     return outfilename
-
-
-def get_newbase(src=None, dst=None, timestamped=False) :
-    """Replaces the base dir of the src with the dst, returns it.
-    Usage:
-    >>> print get_newbase('./temp', os.path.join(os.getcwd(), 'bak'))
-    ./temp/bak
-    """
-    srcbase = None
-    # path like ./temp
-    if os.path.basename(src) and os.path.isdir(src):
-        srcbase = os.path.basename(src)
-    # path like ./temp/
-    elif not os.path.basename(src) and os.path.isdir(src):
-        srcbase = os.path.basename(os.path.dirname(src))
-    else:
-        raise Exception('Must supply a valid directory. You said: ' + src)
-
-    if not dst:
-        dst = os.getcwd()
-    dst = os.path.join(dst, srcbase)
-
-    if timestamped :
-        dst = os.path.join(dst, time.strftime('%m%d%H%M%S'))
-
-    return dst
-
-
-def backup(src=None, dst=None, ignore=None):
-    """ Backup files with matching extentions from src dir to dst.
-    Usage:
-    >>> backup('./temp')                                   # doctest: +ELLIPSIS
-    Backed up ... files from ./temp to ./bak/temp
-    >>> backup('/Users/hills/git-hill/pyth/pydbutil', '/Users/hills/Dropbox') # doctest: +ELLIPSIS
-    Backed up ... files from /Users/hills/git-hill/pyth/pydbutil to /Users/hills/Dropbox/bak/pydbutil
-    """
-    if os.path.basename(src) and os.path.isdir(src):
-        srcbase = os.path.basename(src)
-    else:
-        raise Exception('Invalid src: ' + src)
-
-
-
-    if not dst:
-       raise Exception('Invalid dst: ' + dst)
-
-    dst = os.path.join(dst, srcbase)
-
-
-    #import pdb; pdb.set_trace()
-
-    if os.path.exists(dst) :
-        if not os.path.samefile(dst, os.getcwd()) :
-            r = raw_input('Replace {0} ? [y]/n '.format(dst))
-            if r.lower() == 'n':
-                print 'Ok, stopping.'
-                sys.exit(0)
-            rmtree(dst)
-
-
-    copytree(src, dst, ignore)
-
-    print 'Backed up from {0} ({1} files)'.format(src, filecount(src))
-    print '            to {0} ({1} files)'.format(dst, filecount(dst))
-
-    return
 
 
 def clipped_file_list(files, maxlength=5) :
@@ -269,26 +93,26 @@ def ensure_dir(f):
         os.makedirs(d)
 
 
-def copy_files(sourcepaths, targpaths, ask=True):
+def copy_files(pathDict, ask=True):
     """ Copy each source file to targ. """
     #import pdb; pdb.set_trace()
     pp = pprint.PrettyPrinter(indent=4)
     print 'The copying will be FROM:'
-    pp.pprint(clipped_file_list(sourcepaths))
+    pp.pprint(clipped_file_list(sorted(s for s, t in pathDict.iteritems())))
     print 'copying TO:'
-    pp.pprint(clipped_file_list(targpaths))
+    pp.pprint(clipped_file_list(sorted(t for s, t in pathDict.iteritems())))
     if ask:
         r = raw_input('Proceed? [y]/n ')
         if r.lower() == 'n':
             print 'Ok, stopping.'
             sys.exit(0)
-    [ensure_dir(f) for f in targpaths]
-    map(copy, sourcepaths, targpaths)
+    [ensure_dir(t) for t in pathDict.values()]
+    [copy(s, t) for s, t in pathDict.items()]
 
 
 if __name__ == "__main__":
     """Any of the funcs can be called from the bash shell, for example
-       -> ./FileUtils.py "backup('./temp')"
+       -> ./FileUtils.py "filecount('./temp')"
     """
     import sys
     try:

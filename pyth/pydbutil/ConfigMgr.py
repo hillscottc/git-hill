@@ -194,7 +194,7 @@ class ConfigMgr(object):
                 # outfilename = FileUtils.get_outfilename(ConfigMgr.WORK_DIR,
                 #                 ConfigMgr.OUTPUT_DIR, filename)
 
-                outfilename = FileUtils.get_work_path(filename, ConfigMgr.WORK_DIR,
+                outfilename = FileUtils.change_root(filename, ConfigMgr.WORK_DIR,
                                                       ConfigMgr.OUTPUT_DIR, ensure=True)
 
 

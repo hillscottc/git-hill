@@ -13,66 +13,38 @@ import logging
 
 #FileUtils.backup('/Users/hills/git-hill/pyth/pydbutil', '/Users/hills/Dropbox', '.py', '.config', '.bat')
 
-src = '/Users/hills/git-hill/pyth/pydbutil/temp'
-dst = '/Users/hills/git-hill/pyth/pydbutil/bak'
-#extentions =  ('.config')
+# src = '/Users/hills/git-hill/pyth/pydbutil/temp'
+# dst = '/Users/hills/git-hill/pyth/pydbutil/bak'
+# #extentions =  ('.config')
 
+BAKDIR = os.path.join(os.getcwd(), 'bak')
 
-FileUtils.backup(src, dst)
+FileUtils.backup(ConfigMgr.WORK_DIR, BAKDIR)
 
+# FileUtils.backup(src, dst)
 
-# #fdict = [FileUtils.walk_wrap(src, dst, *extentions)]
+path = './remote'
+FILE_EXTS = ('.config', '.bat')
 
-# d = {k:v for k, v in FileUtils.walk_wrap(src, dst, *extentions)}
-# pprint(d)
+sourcepaths = FileUtils.get_filelist(path, *FILE_EXTS)
+#targpaths = [FileUtils.change_root(file, path) for file in sourcepaths]
 
+pathDict = dict([(s, FileUtils.change_root(s, path))
+                  for s in sourcepaths])
 
+pprint(pathDict)
+pprint(dict([(t, s)for s, t in pathDict.iteritems()]))
 
-# src = './temp/test.config'
-# print os.path.basename(src), os.path.dirname(src)
+# FileUtils.copy_files(pathDict, True)
 
+# print sorted(k for k, v in pathDict.iteritems())
 
-# print len(srclist)
+# print
 
-# pprint(dstlist)
-# print len(dstlist)
+# print sorted(v for k, v in pathDict.iteritems())
 
-#pprint(FileUtils.get_filelist('remote', skipdir='Backup'))
+# print len(pathDict)
 
-# s = './temp'
-# t = FileUtils.get_bak_dir(s)
-# print s, t
+# FileUtils.copy_files(dict([(t, s)for s, t in pathDict.iteritems()]), True)
 
-#import pdb; pdb.set_trace()
-
-
-# print FileUtils.get_outfilename('remote', 'work', 'remote/etl/carl/somefile.txt')
-
-
-# print FileUtils.get_work_path('remote/etl/carl/somefile.txt','remote')
-
-
-#print FileUtils.backup('/Users/hills/git-hill/pyth/pydbutil', '/Users/hills/Dropbox', '.py', '.config', '.bat')
-
-# print os.getcwd()
-# print os.path.join(os.getcwd(), 'bak')
-
-# print FileUtils.backup('/Users/hills/git-hill/pyth/pydbutil', '/Users/hills/Dropbox', '.py')
-
-# path = './remote'
-
-# sourcepaths = FileUtils.get_filelist(path, '.config', '.bat')
-# print len(sourcepaths)
-
-# targpaths = [FileUtils.get_work_path(file, path) for file in sourcepaths]
-# print len(targpaths)
-
-# sourcepaths = FileUtils.walk_wrap(path, './work', .config', '.bat')
-# print len(sourcepaths)
-
-#FileUtils.backup('./temp')
-# dst = '/Users/hills/git-hill/pyth/pydbutil/temp/bak/temp'
-
-
-
- #import pdb; pdb.set_trace()
+#  #import pdb; pdb.set_trace()

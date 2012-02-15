@@ -17,6 +17,8 @@ import pprint
 CHANGE_TO_ENV = 'dev'
 FILE_EXTS = ('.config', '.bat')
 
+BAKDIR = os.path.join(os.getcwd(), 'bak', 'work')
+
 MODEL_DBSET = DbSet.get_dbset('RDxETL')
 CONFIGS = ConfigObj.get_configs('RDxETL')
 
@@ -87,17 +89,21 @@ def main(argv=None):
         if DO_COPY:
             print
             print "Remote PATH {0} ...".format(path)
-            sourcepaths = FileUtils.get_filelist(path, *FILE_EXTS)
+            #sourcepaths = FileUtils.get_filelist(path, *FILE_EXTS)
+            #targpaths = [FileUtils.change_root(file, path) for file in sourcepaths]
 
-            targpaths = [FileUtils.get_work_path(file, path) for file in sourcepaths]
+            pathDict = dict([(s, FileUtils.change_root(s, path))
+                              for s in FileUtils.get_filelist(path, *FILE_EXTS)])
+
+
             # remove old work dir
             if os.path.exists(ConfigMgr.WORK_DIR) :
                 shutil.rmtree(ConfigMgr.WORK_DIR)
             print
             print 'Copying {0} file(s) to work directory {1}'.format(
-                   len(sourcepaths), ConfigMgr.WORK_DIR)
+                   len(pathDict), ConfigMgr.WORK_DIR)
 
-            FileUtils.copy_files(sourcepaths, targpaths, DO_ASK)
+            FileUtils.copy_files(pathDict, DO_ASK)
 
             #import pdb; pdb.set_trace()
 
@@ -105,7 +111,12 @@ def main(argv=None):
         if DO_MOD:
 
             # make a backup of the work dir
-            FileUtils.backup(ConfigMgr.WORK_DIR)
+
+            pathDict = dict([(s, FileUtils.change_root(s, ConfigMgr.WORK_DIR, BAKDIR))
+                              for s in FileUtils.get_filelist(ConfigMgr.WORK_DIR, *FILE_EXTS)])
+
+
+            FileUtils.copy_files(pathDict, DO_ASK)
 
             workfiles = FileUtils.get_filelist(ConfigMgr.WORK_DIR, *FILE_EXTS)
 
@@ -126,7 +137,8 @@ def main(argv=None):
             # COPY BACK TO REMOTE
         if DO_REPLACE:
             print "Preparing to copy modified files back to source."
-            FileUtils.copy_files(targpaths, sourcepaths, DO_ASK)
+
+            FileUtils.copy_files(dict([(t, s)for s, t in pathDict.iteritems()]), DO_ASK)
 
             print 'The modified files have been copied back to {0}'.format(path)
 

@@ -39,6 +39,7 @@ print
 #REMOTE_DIR =  os.path.join(os.getcwd(), 'remote')
 #REMOTE_DIR =  os.path.join( '/cygdrive', 'g', 'RDx', 'ETL')
 
+#import pdb; pdb.set_trace()
 
 
 class Usage(Exception):
@@ -100,15 +101,8 @@ def main(argv=None):
         if DO_COPY:
             print
             print "Remote PATH {0} ...".format(path)
-            #sourcepaths = FileUtils.get_filelist(path, *FILE_EXTS)
-            #targpaths = [FileUtils.change_root(file, path) for file in sourcepaths]
-
-            # pathDict = dict([(s, FileUtils.change_root(s, path))
-            #                   for s in FileUtils.get_filelist(path, *FILE_EXTS)])
-
 
             pathDict =  FileUtils.change_roots(path, ConfigMgr.WORK_DIR, *FILE_EXTS)
-
 
             # remove old work dir
             if os.path.exists(ConfigMgr.WORK_DIR) :
@@ -119,19 +113,12 @@ def main(argv=None):
 
             FileUtils.copy_files(pathDict, DO_ASK)
 
-            #import pdb; pdb.set_trace()
 
 
         if DO_MOD:
 
             # make a backup of the work dir
-
-            # pathDict = dict([(s, FileUtils.change_root(s, ConfigMgr.WORK_DIR, BAKDIR))
-            #                   for s in FileUtils.get_filelist(ConfigMgr.WORK_DIR, *FILE_EXTS)])
-
             pathDict =  FileUtils.change_roots(ConfigMgr.WORK_DIR, BAKDIR, *FILE_EXTS)
-
-
             FileUtils.copy_files(pathDict, DO_ASK)
 
             workfiles = FileUtils.get_filelist(ConfigMgr.WORK_DIR, *FILE_EXTS)

@@ -70,7 +70,7 @@ def change_roots(srcdir, newdir, *inc_exts) :
     >>> print change_roots('./remote', os.path.join(os.getcwd(), 'work'), '.config', '.bat')
 
     """
-    return dict([(s, change_root(s, srcdir, newdir))
+    return dict([(s, change_root(s, srcdir, newdir, ensure=True))
                   for s in get_filelist(srcdir, *inc_exts)])
 
 

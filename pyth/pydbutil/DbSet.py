@@ -25,7 +25,7 @@ class DbSet(object):
     @staticmethod
     def get_dbset(configset='RDxETL'):
         """ Returns dbset for configset set. """
-        if configset is 'RDxETL' :
+        if configset == 'RDxETL' :
             DBS = (('RDxETL', 'USHPEPVSQL409'), ('RDxReport', r'USHPEPVSQL435'))
             ENVS = ('dev', )
             return DbSet(DbProfile.create_profiles(envs=ENVS, apps=DbSet.APPS, dbs=DBS))

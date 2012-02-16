@@ -135,7 +135,8 @@ def main(argv=None):
                     ConfigMgr.OUTPUT_DIR)
             print
             print 'Match results written to', logpathname
-            logging.info(ms.summary_details())
+
+            logging.info(ms.summary_details(apps=DbSet.APPS))
 
             # COPY BACK TO REMOTE
         if DO_REPLACE:

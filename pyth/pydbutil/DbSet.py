@@ -3,6 +3,8 @@
 import sys
 from DbProfile import DbProfile
 
+
+
 class DbSet(object):
     """Manages database profiles. cvsfile is an option for input. maybe i dont need?
     Defaults work well.
@@ -17,16 +19,16 @@ class DbSet(object):
     def __init__(self, profs):
         self.DB = profs
 
+    APPS = ('CARL', 'CART', 'Common', 'CPRS', 'CRA', 'CTX', 'D2', 'DRA',
+                        'ELS', 'FileService', 'GDRS', 'MP', 'PartsOrder', 'R2')
+
     @staticmethod
     def get_dbset(configset='RDxETL'):
         """ Returns dbset for configset set. """
         if configset is 'RDxETL' :
-
-            APPS = ('CARL', 'CART', 'Common', 'CPRS', 'CRA', 'CTX', 'D2', 'DRA',
-                    'ELS', 'FileService', 'GDRS', 'MP', 'PartsOrder', 'R2')
             DBS = (('RDxETL', 'USHPEPVSQL409'), ('RDxReport', r'USHPEPVSQL435'))
             ENVS = ('dev', )
-            return DbSet(DbProfile.create_profiles(envs=ENVS, apps=APPS, dbs=DBS))
+            return DbSet(DbProfile.create_profiles(envs=ENVS, apps=DbSet.APPS, dbs=DBS))
 
         else:
             raise Exception('Invalid configset', configset)

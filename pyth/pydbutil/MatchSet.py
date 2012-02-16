@@ -7,6 +7,7 @@ import sys
 import os
 import itertools
 from MatchedConfig import MatchedConfig
+from DbSet import DbSet
 import FileUtils
 import pprint
 #from clint.textui import puts, colored, indent
@@ -108,52 +109,61 @@ class MatchSet(object):
 
 
 
-    def summary_details(self):
+    def summary_details(self, apps=None):
+
+        if not apps:
+            apps = DbSet.APPS
 
         lines = []
+        print
 
-        for filename in self.matches.keys() :
-            lines.append('FILE: ' + filename)
-            for mc in self.matches[filename]:
-                if mc.mtype is 'DB':
-                #if isinstance(mc, mctchConn):
-                    l = '  line {0}, {1} is pointed to {2}'.format(mc.linenum,
-                                            mc.before.dbname, mc.before.boxname)
-                    if mc.after == mc.before:
-                        l += '...OK...no change.'
-                    elif mc.after:
-                        l += '...changing to {0}'.format(mc.after.boxname)
-                    else:
-                        l +=  '...no suggestions...no change.'
-                    lines.append(l)
-                elif mc.mtype in ('LOG_A', 'LOG_B') :
-                    l = '  line {0}, LOGFILE is at {1}'.format(mc.linenum, mc.before)
-                    if mc.after == mc.before:
-                        l += '...OK...no change.'
-                    elif mc.after:
-                        l += os.linesep + '   ...changing to {0}'.format(mc.after)
-                    else:
-                        l +=  '...no suggestions...no change.'
-                    lines.append(l)
-                elif mc.mtype is 'FTP' :
-                    l = '  line {0}, {1} points to {2}'.format(
-                         mc.linenum, mc.newname, mc.before)
-                    if mc.after == mc.before:
-                        l += '...OK...no change.'
-                    elif mc.after:
-                        l += '...changing to {0}'.format(mc.after)
-                    else:
-                        l +=  '...no suggestions...no change.'
-                    lines.append(l)
-                elif mc.mtype in ('SMTP', 'TO_VAL', 'FROM_VAL', 'SUBJ') :
-                    l = '  line {0}, {1} is {2}'.format(mc.linenum, mc.mtype, mc.before)
-                    if mc.after == mc.before:
-                        l += '...OK...no change.'
-                    elif mc.after:
-                        l += os.linesep + '   ...changing to {0}'.format(mc.after)
-                    else:
-                        l +=  '...no suggestions...no change.'
-                    lines.append(l)
+
+        for app in apps:
+            lines.append('APP: ' + app)
+
+            for filename in self.matches.keys() :
+                for mc in self.matches[filename]:
+                    if mc.app is app:
+                        lines.append('  ' + filename)
+                        if mc.mtype is 'DB':
+                        #if isinstance(mc, mctchConn):
+                            l = '    line {0}, {1} is pointed to {2}'.format(mc.linenum,
+                                                    mc.before.dbname, mc.before.boxname)
+                            if mc.after == mc.before:
+                                l += '...OK...no change.'
+                            elif mc.after:
+                                l += '    ...changing to {0}'.format(mc.after.boxname)
+                            else:
+                                l +=  '...no suggestions...no change.'
+                            lines.append(l)
+                        elif mc.mtype in ('LOG_A', 'LOG_B') :
+                            l = '    line {0}, LOGFILE is at {1}'.format(mc.linenum, mc.before)
+                            if mc.after == mc.before:
+                                l += '...OK...no change.'
+                            elif mc.after:
+                                l += os.linesep + '    ...changing to {0}'.format(mc.after)
+                            else:
+                                l +=  '...no suggestions...no change.'
+                            lines.append(l)
+                        elif mc.mtype is 'FTP' :
+                            l = '    line {0}, {1} points to {2}'.format(
+                                 mc.linenum, mc.newname, mc.before)
+                            if mc.after == mc.before:
+                                l += '...OK...no change.'
+                            elif mc.after:
+                                l += '    ...changing to {0}'.format(mc.after)
+                            else:
+                                l +=  '...no suggestions...no change.'
+                            lines.append(l)
+                        elif mc.mtype in ('SMTP', 'TO_VAL', 'FROM_VAL', 'SUBJ') :
+                            l = '    line {0}, {1} is {2}'.format(mc.linenum, mc.mtype, mc.before)
+                            if mc.after == mc.before:
+                                l += '...OK...no change.'
+                            elif mc.after:
+                                l += os.linesep + '    ...changing to {0}'.format(mc.after)
+                            else:
+                                l +=  '...no suggestions...no change.'
+                            lines.append(l)
 
         return os.linesep.join(lines)
 

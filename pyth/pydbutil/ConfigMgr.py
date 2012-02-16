@@ -86,7 +86,7 @@ class ConfigMgr(object):
         Returns: MatchedConfig for given line if matches any CONFIG_OBJS.
         mtype will be None if no match.
         """
-        mc = MatchedConfig(mtype=None, linenum=linenum)
+        mc = MatchedConfig(mtype=None, linenum=linenum, app=app)
         co = None
         m = None
 

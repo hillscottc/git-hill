@@ -14,6 +14,9 @@ import logging
 
 
 
+print DbSet.APPS
+sys.exit(0)
+
 path = './remote'
 BAKDIR = os.path.join(os.getcwd(), 'bak', 'remote')
 FILE_EXTS = ('.config', '.bat')

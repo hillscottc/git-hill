@@ -22,7 +22,7 @@ class ConfigObj(object):
     @staticmethod
     def get_configs(configset='RDxETL') :
         """ Returns dict of configsobjs for configset set. """
-        if configset is 'RDxETL' :
+        if configset == 'RDxETL' :
 
             FTP_ROOT = 'USHPEWVAPP251'
             LOG_PATH = r'D:\RDx\ETL\logs'

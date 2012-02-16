@@ -36,8 +36,6 @@ print
 pp.pprint('Searching for configurations:')
 pp.pprint([co for co in CONFIGS])
 print
-#REMOTE_DIR =  os.path.join(os.getcwd(), 'remote')
-#REMOTE_DIR =  os.path.join( '/cygdrive', 'g', 'RDx', 'ETL')
 
 #import pdb; pdb.set_trace()
 
@@ -113,8 +111,6 @@ def main(argv=None):
 
             FileUtils.copy_files(pathDict, DO_ASK)
 
-
-
         if DO_MOD:
 
             # make a backup of the work dir
@@ -136,7 +132,8 @@ def main(argv=None):
             print
             print 'Match results written to', logpathname
 
-            logging.info(ms.summary_details(apps=DbSet.APPS))
+            #logging.info(ms.summary_details(apps=DbSet.APPS))
+            #logging.info(ms.summary_matches(CONFIGS))
 
             # COPY BACK TO REMOTE
         if DO_REPLACE:

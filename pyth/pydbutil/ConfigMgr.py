@@ -197,15 +197,15 @@ class ConfigMgr(object):
                 outfilename = FileUtils.change_root(filename, ConfigMgr.WORK_DIR,
                                                       ConfigMgr.OUTPUT_DIR, ensure=True)
 
-
-
                 outlines = ConfigMgr.get_newlines(filename, mcs)
 
                 with open(outfilename, 'w') as outfile :
                      outfile.write(outlines)
 
         logging.debug('')
+        logging.debug(ms.summary_details(apps=apps))
         logging.debug(ms.summary_matches(self.configs))
+
         return ms
 
 

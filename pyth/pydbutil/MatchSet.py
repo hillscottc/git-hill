@@ -11,8 +11,7 @@ from DbSet import DbSet
 import FileUtils
 import pprint
 #from clint.textui import puts, colored, indent
-
-
+#import pdb; pdb.set_trace()
 
 class Usage(Exception):
     def __init__(self, msg):
@@ -43,7 +42,7 @@ class MatchSet(object):
 
     def get_work_files(self, workdir, outdir):
         outfilenames = []
-        #import pdb; pdb.set_trace()
+
         for filename in self.matches.keys() :
             for mc in self.matches[filename]:
                 if mc.after:
@@ -72,21 +71,25 @@ class MatchSet(object):
         return os.linesep.join(lines)
 
 
+    def summary_matches(self, config_objs, apps=None):
 
-
-    def summary_matches(self, config_objs):
+        if not apps:
+            apps = DbSet.APPS
 
         lines = []
         lines.append('')
 
+        for app in apps:
+            lines.append('APP: ' + app)
+            for mtype in sorted(config_objs.keys()) :
 
-        for mtype in sorted(config_objs.keys()) :
+                hit_count = sum(1 for mc in self.get_all_matches() if (mc.app is app) and (mc.mtype is mtype) and (mc.before == mc.after))
+                miss_count = sum(1 for mc in self.get_all_matches() if (mc.app is app) and (mc.mtype is mtype) and (mc.before != mc.after))
 
-            hit_count = sum(1 for mc in self.get_all_matches() if (mc.mtype is mtype) and (mc.before == mc.after))
-            miss_count = sum(1 for mc in self.get_all_matches() if (mc.mtype is mtype) and (mc.before != mc.after))
-
-            lines.append('{0:3} {1} references were already properly configured.'.format(hit_count, mtype))
-            lines.append('{0:3} {1} references had suggested changes.'.format(miss_count, mtype))
+                if hit_count:
+                    lines.append('{0:3} {1} references were already properly configured.'.format(hit_count, mtype))
+                if miss_count:
+                    lines.append('{0:3} {1} references had suggested changes.'.format(miss_count, mtype))
 
         lines.append('')
 
@@ -103,10 +106,7 @@ class MatchSet(object):
         msg = '{0:3} total matches had NO suggestions.'
         lines.append(msg.format(len([mc for mc in self.get_all_matches() if not mc.after])))
 
-
-
         return os.linesep.join(lines)
-
 
 
     def summary_details(self, apps=None):
@@ -116,8 +116,6 @@ class MatchSet(object):
 
         lines = []
         print
-
-
         for app in apps:
             lines.append('APP: ' + app)
 
@@ -166,6 +164,7 @@ class MatchSet(object):
                             lines.append(l)
 
         return os.linesep.join(lines)
+
 
 
 

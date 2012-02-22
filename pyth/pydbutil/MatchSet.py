@@ -120,9 +120,9 @@ class MatchSet(object):
             lines.append('APP: ' + app)
 
             for filename in self.matches.keys() :
+                lines.append('  ' + filename)
                 for mc in self.matches[filename]:
                     if mc.app is app:
-                        lines.append('  ' + filename)
                         if mc.mtype is 'DB':
                         #if isinstance(mc, mctchConn):
                             l = '    line {0}, {1} is pointed to {2}'.format(mc.linenum,

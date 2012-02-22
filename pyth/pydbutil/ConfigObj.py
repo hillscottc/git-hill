@@ -25,7 +25,8 @@ class ConfigObj(object):
         if configset == 'RDxETL' :
 
             FTP_ROOT = 'USHPEWVAPP251'
-            LOG_PATH = r'D:\RDx\ETL\logs'
+            #LOG_PATH = r'D:\RDx\ETL\logs'
+            LOG_PATH = os.path.join('D:', 'RDx', 'ETL', 'logs')
             SMTP_SERVER = 'usush-maildrop.amer.umusic.net'
             TO_VAL = 'ar.umg.rights.dev@hp.com, Scott.Hill@umgtemp.com'
             FROM_VAL = 'RDx@mgd.umusic.com'

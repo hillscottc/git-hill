@@ -19,14 +19,15 @@ class DbSet(object):
     def __init__(self, profs):
         self.DB = profs
 
-    APPS = ('CARL', 'CART', 'Common', 'CPRS', 'CRA', 'CTX', 'D2', 'DRA',
-                        'ELS', 'FileService', 'GDRS', 'MP', 'PartsOrder', 'R2')
+    APPS = ('CARL',
+            #'CART', 'Common', 'CPRS', 'CRA', 'CTX', 'D2', 'DRA', 'ELS', 'FileService', 'GDRS', 'MP', 'PartsOrder', 'R2'
+            )
 
     @staticmethod
     def get_dbset(configset='RDxETL'):
         """ Returns dbset for configset set. """
         if configset == 'RDxETL' :
-            DBS = (('RDxETL', 'USHPEPVSQL409'), ('RDxReport', r'USHPEPVSQL435'))
+            DBS = (('RDxETL', 'USHPEPVSQL409'), ('RDxReport', 'USHPEPVSQL435'))
             ENVS = ('dev', )
             return DbSet(DbProfile.create_profiles(envs=ENVS, apps=DbSet.APPS, dbs=DBS))
 

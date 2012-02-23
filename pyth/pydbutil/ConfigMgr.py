@@ -101,20 +101,20 @@ class ConfigMgr(object):
             return mc
         else :
             mc.mtype = co.cotype
-            if co.cotype in ('SMTP', 'TO_VAL', 'FROM_VAL', 'SUBJ') :
+            if mc.mtype in ('SMTP', 'TO_VAL', 'FROM_VAL', 'SUBJ') :
                 mc.before = m.group(1)
                 mc.after = co.changeval
-            elif co.cotype in ('LOG_A', 'LOG_B') :
+            elif mc.mtype in ('LOG_A', 'LOG_B') :
                 mc.before = m.group(1)
                 mc.after = ConfigObj.get_logname(self.configs['LOG_A'].changeval, app)
-            elif co.cotype is 'FTP':
+            elif mc.mtype is 'FTP':
                 mc.before = m.group(2)
 
                 # maybe changeval or get_log_name?
                 mc.after = self.configs['FTP'].changeval
 
                 mc.newname = m.group(1)
-            elif co.cotype is 'DB':
+            elif mc.mtype is 'DB':
                 m_prof = DbProfile(boxname=m.group(1).upper(),
                                    dbname=m.group(2),
                                    env=env, app=app)
@@ -135,11 +135,14 @@ class ConfigMgr(object):
 
             else :
                 raise 'why it not one of these-a-ones'
+            logging.debug('MATCH: {0}'.format(mc))
+
         return mc
 
 
     def parse_file(self, filename, app, env):
         """ Returns mclist for the file. """
+        logging.debug('FILE: {0}, {1}, {2}'.format(filename, app, env))
         mcList = []
         with open(filename, 'r') as infile:
             lines = infile.readlines()
@@ -147,6 +150,7 @@ class ConfigMgr(object):
             mc = self.parse_line(i, line, env, app)
             if mc.mtype:
                 mcList.append(mc)
+        logging.debug('MATCHLIST COUNT: {0}'.format(len(mcList)))
         return mcList
 
 
@@ -181,7 +185,7 @@ class ConfigMgr(object):
             # the name of this file matches which of the apps?
             app = next((app for app in apps if re.search(app, filename, re.IGNORECASE)), None)
             if not app:
-                logger.debug('* Skipping file', filename)
+                logging.info('** Skipping file {0}'.format(filename))
                 continue
 
             # parse the file

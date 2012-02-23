@@ -94,7 +94,7 @@ class MatchSet(object):
         lines.append('')
 
         msg = '{0:3} total matches in {1} files.'
-        lines.append(msg.format(sum([len(v) for v in self.matches.values()]),
+        lines.append(msg.format(sum(1 for mc in self.get_all_matches()),
                                 len(self.get_files_processed())))
 
         msg = '{0:3} total matches were already properly configured.'

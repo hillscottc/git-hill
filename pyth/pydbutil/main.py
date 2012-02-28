@@ -124,6 +124,7 @@ def main(argv=None):
 
             print
             print 'Results:'
+            print ms.summary_details(apps=DbSet.APPS)
             print ms.summary_matches(CONFIGS)
             print
             print "{0} files written to dir '{1}'.".format(

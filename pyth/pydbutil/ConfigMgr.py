@@ -11,14 +11,16 @@ from DbSet import DbSet
 from collections import namedtuple
 import FileUtils
 import logging
+import Configure
 
 class ConfigMgr(object):
     """Handles database connection strings in files using DbProfiles.
     Usage:
     >>> from ConfigObj import ConfigObj
     >>> from DbSet import DbSet
+    >>> import Configure
     >>> FILE_EXTS = ('.config', '.bat')
-    >>> MODEL_DBSET = DbSet.get_dbset('RDxETL')
+    >>> MODEL_DBSET = Configure.DBSET
     >>> CONFIGS = ConfigObj.get_configs('RDxETL')
     >>> workfiles = FileUtils.get_filelist(ConfigMgr.WORK_DIR, *FILE_EXTS)
     >>> cm = ConfigMgr(dbset=MODEL_DBSET, filelist=workfiles, configs=CONFIGS) # doctest: +ELLIPSIS
@@ -171,7 +173,8 @@ class ConfigMgr(object):
         if app:
             apps = [app]
         else:
-            apps = self.dbset.get_apps()
+            #apps = self.dbset.get_apps()
+            apps = Configure.APPS
 
         logging.debug('GO !!!!!!!!!!!!!!!')
         logging.debug('ENV:%s    APPS:%s', env, apps)

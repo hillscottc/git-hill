@@ -12,6 +12,7 @@ import FileUtils
 import getopt
 import logging
 import pprint
+import Configure
 
 
 DO_COPY = True
@@ -22,8 +23,8 @@ BAKDIR = os.path.join(os.getcwd(), 'bak', 'work')
 CHANGE_TO_ENV = 'dev'
 
 FILE_EXTS = ('.config', '.bat')
-MODEL_DBSET = DbSet.get_dbset('RDxETL')
-CONFIGS = ConfigObj.get_configs('RDxETL')
+MODEL_DBSET = Configure.DBSET
+CONFIGS = Configure.CONFIGS
 
 print
 print 'MODULE CONFIGURATION:'
@@ -124,7 +125,7 @@ def main(argv=None):
 
             print
             print 'Results:'
-            print ms.summary_details(apps=DbSet.APPS)
+            print ms.summary_details(apps=Configure.APPS)
             print ms.summary_matches(CONFIGS)
             print
             print "{0} files written to dir '{1}'.".format(
@@ -133,7 +134,7 @@ def main(argv=None):
             print
             print 'Match results written to', logpathname
 
-            #logging.info(ms.summary_details(apps=DbSet.APPS))
+            #logging.info(ms.summary_details(apps=Configure.APPS))
             #logging.info(ms.summary_matches(CONFIGS))
 
             # COPY BACK TO REMOTE

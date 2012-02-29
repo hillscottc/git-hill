@@ -10,6 +10,7 @@ from MatchedConfig import MatchedConfig
 from DbSet import DbSet
 import FileUtils
 import pprint
+import Configure
 #from clint.textui import puts, colored, indent
 #import pdb; pdb.set_trace()
 
@@ -74,7 +75,7 @@ class MatchSet(object):
     def summary_matches(self, config_objs, apps=None):
 
         if not apps:
-            apps = DbSet.APPS
+            apps = Configure.APPS
 
         lines = []
         lines.append('')
@@ -112,7 +113,7 @@ class MatchSet(object):
     def summary_details(self, apps=None):
 
         if not apps:
-            apps = DbSet.APPS
+            apps = Configure.APPS
 
         lines = []
         print

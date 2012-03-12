@@ -130,7 +130,7 @@ def main(argv=None):
             #print ms.summary_details(apps=Configure.APPS)
             print MatchReport.details(md, apps=Configure.APPS)
             #print ms.summary_matches(CONFIGS)
-            print MatchReport.matches(md, CONFIGS)
+            print MatchReport.summary(md, CONFIGS)
             print
             print "{0} files written to dir '{1}'.".format(
                     len(MatchReport.get_work_files(md, ConfigMgr.WORK_DIR, ConfigMgr.OUTPUT_DIR)),

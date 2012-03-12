@@ -5,6 +5,7 @@ Usage:
 """
 import sys
 import os
+import re
 import itertools
 from MatchedConfig import MatchedConfig
 from DbSet import DbSet
@@ -18,6 +19,8 @@ class Usage(Exception):
     def __init__(self, msg):
         self.msg = msg
 
+def get_file_app(filename):
+    return next((app for app in Configure.APPS if re.search(app, filename, re.IGNORECASE)), None)
 
 def get_files_with_matches(md, matches=True):
     if matches:
@@ -45,16 +48,24 @@ def get_all_matches(matchdict):
     return  list(itertools.chain(*all_matches))
 
 
-def matches(matchdict, config_objs, apps=None):
+def summary(matchdict, config_objs, apps=None):
 
     if not apps:
         apps = Configure.APPS
 
     lines = []
     lines.append('')
+    lines.append('SUMMARY')
 
     for app in apps:
-        lines.append('APP: ' + app)
+        lines.append(app)
+
+        appmatches = [mc for mc in get_all_matches(matchdict) if (mc.app is app)]
+
+        if not appmatches :
+            lines.append('  None for ' + app)
+            continue
+
         for mtype in sorted(config_objs.keys()) :
 
             hit_count = sum(1 for mc in get_all_matches(matchdict) if (mc.app is app) and (mc.mtype is mtype) and (mc.before == mc.after))
@@ -66,6 +77,7 @@ def matches(matchdict, config_objs, apps=None):
                 lines.append('{0:3} {1} references had suggested changes.'.format(miss_count, mtype))
 
     lines.append('')
+    lines.append('FILE SUMMARY')
 
     msg = '{0:3} total matches in {1} files.'
     lines.append(msg.format(sum(1 for mc in get_all_matches(matchdict)),
@@ -80,7 +92,6 @@ def matches(matchdict, config_objs, apps=None):
     msg = '{0:3} total matches had NO suggestions.'
     lines.append(msg.format(len([mc for mc in get_all_matches(matchdict) if not mc.after])))
 
-
     return os.linesep.join(lines)
 
 
@@ -92,11 +103,17 @@ def details(matchdict, apps=None):
     lines = []
     print
     for app in apps:
-        lines.append('REPORT APP: ' + app)
+        lines.append('DETAILS for ' + app)
 
-        for filename in matchdict.keys() :
+        appfiles = [filename for filename in matchdict.keys() if get_file_app(filename) == app]
 
-            lines.append('  ' + filename)
+        if not appfiles :
+            lines.append('   None for ' + app)
+            continue
+
+        for filename in appfiles :
+
+            lines.append(filename)
             for mc in matchdict[filename]:
                 if mc.app is app:
                     if mc.mtype is 'DB':
@@ -141,20 +158,6 @@ def details(matchdict, apps=None):
 
     return os.linesep.join(lines)
 
-def summary_files(matchdict):
-
-    lines = []
-
-    lines.append('{0:3} .config files found.'.format
-                 (len(matchdict.keys())))
-
-    lines.append('{0:3} files with NO matches.'.format
-                 (len(get_files_with_matches(False))))
-
-    lines.append('{0:3} files with at least one match.'.format
-                 (len(get_files_with_matches())))
-
-    return os.linesep.join(lines)
 
 
 if __name__ == "__main__":

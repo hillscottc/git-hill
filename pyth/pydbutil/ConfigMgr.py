@@ -189,7 +189,8 @@ class ConfigMgr(object):
             mcs = None
 
             # the name of this file matches which of the apps?
-            app = next((app for app in apps if re.search(app, filename, re.IGNORECASE)), None)
+            #app = next((app for app in apps if re.search(app, filename, re.IGNORECASE)), None)
+            app = MatchReport.get_file_app(filename)
             if not app:
                 logging.info('** Skipping file {0}'.format(filename))
                 continue
@@ -220,7 +221,7 @@ class ConfigMgr(object):
         #logging.debug(ms.summary_details(apps=apps))
         logging.debug(MatchReport.details(md, apps=apps))
         #logging.debug(ms.summary_matches(self.configs))
-        logging.debug(MatchReport.matches(md, self.configs))
+        logging.debug(MatchReport.summary(md, self.configs))
 
         #return ms
         return md

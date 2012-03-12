@@ -4,7 +4,7 @@ import sys
 import re
 import os
 from MatchedConfig import MatchedConfig
-from MatchSet import MatchSet
+#from MatchSet import MatchSet
 from ConfigObj import ConfigObj
 from DbProfile import DbProfile
 from DbSet import DbSet
@@ -12,6 +12,7 @@ from collections import namedtuple
 import FileUtils
 import logging
 import Configure
+import MatchReport
 
 class ConfigMgr(object):
     """Handles database connection strings in files using DbProfiles.
@@ -160,7 +161,7 @@ class ConfigMgr(object):
         """
         Checks file for lines which contain connection string information,
         for each file in filelist.
-        Returns: a MatchSet
+        Returns: a dict of matches
         """
 
         filelist = self.filelist
@@ -179,7 +180,9 @@ class ConfigMgr(object):
         logging.debug('GO !!!!!!!!!!!!!!!')
         logging.debug('ENV:%s    APPS:%s', env, apps)
 
-        ms = MatchSet()
+        #ms = MatchSet()
+
+        md = {}
 
         for filename in filelist:
             # mcs for this file
@@ -194,8 +197,12 @@ class ConfigMgr(object):
             # parse the file
             mcs = self.parse_file(filename, app, env)
 
+            #print 'DEBUGGINN', filename, len(mcs)
+
             # sort mcs and append to dict keyed by file
-            ms.matches[filename] = sorted(mcs, key = lambda x: x.linenum)
+            #ms.matches[filename] = sorted(mcs, key = lambda x: x.linenum)
+            md[filename] = sorted(mcs, key = lambda x: x.linenum)
+
 
             if write:
                 # outfilename = FileUtils.get_outfilename(ConfigMgr.WORK_DIR,
@@ -210,11 +217,13 @@ class ConfigMgr(object):
                      outfile.write(outlines)
 
         logging.debug('')
-        logging.debug(ms.summary_details(apps=apps))
-        logging.debug(ms.summary_matches(self.configs))
+        #logging.debug(ms.summary_details(apps=apps))
+        logging.debug(MatchReport.details(md, apps=apps))
+        #logging.debug(ms.summary_matches(self.configs))
+        logging.debug(MatchReport.matches(md, self.configs))
 
-        return ms
-
+        #return ms
+        return md
 
 if __name__ == "__main__":
     import doctest

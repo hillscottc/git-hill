@@ -13,6 +13,7 @@ import getopt
 import logging
 import pprint
 import Configure
+import MatchReport
 
 
 DO_COPY = True
@@ -121,15 +122,18 @@ def main(argv=None):
             workfiles = FileUtils.get_filelist(ConfigMgr.WORK_DIR, *FILE_EXTS)
 
             cm = ConfigMgr(dbset=MODEL_DBSET, filelist=workfiles, configs=CONFIGS)
-            ms = cm.go(env=CHANGE_TO_ENV, write=True)
+            #ms = cm.go(env=CHANGE_TO_ENV, write=True)
+            md = cm.go(env=CHANGE_TO_ENV, write=True)
 
             print
             print 'Results:'
-            print ms.summary_details(apps=Configure.APPS)
-            print ms.summary_matches(CONFIGS)
+            #print ms.summary_details(apps=Configure.APPS)
+            print MatchReport.details(md, apps=Configure.APPS)
+            #print ms.summary_matches(CONFIGS)
+            print MatchReport.matches(md, CONFIGS)
             print
             print "{0} files written to dir '{1}'.".format(
-                    len(ms.get_work_files(ConfigMgr.WORK_DIR, ConfigMgr.OUTPUT_DIR)),
+                    len(MatchReport.get_work_files(md, ConfigMgr.WORK_DIR, ConfigMgr.OUTPUT_DIR)),
                     ConfigMgr.OUTPUT_DIR)
             print
             print 'Match results written to', logpathname

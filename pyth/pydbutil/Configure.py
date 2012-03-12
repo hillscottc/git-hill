@@ -16,8 +16,8 @@ class Error(Exception):
         self.msg = msg
 
 
-APPS = ('CARL',
-        #'CART', 'Common', 'CPRS', 'CRA', 'CTX', 'D2', 'DRA', 'ELS', 'FileService', 'GDRS', 'MP', 'PartsOrder', 'R2'
+APPS = ('CARL', 'CART',
+        #'Common', 'CPRS', 'CRA', 'CTX', 'D2', 'DRA', 'ELS', 'FileService', 'GDRS', 'MP', 'PartsOrder', 'R2'
         )
 
 _dbs = (('RDxETL', 'USHPEPVSQL409'), ('RDxReport', 'USHPEPVSQL435'))

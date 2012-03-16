@@ -1,10 +1,9 @@
 #! /usr/bin/python
-
+"""Handles database connection strings in files using DbProfiles. """
 import sys
 import re
 import os
 from MatchedConfig import MatchedConfig
-#from MatchSet import MatchSet
 from ConfigObj import ConfigObj
 from DbProfile import DbProfile
 from DbSet import DbSet
@@ -31,7 +30,7 @@ class ConfigMgr(object):
     OUTPUT_DIR = os.path.join(os.getcwd(), 'output')
 
     def __init__(self, dbset=None, configs=None, env=None,
-                 file_exts=None, filelist=None, write=False):
+                file_exts=None, filelist=None, write=False):
         self.dbset = dbset
         self.env = env
         self.write = write
@@ -157,7 +156,7 @@ class ConfigMgr(object):
         return mcList
 
 
-    def go(self, app=None, env=None, write=False) :
+    def go(self, app=None, write=False) :
         """
         Checks file for lines which contain connection string information,
         for each file in filelist.
@@ -168,19 +167,16 @@ class ConfigMgr(object):
         if not filelist:
             raise Exception('filelist required.')
 
-        if not env :
-            raise Exception('env is required.')
+        # the first in the env list. (Needs fixing. Do I need it at all?)
+        env = Configure._envs[0]
 
         if app:
             apps = [app]
         else:
-            #apps = self.dbset.get_apps()
             apps = Configure.APPS
 
-        logging.debug('GO !!!!!!!!!!!!!!!')
+        logging.debug('GO !')
         logging.debug('ENV:%s    APPS:%s', env, apps)
-
-        #ms = MatchSet()
 
         md = {}
 
@@ -189,7 +185,6 @@ class ConfigMgr(object):
             mcs = None
 
             # the name of this file matches which of the apps?
-            #app = next((app for app in apps if re.search(app, filename, re.IGNORECASE)), None)
             app = MatchReport.get_file_app(filename)
             if not app:
                 logging.info('** Skipping file {0}'.format(filename))
@@ -198,17 +193,11 @@ class ConfigMgr(object):
             # parse the file
             mcs = self.parse_file(filename, app, env)
 
-            #print 'DEBUGGINN', filename, len(mcs)
-
             # sort mcs and append to dict keyed by file
-            #ms.matches[filename] = sorted(mcs, key = lambda x: x.linenum)
             md[filename] = sorted(mcs, key = lambda x: x.linenum)
 
 
             if write:
-                # outfilename = FileUtils.get_outfilename(ConfigMgr.WORK_DIR,
-                #                 ConfigMgr.OUTPUT_DIR, filename)
-
                 outfilename = FileUtils.change_root(filename, ConfigMgr.WORK_DIR,
                                                       ConfigMgr.OUTPUT_DIR, ensure=True)
 
@@ -218,12 +207,9 @@ class ConfigMgr(object):
                      outfile.write(outlines)
 
         logging.debug('')
-        #logging.debug(ms.summary_details(apps=apps))
         logging.debug(MatchReport.details(md, apps=apps))
-        #logging.debug(ms.summary_matches(self.configs))
         logging.debug(MatchReport.summary(md, self.configs))
 
-        #return ms
         return md
 
 if __name__ == "__main__":

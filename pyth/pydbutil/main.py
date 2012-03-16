@@ -1,6 +1,8 @@
 #! /usr/bin/python
+""" Uses the ConFigMgr and related classes to parse and mod config files.
 
-""" Uses the ConFigMgr and related classes to parse and mod config files."""
+See the Configure.py module for most of the app's configuration.
+"""
 import sys
 import os
 import shutil
@@ -15,12 +17,9 @@ import pprint
 import Configure
 import MatchReport
 
-
 DO_COPY = True
 DO_MOD = True
 DO_ASK = False
-
-CHANGE_TO_ENV = Configure._envs[0]
 
 print
 print 'MODULE CONFIGURATION:'
@@ -33,9 +32,7 @@ print
 pp.pprint('Searching for configurations:')
 pp.pprint([co for co in Configure.CONFIGS])
 print
-
 #import pdb; pdb.set_trace()
-
 
 class Usage(Exception):
     def __init__(self, msg):
@@ -52,9 +49,6 @@ def main(argv=None):
        -p: path to config files to be changed
        -r: replace orig with modified files
     """
-
-    # print FileUtils.get_logname(Configure.CONFIGS, 'MP')
-    # sys.exit()
 
     # set log file
     logpathname = os.path.join(os.getcwd(), 'logs', 'pydbutil.main.log')
@@ -117,14 +111,11 @@ def main(argv=None):
             workfiles = FileUtils.get_filelist(ConfigMgr.WORK_DIR, *Configure.FILE_EXTS)
 
             cm = ConfigMgr(dbset=Configure.DBSET, filelist=workfiles, configs=Configure.CONFIGS)
-            #ms = cm.go(env=CHANGE_TO_ENV, write=True)
-            md = cm.go(env=CHANGE_TO_ENV, write=True)
+            md = cm.go(write=True)
 
             print
             print 'Results:'
-            #print ms.summary_details(apps=Configure.APPS)
             print MatchReport.details(md, apps=Configure.APPS)
-            #print ms.summary_matches(Configure.CONFIGS)
             print MatchReport.summary(md, Configure.CONFIGS)
             print
             print "{0} files written to dir '{1}'.".format(

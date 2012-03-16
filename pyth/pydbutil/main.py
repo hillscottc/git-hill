@@ -20,23 +20,18 @@ DO_COPY = True
 DO_MOD = True
 DO_ASK = False
 
-BAKDIR = os.path.join(os.getcwd(), 'bak', 'work')
-CHANGE_TO_ENV = 'dev'
-
-FILE_EXTS = ('.config', '.bat')
-MODEL_DBSET = Configure.DBSET
-CONFIGS = Configure.CONFIGS
+CHANGE_TO_ENV = Configure._envs[0]
 
 print
 print 'MODULE CONFIGURATION:'
 pp = pprint.PrettyPrinter(indent=4)
-pp.pprint('Handling file extensions: {0}'.format(str(FILE_EXTS)))
+pp.pprint('Handling file extensions: {0}'.format(str(Configure.FILE_EXTS)))
 print
 print "Using model dbset:"
-pp.pprint(sorted(MODEL_DBSET.DB))
+pp.pprint(sorted(Configure.DBSET.DB))
 print
 pp.pprint('Searching for configurations:')
-pp.pprint([co for co in CONFIGS])
+pp.pprint([co for co in Configure.CONFIGS])
 print
 
 #import pdb; pdb.set_trace()
@@ -58,7 +53,7 @@ def main(argv=None):
        -r: replace orig with modified files
     """
 
-    # print FileUtils.get_logname(CONFIGS, 'MP')
+    # print FileUtils.get_logname(Configure.CONFIGS, 'MP')
     # sys.exit()
 
     # set log file
@@ -102,7 +97,7 @@ def main(argv=None):
             print
             print "Remote PATH {0} ...".format(path)
 
-            pathDict =  FileUtils.change_roots(path, ConfigMgr.WORK_DIR, *FILE_EXTS)
+            pathDict =  FileUtils.change_roots(path, ConfigMgr.WORK_DIR, *Configure.FILE_EXTS)
 
             # remove old work dir
             if os.path.exists(ConfigMgr.WORK_DIR) :
@@ -116,12 +111,12 @@ def main(argv=None):
         if DO_MOD:
 
             # make a backup of the work dir
-            pathDict =  FileUtils.change_roots(ConfigMgr.WORK_DIR, BAKDIR, *FILE_EXTS)
+            pathDict =  FileUtils.change_roots(ConfigMgr.WORK_DIR, Configure.BAKDIR, *Configure.FILE_EXTS)
             FileUtils.copy_files(pathDict, DO_ASK)
 
-            workfiles = FileUtils.get_filelist(ConfigMgr.WORK_DIR, *FILE_EXTS)
+            workfiles = FileUtils.get_filelist(ConfigMgr.WORK_DIR, *Configure.FILE_EXTS)
 
-            cm = ConfigMgr(dbset=MODEL_DBSET, filelist=workfiles, configs=CONFIGS)
+            cm = ConfigMgr(dbset=Configure.DBSET, filelist=workfiles, configs=Configure.CONFIGS)
             #ms = cm.go(env=CHANGE_TO_ENV, write=True)
             md = cm.go(env=CHANGE_TO_ENV, write=True)
 
@@ -129,8 +124,8 @@ def main(argv=None):
             print 'Results:'
             #print ms.summary_details(apps=Configure.APPS)
             print MatchReport.details(md, apps=Configure.APPS)
-            #print ms.summary_matches(CONFIGS)
-            print MatchReport.summary(md, CONFIGS)
+            #print ms.summary_matches(Configure.CONFIGS)
+            print MatchReport.summary(md, Configure.CONFIGS)
             print
             print "{0} files written to dir '{1}'.".format(
                     len(MatchReport.get_work_files(md, ConfigMgr.WORK_DIR, ConfigMgr.OUTPUT_DIR)),
@@ -139,7 +134,7 @@ def main(argv=None):
             print 'Match results written to', logpathname
 
             #logging.info(ms.summary_details(apps=Configure.APPS))
-            #logging.info(ms.summary_matches(CONFIGS))
+            #logging.info(ms.summary_matches(Configure.CONFIGS))
 
             # COPY BACK TO REMOTE
         if DO_REPLACE:

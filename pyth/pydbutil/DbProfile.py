@@ -70,9 +70,9 @@ class DbProfile(object):
         else:
             return False
 
+
     def __ne__(self, other):
         return not self.__eq__(other)
-
 
 
     def match_attrib(self, aDict):
@@ -98,8 +98,10 @@ class DbProfile(object):
         """ Doesn't include source and targ paths."""
         return self.app + ' ' + self.dbname + ' ' + self.env + ' ' + self.boxname
 
+
     def __repr__(self):
         return '{0:11} {1:10} {2:14} {3}'.format(self.app, self.dbname, self.boxname, self.env)
+
 
 if __name__ == "__main__":
     import doctest

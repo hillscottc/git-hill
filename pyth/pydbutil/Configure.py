@@ -15,17 +15,20 @@ class Error(Exception):
     def __init__(self, msg):
         self.msg = msg
 
+BAKDIR = os.path.join(os.getcwd(), 'bak', 'work')
+
+FILE_EXTS = ('.config', '.bat')
 
 APPS = ('CARL', 'CART', 'Common', 'CPRS','CRA', 'CTX', 'D2',
         'DRA', 'ELS', 'GDRS', 'MP', 'PartsOrder', 'R2')
 
-_dbs = (('RDxETL', 'USHPEPVSQL409'), ('RDxReport', 'USHPEPVSQL435'))
-_envs = ('dev', )
+_dbs = (('RDxETL', 'USHPEPVSQL363'), ('RDxReport', 'USHPEPVSQL347'))
+_envs = ('prod', )
 
 DBSET = DbSet(DbProfile.create_profiles(envs=_envs, apps=APPS, dbs=_dbs))
 
 
-_ftp_root = 'USHPEWVAPP251'
+_ftp_root = 'USHPEWVAPP086'
 _log_path = os.path.join('D:', 'RDx', 'ETL', 'logs')
 _smtp_server = 'usush-maildrop.amer.umusic.net'
 _to = 'ar.umg.rights.dev@hp.com, Scott.Hill@umgtemp.com'

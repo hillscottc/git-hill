@@ -80,6 +80,9 @@ def change_root(filepath, old_root, new_root='work', ensure=False):
     >>> change_root('./remote/ETL/D2/_log4net.config',  './remote')
     'work/ETL/D2/_log4net.config'
     """
+
+    #print 'DEBUG {0} {1} {2}'.format(old_root, new_root, filepath)
+
     outfilename = re.sub(old_root, new_root, filepath)
     if ensure :
         ensure_dir(outfilename)

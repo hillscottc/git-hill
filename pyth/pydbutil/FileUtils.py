@@ -97,7 +97,7 @@ def change_root(filepath, old_root, new_root='work', ensure=False):
 
     try:
         if ensure :
-            ensure_dir(outfilename)
+            ensure_dir(z)
         print 'DEBUG: ensure worked ok for ', outfilename
     except Exception as e:
         raise MyError('{0}, {1}'.format(e, outfilename))

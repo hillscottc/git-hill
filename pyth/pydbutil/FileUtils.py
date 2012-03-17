@@ -92,8 +92,8 @@ def change_root(filepath, old_root, new_root='work', ensure=False):
         if ensure :
             ensure_dir(outfilename)
     except Exception as inst:
-        print type(inst)     # the exception instance
-        print inst.args      # arguments stored in .args
+        #print type(inst)     # the exception instance
+        #print inst.args      # arguments stored in .args
         raise MyError('{0}, {1}, {2}'.format(old_root, new_root, filepath))
 
     return outfilename

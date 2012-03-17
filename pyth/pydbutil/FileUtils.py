@@ -101,6 +101,7 @@ def change_root(filepath, old_root, new_root='work', ensure=False):
 
     try:
         outfilename = re.sub(old_root, new_root, filepath)
+        print 'DEBUG: worked for ',  outfilename
         if ensure :
             ensure_dir(outfilename)
     except :

@@ -1,265 +1,265 @@
-03-17 14:09 root DEBUG GO !
-03-17 14:09 root DEBUG ENV:uat    APPS:('CARL', 'CART', 'Common', 'CPRS', 'CRA', 'CTX', 'D2', 'DRA', 'ELS', 'GDRS', 'MP', 'PartsOrder', 'R2')
-03-17 14:09 root DEBUG FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/CARL/log4net.config, CARL, uat
-03-17 14:09 root DEBUG MATCH: mt:LOG_A b:D:\RDX\ETL\logs\CARL_ETL_log.txt l:4 a:D:/RDx/ETL/logs/CARL/CARL_etl.txt n:None a:CARL
-03-17 14:09 root DEBUG MATCH: mt:TO_VAL b:ar.umg.rights.dev@hp.com l:25 a:ar.umg.rights.dev@hp.com, Scott.Hill@umgtemp.com n:None a:CARL
-03-17 14:09 root DEBUG MATCH: mt:FROM_VAL b:RDxApp@umgtemp.com l:26 a:RDx@mgd.umusic.com n:None a:CARL
-03-17 14:09 root DEBUG MATCH: mt:SUBJ b:CARL NotificationService Message (DEV) l:27 a:RDxAlert Message uat n:None a:CARL
-03-17 14:09 root DEBUG MATCH: mt:SMTP b:usush-maildrop.amer.umusic.net l:28 a:usush-maildrop.amer.umusic.net n:None a:CARL
-03-17 14:09 root DEBUG MATCHLIST COUNT: 5
-03-17 14:09 root DEBUG FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/CARL/UMG.RDx.ETL.CARL.dll.config, CARL, uat
-03-17 14:09 root DEBUG MATCH: mt:DB b:CARL RDxETL uat USHPEPVSQL409 l:6 a:CARL RDxETL uat USHPEPVSQL363 n:None a:CARL
-03-17 14:09 root DEBUG MATCHLIST COUNT: 1
-03-17 14:09 root DEBUG FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/CARL/UMG.RDx.ETL.FileService.exe.config, CARL, uat
-03-17 14:09 root DEBUG MATCH: mt:DB b:CARL RDxETL uat USHPEPVSQL409 l:7 a:CARL RDxETL uat USHPEPVSQL363 n:None a:CARL
-03-17 14:09 root DEBUG MATCH: mt:DB b:CARL RDxETL uat USHPEPVSQL409 l:10 a:CARL RDxETL uat USHPEPVSQL363 n:None a:CARL
-03-17 14:09 root DEBUG MATCH: mt:DB b:CARL RDxReport uat USHPEPVSQL435 l:13 a:CARL RDxReport uat USHPEPVSQL347 n:None a:CARL
-03-17 14:09 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:24 a:USHPEWVAPP204 n:CARLFilePathIn a:CARL
-03-17 14:09 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:25 a:USHPEWVAPP204 n:CRAFilePathIn a:CARL
-03-17 14:09 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:26 a:USHPEWVAPP204 n:D2FilePathIn a:CARL
-03-17 14:09 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:27 a:USHPEWVAPP204 n:ELSFilePathIn a:CARL
-03-17 14:09 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:28 a:USHPEWVAPP204 n:GDRSFilePathIn a:CARL
-03-17 14:09 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:29 a:USHPEWVAPP204 n:PartsOrderFilePathIn a:CARL
-03-17 14:09 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:30 a:USHPEWVAPP204 n:CARTFilePathIn a:CARL
-03-17 14:09 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:32 a:USHPEWVAPP204 n:CARLFilePathOut a:CARL
-03-17 14:09 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:33 a:USHPEWVAPP204 n:CRAFilePathOut a:CARL
-03-17 14:09 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:34 a:USHPEWVAPP204 n:D2FilePathOut a:CARL
-03-17 14:09 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:35 a:USHPEWVAPP204 n:ELSFilePathOut a:CARL
-03-17 14:09 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:36 a:USHPEWVAPP204 n:GDRSFilePathOut a:CARL
-03-17 14:09 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:37 a:USHPEWVAPP204 n:PartsOrderFilePathOut a:CARL
-03-17 14:09 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:38 a:USHPEWVAPP204 n:CARTFilePathOut a:CARL
-03-17 14:09 root DEBUG MATCHLIST COUNT: 17
-03-17 14:09 root DEBUG FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/Common/Copy of UMG.RDx.ETL.CRA.dll.config, Common, uat
-03-17 14:09 root DEBUG MATCH: mt:DB b:Common RDxETL uat USFSHWSSQL104 l:6 a:Common RDxETL uat USHPEPVSQL363 n:None a:Common
-03-17 14:09 root DEBUG MATCH: mt:DB b:Common RDxReport uat USFSHWSSQL104\RIGHTSDEV_2 l:9 a:Common RDxReport uat USHPEPVSQL347 n:None a:Common
-03-17 14:09 root DEBUG MATCHLIST COUNT: 2
-03-17 14:09 root DEBUG FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/Common/log4net.config, Common, uat
-03-17 14:09 root DEBUG MATCH: mt:LOG_A b:D:\RDx\ETL\logs\COMMON\COMMON_ETL_log.txt l:4 a:D:/RDx/ETL/logs/Common/Common_etl.txt n:None a:Common
-03-17 14:09 root DEBUG MATCH: mt:TO_VAL b:ar.umg.rights.dev@hp.com l:25 a:ar.umg.rights.dev@hp.com, Scott.Hill@umgtemp.com n:None a:Common
-03-17 14:09 root DEBUG MATCH: mt:FROM_VAL b:RDxApp@umgtemp.com l:26 a:RDx@mgd.umusic.com n:None a:Common
-03-17 14:09 root DEBUG MATCH: mt:SUBJ b:Common NotificationService Message (DEV) l:27 a:RDxAlert Message uat n:None a:Common
-03-17 14:09 root DEBUG MATCH: mt:SMTP b:usush-maildrop.amer.umusic.net l:28 a:usush-maildrop.amer.umusic.net n:None a:Common
-03-17 14:09 root DEBUG MATCHLIST COUNT: 5
-03-17 14:09 root DEBUG FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/Common/UMG.RDx.ETL.CARL.dll.config, CARL, uat
-03-17 14:09 root DEBUG MATCH: mt:DB b:CARL RDxETL uat USHPEPVSQL409 l:6 a:CARL RDxETL uat USHPEPVSQL363 n:None a:CARL
-03-17 14:09 root DEBUG MATCHLIST COUNT: 1
-03-17 14:09 root DEBUG FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/Common/UMG.RDx.ETL.CRA.dll.config, Common, uat
-03-17 14:09 root DEBUG MATCH: mt:DB b:Common RDxETL uat USHPEPVSQL409 l:6 a:Common RDxETL uat USHPEPVSQL363 n:None a:Common
-03-17 14:09 root DEBUG MATCH: mt:DB b:Common RDxReport uat USHPEPVSQL435 l:9 a:Common RDxReport uat USHPEPVSQL347 n:None a:Common
-03-17 14:09 root DEBUG MATCHLIST COUNT: 2
-03-17 14:09 root DEBUG FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/Common/UMG.RDx.ETL.FileService.exe.config, Common, uat
-03-17 14:09 root DEBUG MATCH: mt:DB b:Common RDxETL uat USHPEPVSQL409 l:7 a:Common RDxETL uat USHPEPVSQL363 n:None a:Common
-03-17 14:09 root DEBUG MATCH: mt:DB b:Common RDxETL uat USHPEPVSQL409 l:10 a:Common RDxETL uat USHPEPVSQL363 n:None a:Common
-03-17 14:09 root DEBUG MATCH: mt:DB b:Common RDxReport uat USHPEPVSQL435 l:13 a:Common RDxReport uat USHPEPVSQL347 n:None a:Common
-03-17 14:09 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:24 a:USHPEWVAPP204 n:CARLFilePathIn a:Common
-03-17 14:09 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:25 a:USHPEWVAPP204 n:CRAFilePathIn a:Common
-03-17 14:09 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:26 a:USHPEWVAPP204 n:D2FilePathIn a:Common
-03-17 14:09 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:27 a:USHPEWVAPP204 n:ELSFilePathIn a:Common
-03-17 14:09 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:28 a:USHPEWVAPP204 n:GDRSFilePathIn a:Common
-03-17 14:09 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:29 a:USHPEWVAPP204 n:PartsOrderFilePathIn a:Common
-03-17 14:09 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:30 a:USHPEWVAPP204 n:CARTFilePathIn a:Common
-03-17 14:09 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:32 a:USHPEWVAPP204 n:CARLFilePathOut a:Common
-03-17 14:09 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:33 a:USHPEWVAPP204 n:CRAFilePathOut a:Common
-03-17 14:09 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:34 a:USHPEWVAPP204 n:D2FilePathOut a:Common
-03-17 14:09 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:35 a:USHPEWVAPP204 n:ELSFilePathOut a:Common
-03-17 14:09 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:36 a:USHPEWVAPP204 n:GDRSFilePathOut a:Common
-03-17 14:09 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:37 a:USHPEWVAPP204 n:PartsOrderFilePathOut a:Common
-03-17 14:09 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:38 a:USHPEWVAPP204 n:CARTFilePathOut a:Common
-03-17 14:09 root DEBUG MATCHLIST COUNT: 17
-03-17 14:09 root DEBUG FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/Common/UMG.RDx.ETL.GDRS.dll.config, Common, uat
-03-17 14:09 root DEBUG MATCH: mt:DB b:Common RDxETL uat USHPEPVSQL409 l:6 a:Common RDxETL uat USHPEPVSQL363 n:None a:Common
-03-17 14:09 root DEBUG MATCH: mt:DB b:Common RDxReport uat USHPEPVSQL435 l:9 a:Common RDxReport uat USHPEPVSQL347 n:None a:Common
-03-17 14:09 root DEBUG MATCHLIST COUNT: 2
-03-17 14:09 root DEBUG FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/CPRS/Copy of UMG.RDx.ETL.CPRS.exe.config, CPRS, uat
-03-17 14:09 root DEBUG MATCH: mt:LOG_B b:D:\RDx\ETL\Logs\cprs_etl.txt l:14 a:D:/RDx/ETL/logs/CPRS/CPRS_etl.txt n:None a:CPRS
-03-17 14:09 root DEBUG MATCH: mt:TO_VAL b:Scott.Hill@umgtemp.com l:38 a:ar.umg.rights.dev@hp.com, Scott.Hill@umgtemp.com n:None a:CPRS
-03-17 14:09 root DEBUG MATCH: mt:FROM_VAL b:CPRS_ETL_Process@mgd.umusic.com l:39 a:RDx@mgd.umusic.com n:None a:CPRS
-03-17 14:09 root DEBUG MATCH: mt:SUBJ b:CPRS NotificationService Message l:40 a:RDxAlert Message uat n:None a:CPRS
-03-17 14:09 root DEBUG MATCH: mt:SMTP b:smtphost.global.umusic.net l:41 a:usush-maildrop.amer.umusic.net n:None a:CPRS
-03-17 14:09 root DEBUG MATCH: mt:DB b:CPRS RDxETL uat LOCALHOST l:59 a:CPRS RDxETL uat USHPEPVSQL363 n:None a:CPRS
-03-17 14:09 root DEBUG MATCH: mt:DB b:CPRS RDxETL uat USFSHWSSQL104 l:132 a:CPRS RDxETL uat USHPEPVSQL363 n:None a:CPRS
-03-17 14:09 root DEBUG MATCH: mt:DB b:CPRS RDxETL uat USFSHWSSQL104 l:137 a:CPRS RDxETL uat USHPEPVSQL363 n:None a:CPRS
-03-17 14:09 root DEBUG MATCH: mt:DB b:CPRS RDxETL uat USFSHWSSQL104 l:140 a:CPRS RDxETL uat USHPEPVSQL363 n:None a:CPRS
-03-17 14:09 root DEBUG MATCH: mt:DB b:CPRS RDxReport uat USFSHWSSQL104\RIGHTSDEV_2 l:143 a:CPRS RDxReport uat USHPEPVSQL347 n:None a:CPRS
-03-17 14:09 root DEBUG MATCHLIST COUNT: 10
-03-17 14:09 root DEBUG FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/CPRS/log4net.config, CPRS, uat
-03-17 14:09 root DEBUG MATCH: mt:LOG_B b:d:\RDx\ETL\logs\CPRS\cprs_log.txt l:4 a:D:/RDx/ETL/logs/CPRS/CPRS_etl.txt n:None a:CPRS
-03-17 14:09 root DEBUG MATCH: mt:TO_VAL b:Scott.Hill@umgtemp.com,ar.umg.rights.dev@hp.com l:29 a:ar.umg.rights.dev@hp.com, Scott.Hill@umgtemp.com n:None a:CPRS
-03-17 14:09 root DEBUG MATCH: mt:FROM_VAL b:RDxApp@umgtemp.com l:30 a:RDx@mgd.umusic.com n:None a:CPRS
-03-17 14:09 root DEBUG MATCH: mt:SUBJ b:CPRS NotificationService Message (DEV) l:31 a:RDxAlert Message uat n:None a:CPRS
-03-17 14:09 root DEBUG MATCH: mt:SMTP b:usush-maildrop.amer.umusic.net l:32 a:usush-maildrop.amer.umusic.net n:None a:CPRS
-03-17 14:09 root DEBUG MATCHLIST COUNT: 5
-03-17 14:09 root DEBUG FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/CPRS/UMG.RDx.ETL.CPRS.exe.config, CPRS, uat
-03-17 14:09 root DEBUG MATCH: mt:LOG_B b:D:\RDx\ETL\Logs\CPRS\cprs_etl.txt l:14 a:D:/RDx/ETL/logs/CPRS/CPRS_etl.txt n:None a:CPRS
-03-17 14:09 root DEBUG MATCH: mt:TO_VAL b:Scott.Hill@umgtemp.com,ar.umg.rights.dev@hp.com l:38 a:ar.umg.rights.dev@hp.com, Scott.Hill@umgtemp.com n:None a:CPRS
-03-17 14:09 root DEBUG MATCH: mt:FROM_VAL b:RDxApp@umgtemp.com l:39 a:RDx@mgd.umusic.com n:None a:CPRS
-03-17 14:09 root DEBUG MATCH: mt:SUBJ b:CPRS NotificationService Message (DEV) l:40 a:RDxAlert Message uat n:None a:CPRS
-03-17 14:09 root DEBUG MATCH: mt:SMTP b:smtphost.global.umusic.net l:41 a:usush-maildrop.amer.umusic.net n:None a:CPRS
-03-17 14:09 root DEBUG MATCH: mt:DB b:CPRS RDxETL uat USHPEPVSQL409 l:59 a:CPRS RDxETL uat USHPEPVSQL363 n:None a:CPRS
-03-17 14:09 root DEBUG MATCH: mt:DB b:CPRS RDxETL uat USHPEPVSQL409 l:132 a:CPRS RDxETL uat USHPEPVSQL363 n:None a:CPRS
-03-17 14:09 root DEBUG MATCH: mt:DB b:CPRS RDxETL uat USHPEPVSQL409 l:137 a:CPRS RDxETL uat USHPEPVSQL363 n:None a:CPRS
-03-17 14:09 root DEBUG MATCH: mt:DB b:CPRS RDxETL uat USHPEPVSQL409 l:140 a:CPRS RDxETL uat USHPEPVSQL363 n:None a:CPRS
-03-17 14:09 root DEBUG MATCH: mt:DB b:CPRS RDxReport uat USHPEPVSQL435 l:143 a:CPRS RDxReport uat USHPEPVSQL347 n:None a:CPRS
-03-17 14:09 root DEBUG MATCHLIST COUNT: 10
-03-17 14:09 root DEBUG FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/CTX/ET/log4net.config, CTX, uat
-03-17 14:09 root DEBUG MATCH: mt:LOG_A b:D:\RDx\ETL\logs\CTX\CTX_etl.txt l:4 a:D:/RDx/ETL/logs/CTX/CTX_etl.txt n:None a:CTX
-03-17 14:09 root DEBUG MATCH: mt:TO_VAL b:Scott.Hill@umgtemp.com,ar.umg.rights.dev@hp.com l:25 a:ar.umg.rights.dev@hp.com, Scott.Hill@umgtemp.com n:None a:CTX
-03-17 14:09 root DEBUG MATCH: mt:FROM_VAL b:RDxApp@umgtemp.com l:26 a:RDx@mgd.umusic.com n:None a:CTX
-03-17 14:09 root DEBUG MATCH: mt:SUBJ b:CTX (Extract/Transform) NotificationService Message (DEV) l:27 a:RDxAlert Message uat n:None a:CTX
-03-17 14:09 root DEBUG MATCH: mt:SMTP b:usush-maildrop.amer.umusic.net l:28 a:usush-maildrop.amer.umusic.net n:None a:CTX
-03-17 14:09 root DEBUG MATCHLIST COUNT: 5
-03-17 14:09 root DEBUG FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/CTX/ET/UMG.RDx.ETL.CTX.exe.config, CTX, uat
-03-17 14:09 root DEBUG MATCH: mt:DB b:CTX RDxETL uat USHPEPVSQL409 l:7 a:CTX RDxETL uat USHPEPVSQL363 n:None a:CTX
-03-17 14:09 root DEBUG MATCH: mt:DB b:CTX RDxETL uat USHPEPVSQL409 l:12 a:CTX RDxETL uat USHPEPVSQL363 n:None a:CTX
-03-17 14:09 root DEBUG MATCH: mt:DB b:CTX RDxETL uat USHPEPVSQL409 l:16 a:CTX RDxETL uat USHPEPVSQL363 n:None a:CTX
-03-17 14:09 root DEBUG MATCH: mt:DB b:CTX RDxReport uat USHPEPVSQL435 l:20 a:CTX RDxReport uat USHPEPVSQL347 n:None a:CTX
-03-17 14:09 root DEBUG MATCHLIST COUNT: 4
-03-17 14:09 root DEBUG FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/CTX/ET/UMG.RDx.ETL.CTX.exe.OLD.config, CTX, uat
-03-17 14:09 root DEBUG MATCH: mt:DB b:CTX RDxETL uat USHPEPVSQL409 l:7 a:CTX RDxETL uat USHPEPVSQL363 n:None a:CTX
-03-17 14:09 root DEBUG MATCH: mt:DB b:CTX RDxETL uat USHPEPVSQL409 l:12 a:CTX RDxETL uat USHPEPVSQL363 n:None a:CTX
-03-17 14:09 root DEBUG MATCH: mt:DB b:CTX RDxETL uat USHPEPVSQL409 l:16 a:CTX RDxETL uat USHPEPVSQL363 n:None a:CTX
-03-17 14:09 root DEBUG MATCH: mt:DB b:CTX RDxReport uat USHPEPVSQL409 l:20 a:CTX RDxReport uat USHPEPVSQL347 n:None a:CTX
-03-17 14:09 root DEBUG MATCHLIST COUNT: 4
-03-17 14:09 root DEBUG FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/CTX/L/log4net.config, CTX, uat
-03-17 14:09 root DEBUG MATCH: mt:LOG_A b:D:\RDx\ETL\logs\CTX\CTX_etl.txt l:4 a:D:/RDx/ETL/logs/CTX/CTX_etl.txt n:None a:CTX
-03-17 14:09 root DEBUG MATCH: mt:TO_VAL b:Scott.Hill@umgtemp.com,ar.umg.rights.dev@hp.com l:25 a:ar.umg.rights.dev@hp.com, Scott.Hill@umgtemp.com n:None a:CTX
-03-17 14:09 root DEBUG MATCH: mt:FROM_VAL b:RDxApp@umgtemp.com l:26 a:RDx@mgd.umusic.com n:None a:CTX
-03-17 14:09 root DEBUG MATCH: mt:SUBJ b:CTX (Load) NotificationService Message (DEV) l:27 a:RDxAlert Message uat n:None a:CTX
-03-17 14:09 root DEBUG MATCH: mt:SMTP b:usush-maildrop.amer.umusic.net l:28 a:usush-maildrop.amer.umusic.net n:None a:CTX
-03-17 14:09 root DEBUG MATCHLIST COUNT: 5
-03-17 14:09 root DEBUG FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/CTX/L/UMG.RDx.ETL.CTX.exe.config, CTX, uat
-03-17 14:09 root DEBUG MATCH: mt:DB b:CTX RDxETL uat USHPEPVSQL409 l:7 a:CTX RDxETL uat USHPEPVSQL363 n:None a:CTX
-03-17 14:09 root DEBUG MATCH: mt:DB b:CTX RDxETL uat USHPEPVSQL409 l:12 a:CTX RDxETL uat USHPEPVSQL363 n:None a:CTX
-03-17 14:09 root DEBUG MATCH: mt:DB b:CTX RDxETL uat USHPEPVSQL409 l:16 a:CTX RDxETL uat USHPEPVSQL363 n:None a:CTX
-03-17 14:09 root DEBUG MATCH: mt:DB b:CTX RDxReport uat USHPEPVSQL435 l:20 a:CTX RDxReport uat USHPEPVSQL347 n:None a:CTX
-03-17 14:09 root DEBUG MATCHLIST COUNT: 4
-03-17 14:09 root DEBUG FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/D2/_log4net.config, D2, uat
-03-17 14:09 root DEBUG MATCH: mt:LOG_A b:log.txt l:4 a:D:/RDx/ETL/logs/D2/D2_etl.txt n:None a:D2
-03-17 14:09 root DEBUG MATCHLIST COUNT: 1
-03-17 14:09 root DEBUG FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/D2/_UMG.RDx.ETL.FileService.exe.config, D2, uat
-03-17 14:09 root DEBUG MATCH: mt:DB b:D2 RDxETL uat USFSHWSSQL104 l:7 a:D2 RDxETL uat USHPEPVSQL363 n:None a:D2
-03-17 14:09 root DEBUG MATCHLIST COUNT: 1
-03-17 14:09 root DEBUG FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/D2/log4net.config, D2, uat
-03-17 14:09 root DEBUG MATCH: mt:LOG_A b:D:\RDx\ETL\logs\D2\D2_ETL_Log.txt l:4 a:D:/RDx/ETL/logs/D2/D2_etl.txt n:None a:D2
-03-17 14:09 root DEBUG MATCH: mt:TO_VAL b:ar.umg.rights.dev@hp.com l:25 a:ar.umg.rights.dev@hp.com, Scott.Hill@umgtemp.com n:None a:D2
-03-17 14:09 root DEBUG MATCH: mt:FROM_VAL b:RDxApp@umgtemp.com l:26 a:RDx@mgd.umusic.com n:None a:D2
-03-17 14:09 root DEBUG MATCH: mt:SUBJ b:D2 NotificationService Message (DEV) l:27 a:RDxAlert Message uat n:None a:D2
-03-17 14:09 root DEBUG MATCH: mt:SMTP b:usush-maildrop.amer.umusic.net l:28 a:usush-maildrop.amer.umusic.net n:None a:D2
-03-17 14:09 root DEBUG MATCHLIST COUNT: 5
-03-17 14:09 root DEBUG FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/D2/UMG.RDx.ETL.FileService.exe.config, D2, uat
-03-17 14:09 root DEBUG MATCH: mt:DB b:D2 RDxETL uat USHPEPVSQL409 l:7 a:D2 RDxETL uat USHPEPVSQL363 n:None a:D2
-03-17 14:09 root DEBUG MATCH: mt:DB b:D2 RDxETL uat USHPEPVSQL409 l:10 a:D2 RDxETL uat USHPEPVSQL363 n:None a:D2
-03-17 14:09 root DEBUG MATCH: mt:DB b:D2 RDxReport uat USHPEPVSQL435 l:13 a:D2 RDxReport uat USHPEPVSQL347 n:None a:D2
-03-17 14:09 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:24 a:USHPEWVAPP204 n:CARLFilePathIn a:D2
-03-17 14:09 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:25 a:USHPEWVAPP204 n:CRAFilePathIn a:D2
-03-17 14:09 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:26 a:USHPEWVAPP204 n:D2FilePathIn a:D2
-03-17 14:09 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:27 a:USHPEWVAPP204 n:ELSFilePathIn a:D2
-03-17 14:09 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:28 a:USHPEWVAPP204 n:GDRSFilePathIn a:D2
-03-17 14:09 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:29 a:USHPEWVAPP204 n:PartsOrderFilePathIn a:D2
-03-17 14:09 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:30 a:USHPEWVAPP204 n:CARTFilePathIn a:D2
-03-17 14:09 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:32 a:USHPEWVAPP204 n:CARLFilePathOut a:D2
-03-17 14:09 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:33 a:USHPEWVAPP204 n:CRAFilePathOut a:D2
-03-17 14:09 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:34 a:USHPEWVAPP204 n:D2FilePathOut a:D2
-03-17 14:09 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:35 a:USHPEWVAPP204 n:ELSFilePathOut a:D2
-03-17 14:09 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:36 a:USHPEWVAPP204 n:GDRSFilePathOut a:D2
-03-17 14:09 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:37 a:USHPEWVAPP204 n:PartsOrderFilePathOut a:D2
-03-17 14:09 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:38 a:USHPEWVAPP204 n:CARTFilePathOut a:D2
-03-17 14:09 root DEBUG MATCHLIST COUNT: 17
-03-17 14:09 root DEBUG FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/DRA/log4net.config, DRA, uat
-03-17 14:09 root DEBUG MATCH: mt:LOG_A b:D:\RDx\ETL\logs\DRA\DRA_etl.txt l:4 a:D:/RDx/ETL/logs/DRA/DRA_etl.txt n:None a:DRA
-03-17 14:09 root DEBUG MATCH: mt:TO_VAL b:Scott.Hill@umgtemp.com,ar.umg.rights.dev@hp.com l:25 a:ar.umg.rights.dev@hp.com, Scott.Hill@umgtemp.com n:None a:DRA
-03-17 14:09 root DEBUG MATCH: mt:FROM_VAL b:RDxApp@umgtemp.com l:26 a:RDx@mgd.umusic.com n:None a:DRA
-03-17 14:09 root DEBUG MATCH: mt:SUBJ b:DRA NotificationService Message (DEV) l:27 a:RDxAlert Message uat n:None a:DRA
-03-17 14:09 root DEBUG MATCH: mt:SMTP b:usush-maildrop.amer.umusic.net l:28 a:usush-maildrop.amer.umusic.net n:None a:DRA
-03-17 14:09 root DEBUG MATCHLIST COUNT: 5
-03-17 14:09 root DEBUG FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/DRA/UMG.RDx.ETL.DRA.exe.config, DRA, uat
-03-17 14:09 root DEBUG MATCH: mt:DB b:DRA RDxETL uat USHPEPVSQL409 l:7 a:DRA RDxETL uat USHPEPVSQL363 n:None a:DRA
-03-17 14:09 root DEBUG MATCH: mt:DB b:DRA RDxETL uat USHPEPVSQL409 l:12 a:DRA RDxETL uat USHPEPVSQL363 n:None a:DRA
-03-17 14:09 root DEBUG MATCH: mt:DB b:DRA RDxETL uat USHPEPVSQL409 l:16 a:DRA RDxETL uat USHPEPVSQL363 n:None a:DRA
-03-17 14:09 root DEBUG MATCH: mt:DB b:DRA RDxReport uat USHPEPVSQL435 l:20 a:DRA RDxReport uat USHPEPVSQL347 n:None a:DRA
-03-17 14:09 root DEBUG MATCHLIST COUNT: 4
-03-17 14:09 root DEBUG FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/gdrs/log4net.config, GDRS, uat
-03-17 14:09 root DEBUG MATCH: mt:LOG_A b:D:\RDx\ETL\logs\GDRS_ETL_Log.txt l:4 a:D:/RDx/ETL/logs/GDRS/GDRS_etl.txt n:None a:GDRS
-03-17 14:09 root DEBUG MATCH: mt:TO_VAL b:ar.umg.rights.dev@hp.com l:25 a:ar.umg.rights.dev@hp.com, Scott.Hill@umgtemp.com n:None a:GDRS
-03-17 14:09 root DEBUG MATCH: mt:FROM_VAL b:RDxApp@umgtemp.com l:26 a:RDx@mgd.umusic.com n:None a:GDRS
-03-17 14:09 root DEBUG MATCH: mt:SUBJ b:D2 NotificationService Message (DEV) l:27 a:RDxAlert Message uat n:None a:GDRS
-03-17 14:09 root DEBUG MATCH: mt:SMTP b:usush-maildrop.amer.umusic.net l:28 a:usush-maildrop.amer.umusic.net n:None a:GDRS
-03-17 14:09 root DEBUG MATCHLIST COUNT: 5
-03-17 14:09 root DEBUG FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/gdrs/UMG.RDx.ETL.FileService.exe.config, GDRS, uat
-03-17 14:09 root DEBUG MATCH: mt:DB b:GDRS RDxETL uat USHPEPVSQL409 l:7 a:GDRS RDxETL uat USHPEPVSQL363 n:None a:GDRS
-03-17 14:09 root DEBUG MATCH: mt:DB b:GDRS RDxETL uat USHPEPVSQL409 l:10 a:GDRS RDxETL uat USHPEPVSQL363 n:None a:GDRS
-03-17 14:09 root DEBUG MATCH: mt:DB b:GDRS RDxReport uat USHPEPVSQL435 l:13 a:GDRS RDxReport uat USHPEPVSQL347 n:None a:GDRS
-03-17 14:09 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:24 a:USHPEWVAPP204 n:CARLFilePathIn a:GDRS
-03-17 14:09 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:25 a:USHPEWVAPP204 n:CRAFilePathIn a:GDRS
-03-17 14:09 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:26 a:USHPEWVAPP204 n:D2FilePathIn a:GDRS
-03-17 14:09 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:27 a:USHPEWVAPP204 n:ELSFilePathIn a:GDRS
-03-17 14:09 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:28 a:USHPEWVAPP204 n:GDRSFilePathIn a:GDRS
-03-17 14:09 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:29 a:USHPEWVAPP204 n:PartsOrderFilePathIn a:GDRS
-03-17 14:09 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:30 a:USHPEWVAPP204 n:CARTFilePathIn a:GDRS
-03-17 14:09 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:32 a:USHPEWVAPP204 n:CARLFilePathOut a:GDRS
-03-17 14:09 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:33 a:USHPEWVAPP204 n:CRAFilePathOut a:GDRS
-03-17 14:09 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:34 a:USHPEWVAPP204 n:D2FilePathOut a:GDRS
-03-17 14:09 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:35 a:USHPEWVAPP204 n:ELSFilePathOut a:GDRS
-03-17 14:09 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:36 a:USHPEWVAPP204 n:GDRSFilePathOut a:GDRS
-03-17 14:09 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:37 a:USHPEWVAPP204 n:PartsOrderFilePathOut a:GDRS
-03-17 14:09 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:38 a:USHPEWVAPP204 n:CARTFilePathOut a:GDRS
-03-17 14:09 root DEBUG MATCHLIST COUNT: 17
-03-17 14:09 root DEBUG FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/MP/log4net.config, MP, uat
-03-17 14:09 root DEBUG MATCH: mt:LOG_A b:D:\RDx\ETL\logs\MP\MP_log.txt l:4 a:D:/RDx/ETL/logs/MP/MP_etl.txt n:None a:MP
-03-17 14:09 root DEBUG MATCH: mt:TO_VAL b:ar.umg.rights.dev@hp.com, Nadia.Pissova-Malpartida@umgtemp.com, Scott.Hill@umgtemp.com l:81 a:ar.umg.rights.dev@hp.com, Scott.Hill@umgtemp.com n:None a:MP
-03-17 14:09 root DEBUG MATCH: mt:FROM_VAL b:RDxApp@mgd.umusic.com l:82 a:RDx@mgd.umusic.com n:None a:MP
-03-17 14:09 root DEBUG MATCH: mt:SUBJ b:RDxAlert Message (UAT) l:83 a:RDxAlert Message uat n:None a:MP
-03-17 14:09 root DEBUG MATCH: mt:SMTP b:smtphost.global.umusic.net l:84 a:usush-maildrop.amer.umusic.net n:None a:MP
-03-17 14:09 root DEBUG MATCHLIST COUNT: 5
-03-17 14:09 root DEBUG FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/MP/UMG.RDx.ETL.MP.exe.config, MP, uat
-03-17 14:09 root DEBUG MATCH: mt:DB b:MP RDxETL uat USHPEPVSQL409 l:7 a:MP RDxETL uat USHPEPVSQL363 n:None a:MP
-03-17 14:09 root DEBUG MATCH: mt:DB b:MP RDxETL uat USHPEPVSQL409 l:12 a:MP RDxETL uat USHPEPVSQL363 n:None a:MP
-03-17 14:09 root DEBUG MATCH: mt:DB b:MP RDxETL uat USHPEPVSQL409 l:16 a:MP RDxETL uat USHPEPVSQL363 n:None a:MP
-03-17 14:09 root DEBUG MATCH: mt:DB b:MP RDxReport uat USHPEPVSQL435 l:20 a:MP RDxReport uat USHPEPVSQL347 n:None a:MP
-03-17 14:09 root DEBUG MATCHLIST COUNT: 4
-03-17 14:09 root DEBUG FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/MP/UMG.RDx.ETL.MP.Extract.dll.config, MP, uat
-03-17 14:09 root DEBUG MATCH: mt:DB b:MP RDxETL uat USHPEPVSQL409 l:9 a:MP RDxETL uat USHPEPVSQL363 n:None a:MP
-03-17 14:09 root DEBUG MATCHLIST COUNT: 1
-03-17 14:09 root DEBUG FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config, MP, uat
-03-17 14:09 root DEBUG MATCH: mt:LOG_B b:D:\RDx\ETL\logs\MP\MP_log.txt l:12 a:D:/RDx/ETL/logs/MP/MP_etl.txt n:None a:MP
-03-17 14:09 root DEBUG MATCH: mt:TO_VAL b:ar.umg.rights.dev@hp.com, Nadia.Pissova-Malpartida@umgtemp.com, Scott.Hill@umgtemp.com l:44 a:ar.umg.rights.dev@hp.com, Scott.Hill@umgtemp.com n:None a:MP
-03-17 14:09 root DEBUG MATCH: mt:FROM_VAL b:RDxApp@mgd.umusic.com l:45 a:RDx@mgd.umusic.com n:None a:MP
-03-17 14:09 root DEBUG MATCH: mt:SUBJ b:RDxAlert Message DEBUGGING l:46 a:RDxAlert Message uat n:None a:MP
-03-17 14:09 root DEBUG MATCH: mt:SMTP b:smtphost.global.umusic.net l:47 a:usush-maildrop.amer.umusic.net n:None a:MP
-03-17 14:09 root DEBUG MATCH: mt:DB b:MP RDxETL uat USHPEPVSQL409 l:68 a:MP RDxETL uat USHPEPVSQL363 n:None a:MP
-03-17 14:09 root DEBUG MATCH: mt:DB b:MP RDxETL uat USHPEPVSQL409 l:73 a:MP RDxETL uat USHPEPVSQL363 n:None a:MP
-03-17 14:09 root DEBUG MATCH: mt:DB b:MP RDxETL uat USHPEPVSQL409 l:77 a:MP RDxETL uat USHPEPVSQL363 n:None a:MP
-03-17 14:09 root DEBUG MATCH: mt:DB b:MP RDxReport uat USHPEPVSQL435 l:81 a:MP RDxReport uat USHPEPVSQL347 n:None a:MP
-03-17 14:09 root DEBUG MATCHLIST COUNT: 9
-03-17 14:09 root DEBUG FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/PartsOrder/PO.bat, PartsOrder, uat
-03-17 14:09 root DEBUG MATCHLIST COUNT: 0
-03-17 14:09 root DEBUG FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/R2/Copy of UMG.RDx.ETL.R2.exe.config, R2, uat
-03-17 14:09 root DEBUG MATCH: mt:DB b:R2 RDxETL uat USFSHWSSQL104 l:7 a:R2 RDxETL uat USHPEPVSQL363 n:None a:R2
-03-17 14:09 root DEBUG MATCH: mt:DB b:R2 RDxETL uat USFSHWSSQL104 l:12 a:R2 RDxETL uat USHPEPVSQL363 n:None a:R2
-03-17 14:09 root DEBUG MATCH: mt:DB b:R2 RDxETL uat USFSHWSSQL104 l:16 a:R2 RDxETL uat USHPEPVSQL363 n:None a:R2
-03-17 14:09 root DEBUG MATCH: mt:DB b:R2 RDxReport uat USFSHWSSQL104\RIGHTSDEV_2 l:20 a:R2 RDxReport uat USHPEPVSQL347 n:None a:R2
-03-17 14:09 root DEBUG MATCHLIST COUNT: 4
-03-17 14:09 root DEBUG FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/R2/log4net.config, R2, uat
-03-17 14:09 root DEBUG MATCH: mt:LOG_A b:D:\RDx\ETL\logs\R2\r2_etl_log.txt l:4 a:D:/RDx/ETL/logs/R2/R2_etl.txt n:None a:R2
-03-17 14:09 root DEBUG MATCH: mt:TO_VAL b:Scott.Hill@umgtemp.com,ar.umg.rights.dev@hp.com l:25 a:ar.umg.rights.dev@hp.com, Scott.Hill@umgtemp.com n:None a:R2
-03-17 14:09 root DEBUG MATCH: mt:FROM_VAL b:RDxApp@umgtemp.com l:26 a:RDx@mgd.umusic.com n:None a:R2
-03-17 14:09 root DEBUG MATCH: mt:SUBJ b:R2 NotificationService Message (DEV) l:27 a:RDxAlert Message uat n:None a:R2
-03-17 14:09 root DEBUG MATCH: mt:SMTP b:usush-maildrop.amer.umusic.net l:28 a:usush-maildrop.amer.umusic.net n:None a:R2
-03-17 14:09 root DEBUG MATCHLIST COUNT: 5
-03-17 14:09 root DEBUG FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/R2/UMG.RDx.ETL.R2.exe.config, R2, uat
-03-17 14:09 root DEBUG MATCH: mt:DB b:R2 RDxETL uat USHPEPVSQL409 l:7 a:R2 RDxETL uat USHPEPVSQL363 n:None a:R2
-03-17 14:09 root DEBUG MATCH: mt:DB b:R2 RDxETL uat USHPEPVSQL409 l:12 a:R2 RDxETL uat USHPEPVSQL363 n:None a:R2
-03-17 14:09 root DEBUG MATCH: mt:DB b:R2 RDxETL uat USHPEPVSQL409 l:16 a:R2 RDxETL uat USHPEPVSQL363 n:None a:R2
-03-17 14:09 root DEBUG MATCH: mt:DB b:R2 RDxReport uat USHPEPVSQL409 l:20 a:R2 RDxReport uat USHPEPVSQL347 n:None a:R2
-03-17 14:09 root DEBUG MATCHLIST COUNT: 4
-03-17 14:09 root DEBUG FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/R2/UMG.RDx.ETL.R2.vshost.exe.config, R2, uat
-03-17 14:09 root DEBUG MATCH: mt:DB b:R2 RDxETL uat USHPEPVSQL409 l:7 a:R2 RDxETL uat USHPEPVSQL363 n:None a:R2
-03-17 14:09 root DEBUG MATCH: mt:DB b:R2 RDxETL uat USHPEPVSQL409 l:12 a:R2 RDxETL uat USHPEPVSQL363 n:None a:R2
-03-17 14:09 root DEBUG MATCH: mt:DB b:R2 RDxETL uat USHPEPVSQL409 l:16 a:R2 RDxETL uat USHPEPVSQL363 n:None a:R2
-03-17 14:09 root DEBUG MATCH: mt:DB b:R2 RDxReport uat USHPEPVSQL409 l:20 a:R2 RDxReport uat USHPEPVSQL347 n:None a:R2
-03-17 14:09 root DEBUG MATCHLIST COUNT: 4
-03-17 14:09 root DEBUG 
-03-17 14:09 root DEBUG DETAILS for CARL
+03-17 14:10 root DEBUG GO !
+03-17 14:10 root DEBUG ENV:uat    APPS:('CARL', 'CART', 'Common', 'CPRS', 'CRA', 'CTX', 'D2', 'DRA', 'ELS', 'GDRS', 'MP', 'PartsOrder', 'R2')
+03-17 14:10 root DEBUG FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/CARL/log4net.config, CARL, uat
+03-17 14:10 root DEBUG MATCH: mt:LOG_A b:D:\RDX\ETL\logs\CARL_ETL_log.txt l:4 a:D:/RDx/ETL/logs/CARL/CARL_etl.txt n:None a:CARL
+03-17 14:10 root DEBUG MATCH: mt:TO_VAL b:ar.umg.rights.dev@hp.com l:25 a:ar.umg.rights.dev@hp.com, Scott.Hill@umgtemp.com n:None a:CARL
+03-17 14:10 root DEBUG MATCH: mt:FROM_VAL b:RDxApp@umgtemp.com l:26 a:RDx@mgd.umusic.com n:None a:CARL
+03-17 14:10 root DEBUG MATCH: mt:SUBJ b:CARL NotificationService Message (DEV) l:27 a:RDxAlert Message uat n:None a:CARL
+03-17 14:10 root DEBUG MATCH: mt:SMTP b:usush-maildrop.amer.umusic.net l:28 a:usush-maildrop.amer.umusic.net n:None a:CARL
+03-17 14:10 root DEBUG MATCHLIST COUNT: 5
+03-17 14:10 root DEBUG FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/CARL/UMG.RDx.ETL.CARL.dll.config, CARL, uat
+03-17 14:10 root DEBUG MATCH: mt:DB b:CARL RDxETL uat USHPEPVSQL409 l:6 a:CARL RDxETL uat USHPEPVSQL363 n:None a:CARL
+03-17 14:10 root DEBUG MATCHLIST COUNT: 1
+03-17 14:10 root DEBUG FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/CARL/UMG.RDx.ETL.FileService.exe.config, CARL, uat
+03-17 14:10 root DEBUG MATCH: mt:DB b:CARL RDxETL uat USHPEPVSQL409 l:7 a:CARL RDxETL uat USHPEPVSQL363 n:None a:CARL
+03-17 14:10 root DEBUG MATCH: mt:DB b:CARL RDxETL uat USHPEPVSQL409 l:10 a:CARL RDxETL uat USHPEPVSQL363 n:None a:CARL
+03-17 14:10 root DEBUG MATCH: mt:DB b:CARL RDxReport uat USHPEPVSQL435 l:13 a:CARL RDxReport uat USHPEPVSQL347 n:None a:CARL
+03-17 14:10 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:24 a:USHPEWVAPP204 n:CARLFilePathIn a:CARL
+03-17 14:10 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:25 a:USHPEWVAPP204 n:CRAFilePathIn a:CARL
+03-17 14:10 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:26 a:USHPEWVAPP204 n:D2FilePathIn a:CARL
+03-17 14:10 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:27 a:USHPEWVAPP204 n:ELSFilePathIn a:CARL
+03-17 14:10 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:28 a:USHPEWVAPP204 n:GDRSFilePathIn a:CARL
+03-17 14:10 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:29 a:USHPEWVAPP204 n:PartsOrderFilePathIn a:CARL
+03-17 14:10 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:30 a:USHPEWVAPP204 n:CARTFilePathIn a:CARL
+03-17 14:10 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:32 a:USHPEWVAPP204 n:CARLFilePathOut a:CARL
+03-17 14:10 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:33 a:USHPEWVAPP204 n:CRAFilePathOut a:CARL
+03-17 14:10 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:34 a:USHPEWVAPP204 n:D2FilePathOut a:CARL
+03-17 14:10 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:35 a:USHPEWVAPP204 n:ELSFilePathOut a:CARL
+03-17 14:10 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:36 a:USHPEWVAPP204 n:GDRSFilePathOut a:CARL
+03-17 14:10 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:37 a:USHPEWVAPP204 n:PartsOrderFilePathOut a:CARL
+03-17 14:10 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:38 a:USHPEWVAPP204 n:CARTFilePathOut a:CARL
+03-17 14:10 root DEBUG MATCHLIST COUNT: 17
+03-17 14:10 root DEBUG FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/Common/Copy of UMG.RDx.ETL.CRA.dll.config, Common, uat
+03-17 14:10 root DEBUG MATCH: mt:DB b:Common RDxETL uat USFSHWSSQL104 l:6 a:Common RDxETL uat USHPEPVSQL363 n:None a:Common
+03-17 14:10 root DEBUG MATCH: mt:DB b:Common RDxReport uat USFSHWSSQL104\RIGHTSDEV_2 l:9 a:Common RDxReport uat USHPEPVSQL347 n:None a:Common
+03-17 14:10 root DEBUG MATCHLIST COUNT: 2
+03-17 14:10 root DEBUG FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/Common/log4net.config, Common, uat
+03-17 14:10 root DEBUG MATCH: mt:LOG_A b:D:\RDx\ETL\logs\COMMON\COMMON_ETL_log.txt l:4 a:D:/RDx/ETL/logs/Common/Common_etl.txt n:None a:Common
+03-17 14:10 root DEBUG MATCH: mt:TO_VAL b:ar.umg.rights.dev@hp.com l:25 a:ar.umg.rights.dev@hp.com, Scott.Hill@umgtemp.com n:None a:Common
+03-17 14:10 root DEBUG MATCH: mt:FROM_VAL b:RDxApp@umgtemp.com l:26 a:RDx@mgd.umusic.com n:None a:Common
+03-17 14:10 root DEBUG MATCH: mt:SUBJ b:Common NotificationService Message (DEV) l:27 a:RDxAlert Message uat n:None a:Common
+03-17 14:10 root DEBUG MATCH: mt:SMTP b:usush-maildrop.amer.umusic.net l:28 a:usush-maildrop.amer.umusic.net n:None a:Common
+03-17 14:10 root DEBUG MATCHLIST COUNT: 5
+03-17 14:10 root DEBUG FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/Common/UMG.RDx.ETL.CARL.dll.config, CARL, uat
+03-17 14:10 root DEBUG MATCH: mt:DB b:CARL RDxETL uat USHPEPVSQL409 l:6 a:CARL RDxETL uat USHPEPVSQL363 n:None a:CARL
+03-17 14:10 root DEBUG MATCHLIST COUNT: 1
+03-17 14:10 root DEBUG FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/Common/UMG.RDx.ETL.CRA.dll.config, Common, uat
+03-17 14:10 root DEBUG MATCH: mt:DB b:Common RDxETL uat USHPEPVSQL409 l:6 a:Common RDxETL uat USHPEPVSQL363 n:None a:Common
+03-17 14:10 root DEBUG MATCH: mt:DB b:Common RDxReport uat USHPEPVSQL435 l:9 a:Common RDxReport uat USHPEPVSQL347 n:None a:Common
+03-17 14:10 root DEBUG MATCHLIST COUNT: 2
+03-17 14:10 root DEBUG FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/Common/UMG.RDx.ETL.FileService.exe.config, Common, uat
+03-17 14:10 root DEBUG MATCH: mt:DB b:Common RDxETL uat USHPEPVSQL409 l:7 a:Common RDxETL uat USHPEPVSQL363 n:None a:Common
+03-17 14:10 root DEBUG MATCH: mt:DB b:Common RDxETL uat USHPEPVSQL409 l:10 a:Common RDxETL uat USHPEPVSQL363 n:None a:Common
+03-17 14:10 root DEBUG MATCH: mt:DB b:Common RDxReport uat USHPEPVSQL435 l:13 a:Common RDxReport uat USHPEPVSQL347 n:None a:Common
+03-17 14:10 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:24 a:USHPEWVAPP204 n:CARLFilePathIn a:Common
+03-17 14:10 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:25 a:USHPEWVAPP204 n:CRAFilePathIn a:Common
+03-17 14:10 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:26 a:USHPEWVAPP204 n:D2FilePathIn a:Common
+03-17 14:10 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:27 a:USHPEWVAPP204 n:ELSFilePathIn a:Common
+03-17 14:10 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:28 a:USHPEWVAPP204 n:GDRSFilePathIn a:Common
+03-17 14:10 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:29 a:USHPEWVAPP204 n:PartsOrderFilePathIn a:Common
+03-17 14:10 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:30 a:USHPEWVAPP204 n:CARTFilePathIn a:Common
+03-17 14:10 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:32 a:USHPEWVAPP204 n:CARLFilePathOut a:Common
+03-17 14:10 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:33 a:USHPEWVAPP204 n:CRAFilePathOut a:Common
+03-17 14:10 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:34 a:USHPEWVAPP204 n:D2FilePathOut a:Common
+03-17 14:10 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:35 a:USHPEWVAPP204 n:ELSFilePathOut a:Common
+03-17 14:10 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:36 a:USHPEWVAPP204 n:GDRSFilePathOut a:Common
+03-17 14:10 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:37 a:USHPEWVAPP204 n:PartsOrderFilePathOut a:Common
+03-17 14:10 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:38 a:USHPEWVAPP204 n:CARTFilePathOut a:Common
+03-17 14:10 root DEBUG MATCHLIST COUNT: 17
+03-17 14:10 root DEBUG FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/Common/UMG.RDx.ETL.GDRS.dll.config, Common, uat
+03-17 14:10 root DEBUG MATCH: mt:DB b:Common RDxETL uat USHPEPVSQL409 l:6 a:Common RDxETL uat USHPEPVSQL363 n:None a:Common
+03-17 14:10 root DEBUG MATCH: mt:DB b:Common RDxReport uat USHPEPVSQL435 l:9 a:Common RDxReport uat USHPEPVSQL347 n:None a:Common
+03-17 14:10 root DEBUG MATCHLIST COUNT: 2
+03-17 14:10 root DEBUG FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/CPRS/Copy of UMG.RDx.ETL.CPRS.exe.config, CPRS, uat
+03-17 14:10 root DEBUG MATCH: mt:LOG_B b:D:\RDx\ETL\Logs\cprs_etl.txt l:14 a:D:/RDx/ETL/logs/CPRS/CPRS_etl.txt n:None a:CPRS
+03-17 14:10 root DEBUG MATCH: mt:TO_VAL b:Scott.Hill@umgtemp.com l:38 a:ar.umg.rights.dev@hp.com, Scott.Hill@umgtemp.com n:None a:CPRS
+03-17 14:10 root DEBUG MATCH: mt:FROM_VAL b:CPRS_ETL_Process@mgd.umusic.com l:39 a:RDx@mgd.umusic.com n:None a:CPRS
+03-17 14:10 root DEBUG MATCH: mt:SUBJ b:CPRS NotificationService Message l:40 a:RDxAlert Message uat n:None a:CPRS
+03-17 14:10 root DEBUG MATCH: mt:SMTP b:smtphost.global.umusic.net l:41 a:usush-maildrop.amer.umusic.net n:None a:CPRS
+03-17 14:10 root DEBUG MATCH: mt:DB b:CPRS RDxETL uat LOCALHOST l:59 a:CPRS RDxETL uat USHPEPVSQL363 n:None a:CPRS
+03-17 14:10 root DEBUG MATCH: mt:DB b:CPRS RDxETL uat USFSHWSSQL104 l:132 a:CPRS RDxETL uat USHPEPVSQL363 n:None a:CPRS
+03-17 14:10 root DEBUG MATCH: mt:DB b:CPRS RDxETL uat USFSHWSSQL104 l:137 a:CPRS RDxETL uat USHPEPVSQL363 n:None a:CPRS
+03-17 14:10 root DEBUG MATCH: mt:DB b:CPRS RDxETL uat USFSHWSSQL104 l:140 a:CPRS RDxETL uat USHPEPVSQL363 n:None a:CPRS
+03-17 14:10 root DEBUG MATCH: mt:DB b:CPRS RDxReport uat USFSHWSSQL104\RIGHTSDEV_2 l:143 a:CPRS RDxReport uat USHPEPVSQL347 n:None a:CPRS
+03-17 14:10 root DEBUG MATCHLIST COUNT: 10
+03-17 14:10 root DEBUG FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/CPRS/log4net.config, CPRS, uat
+03-17 14:10 root DEBUG MATCH: mt:LOG_B b:d:\RDx\ETL\logs\CPRS\cprs_log.txt l:4 a:D:/RDx/ETL/logs/CPRS/CPRS_etl.txt n:None a:CPRS
+03-17 14:10 root DEBUG MATCH: mt:TO_VAL b:Scott.Hill@umgtemp.com,ar.umg.rights.dev@hp.com l:29 a:ar.umg.rights.dev@hp.com, Scott.Hill@umgtemp.com n:None a:CPRS
+03-17 14:10 root DEBUG MATCH: mt:FROM_VAL b:RDxApp@umgtemp.com l:30 a:RDx@mgd.umusic.com n:None a:CPRS
+03-17 14:10 root DEBUG MATCH: mt:SUBJ b:CPRS NotificationService Message (DEV) l:31 a:RDxAlert Message uat n:None a:CPRS
+03-17 14:10 root DEBUG MATCH: mt:SMTP b:usush-maildrop.amer.umusic.net l:32 a:usush-maildrop.amer.umusic.net n:None a:CPRS
+03-17 14:10 root DEBUG MATCHLIST COUNT: 5
+03-17 14:10 root DEBUG FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/CPRS/UMG.RDx.ETL.CPRS.exe.config, CPRS, uat
+03-17 14:10 root DEBUG MATCH: mt:LOG_B b:D:\RDx\ETL\Logs\CPRS\cprs_etl.txt l:14 a:D:/RDx/ETL/logs/CPRS/CPRS_etl.txt n:None a:CPRS
+03-17 14:10 root DEBUG MATCH: mt:TO_VAL b:Scott.Hill@umgtemp.com,ar.umg.rights.dev@hp.com l:38 a:ar.umg.rights.dev@hp.com, Scott.Hill@umgtemp.com n:None a:CPRS
+03-17 14:10 root DEBUG MATCH: mt:FROM_VAL b:RDxApp@umgtemp.com l:39 a:RDx@mgd.umusic.com n:None a:CPRS
+03-17 14:10 root DEBUG MATCH: mt:SUBJ b:CPRS NotificationService Message (DEV) l:40 a:RDxAlert Message uat n:None a:CPRS
+03-17 14:10 root DEBUG MATCH: mt:SMTP b:smtphost.global.umusic.net l:41 a:usush-maildrop.amer.umusic.net n:None a:CPRS
+03-17 14:10 root DEBUG MATCH: mt:DB b:CPRS RDxETL uat USHPEPVSQL409 l:59 a:CPRS RDxETL uat USHPEPVSQL363 n:None a:CPRS
+03-17 14:10 root DEBUG MATCH: mt:DB b:CPRS RDxETL uat USHPEPVSQL409 l:132 a:CPRS RDxETL uat USHPEPVSQL363 n:None a:CPRS
+03-17 14:10 root DEBUG MATCH: mt:DB b:CPRS RDxETL uat USHPEPVSQL409 l:137 a:CPRS RDxETL uat USHPEPVSQL363 n:None a:CPRS
+03-17 14:10 root DEBUG MATCH: mt:DB b:CPRS RDxETL uat USHPEPVSQL409 l:140 a:CPRS RDxETL uat USHPEPVSQL363 n:None a:CPRS
+03-17 14:10 root DEBUG MATCH: mt:DB b:CPRS RDxReport uat USHPEPVSQL435 l:143 a:CPRS RDxReport uat USHPEPVSQL347 n:None a:CPRS
+03-17 14:10 root DEBUG MATCHLIST COUNT: 10
+03-17 14:10 root DEBUG FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/CTX/ET/log4net.config, CTX, uat
+03-17 14:10 root DEBUG MATCH: mt:LOG_A b:D:\RDx\ETL\logs\CTX\CTX_etl.txt l:4 a:D:/RDx/ETL/logs/CTX/CTX_etl.txt n:None a:CTX
+03-17 14:10 root DEBUG MATCH: mt:TO_VAL b:Scott.Hill@umgtemp.com,ar.umg.rights.dev@hp.com l:25 a:ar.umg.rights.dev@hp.com, Scott.Hill@umgtemp.com n:None a:CTX
+03-17 14:10 root DEBUG MATCH: mt:FROM_VAL b:RDxApp@umgtemp.com l:26 a:RDx@mgd.umusic.com n:None a:CTX
+03-17 14:10 root DEBUG MATCH: mt:SUBJ b:CTX (Extract/Transform) NotificationService Message (DEV) l:27 a:RDxAlert Message uat n:None a:CTX
+03-17 14:10 root DEBUG MATCH: mt:SMTP b:usush-maildrop.amer.umusic.net l:28 a:usush-maildrop.amer.umusic.net n:None a:CTX
+03-17 14:10 root DEBUG MATCHLIST COUNT: 5
+03-17 14:10 root DEBUG FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/CTX/ET/UMG.RDx.ETL.CTX.exe.config, CTX, uat
+03-17 14:10 root DEBUG MATCH: mt:DB b:CTX RDxETL uat USHPEPVSQL409 l:7 a:CTX RDxETL uat USHPEPVSQL363 n:None a:CTX
+03-17 14:10 root DEBUG MATCH: mt:DB b:CTX RDxETL uat USHPEPVSQL409 l:12 a:CTX RDxETL uat USHPEPVSQL363 n:None a:CTX
+03-17 14:10 root DEBUG MATCH: mt:DB b:CTX RDxETL uat USHPEPVSQL409 l:16 a:CTX RDxETL uat USHPEPVSQL363 n:None a:CTX
+03-17 14:10 root DEBUG MATCH: mt:DB b:CTX RDxReport uat USHPEPVSQL435 l:20 a:CTX RDxReport uat USHPEPVSQL347 n:None a:CTX
+03-17 14:10 root DEBUG MATCHLIST COUNT: 4
+03-17 14:10 root DEBUG FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/CTX/ET/UMG.RDx.ETL.CTX.exe.OLD.config, CTX, uat
+03-17 14:10 root DEBUG MATCH: mt:DB b:CTX RDxETL uat USHPEPVSQL409 l:7 a:CTX RDxETL uat USHPEPVSQL363 n:None a:CTX
+03-17 14:10 root DEBUG MATCH: mt:DB b:CTX RDxETL uat USHPEPVSQL409 l:12 a:CTX RDxETL uat USHPEPVSQL363 n:None a:CTX
+03-17 14:10 root DEBUG MATCH: mt:DB b:CTX RDxETL uat USHPEPVSQL409 l:16 a:CTX RDxETL uat USHPEPVSQL363 n:None a:CTX
+03-17 14:10 root DEBUG MATCH: mt:DB b:CTX RDxReport uat USHPEPVSQL409 l:20 a:CTX RDxReport uat USHPEPVSQL347 n:None a:CTX
+03-17 14:10 root DEBUG MATCHLIST COUNT: 4
+03-17 14:10 root DEBUG FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/CTX/L/log4net.config, CTX, uat
+03-17 14:10 root DEBUG MATCH: mt:LOG_A b:D:\RDx\ETL\logs\CTX\CTX_etl.txt l:4 a:D:/RDx/ETL/logs/CTX/CTX_etl.txt n:None a:CTX
+03-17 14:10 root DEBUG MATCH: mt:TO_VAL b:Scott.Hill@umgtemp.com,ar.umg.rights.dev@hp.com l:25 a:ar.umg.rights.dev@hp.com, Scott.Hill@umgtemp.com n:None a:CTX
+03-17 14:10 root DEBUG MATCH: mt:FROM_VAL b:RDxApp@umgtemp.com l:26 a:RDx@mgd.umusic.com n:None a:CTX
+03-17 14:10 root DEBUG MATCH: mt:SUBJ b:CTX (Load) NotificationService Message (DEV) l:27 a:RDxAlert Message uat n:None a:CTX
+03-17 14:10 root DEBUG MATCH: mt:SMTP b:usush-maildrop.amer.umusic.net l:28 a:usush-maildrop.amer.umusic.net n:None a:CTX
+03-17 14:10 root DEBUG MATCHLIST COUNT: 5
+03-17 14:10 root DEBUG FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/CTX/L/UMG.RDx.ETL.CTX.exe.config, CTX, uat
+03-17 14:10 root DEBUG MATCH: mt:DB b:CTX RDxETL uat USHPEPVSQL409 l:7 a:CTX RDxETL uat USHPEPVSQL363 n:None a:CTX
+03-17 14:10 root DEBUG MATCH: mt:DB b:CTX RDxETL uat USHPEPVSQL409 l:12 a:CTX RDxETL uat USHPEPVSQL363 n:None a:CTX
+03-17 14:10 root DEBUG MATCH: mt:DB b:CTX RDxETL uat USHPEPVSQL409 l:16 a:CTX RDxETL uat USHPEPVSQL363 n:None a:CTX
+03-17 14:10 root DEBUG MATCH: mt:DB b:CTX RDxReport uat USHPEPVSQL435 l:20 a:CTX RDxReport uat USHPEPVSQL347 n:None a:CTX
+03-17 14:10 root DEBUG MATCHLIST COUNT: 4
+03-17 14:10 root DEBUG FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/D2/_log4net.config, D2, uat
+03-17 14:10 root DEBUG MATCH: mt:LOG_A b:log.txt l:4 a:D:/RDx/ETL/logs/D2/D2_etl.txt n:None a:D2
+03-17 14:10 root DEBUG MATCHLIST COUNT: 1
+03-17 14:10 root DEBUG FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/D2/_UMG.RDx.ETL.FileService.exe.config, D2, uat
+03-17 14:10 root DEBUG MATCH: mt:DB b:D2 RDxETL uat USFSHWSSQL104 l:7 a:D2 RDxETL uat USHPEPVSQL363 n:None a:D2
+03-17 14:10 root DEBUG MATCHLIST COUNT: 1
+03-17 14:10 root DEBUG FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/D2/log4net.config, D2, uat
+03-17 14:10 root DEBUG MATCH: mt:LOG_A b:D:\RDx\ETL\logs\D2\D2_ETL_Log.txt l:4 a:D:/RDx/ETL/logs/D2/D2_etl.txt n:None a:D2
+03-17 14:10 root DEBUG MATCH: mt:TO_VAL b:ar.umg.rights.dev@hp.com l:25 a:ar.umg.rights.dev@hp.com, Scott.Hill@umgtemp.com n:None a:D2
+03-17 14:10 root DEBUG MATCH: mt:FROM_VAL b:RDxApp@umgtemp.com l:26 a:RDx@mgd.umusic.com n:None a:D2
+03-17 14:10 root DEBUG MATCH: mt:SUBJ b:D2 NotificationService Message (DEV) l:27 a:RDxAlert Message uat n:None a:D2
+03-17 14:10 root DEBUG MATCH: mt:SMTP b:usush-maildrop.amer.umusic.net l:28 a:usush-maildrop.amer.umusic.net n:None a:D2
+03-17 14:10 root DEBUG MATCHLIST COUNT: 5
+03-17 14:10 root DEBUG FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/D2/UMG.RDx.ETL.FileService.exe.config, D2, uat
+03-17 14:10 root DEBUG MATCH: mt:DB b:D2 RDxETL uat USHPEPVSQL409 l:7 a:D2 RDxETL uat USHPEPVSQL363 n:None a:D2
+03-17 14:10 root DEBUG MATCH: mt:DB b:D2 RDxETL uat USHPEPVSQL409 l:10 a:D2 RDxETL uat USHPEPVSQL363 n:None a:D2
+03-17 14:10 root DEBUG MATCH: mt:DB b:D2 RDxReport uat USHPEPVSQL435 l:13 a:D2 RDxReport uat USHPEPVSQL347 n:None a:D2
+03-17 14:10 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:24 a:USHPEWVAPP204 n:CARLFilePathIn a:D2
+03-17 14:10 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:25 a:USHPEWVAPP204 n:CRAFilePathIn a:D2
+03-17 14:10 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:26 a:USHPEWVAPP204 n:D2FilePathIn a:D2
+03-17 14:10 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:27 a:USHPEWVAPP204 n:ELSFilePathIn a:D2
+03-17 14:10 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:28 a:USHPEWVAPP204 n:GDRSFilePathIn a:D2
+03-17 14:10 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:29 a:USHPEWVAPP204 n:PartsOrderFilePathIn a:D2
+03-17 14:10 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:30 a:USHPEWVAPP204 n:CARTFilePathIn a:D2
+03-17 14:10 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:32 a:USHPEWVAPP204 n:CARLFilePathOut a:D2
+03-17 14:10 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:33 a:USHPEWVAPP204 n:CRAFilePathOut a:D2
+03-17 14:10 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:34 a:USHPEWVAPP204 n:D2FilePathOut a:D2
+03-17 14:10 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:35 a:USHPEWVAPP204 n:ELSFilePathOut a:D2
+03-17 14:10 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:36 a:USHPEWVAPP204 n:GDRSFilePathOut a:D2
+03-17 14:10 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:37 a:USHPEWVAPP204 n:PartsOrderFilePathOut a:D2
+03-17 14:10 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:38 a:USHPEWVAPP204 n:CARTFilePathOut a:D2
+03-17 14:10 root DEBUG MATCHLIST COUNT: 17
+03-17 14:10 root DEBUG FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/DRA/log4net.config, DRA, uat
+03-17 14:10 root DEBUG MATCH: mt:LOG_A b:D:\RDx\ETL\logs\DRA\DRA_etl.txt l:4 a:D:/RDx/ETL/logs/DRA/DRA_etl.txt n:None a:DRA
+03-17 14:10 root DEBUG MATCH: mt:TO_VAL b:Scott.Hill@umgtemp.com,ar.umg.rights.dev@hp.com l:25 a:ar.umg.rights.dev@hp.com, Scott.Hill@umgtemp.com n:None a:DRA
+03-17 14:10 root DEBUG MATCH: mt:FROM_VAL b:RDxApp@umgtemp.com l:26 a:RDx@mgd.umusic.com n:None a:DRA
+03-17 14:10 root DEBUG MATCH: mt:SUBJ b:DRA NotificationService Message (DEV) l:27 a:RDxAlert Message uat n:None a:DRA
+03-17 14:10 root DEBUG MATCH: mt:SMTP b:usush-maildrop.amer.umusic.net l:28 a:usush-maildrop.amer.umusic.net n:None a:DRA
+03-17 14:10 root DEBUG MATCHLIST COUNT: 5
+03-17 14:10 root DEBUG FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/DRA/UMG.RDx.ETL.DRA.exe.config, DRA, uat
+03-17 14:10 root DEBUG MATCH: mt:DB b:DRA RDxETL uat USHPEPVSQL409 l:7 a:DRA RDxETL uat USHPEPVSQL363 n:None a:DRA
+03-17 14:10 root DEBUG MATCH: mt:DB b:DRA RDxETL uat USHPEPVSQL409 l:12 a:DRA RDxETL uat USHPEPVSQL363 n:None a:DRA
+03-17 14:10 root DEBUG MATCH: mt:DB b:DRA RDxETL uat USHPEPVSQL409 l:16 a:DRA RDxETL uat USHPEPVSQL363 n:None a:DRA
+03-17 14:10 root DEBUG MATCH: mt:DB b:DRA RDxReport uat USHPEPVSQL435 l:20 a:DRA RDxReport uat USHPEPVSQL347 n:None a:DRA
+03-17 14:10 root DEBUG MATCHLIST COUNT: 4
+03-17 14:10 root DEBUG FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/gdrs/log4net.config, GDRS, uat
+03-17 14:10 root DEBUG MATCH: mt:LOG_A b:D:\RDx\ETL\logs\GDRS_ETL_Log.txt l:4 a:D:/RDx/ETL/logs/GDRS/GDRS_etl.txt n:None a:GDRS
+03-17 14:10 root DEBUG MATCH: mt:TO_VAL b:ar.umg.rights.dev@hp.com l:25 a:ar.umg.rights.dev@hp.com, Scott.Hill@umgtemp.com n:None a:GDRS
+03-17 14:10 root DEBUG MATCH: mt:FROM_VAL b:RDxApp@umgtemp.com l:26 a:RDx@mgd.umusic.com n:None a:GDRS
+03-17 14:10 root DEBUG MATCH: mt:SUBJ b:D2 NotificationService Message (DEV) l:27 a:RDxAlert Message uat n:None a:GDRS
+03-17 14:10 root DEBUG MATCH: mt:SMTP b:usush-maildrop.amer.umusic.net l:28 a:usush-maildrop.amer.umusic.net n:None a:GDRS
+03-17 14:10 root DEBUG MATCHLIST COUNT: 5
+03-17 14:10 root DEBUG FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/gdrs/UMG.RDx.ETL.FileService.exe.config, GDRS, uat
+03-17 14:10 root DEBUG MATCH: mt:DB b:GDRS RDxETL uat USHPEPVSQL409 l:7 a:GDRS RDxETL uat USHPEPVSQL363 n:None a:GDRS
+03-17 14:10 root DEBUG MATCH: mt:DB b:GDRS RDxETL uat USHPEPVSQL409 l:10 a:GDRS RDxETL uat USHPEPVSQL363 n:None a:GDRS
+03-17 14:10 root DEBUG MATCH: mt:DB b:GDRS RDxReport uat USHPEPVSQL435 l:13 a:GDRS RDxReport uat USHPEPVSQL347 n:None a:GDRS
+03-17 14:10 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:24 a:USHPEWVAPP204 n:CARLFilePathIn a:GDRS
+03-17 14:10 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:25 a:USHPEWVAPP204 n:CRAFilePathIn a:GDRS
+03-17 14:10 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:26 a:USHPEWVAPP204 n:D2FilePathIn a:GDRS
+03-17 14:10 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:27 a:USHPEWVAPP204 n:ELSFilePathIn a:GDRS
+03-17 14:10 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:28 a:USHPEWVAPP204 n:GDRSFilePathIn a:GDRS
+03-17 14:10 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:29 a:USHPEWVAPP204 n:PartsOrderFilePathIn a:GDRS
+03-17 14:10 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:30 a:USHPEWVAPP204 n:CARTFilePathIn a:GDRS
+03-17 14:10 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:32 a:USHPEWVAPP204 n:CARLFilePathOut a:GDRS
+03-17 14:10 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:33 a:USHPEWVAPP204 n:CRAFilePathOut a:GDRS
+03-17 14:10 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:34 a:USHPEWVAPP204 n:D2FilePathOut a:GDRS
+03-17 14:10 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:35 a:USHPEWVAPP204 n:ELSFilePathOut a:GDRS
+03-17 14:10 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:36 a:USHPEWVAPP204 n:GDRSFilePathOut a:GDRS
+03-17 14:10 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:37 a:USHPEWVAPP204 n:PartsOrderFilePathOut a:GDRS
+03-17 14:10 root DEBUG MATCH: mt:FTP b:USHPEWVAPP251 l:38 a:USHPEWVAPP204 n:CARTFilePathOut a:GDRS
+03-17 14:10 root DEBUG MATCHLIST COUNT: 17
+03-17 14:10 root DEBUG FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/MP/log4net.config, MP, uat
+03-17 14:10 root DEBUG MATCH: mt:LOG_A b:D:\RDx\ETL\logs\MP\MP_log.txt l:4 a:D:/RDx/ETL/logs/MP/MP_etl.txt n:None a:MP
+03-17 14:10 root DEBUG MATCH: mt:TO_VAL b:ar.umg.rights.dev@hp.com, Nadia.Pissova-Malpartida@umgtemp.com, Scott.Hill@umgtemp.com l:81 a:ar.umg.rights.dev@hp.com, Scott.Hill@umgtemp.com n:None a:MP
+03-17 14:10 root DEBUG MATCH: mt:FROM_VAL b:RDxApp@mgd.umusic.com l:82 a:RDx@mgd.umusic.com n:None a:MP
+03-17 14:10 root DEBUG MATCH: mt:SUBJ b:RDxAlert Message (UAT) l:83 a:RDxAlert Message uat n:None a:MP
+03-17 14:10 root DEBUG MATCH: mt:SMTP b:smtphost.global.umusic.net l:84 a:usush-maildrop.amer.umusic.net n:None a:MP
+03-17 14:10 root DEBUG MATCHLIST COUNT: 5
+03-17 14:10 root DEBUG FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/MP/UMG.RDx.ETL.MP.exe.config, MP, uat
+03-17 14:10 root DEBUG MATCH: mt:DB b:MP RDxETL uat USHPEPVSQL409 l:7 a:MP RDxETL uat USHPEPVSQL363 n:None a:MP
+03-17 14:10 root DEBUG MATCH: mt:DB b:MP RDxETL uat USHPEPVSQL409 l:12 a:MP RDxETL uat USHPEPVSQL363 n:None a:MP
+03-17 14:10 root DEBUG MATCH: mt:DB b:MP RDxETL uat USHPEPVSQL409 l:16 a:MP RDxETL uat USHPEPVSQL363 n:None a:MP
+03-17 14:10 root DEBUG MATCH: mt:DB b:MP RDxReport uat USHPEPVSQL435 l:20 a:MP RDxReport uat USHPEPVSQL347 n:None a:MP
+03-17 14:10 root DEBUG MATCHLIST COUNT: 4
+03-17 14:10 root DEBUG FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/MP/UMG.RDx.ETL.MP.Extract.dll.config, MP, uat
+03-17 14:10 root DEBUG MATCH: mt:DB b:MP RDxETL uat USHPEPVSQL409 l:9 a:MP RDxETL uat USHPEPVSQL363 n:None a:MP
+03-17 14:10 root DEBUG MATCHLIST COUNT: 1
+03-17 14:10 root DEBUG FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config, MP, uat
+03-17 14:10 root DEBUG MATCH: mt:LOG_B b:D:\RDx\ETL\logs\MP\MP_log.txt l:12 a:D:/RDx/ETL/logs/MP/MP_etl.txt n:None a:MP
+03-17 14:10 root DEBUG MATCH: mt:TO_VAL b:ar.umg.rights.dev@hp.com, Nadia.Pissova-Malpartida@umgtemp.com, Scott.Hill@umgtemp.com l:44 a:ar.umg.rights.dev@hp.com, Scott.Hill@umgtemp.com n:None a:MP
+03-17 14:10 root DEBUG MATCH: mt:FROM_VAL b:RDxApp@mgd.umusic.com l:45 a:RDx@mgd.umusic.com n:None a:MP
+03-17 14:10 root DEBUG MATCH: mt:SUBJ b:RDxAlert Message DEBUGGING l:46 a:RDxAlert Message uat n:None a:MP
+03-17 14:10 root DEBUG MATCH: mt:SMTP b:smtphost.global.umusic.net l:47 a:usush-maildrop.amer.umusic.net n:None a:MP
+03-17 14:10 root DEBUG MATCH: mt:DB b:MP RDxETL uat USHPEPVSQL409 l:68 a:MP RDxETL uat USHPEPVSQL363 n:None a:MP
+03-17 14:10 root DEBUG MATCH: mt:DB b:MP RDxETL uat USHPEPVSQL409 l:73 a:MP RDxETL uat USHPEPVSQL363 n:None a:MP
+03-17 14:10 root DEBUG MATCH: mt:DB b:MP RDxETL uat USHPEPVSQL409 l:77 a:MP RDxETL uat USHPEPVSQL363 n:None a:MP
+03-17 14:10 root DEBUG MATCH: mt:DB b:MP RDxReport uat USHPEPVSQL435 l:81 a:MP RDxReport uat USHPEPVSQL347 n:None a:MP
+03-17 14:10 root DEBUG MATCHLIST COUNT: 9
+03-17 14:10 root DEBUG FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/PartsOrder/PO.bat, PartsOrder, uat
+03-17 14:10 root DEBUG MATCHLIST COUNT: 0
+03-17 14:10 root DEBUG FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/R2/Copy of UMG.RDx.ETL.R2.exe.config, R2, uat
+03-17 14:10 root DEBUG MATCH: mt:DB b:R2 RDxETL uat USFSHWSSQL104 l:7 a:R2 RDxETL uat USHPEPVSQL363 n:None a:R2
+03-17 14:10 root DEBUG MATCH: mt:DB b:R2 RDxETL uat USFSHWSSQL104 l:12 a:R2 RDxETL uat USHPEPVSQL363 n:None a:R2
+03-17 14:10 root DEBUG MATCH: mt:DB b:R2 RDxETL uat USFSHWSSQL104 l:16 a:R2 RDxETL uat USHPEPVSQL363 n:None a:R2
+03-17 14:10 root DEBUG MATCH: mt:DB b:R2 RDxReport uat USFSHWSSQL104\RIGHTSDEV_2 l:20 a:R2 RDxReport uat USHPEPVSQL347 n:None a:R2
+03-17 14:10 root DEBUG MATCHLIST COUNT: 4
+03-17 14:10 root DEBUG FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/R2/log4net.config, R2, uat
+03-17 14:10 root DEBUG MATCH: mt:LOG_A b:D:\RDx\ETL\logs\R2\r2_etl_log.txt l:4 a:D:/RDx/ETL/logs/R2/R2_etl.txt n:None a:R2
+03-17 14:10 root DEBUG MATCH: mt:TO_VAL b:Scott.Hill@umgtemp.com,ar.umg.rights.dev@hp.com l:25 a:ar.umg.rights.dev@hp.com, Scott.Hill@umgtemp.com n:None a:R2
+03-17 14:10 root DEBUG MATCH: mt:FROM_VAL b:RDxApp@umgtemp.com l:26 a:RDx@mgd.umusic.com n:None a:R2
+03-17 14:10 root DEBUG MATCH: mt:SUBJ b:R2 NotificationService Message (DEV) l:27 a:RDxAlert Message uat n:None a:R2
+03-17 14:10 root DEBUG MATCH: mt:SMTP b:usush-maildrop.amer.umusic.net l:28 a:usush-maildrop.amer.umusic.net n:None a:R2
+03-17 14:10 root DEBUG MATCHLIST COUNT: 5
+03-17 14:10 root DEBUG FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/R2/UMG.RDx.ETL.R2.exe.config, R2, uat
+03-17 14:10 root DEBUG MATCH: mt:DB b:R2 RDxETL uat USHPEPVSQL409 l:7 a:R2 RDxETL uat USHPEPVSQL363 n:None a:R2
+03-17 14:10 root DEBUG MATCH: mt:DB b:R2 RDxETL uat USHPEPVSQL409 l:12 a:R2 RDxETL uat USHPEPVSQL363 n:None a:R2
+03-17 14:10 root DEBUG MATCH: mt:DB b:R2 RDxETL uat USHPEPVSQL409 l:16 a:R2 RDxETL uat USHPEPVSQL363 n:None a:R2
+03-17 14:10 root DEBUG MATCH: mt:DB b:R2 RDxReport uat USHPEPVSQL409 l:20 a:R2 RDxReport uat USHPEPVSQL347 n:None a:R2
+03-17 14:10 root DEBUG MATCHLIST COUNT: 4
+03-17 14:10 root DEBUG FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/R2/UMG.RDx.ETL.R2.vshost.exe.config, R2, uat
+03-17 14:10 root DEBUG MATCH: mt:DB b:R2 RDxETL uat USHPEPVSQL409 l:7 a:R2 RDxETL uat USHPEPVSQL363 n:None a:R2
+03-17 14:10 root DEBUG MATCH: mt:DB b:R2 RDxETL uat USHPEPVSQL409 l:12 a:R2 RDxETL uat USHPEPVSQL363 n:None a:R2
+03-17 14:10 root DEBUG MATCH: mt:DB b:R2 RDxETL uat USHPEPVSQL409 l:16 a:R2 RDxETL uat USHPEPVSQL363 n:None a:R2
+03-17 14:10 root DEBUG MATCH: mt:DB b:R2 RDxReport uat USHPEPVSQL409 l:20 a:R2 RDxReport uat USHPEPVSQL347 n:None a:R2
+03-17 14:10 root DEBUG MATCHLIST COUNT: 4
+03-17 14:10 root DEBUG 
+03-17 14:10 root DEBUG DETAILS for CARL
 /Users/hills/git-hill/pyth/pydbutil/work/ETL/CARL/log4net.config
     line 4, LOGFILE is at D:\RDX\ETL\logs\CARL_ETL_log.txt
     ...changing to D:/RDx/ETL/logs/CARL/CARL_etl.txt
@@ -556,7 +556,7 @@ DETAILS for R2
     line 12, RDxETL is pointed to USFSHWSSQL104    ...changing to USHPEPVSQL363
     line 16, RDxETL is pointed to USFSHWSSQL104    ...changing to USHPEPVSQL363
     line 20, RDxReport is pointed to USFSHWSSQL104\RIGHTSDEV_2    ...changing to USHPEPVSQL347
-03-17 14:09 root DEBUG 
+03-17 14:10 root DEBUG 
 SUMMARY
 CARL
   5 DB references had suggested changes.

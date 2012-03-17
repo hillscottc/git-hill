@@ -14,8 +14,10 @@ import logging
 from shutil import rmtree, copy, ignore_patterns, copytree
 
 class Error(Exception):
-    def __init__(self, msg):
-        self.msg = msg
+    def __init__(self, value):
+         self.value = value
+    def __str__(self):
+         return repr(self.value)
 
 
 def trim_line(longline, max_length=80, chars_trimmed=20, chars_shown=65):
@@ -91,10 +93,11 @@ def change_root(filepath, old_root, new_root='work', ensure=False):
         outfilename = re.sub(old_root, new_root, filepath)
         if ensure :
             ensure_dir(outfilename)
-    except getopt.error, msg:
-        raise Usage('{0}, {1}, {2}, {3}, '.format(old_root, new_root, filepath, msg))
+    except :
+        raise Error('{0}, {1}, {2}, {3}'.format(old_root, new_root, filepath), sys.exc_info()[0])
 
     return outfilename
+
 
 
 def clipped_file_list(files, maxlength=5) :

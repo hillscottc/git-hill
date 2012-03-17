@@ -83,34 +83,19 @@ def change_root(filepath, old_root, new_root='work', ensure=False):
     'work/ETL/D2/_log4net.config'
     """
 
-    #print 'XXXX {0}, {1}, {2}'.format(old_root, new_root, filepath)
-
-    #print 'DEBUG {0} {1} {2}'.format(old_root, new_root, filepath)
     #if x:
     #    old_root, new_root = re.escape(old_root), re.escape(new_root)
-
-    # try:
-    #     try:
-    #         outfilename = re.sub(old_root, new_root, filepath)
-    #         if ensure :
-    #             ensure_dir(outfilename)
-    #     except :
-    #         raise MyError('{0}, {1}, {2}, {3}'.format(old_root, new_root, filepath))
-    # except MyError me:
-    #     raise
 
     try:
         outfilename = re.sub(old_root, new_root, filepath)
         print 'DEBUG: worked for ',  outfilename
         if ensure :
             ensure_dir(outfilename)
-    except :
-        #print e.args
-        #print e # __str__ allows args to printed directly
-        #print 'Error:', sys.exc_info()[0]
-        #msg = '{0}, {1}, {2}'.format(old_root, new_root, filepath)
+    except Exception as inst:
+        print type(inst)     # the exception instance
+        print inst.args      # arguments stored in .args
         raise MyError('{0}, {1}, {2}'.format(old_root, new_root, filepath))
-  #  except MyError as e :
+
     return outfilename
 
 

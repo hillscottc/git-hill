@@ -81,7 +81,11 @@ def change_root(filepath, old_root, new_root='work', ensure=False):
     'work/ETL/D2/_log4net.config'
     """
 
+    print 'XXXX {0}, {1}, {2}'.format(old_root, new_root, filepath)
+
     #print 'DEBUG {0} {1} {2}'.format(old_root, new_root, filepath)
+    #if x:
+    #    old_root, new_root = re.escape(old_root), re.escape(new_root)
 
     outfilename = re.sub(old_root, new_root, filepath)
     if ensure :

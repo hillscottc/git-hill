@@ -87,17 +87,15 @@ def change_root(filepath, old_root, new_root='work', ensure=False):
     #    old_root, new_root = re.escape(old_root), re.escape(new_root)
 
 
-    x, y, z = "%r"%old_root, "%r"%new_root, "%r"%filepath,
-
     try:
-        outfilename = re.sub(x, y, z)
-        print 'DEBUG: outfilename ok for ',  z
+        outfilename = re.sub(old_root, new_root, filepath)
+        print 'DEBUG: outfilename ok for ',  outfilename
     except Exception as e:
-        raise MyError('{0}, {1}, {2}, {3}'.format(e, x, y, z))
+        raise MyError('{0}, {1}, {2}, {3}'.format(e, old_root, new_root, filepath))
 
     try:
         if ensure :
-            ensure_dir(z)
+            ensure_dir(outfilename)
         print 'DEBUG: ensure worked ok for ', outfilename
     except Exception as e:
         raise MyError('{0}, {1}'.format(e, outfilename))

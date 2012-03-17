@@ -94,6 +94,7 @@ def change_root(filepath, old_root, new_root='work', ensure=False):
     except Exception as inst:
         #print type(inst)     # the exception instance
         #print inst.args      # arguments stored in .args
+        print inst
         raise MyError('{0}, {1}, {2}'.format(old_root, new_root, filepath))
 
     return outfilename

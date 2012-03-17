@@ -1,0 +1,310 @@
+02-03 02:03 root DEBUG GO !!!!!!!!!!!!!!!
+02-03 02:03 root DEBUG ENV:dev    APPS:set(['MP', 'PartsOrder', 'R2', 'D2', 'CTX', 'CART', 'CRA', 'FileService', 'Common', 'CARL', 'DRA', 'ELS', 'CPRS', 'GDRS'])
+02-03 02:03 root DEBUG 
+02-03 02:03 root DEBUG 
+ 53 DB references were already properly configured.
+ 18 DB references had suggested changes.
+  0 FROM_VAL references were already properly configured.
+ 13 FROM_VAL references had suggested changes.
+ 56 FTP references were already properly configured.
+  0 FTP references had suggested changes.
+  0 LOG_A references were already properly configured.
+ 10 LOG_A references had suggested changes.
+  0 LOG_B references were already properly configured.
+  4 LOG_B references had suggested changes.
+  9 SMTP references were already properly configured.
+  4 SMTP references had suggested changes.
+  0 SUBJ references were already properly configured.
+ 13 SUBJ references had suggested changes.
+  0 TO_VAL references were already properly configured.
+ 13 TO_VAL references had suggested changes.
+
+193 total matches in 35 files.
+118 total matches were already properly configured.
+ 75 total matches had suggested changes.
+  0 total matches had NO suggestions.
+02-03 02:03 root INFO  FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/R2/UMG.RDx.ETL.R2.exe.config
+  line 7, RDxETL is pointed to USHPEPVSQL409...OK...no change.
+  line 12, RDxETL is pointed to USHPEPVSQL409...OK...no change.
+  line 16, RDxETL is pointed to USHPEPVSQL409...OK...no change.
+  line 20, RDxReport is pointed to USHPEPVSQL409...changing to USHPEPVSQL435
+FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/CARL/log4net.config
+  line 4, LOGFILE is at D:\RDX\ETL\logs\CARL_ETL_log.txt
+   ...changing to D:\RDx\ETL\logs/CARL/CARL_etl.txt
+  line 25, TO_VAL is ar.umg.rights.dev@hp.com
+   ...changing to ar.umg.rights.dev@hp.com, Scott.Hill@umgtemp.com
+  line 26, FROM_VAL is RDxApp@umgtemp.com
+   ...changing to RDx@mgd.umusic.com
+  line 27, SUBJ is CARL NotificationService Message (DEV)
+   ...changing to RDxAlert Message
+  line 28, SMTP is usush-maildrop.amer.umusic.net...OK...no change.
+FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/R2/Copy of UMG.RDx.ETL.R2.exe.config
+  line 7, RDxETL is pointed to USFSHWSSQL104...changing to USHPEPVSQL409
+  line 12, RDxETL is pointed to USFSHWSSQL104...changing to USHPEPVSQL409
+  line 16, RDxETL is pointed to USFSHWSSQL104...changing to USHPEPVSQL409
+  line 20, RDxReport is pointed to USFSHWSSQL104\RIGHTSDEV_2...changing to USHPEPVSQL435
+FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/Common/Copy of UMG.RDx.ETL.CRA.dll.config
+  line 6, RDxETL is pointed to USFSHWSSQL104...changing to USHPEPVSQL409
+  line 9, RDxReport is pointed to USFSHWSSQL104\RIGHTSDEV_2...changing to USHPEPVSQL435
+FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/MP/log4net.config
+  line 4, LOGFILE is at D:\RDx\ETL\logs\MP\MP_log.txt
+   ...changing to D:\RDx\ETL\logs/MP/MP_etl.txt
+  line 81, TO_VAL is ar.umg.rights.dev@hp.com, Nadia.Pissova-Malpartida@umgtemp.com, Scott.Hill@umgtemp.com
+   ...changing to ar.umg.rights.dev@hp.com, Scott.Hill@umgtemp.com
+  line 82, FROM_VAL is RDxApp@mgd.umusic.com
+   ...changing to RDx@mgd.umusic.com
+  line 83, SUBJ is RDxAlert Message (UAT)
+   ...changing to RDxAlert Message
+  line 84, SMTP is smtphost.global.umusic.net
+   ...changing to usush-maildrop.amer.umusic.net
+FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/CPRS/UMG.RDx.ETL.CPRS.exe.config
+  line 14, LOGFILE is at D:\RDx\ETL\Logs\CPRS\cprs_etl.txt
+   ...changing to D:\RDx\ETL\logs/CPRS/CPRS_etl.txt
+  line 38, TO_VAL is Scott.Hill@umgtemp.com,ar.umg.rights.dev@hp.com
+   ...changing to ar.umg.rights.dev@hp.com, Scott.Hill@umgtemp.com
+  line 39, FROM_VAL is RDxApp@umgtemp.com
+   ...changing to RDx@mgd.umusic.com
+  line 40, SUBJ is CPRS NotificationService Message (DEV)
+   ...changing to RDxAlert Message
+  line 41, SMTP is smtphost.global.umusic.net
+   ...changing to usush-maildrop.amer.umusic.net
+  line 59, RDxETL is pointed to USHPEPVSQL409...OK...no change.
+  line 132, RDxETL is pointed to USHPEPVSQL409...OK...no change.
+  line 137, RDxETL is pointed to USHPEPVSQL409...OK...no change.
+  line 140, RDxETL is pointed to USHPEPVSQL409...OK...no change.
+  line 143, RDxReport is pointed to USHPEPVSQL435...OK...no change.
+FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/D2/UMG.RDx.ETL.FileService.exe.config
+  line 7, RDxETL is pointed to USHPEPVSQL409...OK...no change.
+  line 10, RDxETL is pointed to USHPEPVSQL409...OK...no change.
+  line 13, RDxReport is pointed to USHPEPVSQL435...OK...no change.
+  line 24, CARLFilePathIn points to USHPEWVAPP251...OK...no change.
+  line 25, CRAFilePathIn points to USHPEWVAPP251...OK...no change.
+  line 26, D2FilePathIn points to USHPEWVAPP251...OK...no change.
+  line 27, ELSFilePathIn points to USHPEWVAPP251...OK...no change.
+  line 28, GDRSFilePathIn points to USHPEWVAPP251...OK...no change.
+  line 29, PartsOrderFilePathIn points to USHPEWVAPP251...OK...no change.
+  line 30, CARTFilePathIn points to USHPEWVAPP251...OK...no change.
+  line 32, CARLFilePathOut points to USHPEWVAPP251...OK...no change.
+  line 33, CRAFilePathOut points to USHPEWVAPP251...OK...no change.
+  line 34, D2FilePathOut points to USHPEWVAPP251...OK...no change.
+  line 35, ELSFilePathOut points to USHPEWVAPP251...OK...no change.
+  line 36, GDRSFilePathOut points to USHPEWVAPP251...OK...no change.
+  line 37, PartsOrderFilePathOut points to USHPEWVAPP251...OK...no change.
+  line 38, CARTFilePathOut points to USHPEWVAPP251...OK...no change.
+FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/R2/log4net.config
+  line 4, LOGFILE is at D:\RDx\ETL\logs\R2\r2_etl_log.txt
+   ...changing to D:\RDx\ETL\logs/R2/R2_etl.txt
+  line 25, TO_VAL is Scott.Hill@umgtemp.com,ar.umg.rights.dev@hp.com
+   ...changing to ar.umg.rights.dev@hp.com, Scott.Hill@umgtemp.com
+  line 26, FROM_VAL is RDxApp@umgtemp.com
+   ...changing to RDx@mgd.umusic.com
+  line 27, SUBJ is R2 NotificationService Message (DEV)
+   ...changing to RDxAlert Message
+  line 28, SMTP is usush-maildrop.amer.umusic.net...OK...no change.
+FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/D2/log4net.config
+  line 4, LOGFILE is at D:\RDx\ETL\logs\D2\D2_ETL_Log.txt
+   ...changing to D:\RDx\ETL\logs/D2/D2_etl.txt
+  line 25, TO_VAL is ar.umg.rights.dev@hp.com
+   ...changing to ar.umg.rights.dev@hp.com, Scott.Hill@umgtemp.com
+  line 26, FROM_VAL is RDxApp@umgtemp.com
+   ...changing to RDx@mgd.umusic.com
+  line 27, SUBJ is D2 NotificationService Message (DEV)
+   ...changing to RDxAlert Message
+  line 28, SMTP is usush-maildrop.amer.umusic.net...OK...no change.
+FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/DRA/UMG.RDx.ETL.DRA.exe.config
+  line 7, RDxETL is pointed to USHPEPVSQL409...OK...no change.
+  line 12, RDxETL is pointed to USHPEPVSQL409...OK...no change.
+  line 16, RDxETL is pointed to USHPEPVSQL409...OK...no change.
+  line 20, RDxReport is pointed to USHPEPVSQL435...OK...no change.
+FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/CTX/L/UMG.RDx.ETL.CTX.exe.config
+  line 7, RDxETL is pointed to USHPEPVSQL409...OK...no change.
+  line 12, RDxETL is pointed to USHPEPVSQL409...OK...no change.
+  line 16, RDxETL is pointed to USHPEPVSQL409...OK...no change.
+  line 20, RDxReport is pointed to USHPEPVSQL435...OK...no change.
+FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/CTX/ET/UMG.RDx.ETL.CTX.exe.config
+  line 7, RDxETL is pointed to USHPEPVSQL409...OK...no change.
+  line 12, RDxETL is pointed to USHPEPVSQL409...OK...no change.
+  line 16, RDxETL is pointed to USHPEPVSQL409...OK...no change.
+  line 20, RDxReport is pointed to USHPEPVSQL435...OK...no change.
+FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/DRA/log4net.config
+  line 4, LOGFILE is at D:\RDx\ETL\logs\DRA\DRA_etl.txt
+   ...changing to D:\RDx\ETL\logs/DRA/DRA_etl.txt
+  line 25, TO_VAL is Scott.Hill@umgtemp.com,ar.umg.rights.dev@hp.com
+   ...changing to ar.umg.rights.dev@hp.com, Scott.Hill@umgtemp.com
+  line 26, FROM_VAL is RDxApp@umgtemp.com
+   ...changing to RDx@mgd.umusic.com
+  line 27, SUBJ is DRA NotificationService Message (DEV)
+   ...changing to RDxAlert Message
+  line 28, SMTP is usush-maildrop.amer.umusic.net...OK...no change.
+FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/Common/UMG.RDx.ETL.FileService.exe.config
+  line 7, RDxETL is pointed to USHPEPVSQL409...OK...no change.
+  line 10, RDxETL is pointed to USHPEPVSQL409...OK...no change.
+  line 13, RDxReport is pointed to USHPEPVSQL435...OK...no change.
+  line 24, CARLFilePathIn points to USHPEWVAPP251...OK...no change.
+  line 25, CRAFilePathIn points to USHPEWVAPP251...OK...no change.
+  line 26, D2FilePathIn points to USHPEWVAPP251...OK...no change.
+  line 27, ELSFilePathIn points to USHPEWVAPP251...OK...no change.
+  line 28, GDRSFilePathIn points to USHPEWVAPP251...OK...no change.
+  line 29, PartsOrderFilePathIn points to USHPEWVAPP251...OK...no change.
+  line 30, CARTFilePathIn points to USHPEWVAPP251...OK...no change.
+  line 32, CARLFilePathOut points to USHPEWVAPP251...OK...no change.
+  line 33, CRAFilePathOut points to USHPEWVAPP251...OK...no change.
+  line 34, D2FilePathOut points to USHPEWVAPP251...OK...no change.
+  line 35, ELSFilePathOut points to USHPEWVAPP251...OK...no change.
+  line 36, GDRSFilePathOut points to USHPEWVAPP251...OK...no change.
+  line 37, PartsOrderFilePathOut points to USHPEWVAPP251...OK...no change.
+  line 38, CARTFilePathOut points to USHPEWVAPP251...OK...no change.
+FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/Common/log4net.config
+  line 4, LOGFILE is at D:\RDx\ETL\logs\COMMON\COMMON_ETL_log.txt
+   ...changing to D:\RDx\ETL\logs/Common/Common_etl.txt
+  line 25, TO_VAL is ar.umg.rights.dev@hp.com
+   ...changing to ar.umg.rights.dev@hp.com, Scott.Hill@umgtemp.com
+  line 26, FROM_VAL is RDxApp@umgtemp.com
+   ...changing to RDx@mgd.umusic.com
+  line 27, SUBJ is Common NotificationService Message (DEV)
+   ...changing to RDxAlert Message
+  line 28, SMTP is usush-maildrop.amer.umusic.net...OK...no change.
+FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/Common/UMG.RDx.ETL.CARL.dll.config
+  line 6, RDxETL is pointed to USHPEPVSQL409...OK...no change.
+FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/gdrs/log4net.config
+  line 4, LOGFILE is at D:\RDx\ETL\logs\GDRS_ETL_Log.txt
+   ...changing to D:\RDx\ETL\logs/GDRS/GDRS_etl.txt
+  line 25, TO_VAL is ar.umg.rights.dev@hp.com
+   ...changing to ar.umg.rights.dev@hp.com, Scott.Hill@umgtemp.com
+  line 26, FROM_VAL is RDxApp@umgtemp.com
+   ...changing to RDx@mgd.umusic.com
+  line 27, SUBJ is D2 NotificationService Message (DEV)
+   ...changing to RDxAlert Message
+  line 28, SMTP is usush-maildrop.amer.umusic.net...OK...no change.
+FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/D2/_UMG.RDx.ETL.FileService.exe.config
+  line 7, RDxETL is pointed to USFSHWSSQL104...changing to USHPEPVSQL409
+FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/CARL/UMG.RDx.ETL.FileService.exe.config
+  line 7, RDxETL is pointed to USHPEPVSQL409...OK...no change.
+  line 10, RDxETL is pointed to USHPEPVSQL409...OK...no change.
+  line 13, RDxReport is pointed to USHPEPVSQL435...OK...no change.
+  line 24, CARLFilePathIn points to USHPEWVAPP251...OK...no change.
+  line 25, CRAFilePathIn points to USHPEWVAPP251...OK...no change.
+  line 26, D2FilePathIn points to USHPEWVAPP251...OK...no change.
+  line 27, ELSFilePathIn points to USHPEWVAPP251...OK...no change.
+  line 28, GDRSFilePathIn points to USHPEWVAPP251...OK...no change.
+  line 29, PartsOrderFilePathIn points to USHPEWVAPP251...OK...no change.
+  line 30, CARTFilePathIn points to USHPEWVAPP251...OK...no change.
+  line 32, CARLFilePathOut points to USHPEWVAPP251...OK...no change.
+  line 33, CRAFilePathOut points to USHPEWVAPP251...OK...no change.
+  line 34, D2FilePathOut points to USHPEWVAPP251...OK...no change.
+  line 35, ELSFilePathOut points to USHPEWVAPP251...OK...no change.
+  line 36, GDRSFilePathOut points to USHPEWVAPP251...OK...no change.
+  line 37, PartsOrderFilePathOut points to USHPEWVAPP251...OK...no change.
+  line 38, CARTFilePathOut points to USHPEWVAPP251...OK...no change.
+FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/MP/UMG.RDx.ETL.MP.vshost.exe.config
+  line 12, LOGFILE is at D:\RDx\ETL\logs\MP\MP_log.txt
+   ...changing to D:\RDx\ETL\logs/MP/MP_etl.txt
+  line 44, TO_VAL is ar.umg.rights.dev@hp.com, Nadia.Pissova-Malpartida@umgtemp.com, Scott.Hill@umgtemp.com
+   ...changing to ar.umg.rights.dev@hp.com, Scott.Hill@umgtemp.com
+  line 45, FROM_VAL is RDxApp@mgd.umusic.com
+   ...changing to RDx@mgd.umusic.com
+  line 46, SUBJ is RDxAlert Message DEBUGGING
+   ...changing to RDxAlert Message
+  line 47, SMTP is smtphost.global.umusic.net
+   ...changing to usush-maildrop.amer.umusic.net
+  line 68, RDxETL is pointed to USHPEPVSQL409...OK...no change.
+  line 73, RDxETL is pointed to USHPEPVSQL409...OK...no change.
+  line 77, RDxETL is pointed to USHPEPVSQL409...OK...no change.
+  line 81, RDxReport is pointed to USHPEPVSQL435...OK...no change.
+FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/CPRS/log4net.config
+  line 4, LOGFILE is at d:\RDx\ETL\logs\CPRS\cprs_log.txt
+   ...changing to D:\RDx\ETL\logs/CPRS/CPRS_etl.txt
+  line 29, TO_VAL is Scott.Hill@umgtemp.com,ar.umg.rights.dev@hp.com
+   ...changing to ar.umg.rights.dev@hp.com, Scott.Hill@umgtemp.com
+  line 30, FROM_VAL is RDxApp@umgtemp.com
+   ...changing to RDx@mgd.umusic.com
+  line 31, SUBJ is CPRS NotificationService Message (DEV)
+   ...changing to RDxAlert Message
+  line 32, SMTP is usush-maildrop.amer.umusic.net...OK...no change.
+FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/R2/UMG.RDx.ETL.R2.vshost.exe.config
+  line 7, RDxETL is pointed to USHPEPVSQL409...OK...no change.
+  line 12, RDxETL is pointed to USHPEPVSQL409...OK...no change.
+  line 16, RDxETL is pointed to USHPEPVSQL409...OK...no change.
+  line 20, RDxReport is pointed to USHPEPVSQL409...changing to USHPEPVSQL435
+FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/Common/UMG.RDx.ETL.CRA.dll.config
+  line 6, RDxETL is pointed to USHPEPVSQL409...OK...no change.
+  line 9, RDxReport is pointed to USHPEPVSQL435...OK...no change.
+FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/CPRS/Copy of UMG.RDx.ETL.CPRS.exe.config
+  line 14, LOGFILE is at D:\RDx\ETL\Logs\cprs_etl.txt
+   ...changing to D:\RDx\ETL\logs/CPRS/CPRS_etl.txt
+  line 38, TO_VAL is Scott.Hill@umgtemp.com
+   ...changing to ar.umg.rights.dev@hp.com, Scott.Hill@umgtemp.com
+  line 39, FROM_VAL is CPRS_ETL_Process@mgd.umusic.com
+   ...changing to RDx@mgd.umusic.com
+  line 40, SUBJ is CPRS NotificationService Message
+   ...changing to RDxAlert Message
+  line 41, SMTP is smtphost.global.umusic.net
+   ...changing to usush-maildrop.amer.umusic.net
+  line 59, RDxETL is pointed to LOCALHOST...changing to USHPEPVSQL409
+  line 132, RDxETL is pointed to USFSHWSSQL104...changing to USHPEPVSQL409
+  line 137, RDxETL is pointed to USFSHWSSQL104...changing to USHPEPVSQL409
+  line 140, RDxETL is pointed to USFSHWSSQL104...changing to USHPEPVSQL409
+  line 143, RDxReport is pointed to USFSHWSSQL104\RIGHTSDEV_2...changing to USHPEPVSQL435
+FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/CTX/L/log4net.config
+  line 4, LOGFILE is at D:\RDx\ETL\logs\CTX\CTX_etl.txt
+   ...changing to D:\RDx\ETL\logs/CTX/CTX_etl.txt
+  line 25, TO_VAL is Scott.Hill@umgtemp.com,ar.umg.rights.dev@hp.com
+   ...changing to ar.umg.rights.dev@hp.com, Scott.Hill@umgtemp.com
+  line 26, FROM_VAL is RDxApp@umgtemp.com
+   ...changing to RDx@mgd.umusic.com
+  line 27, SUBJ is CTX (Load) NotificationService Message (DEV)
+   ...changing to RDxAlert Message
+  line 28, SMTP is usush-maildrop.amer.umusic.net...OK...no change.
+FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/CTX/ET/UMG.RDx.ETL.CTX.exe.OLD.config
+  line 7, RDxETL is pointed to USHPEPVSQL409...OK...no change.
+  line 12, RDxETL is pointed to USHPEPVSQL409...OK...no change.
+  line 16, RDxETL is pointed to USHPEPVSQL409...OK...no change.
+  line 20, RDxReport is pointed to USHPEPVSQL409...changing to USHPEPVSQL435
+FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/CARL/Copy of UMG.RDx.ETL.CARL.dll.config
+  line 6, RDxETL is pointed to USFSHWSSQL104...changing to USHPEPVSQL409
+  line 9, RDxETL is pointed to USFSHWSSQL104...changing to USHPEPVSQL409
+  line 11, RDxETL is pointed to USFSHWSSQL104...changing to USHPEPVSQL409
+FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/D2/_log4net.config
+  line 4, LOGFILE is at log.txt
+   ...changing to D:\RDx\ETL\logs/D2/D2_etl.txt
+FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/CTX/ET/log4net.config
+  line 4, LOGFILE is at D:\RDx\ETL\logs\CTX\CTX_etl.txt
+   ...changing to D:\RDx\ETL\logs/CTX/CTX_etl.txt
+  line 25, TO_VAL is Scott.Hill@umgtemp.com,ar.umg.rights.dev@hp.com
+   ...changing to ar.umg.rights.dev@hp.com, Scott.Hill@umgtemp.com
+  line 26, FROM_VAL is RDxApp@umgtemp.com
+   ...changing to RDx@mgd.umusic.com
+  line 27, SUBJ is CTX (Extract/Transform) NotificationService Message (DEV)
+   ...changing to RDxAlert Message
+  line 28, SMTP is usush-maildrop.amer.umusic.net...OK...no change.
+FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/CARL/UMG.RDx.ETL.CARL.dll.config
+  line 6, RDxETL is pointed to USHPEPVSQL409...OK...no change.
+FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/MP/UMG.RDx.ETL.MP.exe.config
+  line 7, RDxETL is pointed to USHPEPVSQL409...OK...no change.
+  line 12, RDxETL is pointed to USHPEPVSQL409...OK...no change.
+  line 16, RDxETL is pointed to USHPEPVSQL409...OK...no change.
+  line 20, RDxReport is pointed to USHPEPVSQL435...OK...no change.
+FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/PartsOrder/PO.bat
+FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/Common/UMG.RDx.ETL.GDRS.dll.config
+  line 6, RDxETL is pointed to USHPEPVSQL409...OK...no change.
+  line 9, RDxReport is pointed to USHPEPVSQL435...OK...no change.
+FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/gdrs/UMG.RDx.ETL.FileService.exe.config
+  line 7, RDxETL is pointed to USHPEPVSQL409...OK...no change.
+  line 10, RDxETL is pointed to USHPEPVSQL409...OK...no change.
+  line 13, RDxReport is pointed to USHPEPVSQL435...OK...no change.
+  line 24, CARLFilePathIn points to USHPEWVAPP251...OK...no change.
+  line 25, CRAFilePathIn points to USHPEWVAPP251...OK...no change.
+  line 26, D2FilePathIn points to USHPEWVAPP251...OK...no change.
+  line 27, ELSFilePathIn points to USHPEWVAPP251...OK...no change.
+  line 28, GDRSFilePathIn points to USHPEWVAPP251...OK...no change.
+  line 29, PartsOrderFilePathIn points to USHPEWVAPP251...OK...no change.
+  line 30, CARTFilePathIn points to USHPEWVAPP251...OK...no change.
+  line 32, CARLFilePathOut points to USHPEWVAPP251...OK...no change.
+  line 33, CRAFilePathOut points to USHPEWVAPP251...OK...no change.
+  line 34, D2FilePathOut points to USHPEWVAPP251...OK...no change.
+  line 35, ELSFilePathOut points to USHPEWVAPP251...OK...no change.
+  line 36, GDRSFilePathOut points to USHPEWVAPP251...OK...no change.
+  line 37, PartsOrderFilePathOut points to USHPEWVAPP251...OK...no change.
+  line 38, CARTFilePathOut points to USHPEWVAPP251...OK...no change.
+FILE: /Users/hills/git-hill/pyth/pydbutil/work/ETL/MP/UMG.RDx.ETL.MP.Extract.dll.config
+  line 9, RDxETL is pointed to USHPEPVSQL409...OK...no change.

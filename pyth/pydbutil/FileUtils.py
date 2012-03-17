@@ -86,6 +86,9 @@ def change_root(filepath, old_root, new_root='work', ensure=False):
     #if x:
     #    old_root, new_root = re.escape(old_root), re.escape(new_root)
 
+
+    print "%r"%old_root, "%r"%new_root, "%r"%filepath,
+
     try:
         outfilename = re.sub(old_root, new_root, filepath)
         print 'DEBUG: outfilename ok for ',  outfilename

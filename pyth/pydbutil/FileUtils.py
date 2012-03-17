@@ -103,11 +103,11 @@ def change_root(filepath, old_root, new_root='work', ensure=False):
         outfilename = re.sub(old_root, new_root, filepath)
         if ensure :
             ensure_dir(outfilename)
-    except e:
-        print e.args
-        print e # __str__ allows args to printed directly
-        #'{0}, {1}, {2}, {3}'.format(old_root, new_root, filepath)
-        raise MyError(e)
+    except :
+        #print e.args
+        #print e # __str__ allows args to printed directly
+        msg = '{0}, {1}, {2}, {3}'.format(old_root, new_root, filepath)
+        raise MyError(msg)
   #  except MyError as e :
     return outfilename
 

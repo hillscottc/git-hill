@@ -108,7 +108,7 @@ def change_root(filepath, old_root, new_root='work', ensure=False):
         #print e # __str__ allows args to printed directly
         print 'Error:', sys.exc_info()[0]
         msg = '{0}, {1}, {2}'.format(old_root, new_root, filepath)
-        raise MyError(msg, , sys.exc_info()[0])
+        raise MyError(msg, sys.exc_info()[0])
   #  except MyError as e :
     return outfilename
 

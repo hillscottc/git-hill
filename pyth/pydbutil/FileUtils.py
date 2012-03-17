@@ -94,7 +94,7 @@ def change_root(filepath, old_root, new_root='work', ensure=False):
         if ensure :
             ensure_dir(outfilename)
     except :
-        raise Error('{0}, {1}, {2}, {3}'.format(old_root, new_root, filepath), sys.exc_info()[0])
+        raise Error('{0}, {1}, {2}, {3}'.format(old_root, new_root, filepath, sys.exc_info()[0]))
 
     return outfilename
 

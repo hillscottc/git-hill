@@ -13,7 +13,7 @@ import pprint
 import logging
 from shutil import rmtree, copy, ignore_patterns, copytree
 
-class Error(Exception):
+class MyError(Exception):
     def __init__(self, value):
          self.value = value
     def __str__(self):
@@ -89,13 +89,26 @@ def change_root(filepath, old_root, new_root='work', ensure=False):
     #if x:
     #    old_root, new_root = re.escape(old_root), re.escape(new_root)
 
+    # try:
+    #     try:
+    #         outfilename = re.sub(old_root, new_root, filepath)
+    #         if ensure :
+    #             ensure_dir(outfilename)
+    #     except :
+    #         raise MyError('{0}, {1}, {2}, {3}'.format(old_root, new_root, filepath))
+    # except MyError me:
+    #     raise
+
     try:
         outfilename = re.sub(old_root, new_root, filepath)
         if ensure :
             ensure_dir(outfilename)
-    except :
-        raise Error('{0}, {1}, {2}, {3}'.format(old_root, new_root, filepath, sys.exc_info()[0]))
-
+    except e:
+        print e.args
+        print e # __str__ allows args to printed directly
+        #'{0}, {1}, {2}, {3}'.format(old_root, new_root, filepath)
+        raise MyError(e)
+  #  except MyError as e :
     return outfilename
 
 

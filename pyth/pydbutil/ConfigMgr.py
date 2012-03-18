@@ -70,23 +70,22 @@ class ConfigMgr(object):
     @staticmethod
     def update_file(filename, mcs) :
         """Upddates (rewrites) file by updating lines found in the mcs."""
-        try:
-            # iterates file and writes by redirects of print (STDOUT) to the file
-            for i, line in enumerate(fileinput.input(filename, inplace = 1)) :
-                if i not in (mc.linenum for mc in mcs):
-                    print line,
-                    continue
-                mc = [mc for mc in mcs if mc.linenum is i][0]
-                if mc.mtype in ('SMTP', 'TO_VAL', 'FROM_VAL', 'SUBJ', 'FTP') :
-                    print re.sub(mc.before, mc.after, line, re.IGNORECASE),
-                elif mc.mtype in  ('LOG_A', 'LOG_B') :
-                    print re.sub(re.escape(mc.before), mc.after, line, re.IGNORECASE),
-                elif mc.mtype is  'DB' :
-                    print re.sub(re.escape(mc.before_raw), mc.after.boxname, line, re.IGNORECASE),
-                else :
-                    raise MyError('Should be a list type, not {0}'.format(mc.mtype))
-        except Exception as e:
-            raise MyError(e)
+
+        # iterates file and writes by redirects of print (STDOUT) to the file
+        for i, line in enumerate(fileinput.input(filename, inplace = 1)) :
+            if i not in (mc.linenum for mc in mcs):
+                print line,
+                continue
+            mc = [mc for mc in mcs if mc.linenum is i][0]
+            if mc.mtype in ('SMTP', 'TO_VAL', 'FROM_VAL', 'SUBJ', 'FTP') :
+                print re.sub(mc.before, mc.after, line, re.IGNORECASE),
+            elif mc.mtype in  ('LOG_A', 'LOG_B') :
+                print re.sub(re.escape(mc.before), mc.after, line, re.IGNORECASE),
+            elif mc.mtype ==  'DB' :
+                print re.sub(re.escape(mc.before_raw), mc.after.boxname, line, re.IGNORECASE),
+            else :
+                raise MyError('Should be a list type, not {0}'.format(mc.mtype))
+
 
 
     def parse_line(self, linenum, line, env, app):

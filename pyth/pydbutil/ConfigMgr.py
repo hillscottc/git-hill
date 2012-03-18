@@ -142,7 +142,7 @@ class ConfigMgr(object):
                         mc.after = sugs[0]
 
             else :
-                raise MyError('why it not one of these-a-ones')
+                raise MyError('why it not one of these-a-ones, not ' + mc.mtype)
 
             logging.debug('MATCH: {0}'.format(mc))
 

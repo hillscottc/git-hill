@@ -115,14 +115,14 @@ class ConfigMgr(object):
             elif mc.mtype in ('LOG_A', 'LOG_B') :
                 mc.before = m.group(1)
                 mc.after = ConfigObj.get_logname(self.configs['LOG_A'].changeval, app)
-            elif mc.mtype is 'FTP':
+            elif mc.mtype == 'FTP':
                 mc.before = m.group(2)
 
                 # maybe changeval or get_log_name?
                 mc.after = self.configs['FTP'].changeval
 
                 mc.newname = m.group(1)
-            elif mc.mtype is 'DB':
+            elif mc.mtype == 'DB':
                 m_prof = DbProfile(boxname=m.group(1).upper(),
                                    dbname=m.group(2),
                                    env=env, app=app)

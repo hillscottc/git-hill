@@ -89,24 +89,16 @@ def main(argv=None):
         # copy remote to work
         if DO_COPY:
             print
-            print "Remote PATH {0} ...".format(path)
-
-            pathDict =  FileUtils.change_roots(path, ConfigMgr.WORK_DIR, *Configure.FILE_EXTS)
 
             # remove old work dir
             if os.path.exists(ConfigMgr.WORK_DIR) :
                 shutil.rmtree(ConfigMgr.WORK_DIR)
-            print
-            print 'Copying {0} file(s) to work directory {1}'.format(
-                   len(pathDict), ConfigMgr.WORK_DIR)
 
-            FileUtils.copy_files(pathDict, DO_ASK)
+            shutil.copytree(path, ConfigMgr.WORK_DIR)
+
+            print "Copied from {0} to {1}".format(path, ConfigMgr.WORK_DIR)
 
         if DO_MOD:
-
-            # make a backup of the work dir
-            pathDict =  FileUtils.change_roots(ConfigMgr.WORK_DIR, Configure.BAKDIR, *Configure.FILE_EXTS)
-            FileUtils.copy_files(pathDict, DO_ASK)
 
             workfiles = FileUtils.get_filelist(ConfigMgr.WORK_DIR, *Configure.FILE_EXTS)
 
@@ -119,8 +111,7 @@ def main(argv=None):
             print MatchReport.summary(md, Configure.CONFIGS)
             print
             print "{0} files written to dir '{1}'.".format(
-                    len(MatchReport.get_work_files(md, ConfigMgr.WORK_DIR, ConfigMgr.OUTPUT_DIR)),
-                    ConfigMgr.OUTPUT_DIR)
+                   FileUtils.filecount(ConfigMgr.OUTPUT_DIR), ConfigMgr.OUTPUT_DIR)
             print
             print 'Match results written to', logpathname
 
@@ -129,11 +120,8 @@ def main(argv=None):
 
             # COPY BACK TO REMOTE
         if DO_REPLACE:
-            print "Preparing to copy modified files back to source."
+            print "Unimplemented."
 
-            FileUtils.copy_files(dict([(t, s)for s, t in pathDict.iteritems()]), DO_ASK)
-
-            print 'The modified files have been copied back to {0}'.format(path)
 
         print
         print 'END.'

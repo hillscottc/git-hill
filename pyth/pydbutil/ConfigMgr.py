@@ -3,6 +3,8 @@
 import sys
 import re
 import os
+import shutil
+import fileinput
 from MatchedConfig import MatchedConfig
 from ConfigObj import ConfigObj
 from DbProfile import DbProfile
@@ -12,6 +14,14 @@ import FileUtils
 import logging
 import Configure
 import MatchReport
+
+
+
+class MyError(Exception):
+    def __init__(self, value):
+         self.value = value
+    def __str__(self):
+         return repr(self.value)
 
 class ConfigMgr(object):
     """Handles database connection strings in files using DbProfiles.
@@ -58,29 +68,25 @@ class ConfigMgr(object):
 
 
     @staticmethod
-    def get_newlines(filename, mcs):
-        """ gets set of modded lines for given mcs """
-        with open(filename, 'r') as infile:
-             lines = infile.readlines()
-        newlines = ""
-        for i, line in enumerate(lines) :
-            if i not in (mc.linenum for mc in mcs):
-                #newlines.append(line)
-                newlines += line
-                continue
-            mc = [mc for mc in mcs if mc.linenum is i][0]
-            if mc.mtype in ('SMTP', 'TO_VAL', 'FROM_VAL', 'SUBJ', 'FTP') :
-                line = re.sub(mc.before, mc.after, line, re.IGNORECASE)
-            elif mc.mtype in  ('LOG_A', 'LOG_B') :
-                line = re.sub(re.escape(mc.before), mc.after, line, re.IGNORECASE)
-            elif mc.mtype is  'DB' :
-                #line = re.sub(re.escape(m.group(1)), mc.after.boxname, line, re.IGNORECASE)
-                line = re.sub(re.escape(mc.before_raw), mc.after.boxname, line, re.IGNORECASE)
-            else :
-                raise 'why it not one of em?'
-            #newlines.append(line)
-            newlines += line
-        return newlines
+    def update_file(filename, mcs) :
+        """Upddates (rewrites) file by updating lines found in the mcs."""
+        try:
+            # iterates file and writes by redirects of print (STDOUT) to the file
+            for i, line in enumerate(fileinput.input(filename, inplace = 1)) :
+                if i not in (mc.linenum for mc in mcs):
+                    print line,
+                    continue
+                mc = [mc for mc in mcs if mc.linenum is i][0]
+                if mc.mtype in ('SMTP', 'TO_VAL', 'FROM_VAL', 'SUBJ', 'FTP') :
+                    print re.sub(mc.before, mc.after, line, re.IGNORECASE),
+                elif mc.mtype in  ('LOG_A', 'LOG_B') :
+                    print re.sub(re.escape(mc.before), mc.after, line, re.IGNORECASE),
+                elif mc.mtype is  'DB' :
+                    print re.sub(re.escape(mc.before_raw), mc.after.boxname, line, re.IGNORECASE),
+                else :
+                    raise MyError('Should be a list type, not {0}'.format(mc.mtype))
+        except Exception as e:
+            raise MyError(e)
 
 
     def parse_line(self, linenum, line, env, app):
@@ -196,15 +202,15 @@ class ConfigMgr(object):
             # sort mcs and append to dict keyed by file
             md[filename] = sorted(mcs, key = lambda x: x.linenum)
 
-
+            # do line replacements on file
             if write:
-                outfilename = FileUtils.change_root(filename, ConfigMgr.WORK_DIR,
-                                                      ConfigMgr.OUTPUT_DIR, ensure=True)
+                ConfigMgr.update_file(filename, mcs)
 
-                outlines = ConfigMgr.get_newlines(filename, mcs)
-
-                with open(outfilename, 'w') as outfile :
-                     outfile.write(outlines)
+        # copy work dir to output dir
+        if write:
+            if os.path.exists(ConfigMgr.OUTPUT_DIR):
+                shutil.rmtree(ConfigMgr.OUTPUT_DIR)
+            shutil.copytree(ConfigMgr.WORK_DIR, ConfigMgr.OUTPUT_DIR)
 
         logging.debug('')
         logging.debug(MatchReport.details(md, apps=apps))

@@ -19,14 +19,12 @@ class MyError(Exception):
     def __str__(self):
          return repr(self.value)
 
-
 def trim_line(longline, max_length=80, chars_trimmed=20, chars_shown=65):
     """Returns a block from the middle of the line, with ellipsis."""
     shortline = longline.strip()
     if len(shortline) > chars_shown and len(shortline) > chars_trimmed :
         shortline = '...' + shortline[chars_trimmed : chars_trimmed+chars_shown] + '...'
     return shortline
-
 
 def filecount(path) :
     """Walks path to return file count."""
@@ -65,46 +63,6 @@ def get_filelist(path=None, *extentions):
         raise Exception(msg)
     return filelist
 
-
-def change_roots(srcdir, newdir, *inc_exts) :
-    """Returns a dict of every file in srcdir matching exts. oldname:newname
-    Usage:
-    >>> print change_roots('./remote', os.path.join(os.getcwd(), 'work'), '.config', '.bat')
-
-    """
-    return dict([(s, change_root(s, srcdir, newdir, ensure=True))
-                  for s in get_filelist(srcdir, *inc_exts)])
-
-
-def change_root(filepath, old_root, new_root='work', ensure=False):
-    """Returns the new pathname, switching old_root for new_root dir.
-    Usage:
-    >>> change_root('./remote/ETL/D2/_log4net.config',  './remote')
-    'work/ETL/D2/_log4net.config'
-    """
-
-    #if x:
-    #    old_root, new_root = re.escape(old_root), re.escape(new_root)
-
-
-    try:
-        outfilename = re.sub(old_root, new_root, filepath)
-        print 'DEBUG: outfilename ok for ',  outfilename
-    except Exception as e:
-        raise MyError('{0}, {1}, {2}, {3}'.format(e, old_root, new_root, filepath))
-
-    try:
-        if ensure :
-            ensure_dir(outfilename)
-        print 'DEBUG: ensure worked ok for ', outfilename
-    except Exception as e:
-        raise MyError('{0}, {1}'.format(e, outfilename))
-
-
-    return outfilename
-
-
-
 def clipped_file_list(files, maxlength=5) :
     """ Given a long list of files, prints a few, then ellipsis."""
     clipped_list = []
@@ -115,29 +73,27 @@ def clipped_file_list(files, maxlength=5) :
             break
     return clipped_list
 
-
 def ensure_dir(f):
     """ Creates the dirs to f if they don't already exist. """
     d = os.path.dirname(f)
     if not os.path.exists(d):
         os.makedirs(d)
 
-
-def copy_files(pathDict, ask=True):
-    """ Copy each source file to targ. """
-    #import pdb; pdb.set_trace()
-    pp = pprint.PrettyPrinter(indent=4)
-    print 'The copying will be FROM:'
-    pp.pprint(clipped_file_list(sorted(s for s, t in pathDict.iteritems())))
-    print 'copying TO:'
-    pp.pprint(clipped_file_list(sorted(t for s, t in pathDict.iteritems())))
-    if ask:
-        r = raw_input('Proceed? [y]/n ')
-        if r.lower() == 'n':
-            print 'Ok, stopping.'
-            sys.exit(0)
-    [ensure_dir(t) for t in pathDict.values()]
-    [copy(s, t) for s, t in pathDict.items()]
+# def copy_files(pathDict, ask=True):
+#     """ Copy each source file to targ. """
+#     #import pdb; pdb.set_trace()
+#     pp = pprint.PrettyPrinter(indent=4)
+#     print 'The copying will be FROM:'
+#     pp.pprint(clipped_file_list(sorted(s for s, t in pathDict.iteritems())))
+#     print 'copying TO:'
+#     pp.pprint(clipped_file_list(sorted(t for s, t in pathDict.iteritems())))
+#     if ask:
+#         r = raw_input('Proceed? [y]/n ')
+#         if r.lower() == 'n':
+#             print 'Ok, stopping.'
+#             sys.exit(0)
+#     [ensure_dir(t) for t in pathDict.values()]
+#     [copy(s, t) for s, t in pathDict.items()]
 
 
 if __name__ == "__main__":

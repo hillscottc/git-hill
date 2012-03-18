@@ -33,11 +33,11 @@ FILE_EXTS = ('.config', '.bat')
 # print len(pathDict)
 # print
 
-pathDict =  FileUtils.change_roots(path, os.path.join(os.getcwd(), 'work'), *FILE_EXTS)
+# pathDict =  FileUtils.change_roots(path, os.path.join(os.getcwd(), 'work'), *FILE_EXTS)
 
-pprint(pathDict)
-print len(pathDict)
-print
+# pprint(pathDict)
+# print len(pathDict)
+# print
 
 
 # MODEL_DBSET = DbSet.get_dbset('RDxETL')

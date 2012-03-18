@@ -29,17 +29,6 @@ def get_files_with_matches(md, matches=True):
         return [k for k, v in md.iteritems() if not len(v)]
 
 
-def get_work_files(md, workdir, outdir):
-    outfilenames = []
-
-    for filename in md.keys() :
-        for mc in md[filename]:
-            if mc.after:
-                outfilenames.append(FileUtils.change_root(filename, workdir, outdir))
-            break
-    return outfilenames
-
-
 def get_all_matches(matchdict):
     """ Returns all the matches in all the lists, flattened. """
     all_lists = [mcList for mcList in matchdict.values()]

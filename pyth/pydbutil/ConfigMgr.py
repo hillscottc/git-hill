@@ -68,11 +68,11 @@ class ConfigMgr(object):
 
     
     @staticmethod
-    def update_file(filename, mcs, write=False) :
+    def update_file(filename, mcs) :
         """Updates (rewrites) file by updating lines found in the mcs."""
         
         # iterates file and writes by redirects of print (STDOUT) to the file
-        for i, line in enumerate(fileinput.input(filename, inplace = 1)) :
+        for i, line in enumerate(fileinput.input(filename, inplace=1)) :
             if i not in (mc.linenum for mc in mcs):
                 print line,
                 continue
@@ -84,7 +84,7 @@ class ConfigMgr(object):
             elif mc.mtype ==  'DB' :
                 print re.sub(re.escape(mc.before_raw), mc.after.boxname, line, re.IGNORECASE),
             else :
-                raise MyError('Should be a list type, not {0}'.format(mc.mtype))
+                raise MyError('Should be a list type, not {0}'.format(mc.mtype))     
 
 
 
@@ -148,7 +148,7 @@ class ConfigMgr(object):
         return mc
 
 
-    def parse_file(self, filename, app, env):
+    def parse_file(self, filename, app, env ):
         """ Returns mclist for the file. """
         logging.debug('FILE: {0}, {1}, {2}'.format(filename, app, env))
         mcList = []
@@ -160,8 +160,8 @@ class ConfigMgr(object):
                 mcList.append(mc)
         logging.debug('MATCHLIST COUNT: {0}'.format(len(mcList)))
         return mcList
-
-
+    
+    
     def go(self, app=None, write=False) :
         """
         Checks file for lines which contain connection string information,
@@ -201,8 +201,8 @@ class ConfigMgr(object):
 
             # sort mcs and append to dict keyed by file
             md[filename] = sorted(mcs, key = lambda x: x.linenum)
-
-            ConfigMgr.update_file(filename, mcs, write)
+            if write:
+                ConfigMgr.update_file(filename, mcs)
 
         # copy work dir to output dir
         if write:

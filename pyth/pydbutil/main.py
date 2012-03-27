@@ -16,8 +16,6 @@ import logging
 import pprint
 import Configure
 
-# DO_COPY = True
-#DO_MOD = True
 DO_ASK = False
 
 print
@@ -45,7 +43,8 @@ def main(argv=None):
     Args: (switches for running ConfigMgr.py main)
        -h: help
        -p: path to config files to be changed
-       -w: write (modify) the files, instead of just report
+       -w: write. Copies the files from targ dir to work dir and modifies them. 
+           (Otherwise, it just reports on files in targ dir)
     """
     
     # set log file
@@ -99,11 +98,6 @@ def main(argv=None):
         cm = ConfigMgr(dbset=Configure.DBSET, filelist=workfiles, configs=Configure.CONFIGS)
         md = cm.go(write=DO_WRITE)
         
-        # print
-        # print 'Results:'
-        # MatchReport.details(md, apps=Configure.APPS)
-        # MatchReport.summary(md, Configure.CONFIGS)
-
         if DO_WRITE :
             print
             print "{0} files written to dir '{1}'.".format(

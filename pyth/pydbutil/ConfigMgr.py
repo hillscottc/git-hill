@@ -54,11 +54,11 @@ class ConfigMgr(object):
         #self.path = path
         if filelist:
             self.filelist = filelist
-
-
+    
+    
     def get_filelist(self):
         return self._filelist
-
+    
     def set_filelist(self, value):
         """Setting the path sets the filelist."""
         print 'Filelist set to {0} files'.format(len(value))
@@ -66,11 +66,11 @@ class ConfigMgr(object):
 
     filelist = property(get_filelist, set_filelist)
 
-
+    
     @staticmethod
     def update_file(filename, mcs, write=False) :
         """Updates (rewrites) file by updating lines found in the mcs."""
-
+        
         # iterates file and writes by redirects of print (STDOUT) to the file
         for i, line in enumerate(fileinput.input(filename, inplace = 1)) :
             if i not in (mc.linenum for mc in mcs):
@@ -96,14 +96,14 @@ class ConfigMgr(object):
         mc = MatchedConfig(mtype=None, linenum=linenum, app=app)
         co = None
         m = None
-
+        
         # which of the co's does this line match?
         for c in self.configs.values():
             m = re.search(c.regex, line, re.IGNORECASE)
             if m:
                 co = c
                 break
-
+        
         if not co:
             return mc
         else :
@@ -116,10 +116,10 @@ class ConfigMgr(object):
                 mc.after = ConfigObj.get_logname(self.configs['LOG_A'].changeval, app)
             elif mc.mtype == 'FTP':
                 mc.before = m.group(2)
-
+            
                 # maybe changeval or get_log_name?
                 mc.after = self.configs['FTP'].changeval
-
+            
                 mc.newname = m.group(1)
             elif mc.mtype == 'DB':
                 m_prof = DbProfile(boxname=m.group(1).upper(),
@@ -127,11 +127,11 @@ class ConfigMgr(object):
                                    env=env, app=app)
                 mc.before = m_prof
                 mc.before_raw = m.group(1)
-
+                
                 # perfact match already?
                 if len(self.dbset.get(mc.before)):
                     mc.after = (self.dbset.get(mc.before))[0]
-
+                
                 # if no perfect match, get suggested profs by
                 # getting matches for this app + dbname + env
                 if not mc.after:
@@ -139,12 +139,12 @@ class ConfigMgr(object):
                                    dict(dbname=mc.before.dbname, app=app, env=env))
                     if len(sugs):
                         mc.after = sugs[0]
-
+            
             else :
                 raise MyError('why it not one of these-a-ones, not ' + mc.mtype)
-
+            
             logging.debug('MATCH: {0}'.format(mc))
-
+        
         return mc
 
 
@@ -202,9 +202,6 @@ class ConfigMgr(object):
             # sort mcs and append to dict keyed by file
             md[filename] = sorted(mcs, key = lambda x: x.linenum)
 
-            # do line replacements on file (or just print)
-            # if write:
-            #     ConfigMgr.update_file(filename, mcs)
             ConfigMgr.update_file(filename, mcs, write)
 
         # copy work dir to output dir
@@ -212,10 +209,12 @@ class ConfigMgr(object):
             if os.path.exists(ConfigMgr.OUTPUT_DIR):
                 shutil.rmtree(ConfigMgr.OUTPUT_DIR)
             shutil.copytree(ConfigMgr.WORK_DIR, ConfigMgr.OUTPUT_DIR)
-
-        logging.debug('')
-        logging.debug(MatchReport.details(md, apps=apps))
-        logging.debug(MatchReport.summary(md, self.configs))
+        
+        print 'Results:'
+        MatchReport.details(md, apps=Configure.APPS)
+        MatchReport.summary(md, self.configs)
+        print
+        print 'Match report Summary and Details also written to logs directory.'
 
         return md
 

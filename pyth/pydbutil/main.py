@@ -15,10 +15,9 @@ import getopt
 import logging
 import pprint
 import Configure
-import MatchReport
 
-DO_COPY = True
-DO_MOD = True
+# DO_COPY = True
+#DO_MOD = True
 DO_ASK = False
 
 print
@@ -38,18 +37,17 @@ class Usage(Exception):
     def __init__(self, msg):
         self.msg = msg
 
-
 def main(argv=None):
     """Uses the ConFigMgr and related classes.
-
+    
     Usage: ./main.py -p ./remote [-w]
-
+    
     Args: (switches for running ConfigMgr.py main)
        -h: help
        -p: path to config files to be changed
        -w: write (modify) the files, instead of just report
     """
-
+    
     # set log file
     logpathname = os.path.join(os.getcwd(), 'logs', 'pydbutil.main.log')
     logging.basicConfig(level=logging.DEBUG,
@@ -57,9 +55,9 @@ def main(argv=None):
                         datefmt='%m-%d %H:%M',
                         filename=logpathname,
                         filemode='w')
-
+    
     print 'BEGIN.'
-
+    
     if argv is None:
         argv = sys.argv
     try:
@@ -68,11 +66,11 @@ def main(argv=None):
                 argv[1:], "hp:w", ["help", "path=", "write"])
         except getopt.error, msg:
             raise Usage(msg)
-
+        
         # default value
         path = None
         DO_WRITE = False
-
+        
         for opt, arg in opts :
             if opt in ("-h", "--help"):
                 print __doc__
@@ -81,46 +79,35 @@ def main(argv=None):
                 path = arg
             elif opt in ("-w", "--write"):
                 DO_WRITE = True
-
+        
         if not path :
             raise Usage("option -p is required.")
-
-
-        # copy remote to work
-        if DO_COPY:
-            print
-
-            # remove old work dir
+        
+        
+        if DO_WRITE:
+            # copy remote to work. remove old work dir.
             if os.path.exists(ConfigMgr.WORK_DIR) :
                 shutil.rmtree(ConfigMgr.WORK_DIR)
-
             shutil.copytree(path, ConfigMgr.WORK_DIR)
-
             print "Copied from {0} to {1}".format(path, ConfigMgr.WORK_DIR)
-
-        if DO_MOD:
-
+            
             workfiles = FileUtils.get_filelist(ConfigMgr.WORK_DIR, *Configure.FILE_EXTS)
+        else:
+            # not a write, so use the target path
+            workfiles = FileUtils.get_filelist(path, *Configure.FILE_EXTS)
+        
+        cm = ConfigMgr(dbset=Configure.DBSET, filelist=workfiles, configs=Configure.CONFIGS)
+        md = cm.go(write=DO_WRITE)
+        
+        # print
+        # print 'Results:'
+        # MatchReport.details(md, apps=Configure.APPS)
+        # MatchReport.summary(md, Configure.CONFIGS)
 
-            cm = ConfigMgr(dbset=Configure.DBSET, filelist=workfiles, configs=Configure.CONFIGS)
-            md = cm.go(write=DO_WRITE)
-
+        if DO_WRITE :
             print
-            print 'Results:'
-            print MatchReport.details(md, apps=Configure.APPS)
-            print MatchReport.summary(md, Configure.CONFIGS)
-
-            if DO_WRITE :
-                print
-                print "{0} files written to dir '{1}'.".format(
-                       FileUtils.filecount(ConfigMgr.OUTPUT_DIR), ConfigMgr.OUTPUT_DIR)
-            print
-            print 'Match results written to', logpathname
-
-            #logging.info(ms.summary_details(apps=Configure.APPS))
-            #logging.info(ms.summary_matches(Configure.CONFIGS))
-
-
+            print "{0} files written to dir '{1}'.".format(
+                   FileUtils.filecount(ConfigMgr.OUTPUT_DIR), ConfigMgr.OUTPUT_DIR)
         print
         print 'END.'
     except Usage, err:

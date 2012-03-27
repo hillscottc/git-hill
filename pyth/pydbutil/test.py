@@ -1,25 +1,17 @@
 #! /usr/bin/python
 
-import re
 import os
 import sys
-from shutil import copytree, rmtree, ignore_patterns
-import FileUtils
-from ConfigMgr import ConfigMgr
-from DbSet import DbSet
-from ConfigObj import ConfigObj
-from pprint import pprint
-import time
-import logging
+from PrintWriter import PrintWriter
 
 
+pw = PrintWriter(os.path.join("logs", "test.log"))
 
-print DbSet.APPS
-sys.exit(0)
+pw.write("Works?")
 
-path = './remote'
-BAKDIR = os.path.join(os.getcwd(), 'bak', 'remote')
-FILE_EXTS = ('.config', '.bat')
+# path = './remote'
+# BAKDIR = os.path.join(os.getcwd(), 'bak', 'remote')
+# FILE_EXTS = ('.config', '.bat')
 
 
 

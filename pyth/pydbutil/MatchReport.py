@@ -12,7 +12,8 @@ from DbSet import DbSet
 import FileUtils
 import pprint
 import Configure
-#from clint.textui import puts, colored, indent
+from PrintWriter import PrintWriter
+import MatchReport
 #import pdb; pdb.set_trace()
 
 class Usage(Exception):
@@ -37,22 +38,21 @@ def get_all_matches(matchdict):
     return  list(itertools.chain(*all_matches))
 
 
-def summary(matchdict, config_objs, apps=None):
+def summary(matchdict, config_objs, apps=None, logfilename='ReportSummary.log'):
 
     if not apps:
         apps = Configure.APPS
 
-    lines = []
-    lines.append('')
-    lines.append('SUMMARY')
+    pw = PrintWriter(os.path.join("logs", logfilename))
+    pw.write('SUMMARY')
 
     for app in apps:
-        lines.append(app)
+        pw.write(app)
 
         appmatches = [mc for mc in get_all_matches(matchdict) if (mc.app is app)]
 
         if not appmatches :
-            lines.append('  None for ' + app)
+            pw.write('  None for ' + app)
             continue
 
         for mtype in sorted(config_objs.keys()) :
@@ -61,48 +61,46 @@ def summary(matchdict, config_objs, apps=None):
             miss_count = sum(1 for mc in get_all_matches(matchdict) if (mc.app is app) and (mc.mtype is mtype) and (mc.before != mc.after))
 
             if hit_count:
-                lines.append('{0:3} {1} references were already properly configured.'.format(hit_count, mtype))
+                pw.write('{0:3} {1} references were already properly configured.'.format(hit_count, mtype))
             if miss_count:
-                lines.append('{0:3} {1} references had suggested changes.'.format(miss_count, mtype))
+                pw.write('{0:3} {1} references had suggested changes.'.format(miss_count, mtype))
 
-    lines.append('')
-    lines.append('FILE SUMMARY')
+    pw.write('')
+    pw.write('FILE SUMMARY')
 
     msg = '{0:3} total matches in {1} files.'
-    lines.append(msg.format(sum(1 for mc in get_all_matches(matchdict)),
+    pw.write(msg.format(sum(1 for mc in get_all_matches(matchdict)),
                             len(matchdict.keys())))
 
     msg = '{0:3} total matches were already properly configured.'
-    lines.append(msg.format(sum(1 for mc in get_all_matches(matchdict) if mc.before == mc.after)))
+    pw.write(msg.format(sum(1 for mc in get_all_matches(matchdict) if mc.before == mc.after)))
 
     msg = '{0:3} total matches had suggested changes.'
-    lines.append(msg.format(sum(1 for mc in get_all_matches(matchdict) if mc.before != mc.after)))
+    pw.write(msg.format(sum(1 for mc in get_all_matches(matchdict) if mc.before != mc.after)))
 
     msg = '{0:3} total matches had NO suggestions.'
-    lines.append(msg.format(len([mc for mc in get_all_matches(matchdict) if not mc.after])))
-
-    return os.linesep.join(lines)
+    pw.write(msg.format(len([mc for mc in get_all_matches(matchdict) if not mc.after])))
 
 
-def details(matchdict, apps=None):
-
+def details(matchdict, apps=None, logfilename='ReportDetails.log'):
+    
     if not apps:
         apps = Configure.APPS
-
-    lines = []
+    
+    pw = PrintWriter(os.path.join("logs", logfilename))
     print
     for app in apps:
-        lines.append('DETAILS for ' + app)
+        pw.write('DETAILS for ' + app)
 
         appfiles = [filename for filename in matchdict.keys() if get_file_app(filename) == app]
 
         if not appfiles :
-            lines.append('   None for ' + app)
+            pw.write('   None for ' + app)
             continue
 
         for filename in appfiles :
 
-            lines.append(filename)
+            pw.write(filename)
             for mc in matchdict[filename]:
                 if mc.app is app:
                     if mc.mtype is 'DB':
@@ -112,40 +110,38 @@ def details(matchdict, apps=None):
                         if mc.after == mc.before:
                             l += '...OK...no change.'
                         elif mc.after:
-                            l += '    ...changing to {0}'.format(mc.after.boxname)
+                            l += '    ...needs change to {0}'.format(mc.after.boxname)
                         else:
-                            l +=  '...no suggestions...no change.'
-                        lines.append(l)
+                            l +=  '...no suggestions.'
+                        pw.write(l)
                     elif mc.mtype in ('LOG_A', 'LOG_B') :
                         l = '    line {0}, LOGFILE is at {1}'.format(mc.linenum, mc.before)
                         if mc.after == mc.before:
                             l += '...OK...no change.'
                         elif mc.after:
-                            l += os.linesep + '    ...changing to {0}'.format(mc.after)
+                            l += os.linesep + '    ...needs change to {0}'.format(mc.after)
                         else:
-                            l +=  '...no suggestions...no change.'
-                        lines.append(l)
+                            l +=  '...no suggestions.'
+                        pw.write(l)
                     elif mc.mtype is 'FTP' :
                         l = '    line {0}, {1} points to {2}'.format(
                              mc.linenum, mc.newname, mc.before)
                         if mc.after == mc.before:
                             l += '...OK...no change.'
                         elif mc.after:
-                            l += '    ...changing to {0}'.format(mc.after)
+                            l += '    ...needs change to {0}'.format(mc.after)
                         else:
-                            l +=  '...no suggestions...no change.'
-                        lines.append(l)
+                            l +=  '...no suggestions.'
+                        pw.write(l)
                     elif mc.mtype in ('SMTP', 'TO_VAL', 'FROM_VAL', 'SUBJ') :
                         l = '    line {0}, {1} is {2}'.format(mc.linenum, mc.mtype, mc.before)
                         if mc.after == mc.before:
                             l += '...OK...no change.'
                         elif mc.after:
-                            l += os.linesep + '    ...changing to {0}'.format(mc.after)
+                            l += os.linesep + '    ...needs change to {0}'.format(mc.after)
                         else:
-                            l +=  '...no suggestions...no change.'
-                        lines.append(l)
-
-    return os.linesep.join(lines)
+                            l +=  '...no suggestions.'
+                        pw.write(l)
 
 
 

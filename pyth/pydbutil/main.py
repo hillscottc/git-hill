@@ -42,12 +42,12 @@ class Usage(Exception):
 def main(argv=None):
     """Uses the ConFigMgr and related classes.
 
-    Usage: ./main.py -p ./remote [-r]
+    Usage: ./main.py -p ./remote [-w]
 
     Args: (switches for running ConfigMgr.py main)
        -h: help
        -p: path to config files to be changed
-       -r: replace orig with modified files
+       -w: write (modify) the files, instead of just report
     """
 
     # set log file
@@ -65,13 +65,13 @@ def main(argv=None):
     try:
         try:
             opts, args = getopt.getopt(
-                argv[1:], "hp:r", ["help", "path=", "replace"])
+                argv[1:], "hp:w", ["help", "path=", "write"])
         except getopt.error, msg:
             raise Usage(msg)
 
         # default value
         path = None
-        DO_REPLACE = False
+        DO_WRITE = False
 
         for opt, arg in opts :
             if opt in ("-h", "--help"):
@@ -79,8 +79,8 @@ def main(argv=None):
                 sys.exit(0)
             elif opt in ("-p", "--path"):
                 path = arg
-            elif opt in ("-r", "--replace"):
-                DO_REPLACE = True
+            elif opt in ("-w", "--write"):
+                DO_WRITE = True
 
         if not path :
             raise Usage("option -p is required.")
@@ -103,24 +103,22 @@ def main(argv=None):
             workfiles = FileUtils.get_filelist(ConfigMgr.WORK_DIR, *Configure.FILE_EXTS)
 
             cm = ConfigMgr(dbset=Configure.DBSET, filelist=workfiles, configs=Configure.CONFIGS)
-            md = cm.go(write=True)
+            md = cm.go(write=DO_WRITE)
 
             print
             print 'Results:'
             print MatchReport.details(md, apps=Configure.APPS)
             print MatchReport.summary(md, Configure.CONFIGS)
-            print
-            print "{0} files written to dir '{1}'.".format(
-                   FileUtils.filecount(ConfigMgr.OUTPUT_DIR), ConfigMgr.OUTPUT_DIR)
+
+            if DO_WRITE :
+                print
+                print "{0} files written to dir '{1}'.".format(
+                       FileUtils.filecount(ConfigMgr.OUTPUT_DIR), ConfigMgr.OUTPUT_DIR)
             print
             print 'Match results written to', logpathname
 
             #logging.info(ms.summary_details(apps=Configure.APPS))
             #logging.info(ms.summary_matches(Configure.CONFIGS))
-
-            # COPY BACK TO REMOTE
-        if DO_REPLACE:
-            print "Unimplemented."
 
 
         print

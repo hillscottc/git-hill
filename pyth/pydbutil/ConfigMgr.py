@@ -68,8 +68,8 @@ class ConfigMgr(object):
 
 
     @staticmethod
-    def update_file(filename, mcs) :
-        """Upddates (rewrites) file by updating lines found in the mcs."""
+    def update_file(filename, mcs, write=False) :
+        """Updates (rewrites) file by updating lines found in the mcs."""
 
         # iterates file and writes by redirects of print (STDOUT) to the file
         for i, line in enumerate(fileinput.input(filename, inplace = 1)) :
@@ -202,9 +202,10 @@ class ConfigMgr(object):
             # sort mcs and append to dict keyed by file
             md[filename] = sorted(mcs, key = lambda x: x.linenum)
 
-            # do line replacements on file
-            if write:
-                ConfigMgr.update_file(filename, mcs)
+            # do line replacements on file (or just print)
+            # if write:
+            #     ConfigMgr.update_file(filename, mcs)
+            ConfigMgr.update_file(filename, mcs, write)
 
         # copy work dir to output dir
         if write:

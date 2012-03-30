@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="DataSource" Class="InfraDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=USHPEPVSQL409;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="DataSourceConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Box" Member="Boxes">
+    <Type Name="Box">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="app" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="env" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="fishers" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Column Name="tulsa" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Column Name="type" Type="System.String" DbType="VarChar(15)" CanBeNull="true" />
+      <Column Name="name" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="notes" Type="System.String" DbType="VarChar(250)" CanBeNull="true" />
+      <Column Name="app_dirs" Type="System.String" DbType="VarChar(250)" CanBeNull="true" />
+      <Column Name="conn_to" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+    </Type>
+  </Table>
+</Database>

@@ -1,0 +1,97 @@
+﻿  - JOB SCHEDULING IMPLEMENTATION  
+    CARL
+    ET 23:45 daily
+    D:\RDx\ETL\Common\UMG.RDx.ETL.FileService.exe C@RL
+    L 00:30 daily
+    TSQL @ RDxReport 
+    exec CRL.[ArtistExploitationLoad]%3B
+    exec CRL.[AssetExploitationLoad]%3B
+    exec CRL.[ExceptionLoad]%3B
+    exec CRL.[ExceptionAssetLoad]%3B
+    exec CRL.[ExceptionExploitationLoad]%3B
+    exec CRL.[ExceptionProductLoad]%3B
+    exec CRL.[ExceptionTypeLoad]%3B
+    exec CRL.[ExploitationLoad]%3B
+    exec CRL.[PreclearedVideoLoad]%3B
+    exec CRL.[ProdExploitationLoad]%3B
+
+    CART
+    ET 00:30 daily
+    D:\RDx\ETL\Common\UMG.RDx.ETL.FileService.exe CART
+    L 23:45 daily
+    TSQL @ RDxReport
+    exec CART.AssetLoad%3B
+
+    CPRS
+    ET every 10 mins daily
+    D:\RDx\ETL\CPRS\UMG.RDx.ETL.CPRS.exe console cprse
+    D:\RDx\ETL\CPRS\UMG.RDx.ETL.CPRS.exe console cprst
+    L every 5 mins daily
+    D:\RDx\ETL\CPRS\UMG.RDx.ETL.CPRS.exe console cprsl
+
+    CRA
+    ETL 00:00 daily
+    D:\RDx\ETL\Common\UMG.RDx.ETL.FileService.exe CRA
+    L 01:00 daily
+    TSQL @ 
+    exec CRA.ArticleContractLoad%3B
+    exec CRA.ContractLoad%3B
+    exec CRA.ContractTerritoryLinkLoad%3B
+    exec CRA.RecordingContractLoad%3B
+
+    CTX
+    ET 00:00 M-F
+    D:\RDx\ETL\CTX\UMG.RDx.ETL.CTX.exe console ctxe
+    D:\RDx\ETL\CTX\UMG.RDx.ETL.CTX.exe console ctxt
+    L every 2 hours daily
+    D:\RDx\ETL\CTX\UMG.RDx.ETL.CTX.exe console ctxl
+
+    D2
+    ETL every 30 mins
+    D:\RDx\ETL\D2\UMG.RDx.ETL.FileService.EXE d2e
+    D:\RDx\ETL\D2\UMG.RDx.ETL.FileService.EXE d2t
+    LOAD is TSQL @ RDxETL 
+        DECLARE @i as int
+        exec  [D2].[LegalLoad] 100000, @i  OUTPUT
+
+    DRA
+    ETL 00:00 M-F
+    D:\RDx\ETL\DRA\UMG.RDx.ETL.DRA.exe console drae
+    D:\RDx\ETL\DRA\UMG.RDx.ETL.DRA.exe console drat
+    D:\RDx\ETL\DRA\UMG.RDx.ETL.DRA.exe console dral
+
+    ELS
+    ETL 00:30 daily
+    D:\RDx\ETL\Common\UMG.RDx.ETL.FileService.exe ELS
+    L 23:30 daily
+    TSQL @ RDxReport
+    exec ELS.ArtistLoad%3B
+
+    GDRS
+    ETL 22:15 daily
+    D:\RDx\ETL\Common\UMG.RDx.ETL.FileService.exe GDRS
+    L 22:45 daily
+    TSQL @ RDxReport
+    exec [GDRS].[ReleaseLoad]
+
+    MP
+    ETL every 2 hours daily
+    D:\RDx\ETL\MP\UMG.RDx.ETL.MP.exe console mpe
+    D:\RDx\ETL\MP\UMG.RDx.ETL.MP.exe console mpt
+    D:\RDx\ETL\MP\UMG.RDx.ETL.MP.exe console mpl
+
+    PartsOrder 
+    ET 00:00 daily
+    D:\RDx\ETL\PartsOrder\po.bat
+    D:\RDx\ETL\PartsOrder\UMG.RDx.ETL.FileService.exe PartsOrder
+    L 00:30 daily
+    TSQL @ RDxReport
+    exec PO.ReleaseLoad
+
+    R2
+    ET every 2 hours, MON-SAT (not sun)
+    D:\RDx\ETL\R2\UMG.RDx.ETL.R2.exe console r2e
+    D:\RDx\ETL\R2\UMG.RDx.ETL.R2.exe console r2t
+    L every 2 hours daily
+    D:\RDx\ETL\R2\UMG.RDx.ETL.R2.exe console r2l
+

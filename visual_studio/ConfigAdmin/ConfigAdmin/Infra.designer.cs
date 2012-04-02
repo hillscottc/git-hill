@@ -22,7 +22,7 @@ namespace ConfigAdmin
 	using System;
 	
 	
-	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="DataSource")]
+	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="RDxETL")]
 	public partial class InfraDataContext : System.Data.Linq.DataContext
 	{
 		
@@ -30,6 +30,9 @@ namespace ConfigAdmin
 		
     #region Extensibility Method Definitions
     partial void OnCreated();
+    partial void InsertBox(Box instance);
+    partial void UpdateBox(Box instance);
+    partial void DeleteBox(Box instance);
     #endregion
 		
 		public InfraDataContext() : 
@@ -71,9 +74,11 @@ namespace ConfigAdmin
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Box")]
-	public partial class Box
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="Box")]
+	public partial class Box : INotifyPropertyChanging, INotifyPropertyChanged
 	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
 		private int _id;
 		
@@ -95,11 +100,38 @@ namespace ConfigAdmin
 		
 		private string _conn_to;
 		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnidChanging(int value);
+    partial void OnidChanged();
+    partial void OnappChanging(string value);
+    partial void OnappChanged();
+    partial void OnenvChanging(string value);
+    partial void OnenvChanged();
+    partial void OnfishersChanging(string value);
+    partial void OnfishersChanged();
+    partial void OntulsaChanging(string value);
+    partial void OntulsaChanged();
+    partial void OntypeChanging(string value);
+    partial void OntypeChanged();
+    partial void OnnameChanging(string value);
+    partial void OnnameChanged();
+    partial void OnnotesChanging(string value);
+    partial void OnnotesChanged();
+    partial void Onapp_dirsChanging(string value);
+    partial void Onapp_dirsChanged();
+    partial void Onconn_toChanging(string value);
+    partial void Onconn_toChanged();
+    #endregion
+		
 		public Box()
 		{
+			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", AutoSync=AutoSync.Always, DbType="Int NOT NULL IDENTITY", IsDbGenerated=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", AutoSync=AutoSync.Always, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
 		public int id
 		{
 			get
@@ -110,7 +142,11 @@ namespace ConfigAdmin
 			{
 				if ((this._id != value))
 				{
+					this.OnidChanging(value);
+					this.SendPropertyChanging();
 					this._id = value;
+					this.SendPropertyChanged("id");
+					this.OnidChanged();
 				}
 			}
 		}
@@ -126,7 +162,11 @@ namespace ConfigAdmin
 			{
 				if ((this._app != value))
 				{
+					this.OnappChanging(value);
+					this.SendPropertyChanging();
 					this._app = value;
+					this.SendPropertyChanged("app");
+					this.OnappChanged();
 				}
 			}
 		}
@@ -142,7 +182,11 @@ namespace ConfigAdmin
 			{
 				if ((this._env != value))
 				{
+					this.OnenvChanging(value);
+					this.SendPropertyChanging();
 					this._env = value;
+					this.SendPropertyChanged("env");
+					this.OnenvChanged();
 				}
 			}
 		}
@@ -158,7 +202,11 @@ namespace ConfigAdmin
 			{
 				if ((this._fishers != value))
 				{
+					this.OnfishersChanging(value);
+					this.SendPropertyChanging();
 					this._fishers = value;
+					this.SendPropertyChanged("fishers");
+					this.OnfishersChanged();
 				}
 			}
 		}
@@ -174,7 +222,11 @@ namespace ConfigAdmin
 			{
 				if ((this._tulsa != value))
 				{
+					this.OntulsaChanging(value);
+					this.SendPropertyChanging();
 					this._tulsa = value;
+					this.SendPropertyChanged("tulsa");
+					this.OntulsaChanged();
 				}
 			}
 		}
@@ -190,7 +242,11 @@ namespace ConfigAdmin
 			{
 				if ((this._type != value))
 				{
+					this.OntypeChanging(value);
+					this.SendPropertyChanging();
 					this._type = value;
+					this.SendPropertyChanged("type");
+					this.OntypeChanged();
 				}
 			}
 		}
@@ -206,7 +262,11 @@ namespace ConfigAdmin
 			{
 				if ((this._name != value))
 				{
+					this.OnnameChanging(value);
+					this.SendPropertyChanging();
 					this._name = value;
+					this.SendPropertyChanged("name");
+					this.OnnameChanged();
 				}
 			}
 		}
@@ -222,7 +282,11 @@ namespace ConfigAdmin
 			{
 				if ((this._notes != value))
 				{
+					this.OnnotesChanging(value);
+					this.SendPropertyChanging();
 					this._notes = value;
+					this.SendPropertyChanged("notes");
+					this.OnnotesChanged();
 				}
 			}
 		}
@@ -238,7 +302,11 @@ namespace ConfigAdmin
 			{
 				if ((this._app_dirs != value))
 				{
+					this.Onapp_dirsChanging(value);
+					this.SendPropertyChanging();
 					this._app_dirs = value;
+					this.SendPropertyChanged("app_dirs");
+					this.Onapp_dirsChanged();
 				}
 			}
 		}
@@ -254,8 +322,32 @@ namespace ConfigAdmin
 			{
 				if ((this._conn_to != value))
 				{
+					this.Onconn_toChanging(value);
+					this.SendPropertyChanging();
 					this._conn_to = value;
+					this.SendPropertyChanged("conn_to");
+					this.Onconn_toChanged();
 				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
 	}

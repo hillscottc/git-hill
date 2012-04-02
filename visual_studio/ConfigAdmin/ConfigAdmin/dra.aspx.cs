@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 
 namespace ConfigAdmin
 {
-    public partial class dra : System.Web.UI.Page
+    public partial class dra : BasePage
     {
         protected void Page_Load(object sender, EventArgs e)
         {

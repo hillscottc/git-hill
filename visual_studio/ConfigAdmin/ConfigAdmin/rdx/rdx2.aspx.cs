@@ -12,7 +12,7 @@ using System.Configuration;
 
 namespace ConfigAdmin.rdx
 {
-    public partial class rdx2 : System.Web.UI.Page
+    public partial class rdx2 : BasePage
     {
         protected void Page_Load(object sender, EventArgs e)
         {

@@ -22,10 +22,18 @@
             <asp:BoundField DataField="fishers" HeaderText="fishers" SortExpression="fishers" />
             <asp:BoundField DataField="tulsa" HeaderText="tulsa" SortExpression="tulsa" />
             <asp:BoundField DataField="type" HeaderText="type" SortExpression="type" />
-            <asp:BoundField DataField="name" HeaderText="name" SortExpression="name" />
-            <asp:BoundField DataField="notes" HeaderText="notes" SortExpression="notes" />
-            <asp:BoundField DataField="app_dirs" HeaderText="app_dirs" SortExpression="app_dirs" />
-            <asp:BoundField DataField="conn_to" HeaderText="conn_to" SortExpression="conn_to" />
+            <asp:BoundField DataField="name" HeaderText="name" />
+            <asp:BoundField DataField="notes" HeaderText="notes" />
+            <asp:TemplateField HeaderText="conn_to">
+                <ItemTemplate>
+                    <%# SemiColonToBr(Eval("conn_to")) %> 
+                </ItemTemplate>
+            </asp:TemplateField>
+            <asp:TemplateField HeaderText="app_dirs">
+                <ItemTemplate>
+                    <%# SemiColonToBr(Eval("app_dirs"))%> 
+                </ItemTemplate>
+            </asp:TemplateField>
         </Columns>
     </asp:GridView>
 </asp:Content>

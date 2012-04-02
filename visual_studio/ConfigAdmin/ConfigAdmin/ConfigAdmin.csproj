@@ -78,6 +78,7 @@
     <Content Include="Account\ChangePasswordSuccess.aspx" />
     <Content Include="Account\Login.aspx" />
     <Content Include="Account\Register.aspx" />
+    <Content Include="all.aspx" />
     <Content Include="App_Data\ASPNETDB.MDF" />
     <Content Include="App_Data\aspnetdb_log.ldf">
       <DependentUpon>ASPNETDB.MDF</DependentUpon>
@@ -86,6 +87,7 @@
     <Content Include="App_Data\Infra_log.ldf">
       <DependentUpon>Infra.mdf</DependentUpon>
     </Content>
+    <Content Include="BoxGridView.ascx" />
     <Content Include="ctx.aspx" />
     <Content Include="dra.aspx" />
     <Content Include="rdx\JobSchedule.aspx" />
@@ -150,6 +152,23 @@
     </Compile>
     <Compile Include="Account\Register.aspx.designer.cs">
       <DependentUpon>Register.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="all.aspx.cs">
+      <DependentUpon>all.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="all.aspx.designer.cs">
+      <DependentUpon>all.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="BasePage.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BoxGridView.ascx.cs">
+      <DependentUpon>BoxGridView.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BoxGridView.ascx.designer.cs">
+      <DependentUpon>BoxGridView.ascx</DependentUpon>
     </Compile>
     <Compile Include="ctx.aspx.cs">
       <DependentUpon>ctx.aspx</DependentUpon>

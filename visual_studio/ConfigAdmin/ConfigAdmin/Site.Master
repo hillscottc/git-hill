@@ -1,0 +1,68 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="WebApplication1.SiteMaster" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head runat="server">
+    <title></title>
+    <link href="~/Styles/Site.css" rel="stylesheet" type="text/css" />
+    <asp:ContentPlaceHolder ID="HeadContent" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form runat="server">
+    <div class="page">
+        <div class="header">
+            <div class="title">
+                <h1>
+                    Configuration Administration
+                </h1>
+            </div>
+            <div class="loginDisplay">
+                <asp:LoginView ID="HeadLoginView" runat="server" EnableViewState="false">
+                    <AnonymousTemplate>
+                        [ <a href="~/Account/Login.aspx" id="HeadLoginStatus" runat="server">Log In</a>
+                        ]
+                    </AnonymousTemplate>
+                    <LoggedInTemplate>
+                        Welcome <span class="bold">
+                            <asp:LoginName ID="HeadLoginName" runat="server" />
+                        </span>! [
+                        <asp:LoginStatus ID="HeadLoginStatus" runat="server" LogoutAction="Redirect" LogoutText="Log Out"
+                            LogoutPageUrl="~/" />
+                        ]
+                    </LoggedInTemplate>
+                </asp:LoginView>
+            </div>
+            <div class="clear hideSkiplink">
+                <asp:Menu ID="mnMenu" runat="server" Orientation="Horizontal" ItemWrap="true" MaximumDynamicDisplayLevels="2"
+                    StaticDisplayLevels="2" IncludeStyleBlock="true" BorderStyle="None" Font-Names="Arial,Helvetica,sans-serif"
+                    Font-Size="10pt" Font-Underline="False" ForeColor="Black">
+                    <StaticMenuItemStyle Height="30px" Width="150px" HorizontalPadding="10px" VerticalPadding="2px"
+                        BackColor="#CCCCCC" ForeColor="Black" />
+                    <StaticSelectedStyle BackColor="#113272" ForeColor="White" />
+                    <StaticHoverStyle BackColor="#113272" ForeColor="White" CssClass="menuItemHover" />
+                    <Items>
+                        <asp:MenuItem NavigateUrl="~/Default.aspx" Text="Home" />
+                        <asp:MenuItem NavigateUrl="~/ctx.aspx#citrix" Text="Citrix" />
+                        <asp:MenuItem NavigateUrl="~/ctx.aspx" Text="Contraxx" />
+                        <asp:MenuItem NavigateUrl="~/rdx/rdx2.aspx" Text="RDx" />
+                        <asp:MenuItem NavigateUrl="~/ctx.aspx#sentry" Text="Sentry" />
+                        <asp:MenuItem NavigateUrl="~/ctx.aspx#rmslink" Text="RMSLink" />
+                        <asp:MenuItem NavigateUrl="~/dra.aspx" Text="DRA" />
+                        <asp:MenuItem NavigateUrl="~/all.aspx" Text="All Boxes" />
+                        <asp:MenuItem NavigateUrl="~/About.aspx" Text="About" />
+                    </Items>
+                </asp:Menu>
+            </div>
+        </div>
+        <div class="main">
+            <asp:ContentPlaceHolder ID="MainContent" runat="server" />
+        </div>
+        <div class="clear">
+        </div>
+    </div>
+    <div class="footer">
+    </div>
+    </form>
+</body>
+</html>

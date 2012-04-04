@@ -6,6 +6,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 <br />
 <h3>ETL Jobs</h3>
+<%--
 <ul id="etl_job_list">
 <li><a href="JobSchedule.aspx#carl">CARL</a></li>
 <li><a href="JobSchedule.aspx#CART">CART</a></li>
@@ -19,38 +20,49 @@
 <li><a href="JobSchedule.aspx#MP">MP</a></li>
 <li><a href="JobSchedule.aspx#PartsOrder">PartsOrder</a></li>
 <li><a href="JobSchedule.aspx#R2">R2</a></li>
-</ul>
+</ul>--%>
    
+     <asp:LinqDataSource ID="lds_jobs" runat="server" 
+        ContextTypeName="ConfigAdmin.DataClasses1DataContext" EnableDelete="True" 
+        EnableInsert="True" EnableUpdate="True" EntityTypeName="" OrderBy="name" 
+        TableName="Jobs">
+    </asp:LinqDataSource>
+
+    <asp:GridView ID="GridView2" runat="server" AllowPaging="True" 
+        AllowSorting="True" DataSourceID="lds_jobs" PageSize="15">
+        <Columns>
+            <asp:CommandField ShowDeleteButton="True" ShowEditButton="False" />
+        </Columns>
+    </asp:GridView>
+
+
 
     
     <h3>Boxes</h3>
-    <asp:LinqDataSource ID="LinqDataSource1" runat="server" ContextTypeName="ConfigAdmin.InfraDataContext"
-        OrderBy="env, tulsa" TableName="Boxes" Where="app == @app">
+    <asp:LinqDataSource ID="LinqDataSource1" runat="server" ContextTypeName="ConfigAdmin.DataClasses1DataContext"
+        OrderBy="env, tulsa" TableName="Boxes" Where="app == @app" 
+        EnableDelete="True" EnableInsert="True" EnableUpdate="True" EntityTypeName="">
         <WhereParameters>
             <asp:Parameter DefaultValue="rdx" Name="app" Type="String" />
         </WhereParameters>
     </asp:LinqDataSource>
     <asp:GridView ID="GridView1" runat="server" AllowPaging="True" AllowSorting="True"
-        DataSourceID="LinqDataSource1" AutoGenerateColumns="False" AutoGenerateEditButton="False">
+        DataSourceID="LinqDataSource1" AutoGenerateColumns="False" 
+        DataKeyNames="id">
         <Columns>
-            <asp:BoundField DataField="id" HeaderText="id" InsertVisible="False" SortExpression="id" />
+            <asp:BoundField DataField="id" HeaderText="id" InsertVisible="False" 
+                SortExpression="id" ReadOnly="True" />
             <asp:BoundField DataField="app" HeaderText="app" SortExpression="app" />
             <asp:BoundField DataField="env" HeaderText="env" SortExpression="env" />
             <asp:BoundField DataField="fishers" HeaderText="fishers" SortExpression="fishers" />
             <asp:BoundField DataField="tulsa" HeaderText="tulsa" SortExpression="tulsa" />
             <asp:BoundField DataField="type" HeaderText="type" SortExpression="type" />
-            <asp:BoundField DataField="name" HeaderText="name"  />
-            <asp:BoundField DataField="notes" HeaderText="notes" />
-            <asp:TemplateField HeaderText="conn_to">
-                <ItemTemplate>
-                    <%# SemiColonToBr(Eval("conn_to")) %> 
-                </ItemTemplate>
-            </asp:TemplateField>
-            <asp:TemplateField HeaderText="app_dirs">
-                <ItemTemplate>
-                    <%# SemiColonToBr(Eval("app_dirs"))%> 
-                </ItemTemplate>
-            </asp:TemplateField>
+            <asp:BoundField DataField="name" HeaderText="name" SortExpression="name"  />
+            <asp:BoundField DataField="notes" HeaderText="notes" SortExpression="notes" />
+            <asp:BoundField DataField="app_dirs" HeaderText="app_dirs" 
+                SortExpression="app_dirs" />
+            <asp:BoundField DataField="conn_to" HeaderText="conn_to" 
+                SortExpression="conn_to" />
         </Columns>
     </asp:GridView>
     <p>

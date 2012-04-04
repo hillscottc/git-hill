@@ -7,41 +7,35 @@
  
     
     
-    <asp:LinqDataSource ID="lds_ctx" runat="server" ContextTypeName="ConfigAdmin.InfraDataContext"
+    <asp:LinqDataSource ID="lds_ctx" runat="server" ContextTypeName="ConfigAdmin.DataClasses1DataContext"
         EnableDelete="True" EnableInsert="True" EnableUpdate="True" OrderBy="env, tulsa"
-        TableName="Boxes" Where='app == "ctx"'>
+        TableName="Boxes" Where='app == "ctx"' EntityTypeName="">
     </asp:LinqDataSource>
     <h2>Contraxx</h2>
 
 
     <br />
     <asp:GridView ID="GridView1" runat="server" AllowPaging="True" AllowSorting="True"
-        DataSourceID="lds_ctx" AutoGenerateColumns="False" >
+        DataSourceID="lds_ctx" AutoGenerateColumns="False" DataKeyNames="id" >
         <Columns>
-            <asp:CommandField ShowEditButton="True" />
-            <asp:BoundField DataField="id" HeaderText="id" InsertVisible="False" SortExpression="id" />
+            <asp:BoundField DataField="id" HeaderText="id" InsertVisible="False" 
+                SortExpression="id" ReadOnly="True" />
             <asp:BoundField DataField="app" HeaderText="app" SortExpression="app" />
             <asp:BoundField DataField="env" HeaderText="env" SortExpression="env" />
             <asp:BoundField DataField="fishers" HeaderText="fishers" SortExpression="fishers" />
             <asp:BoundField DataField="tulsa" HeaderText="tulsa" SortExpression="tulsa" />
             <asp:BoundField DataField="type" HeaderText="type" SortExpression="type" />
             <asp:BoundField DataField="name" HeaderText="name" SortExpression="name" />
-            <asp:BoundField DataField="notes" HeaderText="notes" />
-            <asp:TemplateField HeaderText="conn_to">
-                <ItemTemplate>
-                    <%# SemiColonToBr(Eval("conn_to")) %> 
-                </ItemTemplate>
-            </asp:TemplateField>
-            <asp:TemplateField HeaderText="app_dirs">
-                <ItemTemplate>
-                    <%# SemiColonToBr(Eval("app_dirs"))%> 
-                </ItemTemplate>
-            </asp:TemplateField>
+            <asp:BoundField DataField="notes" HeaderText="notes" SortExpression="notes" />
+            <asp:BoundField DataField="app_dirs" HeaderText="app_dirs" 
+                SortExpression="app_dirs" />
+            <asp:BoundField DataField="conn_to" HeaderText="conn_to" 
+                SortExpression="conn_to" />
         </Columns>
     </asp:GridView>
     <br />
 
-    <asp:LinqDataSource ID="lds_citrix" runat="server" ContextTypeName="ConfigAdmin.InfraDataContext"
+    <asp:LinqDataSource ID="lds_citrix" runat="server" ContextTypeName="ConfigAdmin.DataClasses1DataContext"
         EnableDelete="True" EnableInsert="True" EnableUpdate="True" OrderBy="env, tulsa"
         TableName="Boxes" Where='app == "citrix"' EntityTypeName="">
     </asp:LinqDataSource>
@@ -56,9 +50,10 @@
 
     <br />
     <asp:GridView ID="GridView4" runat="server" AllowPaging="True" AllowSorting="True"
-        DataSourceID="lds_citrix" AutoGenerateColumns="False">
+        DataSourceID="lds_citrix" AutoGenerateColumns="False" DataKeyNames="id">
         <Columns>
-            <asp:BoundField DataField="id" HeaderText="id" InsertVisible="False" SortExpression="id" />
+            <asp:BoundField DataField="id" HeaderText="id" InsertVisible="False" 
+                SortExpression="id" ReadOnly="True" />
             <asp:BoundField DataField="app" HeaderText="app" SortExpression="app" />
             <asp:BoundField DataField="env" HeaderText="env" SortExpression="env" />
             <asp:BoundField DataField="fishers" HeaderText="fishers" SortExpression="fishers" />
@@ -99,7 +94,7 @@ KEY: HKEY_LOCAL_MACHINE\SOFTWARE\Contraxx
 NAME: Sentry Path
 VALUE: D:\Contraxx\UATv8Current-rmsdev
      </pre>
-    <asp:LinqDataSource ID="lds_sentry" runat="server" ContextTypeName="ConfigAdmin.InfraDataContext"
+    <asp:LinqDataSource ID="lds_sentry" runat="server" ContextTypeName="ConfigAdmin.DataClasses1DataContext"
         EnableDelete="True" EnableInsert="True" EnableUpdate="True" OrderBy="env, tulsa"
         TableName="Boxes" Where="app == @app">
         <WhereParameters>
@@ -126,18 +121,19 @@ VALUE: D:\Contraxx\UATv8Current-rmsdev
 
     <a name="rmslink"></a>
     <h2>RMSLink</h2>
-    <asp:LinqDataSource ID="lds_rmslink" runat="server" ContextTypeName="ConfigAdmin.InfraDataContext"
+    <asp:LinqDataSource ID="lds_rmslink" runat="server" ContextTypeName="ConfigAdmin.DataClasses1DataContext"
         EnableDelete="True" EnableInsert="True" EnableUpdate="True" OrderBy="env, tulsa"
-        TableName="Boxes" Where="app == @app">
+        TableName="Boxes" Where="app == @app" EntityTypeName="">
         <WhereParameters>
             <asp:Parameter DefaultValue="rmslink" Name="app" Type="String" />
         </WhereParameters>
     </asp:LinqDataSource>
     <br />
     <asp:GridView ID="GridView3" runat="server" AllowPaging="True" AllowSorting="True"
-        DataSourceID="lds_rmslink" AutoGenerateColumns="False">
+        DataSourceID="lds_rmslink" AutoGenerateColumns="False" DataKeyNames="id">
         <Columns>
-            <asp:BoundField DataField="id" HeaderText="id" InsertVisible="False" SortExpression="id" />
+            <asp:BoundField DataField="id" HeaderText="id" InsertVisible="False" 
+                SortExpression="id" ReadOnly="True" />
             <asp:BoundField DataField="app" HeaderText="app" SortExpression="app" />
             <asp:BoundField DataField="env" HeaderText="env" SortExpression="env" />
             <asp:BoundField DataField="fishers" HeaderText="fishers" SortExpression="fishers" />
@@ -145,8 +141,10 @@ VALUE: D:\Contraxx\UATv8Current-rmsdev
             <asp:BoundField DataField="type" HeaderText="type" SortExpression="type" />
             <asp:BoundField DataField="name" HeaderText="name" SortExpression="name" />
             <asp:BoundField DataField="notes" HeaderText="notes" SortExpression="notes" />
-            <asp:BoundField DataField="conn_to" HeaderText="conn_to" SortExpression="conn_to" />
-            <asp:BoundField DataField="app_dirs" HeaderText="app dir" SortExpression="app_dirs" />
+            <asp:BoundField DataField="app_dirs" HeaderText="app_dirs" 
+                SortExpression="app_dirs" />
+            <asp:BoundField DataField="conn_to" HeaderText="conn_to" 
+                SortExpression="conn_to" />
         </Columns>
     </asp:GridView>
     <br />

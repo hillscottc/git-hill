@@ -4,27 +4,26 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
+
+ 
     <h3>
         ETL Jobs</h3>
     <asp:LinqDataSource ID="lds_jobs" runat="server" ContextTypeName="ConfigAdmin.DataClasses1DataContext"
         EntityTypeName="" OrderBy="name" TableName="Jobs">
     </asp:LinqDataSource>
-
-    <asp:GridView ID="gv_jobs" runat="server" AllowPaging="True" 
-        AllowSorting="True" PageSize="20"
-        DataSourceID="lds_jobs" AutoGenerateColumns="False" 
-        DataKeyNames="id" CellPadding="4" ForeColor="#333333" GridLines="None">
+    <asp:GridView ID="gv_jobs" runat="server" AllowPaging="True" AllowSorting="True"
+        PageSize="20" DataSourceID="lds_jobs" AutoGenerateColumns="False" DataKeyNames="id"
+        CellPadding="4" ForeColor="#333333" GridLines="None">
         <AlternatingRowStyle BackColor="White" ForeColor="#284775" />
         <Columns>
-            <asp:BoundField DataField="id" HeaderText="id" InsertVisible="False" 
-                ReadOnly="True" SortExpression="id" />
+            <asp:BoundField DataField="id" HeaderText="id" InsertVisible="False" ReadOnly="True"
+                SortExpression="id" />
             <asp:BoundField DataField="name" HeaderText="name" SortExpression="name" />
             <asp:BoundField DataField="time" HeaderText="time" SortExpression="time" />
             <asp:BoundField DataField="freq" HeaderText="freq" SortExpression="freq" />
             <asp:BoundField DataField="type" HeaderText="type" SortExpression="type" />
             <asp:BoundField DataField="cmd" HeaderText="cmd" SortExpression="cmd" />
-            <asp:BoundField DataField="result" HeaderText="result" 
-                SortExpression="result" />
+            <asp:BoundField DataField="result" HeaderText="result" SortExpression="result" />
             <asp:BoundField DataField="notes" HeaderText="notes" SortExpression="notes" />
         </Columns>
         <EditRowStyle BackColor="#999999" />
@@ -38,21 +37,16 @@
         <SortedDescendingCellStyle BackColor="#FFFDF8" />
         <SortedDescendingHeaderStyle BackColor="#6F8DAE" />
     </asp:GridView>
-
-
     <h3>
         Issue Key</h3>
     <asp:LinqDataSource ID="lds_issues" runat="server" ContextTypeName="ConfigAdmin.DataClasses1DataContext"
         EntityTypeName="" OrderBy="id" TableName="IssueViews">
     </asp:LinqDataSource>
-    <asp:GridView ID="gv_issues" runat="server" 
-        AllowSorting="True" AutoGenerateColumns="False"
-        DataSourceID="lds_issues" CellPadding="4" 
-        ForeColor="#333333" GridLines="None">
+    <asp:GridView ID="gv_issues" runat="server" AllowSorting="True" AutoGenerateColumns="False"
+        DataSourceID="lds_issues" CellPadding="4" ForeColor="#333333" GridLines="None">
         <AlternatingRowStyle BackColor="White" />
         <Columns>
-            <asp:BoundField DataField="id" HeaderText="id" SortExpression="id" 
-                InsertVisible="False" />
+            <asp:BoundField DataField="id" HeaderText="id" SortExpression="id" InsertVisible="False" />
             <asp:BoundField DataField="notes" HeaderText="notes" SortExpression="notes" />
             <asp:BoundField DataField="count" HeaderText="count" SortExpression="count" />
         </Columns>
@@ -67,16 +61,14 @@
         <SortedDescendingCellStyle BackColor="#E9EBEF" />
         <SortedDescendingHeaderStyle BackColor="#4870BE" />
     </asp:GridView>
-
-
     <h3>
         Boxes</h3>
     <asp:LinqDataSource ID="lds_boxes" runat="server" ContextTypeName="ConfigAdmin.DataClasses1DataContext"
         EntityTypeName="" OrderBy="env, name" TableName="Boxes" Where='app == "rdx"'>
     </asp:LinqDataSource>
-    <asp:GridView ID="GridView3" runat="server" AllowSorting="True" 
-        DataSourceID="lds_boxes" AutoGenerateColumns="False" DataKeyNames="id" 
-        CellPadding="4" ForeColor="#333333" GridLines="None">
+    <asp:GridView ID="GridView3" runat="server" AllowSorting="True" DataSourceID="lds_boxes"
+        AutoGenerateColumns="False" DataKeyNames="id" CellPadding="4" ForeColor="#333333"
+        GridLines="None">
         <AlternatingRowStyle BackColor="White" />
         <Columns>
             <asp:BoundField DataField="id" HeaderText="id" InsertVisible="False" SortExpression="id"
@@ -88,10 +80,8 @@
             <asp:BoundField DataField="type" HeaderText="type" SortExpression="type" />
             <asp:BoundField DataField="name" HeaderText="name" SortExpression="name" />
             <asp:BoundField DataField="notes" HeaderText="notes" SortExpression="notes" />
-            <asp:BoundField DataField="app_dirs" HeaderText="app_dirs" 
-                SortExpression="app_dirs" />
-            <asp:BoundField DataField="conn_to" HeaderText="conn_to" 
-                SortExpression="conn_to" />
+            <asp:BoundField DataField="app_dirs" HeaderText="app_dirs" SortExpression="app_dirs" />
+            <asp:BoundField DataField="conn_to" HeaderText="conn_to" SortExpression="conn_to" />
         </Columns>
         <FooterStyle BackColor="#990000" Font-Bold="True" ForeColor="White" />
         <HeaderStyle BackColor="#990000" Font-Bold="True" ForeColor="White" />
@@ -108,7 +98,6 @@
     <ul>
         <li><a href="reports/dev_rdx_etl_summary.txt">App Config Summary</a></li>
         <li><a href="reports/dev_rdx_etl_details.txt">App Config Details</a></li>
-        <li>RDx Web</li>
         <li>NotificationServices</li>
     </ul>
     <p>
@@ -116,7 +105,6 @@
     <ul>
         <li><a href="reports/uat_rdx_etl_summary.txt">App Config Summary</a></li>
         <li><a href="reports/uat_rdx_etl_details.txt">App Config Details</a></li>
-        <li>RDx Web</li>
         <li>NotificationServices</li>
     </ul>
     <p>
@@ -124,7 +112,6 @@
     <ul>
         <li><a href="reports/prod_rdx_etl_summary.txt">App Config Summary</a></li>
         <li><a href="reports/prod_rdx_etl_details.txt">App Config Details</a></li>
-        <li>RDx Web</li>
         <li>NotificationServices</li>
     </ul>
 </asp:Content>

@@ -85,6 +85,7 @@
     </Content>
     <Content Include="ctx.aspx" />
     <Content Include="dra.aspx" />
+    <Content Include="EachInterface.aspx" />
     <Content Include="rdx.aspx" />
     <Content Include="reports\dev_rdx_etl_details.txt" />
     <Content Include="reports\dev_rdx_etl_jobs.txt" />
@@ -179,6 +180,13 @@
     </Compile>
     <Compile Include="dra.aspx.designer.cs">
       <DependentUpon>dra.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="EachInterface.aspx.cs">
+      <DependentUpon>EachInterface.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EachInterface.aspx.designer.cs">
+      <DependentUpon>EachInterface.aspx</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

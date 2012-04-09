@@ -41,12 +41,56 @@
         access to the app directories. The prod environment is a fully Citrix-hosted application.
     </p>
     <br />
+
+
+
+     <h2 id="citrix">
+        Citrix</h2>
+
+    <asp:LinqDataSource ID="lds_citrix" runat="server" ContextTypeName="ConfigAdmin.DataClasses1DataContext"
+        EntityTypeName="" OrderBy="env, tulsa" Where='app == "citrix"' TableName="Boxes">
+    </asp:LinqDataSource>
+
+    <asp:GridView ID="gv_citrix" runat="server" AllowSorting="True" 
+        AutoGenerateColumns="False" CellPadding="4" DataKeyNames="id" 
+        DataSourceID="lds_citrix" ForeColor="#333333" GridLines="None">
+        <AlternatingRowStyle BackColor="White" />
+        <Columns>
+            <asp:BoundField DataField="id" HeaderText="id" InsertVisible="False" 
+                ReadOnly="True" SortExpression="id" />
+            <asp:BoundField DataField="app" HeaderText="app" SortExpression="app" />
+            <asp:BoundField DataField="env" HeaderText="env" SortExpression="env" />
+            <asp:BoundField DataField="fishers" HeaderText="fishers" 
+                SortExpression="fishers" />
+            <asp:BoundField DataField="tulsa" HeaderText="tulsa" SortExpression="tulsa" />
+            <asp:BoundField DataField="type" HeaderText="type" SortExpression="type" />
+            <asp:BoundField DataField="name" HeaderText="name" SortExpression="name" />
+            <asp:BoundField DataField="notes" HeaderText="notes" SortExpression="notes" />
+            <asp:BoundField DataField="app_dirs" HeaderText="app_dirs" 
+                SortExpression="app_dirs" />
+            <asp:BoundField DataField="conn_to" HeaderText="conn_to" 
+                SortExpression="conn_to" />
+        </Columns>
+        <EditRowStyle BackColor="#7C6F57" />
+        <FooterStyle BackColor="#1C5E55" Font-Bold="True" ForeColor="White" />
+        <HeaderStyle BackColor="#1C5E55" Font-Bold="True" ForeColor="White" />
+        <PagerStyle BackColor="#666666" ForeColor="White" HorizontalAlign="Center" />
+        <RowStyle BackColor="#E3EAEB" />
+        <SelectedRowStyle BackColor="#C5BBAF" Font-Bold="True" ForeColor="#333333" />
+        <SortedAscendingCellStyle BackColor="#F8FAFA" />
+        <SortedAscendingHeaderStyle BackColor="#246B61" />
+        <SortedDescendingCellStyle BackColor="#D4DFE1" />
+        <SortedDescendingHeaderStyle BackColor="#15524A" />
+    </asp:GridView>
+
+
+<br />
     <asp:LinqDataSource ID="lds_sentry" runat="server" ContextTypeName="ConfigAdmin.DataClasses1DataContext"
         EntityTypeName="" OrderBy="env, tulsa" Where='app == "sentry"' TableName="Boxes">
     </asp:LinqDataSource>
     <br />
-    <a name="sentry"></a>
-    <h2>
+  
+    <h2 id="sentry">
         Sentry</h2>
     <asp:GridView ID="gv_sentry" runat="server" AllowSorting="True"
         DataSourceID="lds_sentry" AutoGenerateColumns="False" DataKeyNames="id" 
@@ -67,15 +111,16 @@
             <asp:BoundField DataField="conn_to" HeaderText="conn_to" 
                 SortExpression="conn_to" />
         </Columns>
-        <FooterStyle BackColor="#990000" Font-Bold="True" ForeColor="White" />
-        <HeaderStyle BackColor="#990000" Font-Bold="True" ForeColor="White" />
-        <PagerStyle BackColor="#FFCC66" ForeColor="#333333" HorizontalAlign="Center" />
-        <RowStyle BackColor="#FFFBD6" ForeColor="#333333" />
-        <SelectedRowStyle BackColor="#FFCC66" Font-Bold="True" ForeColor="Navy" />
-        <SortedAscendingCellStyle BackColor="#FDF5AC" />
-        <SortedAscendingHeaderStyle BackColor="#4D0000" />
-        <SortedDescendingCellStyle BackColor="#FCF6C0" />
-        <SortedDescendingHeaderStyle BackColor="#820000" />
+        <EditRowStyle BackColor="#7C6F57" />
+        <FooterStyle BackColor="#1C5E55" Font-Bold="True" ForeColor="White" />
+        <HeaderStyle BackColor="#1C5E55" Font-Bold="True" ForeColor="White" />
+        <PagerStyle BackColor="#666666" ForeColor="White" HorizontalAlign="Center" />
+        <RowStyle BackColor="#E3EAEB" />
+        <SelectedRowStyle BackColor="#C5BBAF" Font-Bold="True" ForeColor="#333333" />
+        <SortedAscendingCellStyle BackColor="#F8FAFA" />
+        <SortedAscendingHeaderStyle BackColor="#246B61" />
+        <SortedDescendingCellStyle BackColor="#D4DFE1" />
+        <SortedDescendingHeaderStyle BackColor="#15524A" />
     </asp:GridView>
     <p>
         Contraxx Sentry performs several functions in a Contraxx environment. It is named
@@ -127,15 +172,16 @@ VALUE: D:\Contraxx\UATv8Current-rmsdev
             <asp:BoundField DataField="conn_to" HeaderText="conn_to" 
                 SortExpression="conn_to" />
         </Columns>
-        <FooterStyle BackColor="#990000" Font-Bold="True" ForeColor="White" />
-        <HeaderStyle BackColor="#990000" Font-Bold="True" ForeColor="White" />
-        <PagerStyle BackColor="#FFCC66" ForeColor="#333333" HorizontalAlign="Center" />
-        <RowStyle BackColor="#FFFBD6" ForeColor="#333333" />
-        <SelectedRowStyle BackColor="#FFCC66" Font-Bold="True" ForeColor="Navy" />
-        <SortedAscendingCellStyle BackColor="#FDF5AC" />
-        <SortedAscendingHeaderStyle BackColor="#4D0000" />
-        <SortedDescendingCellStyle BackColor="#FCF6C0" />
-        <SortedDescendingHeaderStyle BackColor="#820000" />
+        <EditRowStyle BackColor="#7C6F57" />
+        <FooterStyle BackColor="#1C5E55" Font-Bold="True" ForeColor="White" />
+        <HeaderStyle BackColor="#1C5E55" Font-Bold="True" ForeColor="White" />
+        <PagerStyle BackColor="#666666" ForeColor="White" HorizontalAlign="Center" />
+        <RowStyle BackColor="#E3EAEB" />
+        <SelectedRowStyle BackColor="#C5BBAF" Font-Bold="True" ForeColor="#333333" />
+        <SortedAscendingCellStyle BackColor="#F8FAFA" />
+        <SortedAscendingHeaderStyle BackColor="#246B61" />
+        <SortedDescendingCellStyle BackColor="#D4DFE1" />
+        <SortedDescendingHeaderStyle BackColor="#15524A" />
     </asp:GridView>
     <br />
     <br />

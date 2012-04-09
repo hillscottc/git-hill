@@ -29,8 +29,8 @@
 
         <dt>Contraxx (CTX)</dt>
         <dd>
-        Data is queried from the app's Oracle db. Scheduled execution of a custom console app for processing. 
-        Console app calls a collection of stored procedures.
+        Data is queried from the app's Oracle db. Processed by scheduled execution of a custom console app calling 
+        a collection of stored procedures.
         </dd>
 
         <dt>D2</dt>
@@ -40,8 +40,8 @@
 
 
         <dt>DRA</dt>
-        <dd>Data is queried from the app's Oracle db. Scheduled execution of a custom console app for processing. 
-        Console app calls a collection of stored procedures.
+        <dd>Data is queried from the app's Oracle db.  Processed by scheduled execution of a custom console app calling 
+        a collection of stored procedures.
         </dd>
 
         <dt>ELS</dt>
@@ -61,16 +61,18 @@
         </dd>
 
         <dt>PartsOrder</dt>
-        <dd>Receives data via FTP of text file. Scheduled execution of a DOS batch file (po.bat) follows.
-        Then, the FTP file is processed.
+        <dd>Receives data via FTP of text file. Scheduled execution of a DOS batch file (po.bat) follows,
+        then the FTP file is processed.
         </dd>
 
         <dt>R2</dt>
-        <dd>Data is queried from the app's Oracle db. Scheduled execution of a custom console app for processing. 
-        Console app calls a collection of stored procedures.
+        <dd>Data is queried from the app's Oracle db.  Processed by scheduled execution of a custom console app calling 
+        a collection of stored procedures.
         </dd>
 
 
     </dl>
+
+
 
 </asp:Content>

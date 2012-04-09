@@ -31,6 +31,24 @@ namespace ConfigAdmin {
         protected global::System.Web.UI.WebControls.GridView gv_ctx;
         
         /// <summary>
+        /// lds_citrix control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinqDataSource lds_citrix;
+        
+        /// <summary>
+        /// gv_citrix control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView gv_citrix;
+        
+        /// <summary>
         /// lds_sentry control.
         /// </summary>
         /// <remarks>

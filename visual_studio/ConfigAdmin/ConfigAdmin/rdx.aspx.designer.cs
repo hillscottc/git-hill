@@ -10,60 +10,60 @@
 namespace ConfigAdmin {
     
     
-    public partial class ctx {
+    public partial class rdx {
         
         /// <summary>
-        /// lds_ctx control.
+        /// lds_jobs control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinqDataSource lds_ctx;
+        protected global::System.Web.UI.WebControls.LinqDataSource lds_jobs;
         
         /// <summary>
-        /// gv_ctx control.
+        /// gv_jobs control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gv_ctx;
+        protected global::System.Web.UI.WebControls.GridView gv_jobs;
         
         /// <summary>
-        /// lds_sentry control.
+        /// lds_issues control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinqDataSource lds_sentry;
+        protected global::System.Web.UI.WebControls.LinqDataSource lds_issues;
         
         /// <summary>
-        /// gv_sentry control.
+        /// gv_issues control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gv_sentry;
+        protected global::System.Web.UI.WebControls.GridView gv_issues;
         
         /// <summary>
-        /// lds_rms control.
+        /// lds_boxes control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinqDataSource lds_rms;
+        protected global::System.Web.UI.WebControls.LinqDataSource lds_boxes;
         
         /// <summary>
-        /// gv_rms control.
+        /// GridView3 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gv_rms;
+        protected global::System.Web.UI.WebControls.GridView GridView3;
     }
 }

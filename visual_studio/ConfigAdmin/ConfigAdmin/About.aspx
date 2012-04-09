@@ -7,10 +7,6 @@
     <h2>
         About
     </h2>
-
-
-
-
     <p>
         Stores the box configs in table dbo.Box on dev RDxETL server USHPEPVSQL409.
     </p>

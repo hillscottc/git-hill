@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="RDxETL" Class="DataClasses1DataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="WebSettings" ConnectionString="Data Source=USHPEPVSQL409\USHPEPVSQL409;Initial Catalog=RDxETL;Persist Security Info=True;User ID=configadmin" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="RDxETLConnectionString" Provider="System.Data.SqlClient" />
+  <Connection Mode="WebSettings" ConnectionString="Data Source=USHPEPVSQL409\USHPEPVSQL409;Initial Catalog=RDxETL;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="RDxETLConnectionString1" Provider="System.Data.SqlClient" />
   <Table Name="dbo.Box" Member="Boxes">
     <Type Name="Box">
       <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -24,6 +24,19 @@
       <Column Name="cmd" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
       <Column Name="result" Type="System.String" DbType="VarChar(12)" CanBeNull="true" />
       <Column Name="notes" Type="System.String" DbType="VarChar(200)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Issue" Member="Issues">
+    <Type Name="Issue">
+      <Column Name="id" Type="System.Int16" DbType="SmallInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="notes" Type="System.String" DbType="VarChar(500)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.IssueView" Member="IssueViews">
+    <Type Name="IssueView">
+      <Column Name="id" Type="System.Int16" DbType="SmallInt NOT NULL IDENTITY" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="notes" Type="System.String" DbType="VarChar(500)" CanBeNull="true" />
+      <Column Name="count" Type="System.Int32" DbType="Int" CanBeNull="true" />
     </Type>
   </Table>
 </Database>

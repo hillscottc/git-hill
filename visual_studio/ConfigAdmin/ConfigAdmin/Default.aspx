@@ -19,6 +19,7 @@
     <ul>
         <li>id 6, access to central ftp</li>
         <li>id 303, tnsnames install/config</li>
+        <li>id 305, R2 prod data</li>
         <li>id 21, Citrix servers</li>
     </ul>
 </asp:Content>

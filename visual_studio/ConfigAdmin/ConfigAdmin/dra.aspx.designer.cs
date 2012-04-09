@@ -13,13 +13,13 @@ namespace ConfigAdmin {
     public partial class dra {
         
         /// <summary>
-        /// LinqDataSource1 control.
+        /// lds_dra control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinqDataSource LinqDataSource1;
+        protected global::System.Web.UI.WebControls.LinqDataSource lds_dra;
         
         /// <summary>
         /// GridView1 control.

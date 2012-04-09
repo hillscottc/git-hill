@@ -78,30 +78,23 @@
     <Content Include="Account\ChangePasswordSuccess.aspx" />
     <Content Include="Account\Login.aspx" />
     <Content Include="Account\Register.aspx" />
-    <Content Include="all.aspx" />
+    <Content Include="All.aspx" />
     <Content Include="App_Data\ASPNETDB.MDF" />
     <Content Include="App_Data\aspnetdb_log.ldf">
       <DependentUpon>ASPNETDB.MDF</DependentUpon>
     </Content>
-    <Content Include="App_Data\Infra.mdf" />
-    <Content Include="App_Data\Infra_log.ldf">
-      <DependentUpon>Infra.mdf</DependentUpon>
-    </Content>
-    <Content Include="BoxGridView.ascx" />
     <Content Include="ctx.aspx" />
     <Content Include="dra.aspx" />
-    <Content Include="Jobs.aspx" />
-    <Content Include="rdx\JobSchedule.aspx" />
-    <Content Include="rdx\rdx2.aspx" />
-    <Content Include="rdx\reports\dev_rdx_etl_details.txt" />
-    <Content Include="rdx\reports\dev_rdx_etl_jobs.txt" />
-    <Content Include="rdx\reports\dev_rdx_etl_summary.txt" />
-    <Content Include="rdx\reports\prod_rdx_etl_details.txt" />
-    <Content Include="rdx\reports\prod_rdx_etl_jobs.txt" />
-    <Content Include="rdx\reports\prod_rdx_etl_summary.txt" />
-    <Content Include="rdx\reports\uat_rdx_etl_details.txt" />
-    <Content Include="rdx\reports\uat_rdx_etl_jobs.txt" />
-    <Content Include="rdx\reports\uat_rdx_etl_summary.txt" />
+    <Content Include="rdx.aspx" />
+    <Content Include="reports\dev_rdx_etl_details.txt" />
+    <Content Include="reports\dev_rdx_etl_jobs.txt" />
+    <Content Include="reports\dev_rdx_etl_summary.txt" />
+    <Content Include="reports\prod_rdx_etl_details.txt" />
+    <Content Include="reports\prod_rdx_etl_jobs.txt" />
+    <Content Include="reports\prod_rdx_etl_summary.txt" />
+    <Content Include="reports\uat_rdx_etl_details.txt" />
+    <Content Include="reports\uat_rdx_etl_jobs.txt" />
+    <Content Include="reports\uat_rdx_etl_summary.txt" />
     <Content Include="Styles\Site.css" />
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
@@ -154,22 +147,12 @@
     <Compile Include="Account\Register.aspx.designer.cs">
       <DependentUpon>Register.aspx</DependentUpon>
     </Compile>
-    <Compile Include="all.aspx.cs">
-      <DependentUpon>all.aspx</DependentUpon>
+    <Compile Include="All.aspx.cs">
+      <DependentUpon>All.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="all.aspx.designer.cs">
-      <DependentUpon>all.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="BasePage.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="BoxGridView.ascx.cs">
-      <DependentUpon>BoxGridView.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="BoxGridView.ascx.designer.cs">
-      <DependentUpon>BoxGridView.ascx</DependentUpon>
+    <Compile Include="All.aspx.designer.cs">
+      <DependentUpon>All.aspx</DependentUpon>
     </Compile>
     <Compile Include="ctx.aspx.cs">
       <DependentUpon>ctx.aspx</DependentUpon>
@@ -200,27 +183,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Jobs.aspx.cs">
-      <DependentUpon>Jobs.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Jobs.aspx.designer.cs">
-      <DependentUpon>Jobs.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="rdx\JobSchedule.aspx.cs">
-      <DependentUpon>JobSchedule.aspx</DependentUpon>
+    <Compile Include="rdx.aspx.cs">
+      <DependentUpon>rdx.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="rdx\JobSchedule.aspx.designer.cs">
-      <DependentUpon>JobSchedule.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="rdx\rdx2.aspx.cs">
-      <DependentUpon>rdx2.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="rdx\rdx2.aspx.designer.cs">
-      <DependentUpon>rdx2.aspx</DependentUpon>
+    <Compile Include="rdx.aspx.designer.cs">
+      <DependentUpon>rdx.aspx</DependentUpon>
     </Compile>
     <Compile Include="Site.Master.cs">
       <DependentUpon>Site.Master</DependentUpon>

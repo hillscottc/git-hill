@@ -1,4 +1,23 @@
-﻿  - JOB SCHEDULING IMPLEMENTATION  
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Scheduling.aspx.cs" Inherits="ConfigAdmin.Scheduling" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
+
+    <h1>
+        Job Scheduling</h1>
+
+      
+  <h3>Before:</h3>
+
+    <img src="/imgs/before_sched.PNG"  alt="before" 
+        style="width: 749px; margin-right: 0px" />
+
+<h3>After:</h3>
+
+    <img src="imgs/after_sched.PNG" alt="after" style="width: 784px" />
+
+    <pre>
+    
     CARL
     ET 23:45 daily
     D:\RDx\ETL\Common\UMG.RDx.ETL.FileService.exe C@RL
@@ -95,3 +114,6 @@
     L every 2 hours daily
     D:\RDx\ETL\R2\UMG.RDx.ETL.R2.exe console r2l
 
+    
+    </pre>
+</asp:Content>

@@ -1,159 +1,89 @@
-﻿SUMMARY
-
-CARL
-
-  5 DB references were already properly configured.
-
- 14 FTP references were already properly configured.
-
-CART
-
-  None for CART
-
-Common
-
-  7 DB references were already properly configured.
-
-  1 FROM_VAL references had suggested changes.
-
- 14 FTP references were already properly configured.
-
-  1 LOG_A references had suggested changes.
-
-  1 SMTP references were already properly configured.
-
-  1 SUBJ references had suggested changes.
-
-  1 TO_VAL references had suggested changes.
-
-CPRS
-
-  5 DB references were already properly configured.
-
-  2 FROM_VAL references had suggested changes.
-
-  2 LOG_B references had suggested changes.
-
-  1 SMTP references were already properly configured.
-
-  1 SMTP references had suggested changes.
-
-  2 SUBJ references had suggested changes.
-
-  2 TO_VAL references had suggested changes.
-
-CRA
-
-  None for CRA
-
-CTX
-
-  8 DB references were already properly configured.
-
-  2 FROM_VAL references had suggested changes.
-
-  2 LOG_A references had suggested changes.
-
-  2 SMTP references were already properly configured.
-
-  2 SUBJ references had suggested changes.
-
-  2 TO_VAL references had suggested changes.
-
-D2
-
-  3 DB references were already properly configured.
-
-  1 FROM_VAL references had suggested changes.
-
- 14 FTP references were already properly configured.
-
-  1 LOG_A references had suggested changes.
-
-  1 SMTP references were already properly configured.
-
-  1 SUBJ references had suggested changes.
-
-  1 TO_VAL references had suggested changes.
-
-DRA
-
-  4 DB references were already properly configured.
-
-  1 FROM_VAL references had suggested changes.
-
-  1 LOG_A references had suggested changes.
-
-  1 SMTP references were already properly configured.
-
-  1 SUBJ references had suggested changes.
-
-  1 TO_VAL references had suggested changes.
-
-ELS
-
-  None for ELS
-
-GDRS
-
-  3 DB references were already properly configured.
-
-  1 FROM_VAL references had suggested changes.
-
- 14 FTP references were already properly configured.
-
-  1 LOG_A references had suggested changes.
-
-  1 SMTP references were already properly configured.
-
-  1 SUBJ references had suggested changes.
-
-  1 TO_VAL references had suggested changes.
-
-MP
-
-  9 DB references were already properly configured.
-
-  2 FROM_VAL references had suggested changes.
-
-  1 LOG_A references had suggested changes.
-
-  1 LOG_B references had suggested changes.
-
-  2 SMTP references had suggested changes.
-
-  2 SUBJ references had suggested changes.
-
-  2 TO_VAL references had suggested changes.
-
-PartsOrder
-
-  None for PartsOrder
-
-R2
-
-  6 DB references were already properly configured.
-
-  2 DB references had suggested changes.
-
-  1 FROM_VAL references had suggested changes.
-
-  1 LOG_A references had suggested changes.
-
-  1 SMTP references were already properly configured.
-
-  1 SUBJ references had suggested changes.
-
-  1 TO_VAL references had suggested changes.
-
-
-
-FILE SUMMARY
-
-163 total matches in 27 files.
-
-114 total matches were already properly configured.
-
- 49 total matches had suggested changes.
-
-  0 total matches had NO suggestions.
+﻿
+
+-----SUMMARY-----
+CARL
+  4 DB references were already properly configured.
+  1 DB references had suggested changes.
+  1 FROM_VAL references were already properly configured.
+ 14 FTP references had suggested changes.
+  1 LOG_A references were already properly configured.
+  1 SMTP references were already properly configured.
+  1 SUBJ references had suggested changes.
+  1 TO_VAL references were already properly configured.
+CART
+  None for CART
+Common
+  7 DB references were already properly configured.
+  1 FROM_VAL references were already properly configured.
+ 14 FTP references had suggested changes.
+  1 LOG_B references were already properly configured.
+  1 SMTP references were already properly configured.
+  1 SUBJ references had suggested changes.
+  1 TO_VAL references had suggested changes.
+CPRS
+  5 DB references were already properly configured.
+  2 FROM_VAL references were already properly configured.
+  2 LOG_B references were already properly configured.
+  2 SMTP references were already properly configured.
+  2 SUBJ references had suggested changes.
+  2 TO_VAL references had suggested changes.
+CRA
+  None for CRA
+CTX
+  4 DB references were already properly configured.
+  1 FROM_VAL references were already properly configured.
+  1 LOG_A references were already properly configured.
+  1 SMTP references were already properly configured.
+  1 SUBJ references had suggested changes.
+  1 TO_VAL references had suggested changes.
+D2
+  3 DB references were already properly configured.
+  1 FROM_VAL references were already properly configured.
+ 14 FTP references had suggested changes.
+  1 LOG_A references were already properly configured.
+  1 SMTP references were already properly configured.
+  1 SUBJ references had suggested changes.
+  1 TO_VAL references had suggested changes.
+DRA
+  4 DB references were already properly configured.
+  1 FROM_VAL references were already properly configured.
+  1 LOG_A references were already properly configured.
+  1 SMTP references were already properly configured.
+  1 SUBJ references had suggested changes.
+  1 TO_VAL references had suggested changes.
+ELS
+  None for ELS
+GDRS
+  3 DB references were already properly configured.
+  1 FROM_VAL references were already properly configured.
+ 14 FTP references had suggested changes.
+  1 LOG_A references were already properly configured.
+  1 SMTP references were already properly configured.
+  1 SUBJ references had suggested changes.
+  1 TO_VAL references had suggested changes.
+MP
+  9 DB references were already properly configured.
+  2 FROM_VAL references were already properly configured.
+  1 LOG_A references were already properly configured.
+  1 LOG_B references were already properly configured.
+  2 SMTP references were already properly configured.
+  1 SUBJ references were already properly configured.
+  1 SUBJ references had suggested changes.
+  2 TO_VAL references had suggested changes.
+PartsOrder
+  None for PartsOrder
+R2
+  5 DB references were already properly configured.
+  3 DB references had suggested changes.
+  1 FROM_VAL references were already properly configured.
+  1 LOG_A references were already properly configured.
+  1 SMTP references were already properly configured.
+  1 SUBJ references had suggested changes.
+  1 TO_VAL references had suggested changes.
+
+
+-----FILE SUMMARY-----
+159 total matches in 29 files.
+ 79 total matches were already properly configured.
+ 80 total matches had suggested changes.
+  0 total matches had NO suggestions.

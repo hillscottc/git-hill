@@ -86,7 +86,10 @@
     <Content Include="ctx.aspx" />
     <Content Include="dra.aspx" />
     <Content Include="EachInterface.aspx" />
+    <Content Include="imgs\after_sched.PNG" />
+    <Content Include="imgs\before_sched.PNG" />
     <Content Include="rdx.aspx" />
+    <Content Include="RDxJobs.aspx" />
     <Content Include="reports\dev_rdx_etl_details.txt" />
     <Content Include="reports\dev_rdx_etl_jobs.txt" />
     <Content Include="reports\dev_rdx_etl_summary.txt" />
@@ -96,6 +99,7 @@
     <Content Include="reports\uat_rdx_etl_details.txt" />
     <Content Include="reports\uat_rdx_etl_jobs.txt" />
     <Content Include="reports\uat_rdx_etl_summary.txt" />
+    <Content Include="Scheduling.aspx" />
     <Content Include="Styles\Site.css" />
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
@@ -199,6 +203,20 @@
     <Compile Include="rdx.aspx.designer.cs">
       <DependentUpon>rdx.aspx</DependentUpon>
     </Compile>
+    <Compile Include="RDxJobs.aspx.cs">
+      <DependentUpon>RDxJobs.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RDxJobs.aspx.designer.cs">
+      <DependentUpon>RDxJobs.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Scheduling.aspx.cs">
+      <DependentUpon>Scheduling.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Scheduling.aspx.designer.cs">
+      <DependentUpon>Scheduling.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Site.Master.cs">
       <DependentUpon>Site.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -216,9 +234,7 @@
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="imgs\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="DataClasses1.dbml">
       <Generator>MSLinqToSQLGenerator</Generator>

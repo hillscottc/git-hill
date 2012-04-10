@@ -65,13 +65,23 @@
         <SortedDescendingHeaderStyle BackColor="#4870BE" />
     </asp:GridView>
 
+    <br />
+    <h3>CPRSNotificationService</h3>
+    <ul>
+    <li><a href="http://ushpewvapp251/CprsProductUpdate.asmx">http://ushpewvapp251/CprsProductUpdate.asmx</a></li>
+    <li><a href="http://ushpewvapp251/admin.asmx">CPRSNotifier Admin, for testing.</a></li>
+    <li><a href="http://degutwsapp006/VanillaInterfaceWSV87/VanillaInterface.asmx">CPRS's VanillaInterface</a></li>
+    <li>Log at \RDx\ETL\logs\cprs\</li>
+    </ul>
+    <br />
+<%--
     <h3>LOG FILES</h3>
         <dl>
         <dt>CARL</dt>
         <dd>carl_etl.txt
         </dd>
         </dl>
-
+--%>
     <h3>
         BOXES</h3>
     <asp:LinqDataSource ID="lds_boxes" runat="server" ContextTypeName="ConfigAdmin.DataClasses1DataContext"

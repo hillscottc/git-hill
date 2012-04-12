@@ -15,6 +15,67 @@
 <h3>After:</h3>
 
     <img src="imgs/after_sched.PNG" alt="after" style="width: 784px" />
+<br />
+
+ <h3>About the SQL Steps..</h3>
+
+    <p>When the Jobs were run by SQLServer Job Scheduler, those parts of the jobs that 
+    were sql statements could be <i>part of the job definition</i>. </p>
+    Before:<br />
+    <pre>
+CARL LOAD
+(TSQL @ RDxReport) 
+use RDxReport;
+GO
+exec CRL.[ArtistExploitationLoad];
+GO
+[etc, etc]
+    </pre>
+
+    <p>After the move, the jobs are on the <i>app server</i>. So database calls must be handled by some extra scripting.</p>
+
+    <p>So now, each step that requires sql is implemented like this:</p>
+
+    <pre>
+(Task Scheduler executes) -> ETL\Common\sql_run.bat carl USHPEPVSQL435 
+
+.......File: ETL\Common\sql_run.bat
+ECHO off
+REM Usage: sql_run.bat {app} {box}
+REM   where {app} in carl, cart, cra, d2, els, gdrs, parts_order and {box} is one of our dbs.
+REM   Note that BOX is sent as BOX\BOX, as is for our env.    
+REM Sample: sql_run.bat carl USHPEPVSQL435
+SET APP=%1
+SET BOX=%2
+SET USER=rdxuserdev
+SET PASS=01Music
+SET DB=RDxReport
+ECHO on
+sqlcmd -S %BOX%\%BOX% -d %DB% -U %USER% -P %PASS% -i \RDx\ETL\Common\SQL\%APP%.sql -o \RDx\ETL\logs\%APP%\%APP%_sqlcmd_out.txt -W
+.......End File
+
+Which, in this case would call:
+.......File: ETL\Common\sql\carl.sql
+use RDxReport;
+GO
+exec CRL.[ArtistExploitationLoad];
+GO
+exec CRL.[AssetExploitationLoad];
+GO
+[etc, etc]
+.......End File
+
+</pre>
+
+<p>Pulling the sql out of the scheduler provides some benefits. First, it pulls <i>logic</i> out of the <i>Scheduler</i>, which isn't the best place for it.
+ Second, all the sql steps can be easily accessed at \ETL\Commmon\SQL, rather than drilling through the Task Scheduler interface.
+</p>
+
+
+<h2>The Schedule</h2>
+<p>This is how PROD would be set up. And UAT, for the most part. Dev typically isn't run the jobs continuously.
+The SQL parts have been modified as described above.
+</p>
 
     <pre>
     

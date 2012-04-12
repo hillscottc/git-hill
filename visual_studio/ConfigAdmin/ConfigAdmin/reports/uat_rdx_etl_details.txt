@@ -1,290 +1,206 @@
-﻿03-19 08:54 root DEBUG DETAILS for CARL
-
-c:\Users\hillsco\git-hill\pyth\pydbutil\work\ETL\CARL\UMG.RDx.ETL.FileService.exe.config
-
-c:\Users\hillsco\git-hill\pyth\pydbutil\work\ETL\Common\UMG.RDx.ETL.CARL.dll.config
-
-c:\Users\hillsco\git-hill\pyth\pydbutil\work\ETL\CARL\UMG.RDx.ETL.CARL.dll.config
-
-DETAILS for CART
-
-   None for CART
-
-DETAILS for Common
-
-c:\Users\hillsco\git-hill\pyth\pydbutil\work\ETL\Common\UMG.RDx.ETL.GDRS.dll.config
-
-c:\Users\hillsco\git-hill\pyth\pydbutil\work\ETL\Common\log4net.config
-
-    line 4, LOGFILE is at D:\RDx\ETL\logs\COMMON\COMMON_ETL_log.txt
-
-    ...changing to D:RDx\ETL\logs\Common\Common_etl.txt
-
-    line 25, TO_VAL is ar.umg.rights.dev@hp.com
-
-    ...changing to ar.umg.rights.dev@hp.com, Scott.Hill@umgtemp.com
-
-    line 26, FROM_VAL is RDxApp@umgtemp.com
-
-    ...changing to RDx@mgd.umusic.com
-
-    line 27, SUBJ is Common NotificationService Message (DEV)
-
-    ...changing to RDxAlert Message uat
-
-    line 28, SMTP is usush-maildrop.amer.umusic.net...OK...no change.
-
-c:\Users\hillsco\git-hill\pyth\pydbutil\work\ETL\Common\UMG.RDx.ETL.CRA.dll.config
-
-c:\Users\hillsco\git-hill\pyth\pydbutil\work\ETL\Common\UMG.RDx.ETL.FileService.exe.config
-
-DETAILS for CPRS
-
-c:\Users\hillsco\git-hill\pyth\pydbutil\work\ETL\CPRS\UMG.RDx.ETL.CPRS.exe.config
-
-    line 14, LOGFILE is at D:\RDx\ETL\Logs\CPRS\cprs_etl.txt
-
-    ...changing to D:RDx\ETL\logs\CPRS\CPRS_etl.txt
-
-    line 38, TO_VAL is Scott.Hill@umgtemp.com,ar.umg.rights.dev@hp.com
-
-    ...changing to ar.umg.rights.dev@hp.com, Scott.Hill@umgtemp.com
-
-    line 39, FROM_VAL is RDxApp@umgtemp.com
-
-    ...changing to RDx@mgd.umusic.com
-
-    line 40, SUBJ is CPRS NotificationService Message (DEV)
-
-    ...changing to RDxAlert Message uat
-
-    line 41, SMTP is smtphost.global.umusic.net
-
-    ...changing to usush-maildrop.amer.umusic.net
-
-c:\Users\hillsco\git-hill\pyth\pydbutil\work\ETL\CPRS\log4net.config
-
-    line 4, LOGFILE is at d:\RDx\ETL\logs\CPRS\cprs_log.txt
-
-    ...changing to D:RDx\ETL\logs\CPRS\CPRS_etl.txt
-
-    line 29, TO_VAL is Scott.Hill@umgtemp.com,ar.umg.rights.dev@hp.com
-
-    ...changing to ar.umg.rights.dev@hp.com, Scott.Hill@umgtemp.com
-
-    line 30, FROM_VAL is RDxApp@umgtemp.com
-
-    ...changing to RDx@mgd.umusic.com
-
-    line 31, SUBJ is CPRS NotificationService Message (DEV)
-
-    ...changing to RDxAlert Message uat
-
-    line 32, SMTP is usush-maildrop.amer.umusic.net...OK...no change.
-
-DETAILS for CRA
-
-   None for CRA
-
-DETAILS for CTX
-
-c:\Users\hillsco\git-hill\pyth\pydbutil\work\ETL\CTX\ET\log4net.config
-
-    line 4, LOGFILE is at D:\RDx\ETL\logs\CTX\CTX_etl.txt
-
-    ...changing to D:RDx\ETL\logs\CTX\CTX_etl.txt
-
-    line 25, TO_VAL is Scott.Hill@umgtemp.com,ar.umg.rights.dev@hp.com
-
-    ...changing to ar.umg.rights.dev@hp.com, Scott.Hill@umgtemp.com
-
-    line 26, FROM_VAL is RDxApp@umgtemp.com
-
-    ...changing to RDx@mgd.umusic.com
-
-    line 27, SUBJ is CTX (Extract/Transform) NotificationService Message (DEV)
-
-    ...changing to RDxAlert Message uat
-
-    line 28, SMTP is usush-maildrop.amer.umusic.net...OK...no change.
-
-c:\Users\hillsco\git-hill\pyth\pydbutil\work\ETL\CTX\L\log4net.config
-
-    line 4, LOGFILE is at D:\RDx\ETL\logs\CTX\CTX_etl.txt
-
-    ...changing to D:RDx\ETL\logs\CTX\CTX_etl.txt
-
-    line 25, TO_VAL is Scott.Hill@umgtemp.com,ar.umg.rights.dev@hp.com
-
-    ...changing to ar.umg.rights.dev@hp.com, Scott.Hill@umgtemp.com
-
-    line 26, FROM_VAL is RDxApp@umgtemp.com
-
-    ...changing to RDx@mgd.umusic.com
-
-    line 27, SUBJ is CTX (Load) NotificationService Message (DEV)
-
-    ...changing to RDxAlert Message uat
-
-    line 28, SMTP is usush-maildrop.amer.umusic.net...OK...no change.
-
-c:\Users\hillsco\git-hill\pyth\pydbutil\work\ETL\CTX\L\UMG.RDx.ETL.CTX.exe.config
-
-c:\Users\hillsco\git-hill\pyth\pydbutil\work\ETL\CTX\ET\UMG.RDx.ETL.CTX.exe.config
-
-DETAILS for D2
-
-c:\Users\hillsco\git-hill\pyth\pydbutil\work\ETL\D2\log4net.config
-
-    line 4, LOGFILE is at D:\RDx\ETL\logs\D2\D2_ETL_Log.txt
-
-    ...changing to D:RDx\ETL\logs\D2\D2_etl.txt
-
-    line 25, TO_VAL is ar.umg.rights.dev@hp.com
-
-    ...changing to ar.umg.rights.dev@hp.com, Scott.Hill@umgtemp.com
-
-    line 26, FROM_VAL is RDxApp@umgtemp.com
-
-    ...changing to RDx@mgd.umusic.com
-
-    line 27, SUBJ is D2 NotificationService Message (DEV)
-
-    ...changing to RDxAlert Message uat
-
-    line 28, SMTP is usush-maildrop.amer.umusic.net...OK...no change.
-
-c:\Users\hillsco\git-hill\pyth\pydbutil\work\ETL\D2\UMG.RDx.ETL.FileService.exe.config
-
-DETAILS for DRA
-
-c:\Users\hillsco\git-hill\pyth\pydbutil\work\ETL\DRA\log4net.config
-
-    line 4, LOGFILE is at D:\RDx\ETL\logs\DRA\DRA_etl.txt
-
-    ...changing to D:RDx\ETL\logs\DRA\DRA_etl.txt
-
-    line 25, TO_VAL is Scott.Hill@umgtemp.com,ar.umg.rights.dev@hp.com
-
-    ...changing to ar.umg.rights.dev@hp.com, Scott.Hill@umgtemp.com
-
-    line 26, FROM_VAL is RDxApp@umgtemp.com
-
-    ...changing to RDx@mgd.umusic.com
-
-    line 27, SUBJ is DRA NotificationService Message (DEV)
-
-    ...changing to RDxAlert Message uat
-
-    line 28, SMTP is usush-maildrop.amer.umusic.net...OK...no change.
-
-c:\Users\hillsco\git-hill\pyth\pydbutil\work\ETL\DRA\UMG.RDx.ETL.DRA.exe.config
-
-DETAILS for ELS
-
-   None for ELS
-
-DETAILS for GDRS
-
-c:\Users\hillsco\git-hill\pyth\pydbutil\work\ETL\gdrs\log4net.config
-
-    line 4, LOGFILE is at D:\RDx\ETL\logs\GDRS_ETL_Log.txt
-
-    ...changing to D:RDx\ETL\logs\GDRS\GDRS_etl.txt
-
-    line 25, TO_VAL is ar.umg.rights.dev@hp.com
-
-    ...changing to ar.umg.rights.dev@hp.com, Scott.Hill@umgtemp.com
-
-    line 26, FROM_VAL is RDxApp@umgtemp.com
-
-    ...changing to RDx@mgd.umusic.com
-
-    line 27, SUBJ is D2 NotificationService Message (DEV)
-
-    ...changing to RDxAlert Message uat
-
-    line 28, SMTP is usush-maildrop.amer.umusic.net...OK...no change.
-
-c:\Users\hillsco\git-hill\pyth\pydbutil\work\ETL\gdrs\UMG.RDx.ETL.FileService.exe.config
-
-DETAILS for MP
-
-c:\Users\hillsco\git-hill\pyth\pydbutil\work\ETL\MP\UMG.RDx.ETL.MP.exe.config
-
-c:\Users\hillsco\git-hill\pyth\pydbutil\work\ETL\MP\log4net.config
-
-    line 4, LOGFILE is at D:\RDx\ETL\logs\MP\MP_log.txt
-
-    ...changing to D:RDx\ETL\logs\MP\MP_etl.txt
-
-    line 81, TO_VAL is ar.umg.rights.dev@hp.com, Nadia.Pissova-Malpartida@umgtemp.com, Scott.Hill@umgtemp.com
-
-    ...changing to ar.umg.rights.dev@hp.com, Scott.Hill@umgtemp.com
-
-    line 82, FROM_VAL is RDxApp@mgd.umusic.com
-
-    ...changing to RDx@mgd.umusic.com
-
-    line 83, SUBJ is RDxAlert Message (UAT)
-
-    ...changing to RDxAlert Message uat
-
-    line 84, SMTP is smtphost.global.umusic.net
-
-    ...changing to usush-maildrop.amer.umusic.net
-
-c:\Users\hillsco\git-hill\pyth\pydbutil\work\ETL\MP\UMG.RDx.ETL.MP.Extract.dll.config
-
-c:\Users\hillsco\git-hill\pyth\pydbutil\work\ETL\MP\UMG.RDx.ETL.MP.vshost.exe.config
-
-    line 12, LOGFILE is at D:\RDx\ETL\logs\MP\MP_log.txt
-
-    ...changing to D:RDx\ETL\logs\MP\MP_etl.txt
-
-    line 44, TO_VAL is ar.umg.rights.dev@hp.com, Nadia.Pissova-Malpartida@umgtemp.com, Scott.Hill@umgtemp.com
-
-    ...changing to ar.umg.rights.dev@hp.com, Scott.Hill@umgtemp.com
-
-    line 45, FROM_VAL is RDxApp@mgd.umusic.com
-
-    ...changing to RDx@mgd.umusic.com
-
-    line 46, SUBJ is RDxAlert Message DEBUGGING
-
-    ...changing to RDxAlert Message uat
-
-    line 47, SMTP is smtphost.global.umusic.net
-
-    ...changing to usush-maildrop.amer.umusic.net
-
-DETAILS for PartsOrder
-
-c:\Users\hillsco\git-hill\pyth\pydbutil\work\ETL\PartsOrder\PO.bat
-
-DETAILS for R2
-
-c:\Users\hillsco\git-hill\pyth\pydbutil\work\ETL\R2\UMG.RDx.ETL.R2.exe.config
-
-c:\Users\hillsco\git-hill\pyth\pydbutil\work\ETL\R2\UMG.RDx.ETL.R2.vshost.exe.config
-
-c:\Users\hillsco\git-hill\pyth\pydbutil\work\ETL\R2\log4net.config
-
-    line 4, LOGFILE is at D:\RDx\ETL\logs\R2\r2_etl_log.txt
-
-    ...changing to D:RDx\ETL\logs\R2\R2_etl.txt
-
-    line 25, TO_VAL is Scott.Hill@umgtemp.com,ar.umg.rights.dev@hp.com
-
-    ...changing to ar.umg.rights.dev@hp.com, Scott.Hill@umgtemp.com
-
-    line 26, FROM_VAL is RDxApp@umgtemp.com
-
-    ...changing to RDx@mgd.umusic.com
-
-    line 27, SUBJ is R2 NotificationService Message (DEV)
-
-    ...changing to RDxAlert Message uat
-
-    line 28, SMTP is usush-maildrop.amer.umusic.net...OK...no change.
-03-19 08:54 root DEBUG 
+﻿
+
+-----DETAILS for 'CARL'-----
+FILE: h:\RDx\ETL\CARL\UMG.RDx.ETL.FileService.exe.config
+    line 7, RDxETL is pointed to USHPEPVSQL363\USHPEPVSQL363...OK...no change.
+    line 10, RDxETL is pointed to USHPEPVSQL363\USHPEPVSQL363...OK...no change.
+    line 13, RDxReport is pointed to USHPEPVSQL347\USHPEPVSQL347...OK...no change.
+    line 24, CARLFilePathIn points to \USHPEWVAPP204\d$...needs change to \\USHPEWVAPP204\d$
+    line 25, CRAFilePathIn points to \USHPEWVAPP204\d$...needs change to \\USHPEWVAPP204\d$
+    line 26, D2FilePathIn points to \USHPEWVAPP204\d$...needs change to \\USHPEWVAPP204\d$
+    line 27, ELSFilePathIn points to \USHPEWVAPP204\d$...needs change to \\USHPEWVAPP204\d$
+    line 28, GDRSFilePathIn points to \USHPEWVAPP204\d$...needs change to \\USHPEWVAPP204\d$
+    line 29, PartsOrderFilePathIn points to \USHPEWVAPP204\d$...needs change to \\USHPEWVAPP204\d$
+    line 30, CARTFilePathIn points to \USHPEWVAPP204\d$...needs change to \\USHPEWVAPP204\d$
+    line 32, CARLFilePathOut points to \USHPEWVAPP204\d$...needs change to \\USHPEWVAPP204\d$
+    line 33, CRAFilePathOut points to \USHPEWVAPP204\d$...needs change to \\USHPEWVAPP204\d$
+    line 34, D2FilePathOut points to \USHPEWVAPP204\d$...needs change to \\USHPEWVAPP204\d$
+    line 35, ELSFilePathOut points to \USHPEWVAPP204\d$...needs change to \\USHPEWVAPP204\d$
+    line 36, GDRSFilePathOut points to \USHPEWVAPP204\d$...needs change to \\USHPEWVAPP204\d$
+    line 37, PartsOrderFilePathOut points to \USHPEWVAPP204\d$...needs change to \\USHPEWVAPP204\d$
+    line 38, CARTFilePathOut points to \USHPEWVAPP204\d$...needs change to \\USHPEWVAPP204\d$
+FILE: h:\RDx\ETL\Common\SQL\carl_test.bat
+FILE: h:\RDx\ETL\Common\UMG.RDx.ETL.CARL.dll.config
+    line 6, RDxETL is pointed to USHPEPVSQL363\USHPEPVSQL363...OK...no change.
+FILE: h:\RDx\ETL\CARL\UMG.RDx.ETL.CARL.dll.config
+    line 6, RDxETL is pointed to USHPEPVSQL363\USHPEPVSQL363...OK...no change.
+FILE: h:\RDx\ETL\CARL\log4net.config
+    line 4, LOGFILE is at \RDx\ETL\logs\CARL\CARL_etl.txt...OK...no change.
+    line 25, TO_VAL is Scott.Hill@umgtemp.com...OK...no change.
+    line 26, FROM_VAL is RDx@mgd.umusic.com...OK...no change.
+    line 27, SUBJ is CARL NotificationService Message (DEV)...needs change to RDxAlert Message uat
+    line 28, SMTP is usush-maildrop.amer.umusic.net...OK...no change.
+-----DETAILS for 'CART'-----
+   None for CART
+-----DETAILS for 'Common'-----
+FILE: h:\RDx\ETL\Common\UMG.RDx.ETL.GDRS.dll.config
+    line 6, RDxETL is pointed to USHPEPVSQL363\USHPEPVSQL363...OK...no change.
+    line 9, RDxReport is pointed to USHPEPVSQL347\USHPEPVSQL347...OK...no change.
+FILE: h:\RDx\ETL\Common\sql_run.bat
+FILE: h:\RDx\ETL\Common\log4net.config
+    line 4, LOGFILE is at \RDx\ETL\logs\Common\Common_etl.txt...OK...no change.
+    line 29, TO_VAL is Scott.Hill@umgtemp.com...OK...no change.
+    line 30, FROM_VAL is RDx@mgd.umusic.com...OK...no change.
+    line 31, SUBJ is carl NotificationService Message (DEV)...needs change to RDxAlert Message uat
+    line 32, SMTP is usush-maildrop.amer.umusic.net...OK...no change.
+FILE: h:\RDx\ETL\Common\UMG.RDx.ETL.FileService.exe.config
+    line 7, RDxETL is pointed to USHPEPVSQL363\USHPEPVSQL363...OK...no change.
+    line 10, RDxETL is pointed to USHPEPVSQL363\USHPEPVSQL363...OK...no change.
+    line 13, RDxReport is pointed to USHPEPVSQL347\USHPEPVSQL347...OK...no change.
+    line 24, CARLFilePathIn points to \USHPEWVAPP204\d$...needs change to \\USHPEWVAPP204\d$
+    line 25, CRAFilePathIn points to \USHPEWVAPP204\d$...needs change to \\USHPEWVAPP204\d$
+    line 26, D2FilePathIn points to \USHPEWVAPP204\d$...needs change to \\USHPEWVAPP204\d$
+    line 27, ELSFilePathIn points to \USHPEWVAPP204\d$...needs change to \\USHPEWVAPP204\d$
+    line 28, GDRSFilePathIn points to \USHPEWVAPP204\d$...needs change to \\USHPEWVAPP204\d$
+    line 29, PartsOrderFilePathIn points to \USHPEWVAPP204\d$...needs change to \\USHPEWVAPP204\d$
+    line 30, CARTFilePathIn points to \USHPEWVAPP204\d$...needs change to \\USHPEWVAPP204\d$
+    line 32, CARLFilePathOut points to \USHPEWVAPP204\d$...needs change to \\USHPEWVAPP204\d$
+    line 33, CRAFilePathOut points to \USHPEWVAPP204\d$...needs change to \\USHPEWVAPP204\d$
+    line 34, D2FilePathOut points to \USHPEWVAPP204\d$...needs change to \\USHPEWVAPP204\d$
+    line 35, ELSFilePathOut points to \USHPEWVAPP204\d$...needs change to \\USHPEWVAPP204\d$
+    line 36, GDRSFilePathOut points to \USHPEWVAPP204\d$...needs change to \\USHPEWVAPP204\d$
+    line 37, PartsOrderFilePathOut points to \USHPEWVAPP204\d$...needs change to \\USHPEWVAPP204\d$
+    line 38, CARTFilePathOut points to \USHPEWVAPP204\d$...needs change to \\USHPEWVAPP204\d$
+FILE: h:\RDx\ETL\Common\UMG.RDx.ETL.CRA.dll.config
+    line 6, RDxETL is pointed to USHPEPVSQL363\USHPEPVSQL363...OK...no change.
+    line 9, RDxReport is pointed to USHPEPVSQL347\USHPEPVSQL347...OK...no change.
+-----DETAILS for 'CPRS'-----
+FILE: h:\RDx\ETL\CPRS\UMG.RDx.ETL.CPRS.exe.config
+    line 14, LOGFILE is at \RDx\ETL\logs\CPRS\CPRS_etl.txt...OK...no change.
+    line 38, TO_VAL is Scott.Hill@umgtemp.com...OK...no change.
+    line 39, FROM_VAL is RDx@mgd.umusic.com...OK...no change.
+    line 40, SUBJ is CPRS  Message (DEV)...needs change to RDxAlert Message uat
+    line 41, SMTP is usush-maildrop.amer.umusic.net...OK...no change.
+    line 59, RDxETL is pointed to USHPEPVSQL363\USHPEPVSQL363...OK...no change.
+    line 135, RDxETL is pointed to USHPEPVSQL363\USHPEPVSQL363...OK...no change.
+    line 140, RDxETL is pointed to USHPEPVSQL363\USHPEPVSQL363...OK...no change.
+    line 143, RDxETL is pointed to USHPEPVSQL363\USHPEPVSQL363...OK...no change.
+    line 146, RDxReport is pointed to USHPEPVSQL347\USHPEPVSQL347...OK...no change.
+FILE: h:\RDx\ETL\CPRS\log4net.config
+    line 4, LOGFILE is at \RDx\ETL\logs\CPRS\CPRS_etl.txt...OK...no change.
+    line 29, TO_VAL is Scott.Hill@umgtemp.com...OK...no change.
+    line 30, FROM_VAL is RDx@mgd.umusic.com...OK...no change.
+    line 31, SUBJ is CPRS NotificationService Message (DEV)...needs change to RDxAlert Message uat
+    line 32, SMTP is usush-maildrop.amer.umusic.net...OK...no change.
+-----DETAILS for 'CRA'-----
+   None for CRA
+-----DETAILS for 'CTX'-----
+FILE: h:\RDx\ETL\CTX\log4net.config
+    line 4, LOGFILE is at \RDx\ETL\logs\CTX\CTX_etl.txt...OK...no change.
+    line 25, TO_VAL is Scott.Hill@umgtemp.com...OK...no change.
+    line 26, FROM_VAL is RDx@mgd.umusic.com...OK...no change.
+    line 27, SUBJ is CTX NotificationService Message (DEV)...needs change to RDxAlert Message uat
+    line 28, SMTP is usush-maildrop.amer.umusic.net...OK...no change.
+FILE: h:\RDx\ETL\CTX\UMG.RDx.ETL.CTX.exe.config
+    line 7, RDxETL is pointed to USHPEPVSQL363\USHPEPVSQL363...OK...no change.
+    line 12, RDxETL is pointed to USHPEPVSQL363\USHPEPVSQL363...OK...no change.
+    line 16, RDxETL is pointed to USHPEPVSQL363\USHPEPVSQL363...OK...no change.
+    line 20, RDxReport is pointed to USHPEPVSQL347\USHPEPVSQL347...OK...no change.
+-----DETAILS for 'D2'-----
+FILE: h:\RDx\ETL\D2\UMG.RDx.ETL.FileService.exe.config
+    line 7, RDxETL is pointed to USHPEPVSQL363\USHPEPVSQL363...OK...no change.
+    line 10, RDxETL is pointed to USHPEPVSQL363\USHPEPVSQL363...OK...no change.
+    line 13, RDxReport is pointed to USHPEPVSQL347\USHPEPVSQL347...OK...no change.
+    line 24, CARLFilePathIn points to \USHPEWVAPP204\d$...needs change to \\USHPEWVAPP204\d$
+    line 25, CRAFilePathIn points to \USHPEWVAPP204\d$...needs change to \\USHPEWVAPP204\d$
+    line 26, D2FilePathIn points to \USHPEWVAPP204\d$...needs change to \\USHPEWVAPP204\d$
+    line 27, ELSFilePathIn points to \USHPEWVAPP204\d$...needs change to \\USHPEWVAPP204\d$
+    line 28, GDRSFilePathIn points to \USHPEWVAPP204\d$...needs change to \\USHPEWVAPP204\d$
+    line 29, PartsOrderFilePathIn points to \USHPEWVAPP204\d$...needs change to \\USHPEWVAPP204\d$
+    line 30, CARTFilePathIn points to \USHPEWVAPP204\d$...needs change to \\USHPEWVAPP204\d$
+    line 32, CARLFilePathOut points to \USHPEWVAPP204\d$...needs change to \\USHPEWVAPP204\d$
+    line 33, CRAFilePathOut points to \USHPEWVAPP204\d$...needs change to \\USHPEWVAPP204\d$
+    line 34, D2FilePathOut points to \USHPEWVAPP204\d$...needs change to \\USHPEWVAPP204\d$
+    line 35, ELSFilePathOut points to \USHPEWVAPP204\d$...needs change to \\USHPEWVAPP204\d$
+    line 36, GDRSFilePathOut points to \USHPEWVAPP204\d$...needs change to \\USHPEWVAPP204\d$
+    line 37, PartsOrderFilePathOut points to \USHPEWVAPP204\d$...needs change to \\USHPEWVAPP204\d$
+    line 38, CARTFilePathOut points to \USHPEWVAPP204\d$...needs change to \\USHPEWVAPP204\d$
+FILE: h:\RDx\ETL\D2\log4net.config
+    line 4, LOGFILE is at \RDx\ETL\logs\D2\D2_etl.txt...OK...no change.
+    line 25, TO_VAL is Scott.Hill@umgtemp.com...OK...no change.
+    line 26, FROM_VAL is RDx@mgd.umusic.com...OK...no change.
+    line 27, SUBJ is D2 NotificationService Message (DEV)...needs change to RDxAlert Message uat
+    line 28, SMTP is usush-maildrop.amer.umusic.net...OK...no change.
+-----DETAILS for 'DRA'-----
+FILE: h:\RDx\ETL\DRA\UMG.RDx.ETL.DRA.exe.config
+    line 7, RDxETL is pointed to USHPEPVSQL363\USHPEPVSQL363...OK...no change.
+    line 12, RDxETL is pointed to USHPEPVSQL363\USHPEPVSQL363...OK...no change.
+    line 16, RDxETL is pointed to USHPEPVSQL363\USHPEPVSQL363...OK...no change.
+    line 20, RDxReport is pointed to USHPEPVSQL347\USHPEPVSQL347...OK...no change.
+FILE: h:\RDx\ETL\DRA\log4net.config
+    line 4, LOGFILE is at \RDx\ETL\logs\DRA\DRA_etl.txt...OK...no change.
+    line 25, TO_VAL is Scott.Hill@umgtemp.com...OK...no change.
+    line 26, FROM_VAL is RDx@mgd.umusic.com...OK...no change.
+    line 27, SUBJ is DRA NotificationService Message (DEV)...needs change to RDxAlert Message uat
+    line 28, SMTP is usush-maildrop.amer.umusic.net...OK...no change.
+-----DETAILS for 'ELS'-----
+   None for ELS
+-----DETAILS for 'GDRS'-----
+FILE: h:\RDx\ETL\gdrs\log4net.config
+    line 4, LOGFILE is at \RDx\ETL\logs\GDRS\GDRS_etl.txt...OK...no change.
+    line 25, TO_VAL is Scott.Hill@umgtemp.com...OK...no change.
+    line 26, FROM_VAL is RDx@mgd.umusic.com...OK...no change.
+    line 27, SUBJ is GDRS NotificationService Message (DEV)...needs change to RDxAlert Message uat
+    line 28, SMTP is usush-maildrop.amer.umusic.net...OK...no change.
+FILE: h:\RDx\ETL\gdrs\UMG.RDx.ETL.FileService.exe.config
+    line 7, RDxETL is pointed to USHPEPVSQL363\USHPEPVSQL363...OK...no change.
+    line 10, RDxETL is pointed to USHPEPVSQL363\USHPEPVSQL363...OK...no change.
+    line 13, RDxReport is pointed to USHPEPVSQL347\USHPEPVSQL347...OK...no change.
+    line 24, CARLFilePathIn points to \USHPEWVAPP204\d$...needs change to \\USHPEWVAPP204\d$
+    line 25, CRAFilePathIn points to \USHPEWVAPP204\d$...needs change to \\USHPEWVAPP204\d$
+    line 26, D2FilePathIn points to \USHPEWVAPP204\d$...needs change to \\USHPEWVAPP204\d$
+    line 27, ELSFilePathIn points to \USHPEWVAPP204\d$...needs change to \\USHPEWVAPP204\d$
+    line 28, GDRSFilePathIn points to \USHPEWVAPP204\d$...needs change to \\USHPEWVAPP204\d$
+    line 29, PartsOrderFilePathIn points to \USHPEWVAPP204\d$...needs change to \\USHPEWVAPP204\d$
+    line 30, CARTFilePathIn points to \USHPEWVAPP204\d$...needs change to \\USHPEWVAPP204\d$
+    line 32, CARLFilePathOut points to \USHPEWVAPP204\d$...needs change to \\USHPEWVAPP204\d$
+    line 33, CRAFilePathOut points to \USHPEWVAPP204\d$...needs change to \\USHPEWVAPP204\d$
+    line 34, D2FilePathOut points to \USHPEWVAPP204\d$...needs change to \\USHPEWVAPP204\d$
+    line 35, ELSFilePathOut points to \USHPEWVAPP204\d$...needs change to \\USHPEWVAPP204\d$
+    line 36, GDRSFilePathOut points to \USHPEWVAPP204\d$...needs change to \\USHPEWVAPP204\d$
+    line 37, PartsOrderFilePathOut points to \USHPEWVAPP204\d$...needs change to \\USHPEWVAPP204\d$
+    line 38, CARTFilePathOut points to \USHPEWVAPP204\d$...needs change to \\USHPEWVAPP204\d$
+-----DETAILS for 'MP'-----
+FILE: h:\RDx\ETL\MP\UMG.RDx.ETL.MP.exe.config
+    line 7, RDxETL is pointed to USHPEPVSQL363\USHPEPVSQL363...OK...no change.
+    line 12, RDxETL is pointed to USHPEPVSQL363\USHPEPVSQL363...OK...no change.
+    line 16, RDxETL is pointed to USHPEPVSQL363\USHPEPVSQL363...OK...no change.
+    line 20, RDxReport is pointed to USHPEPVSQL347\USHPEPVSQL347...OK...no change.
+FILE: h:\RDx\ETL\MP\UMG.RDx.ETL.MP.vshost.exe.config
+    line 12, LOGFILE is at \RDx\ETL\logs\MP\MP_etl.txt...OK...no change.
+    line 44, TO_VAL is Scott.Hill@umgtemp.com...OK...no change.
+    line 45, FROM_VAL is RDx@mgd.umusic.com...OK...no change.
+    line 46, SUBJ is RDxAlert Message uat...OK...no change.
+    line 47, SMTP is usush-maildrop.amer.umusic.net...OK...no change.
+    line 68, RDxETL is pointed to USHPEPVSQL363\USHPEPVSQL363...OK...no change.
+    line 73, RDxETL is pointed to USHPEPVSQL363\USHPEPVSQL363...OK...no change.
+    line 77, RDxETL is pointed to USHPEPVSQL363\USHPEPVSQL363...OK...no change.
+    line 81, RDxReport is pointed to USHPEPVSQL347\USHPEPVSQL347...OK...no change.
+FILE: h:\RDx\ETL\MP\UMG.RDx.ETL.MP.Extract.dll.config
+    line 9, RDxETL is pointed to USHPEPVSQL363\USHPEPVSQL363...OK...no change.
+FILE: h:\RDx\ETL\MP\log4net.config
+    line 4, LOGFILE is at \RDx\ETL\logs\MP\MP_etl.txt...OK...no change.
+    line 81, TO_VAL is Scott.Hill@umgtemp.com...OK...no change.
+    line 82, FROM_VAL is RDx@mgd.umusic.com...OK...no change.
+    line 83, SUBJ is RDxAlert Message (UAT)...needs change to RDxAlert Message uat
+    line 84, SMTP is usush-maildrop.amer.umusic.net...OK...no change.
+FILE: h:\RDx\ETL\MP\mp.bat
+-----DETAILS for 'PartsOrder'-----
+FILE: h:\RDx\ETL\PartsOrder\PO.bat
+-----DETAILS for 'R2'-----
+FILE: h:\RDx\ETL\R2\UMG.RDx.ETL.R2.vshost.exe.config
+    line 7, RDxETL is pointed to USHPEPVSQL363\USHPEPVSQL363...OK...no change.
+    line 12, RDxETL is pointed to USHPEPVSQL363\USHPEPVSQL363...OK...no change.
+    line 16, RDxETL is pointed to USHPEPVSQL363\USHPEPVSQL363...OK...no change.
+    line 20, RDxReport is pointed to USHPEPVSQL347\USHPEPVSQL347...OK...no change.
+FILE: h:\RDx\ETL\R2\UMG.RDx.ETL.R2.exe.config
+    line 7, RDxETL is pointed to USHPEPVSQL363\USHPEPVSQL363...OK...no change.
+    line 12, RDxETL is pointed to USHPEPVSQL363\USHPEPVSQL363...OK...no change.
+    line 16, RDxETL is pointed to USHPEPVSQL363\USHPEPVSQL363...OK...no change.
+    line 20, RDxReport is pointed to USHPEPVSQL347\USHPEPVSQL347...OK...no change.
+FILE: h:\RDx\ETL\R2\log4net.config
+    line 4, LOGFILE is at \RDx\ETL\logs\R2\R2_etl.txt...OK...no change.
+    line 25, TO_VAL is Scott.Hill@umgtemp.com...OK...no change.
+    line 26, FROM_VAL is RDx@mgd.umusic.com...OK...no change.
+    line 27, SUBJ is R2 NotificationService Message (DEV)...needs change to RDxAlert Message uat
+    line 28, SMTP is usush-maildrop.amer.umusic.net...OK...no change.

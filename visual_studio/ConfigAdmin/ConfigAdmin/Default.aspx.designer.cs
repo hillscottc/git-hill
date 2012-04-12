@@ -13,12 +13,21 @@ namespace ConfigAdmin {
     public partial class _Default {
         
         /// <summary>
-        /// mnMenu control.
+        /// labEnv control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Menu mnMenu;
+        protected global::System.Web.UI.WebControls.Label labEnv;
+        
+        /// <summary>
+        /// labCon control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label labCon;
     }
 }

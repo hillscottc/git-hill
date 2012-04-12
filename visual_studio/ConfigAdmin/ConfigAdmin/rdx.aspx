@@ -5,14 +5,14 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-<h1>RDx Boxes</h1>
+<h1>RDx</h1>
 
     <h2>
         BOXES</h2>
     <asp:LinqDataSource ID="lds_boxes" runat="server" ContextTypeName="ConfigAdmin.DataClasses1DataContext"
         EntityTypeName="" OrderBy="env, name" TableName="Boxes" Where='app == "rdx"'>
     </asp:LinqDataSource>
-    <asp:GridView ID="GridView3" runat="server" AllowSorting="True" DataSourceID="lds_boxes"
+    <asp:GridView ID="GridView3" runat="server" AllowSorting="True" DataSourceID="lds_boxes" HeaderStyle-HorizontalAlign="Left"
         AutoGenerateColumns="False" DataKeyNames="id" CellPadding="4" ForeColor="#333333"
         GridLines="None">
         <AlternatingRowStyle BackColor="White" />
@@ -51,6 +51,11 @@
     <li>Log at \RDx\ETL\logs\cprs\</li>
     </ul>
     <br />
+
+    <h2>Ingrooves</h2>
+    <p>Ingrooves is currently the primary external downstream consumer of the data.</p>
+    <p>They make a db connection to pull data from <a href="ingrooves.aspx">these views ...</a></p>
+
 
 
 </asp:Content>

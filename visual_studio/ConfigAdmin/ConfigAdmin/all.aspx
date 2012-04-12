@@ -10,7 +10,7 @@
     <br />
     <asp:GridView ID="gv_boxes" runat="server" AutoGenerateColumns="False" 
         AllowSorting="True" DataKeyNames="id" DataSourceID="lds_boxes" 
-        CellPadding="4" ForeColor="#333333" GridLines="None">
+        CellPadding="4" ForeColor="#333333" GridLines="None" HeaderStyle-HorizontalAlign="Left">
         <AlternatingRowStyle BackColor="White" />
         <Columns>
             <asp:BoundField DataField="id" HeaderText="id" InsertVisible="False" SortExpression="id"

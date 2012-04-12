@@ -10,7 +10,7 @@
     <h2>
         Contraxx</h2>
     <asp:GridView ID="gv_ctx" runat="server" AllowSorting="True" DataSourceID="lds_ctx"
-        AutoGenerateColumns="False" DataKeyNames="id" CellPadding="4" 
+        AutoGenerateColumns="False" DataKeyNames="id" CellPadding="4" HeaderStyle-HorizontalAlign="Left"
         GridLines="Horizontal" BackColor="White" BorderColor="#336666" 
         BorderStyle="Double" BorderWidth="3px">
         <Columns>
@@ -48,11 +48,11 @@
         Citrix</h2>
 
     <asp:LinqDataSource ID="lds_citrix" runat="server" ContextTypeName="ConfigAdmin.DataClasses1DataContext"
-        EntityTypeName="" OrderBy="env, tulsa" Where='app == "citrix"' TableName="Boxes">
+        EntityTypeName="" OrderBy="env, tulsa" Where='type == "citrix"' TableName="Boxes">
     </asp:LinqDataSource>
 
     <asp:GridView ID="gv_citrix" runat="server" AllowSorting="True" 
-        AutoGenerateColumns="False" CellPadding="4" DataKeyNames="id" 
+        AutoGenerateColumns="False" CellPadding="4" DataKeyNames="id" HeaderStyle-HorizontalAlign="Left"
         DataSourceID="lds_citrix" ForeColor="#333333" GridLines="None">
         <AlternatingRowStyle BackColor="White" />
         <Columns>
@@ -93,7 +93,7 @@
     <h2 id="sentry">
         Sentry</h2>
     <asp:GridView ID="gv_sentry" runat="server" AllowSorting="True"
-        DataSourceID="lds_sentry" AutoGenerateColumns="False" DataKeyNames="id" 
+        DataSourceID="lds_sentry" AutoGenerateColumns="False" DataKeyNames="id" HeaderStyle-HorizontalAlign="Left"
         CellPadding="4" ForeColor="#333333" GridLines="None">
         <AlternatingRowStyle BackColor="White" />
         <Columns>
@@ -154,7 +154,7 @@ VALUE: D:\Contraxx\UATv8Current-rmsdev
     <h2 id="rmslink">
         RMSLink</h2>
     <asp:GridView ID="gv_rms" runat="server" AllowSorting="True"
-        DataSourceID="lds_rms" AutoGenerateColumns="False" CellPadding="4" 
+        DataSourceID="lds_rms" AutoGenerateColumns="False" CellPadding="4" HeaderStyle-HorizontalAlign="Left"
         DataKeyNames="id" ForeColor="#333333" GridLines="None">
         <AlternatingRowStyle BackColor="White" />
         <Columns>

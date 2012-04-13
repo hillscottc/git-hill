@@ -40,29 +40,30 @@ GO
 (Task Scheduler executes) -> ETL\Common\sql_run.bat carl USHPEPVSQL435 
 
 .......File: ETL\Common\sql_run.bat
-ECHO off
-REM Usage: sql_run.bat {app} {box}
-REM   where {app} in carl, cart, cra, d2, els, gdrs, parts_order and {box} is one of our dbs.
-REM   Note that BOX is sent as BOX\BOX, as is for our env.    
-REM Sample: sql_run.bat carl USHPEPVSQL435
-SET APP=%1
-SET BOX=%2
-SET USER=rdxuserdev
-SET PASS=01Music
-SET DB=RDxReport
-ECHO on
-sqlcmd -S %BOX%\%BOX% -d %DB% -U %USER% -P %PASS% -i \RDx\ETL\Common\SQL\%APP%.sql -o \RDx\ETL\logs\%APP%\%APP%_sqlcmd_out.txt -W
-.......End File
+    @ECHO off
+    REM Usage: sql_run.bat {app} {RDxETL/RDxReport}
+    REM        where {app} in carl, cart, cra, d2, els, gdrs, parts_order  
+    REM Sample: sql_run.bat carl RDxReport
+
+    SET APP=%1
+    SET DB=%2
+
+    SET USER=rdxuserdev
+    SET PASS=01Music
+
+    if %DB%==RDxETL SET BOX=USHPEPVSQL409
+    if %DB%==RDxReport SET BOX=USHPEPVSQL435
+
+    ECHO on
+    start sqlcmd -S %BOX%\%BOX% -d %DB% -U %USER% -P %PASS% -i \RDx\ETL\Common\SQL\%APP%.sql -o \RDx\ETL\logs\%APP%\%APP%_sqlcmd_out.txt -W.......End File
 
 Which, in this case would call:
 .......File: ETL\Common\sql\carl.sql
-use RDxReport;
-GO
-exec CRL.[ArtistExploitationLoad];
-GO
-exec CRL.[AssetExploitationLoad];
-GO
-[etc, etc]
+    use RDxReport;
+    GO
+    exec CRL.[ArtistExploitationLoad];
+    GO
+    [etc, etc]
 .......End File
 
 </pre>

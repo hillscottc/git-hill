@@ -19,9 +19,10 @@
     <ul>
         <li>Links to CTX, DRA, and R2 need to be re-created. (Send request to DBA.)</li>
         <li>Permissions for FileService.exe's BULK LOAD from SQLServer to ftp files on app server. (Send request to DBA.)</li>
-        <li>Create a service account for running jobs.</li>
+        <li>Create service account for Task Scheduler to run jobs on USHPEWVAPP251 and USHPEWVAPP204. (I can do?)</li>
+        <li>Create rdxuserdev on USHPEPVSQL435</li>
+        <li>Create rdxuseruat on USHPEPVSQL347, USHPEPVSQL363.</li>
         <li>Oracle Client and configured TNS install on any CTX/SENTRY app servers that still need it. </li>
-        <li>Concurrency of SQL scripts. Can there be one sql_run.bat to call each app.sql? Or clone sql_run.bat to carl_sql_run.bat, cart_sql_run.bat, etc.</li>
         <li>Verify DATABASE logging. Needed in addition ot text logs for those apps that use it to track last run.</li>
     </ul>
 

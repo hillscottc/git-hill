@@ -44,12 +44,20 @@
 
     <br />
     <h3>CPRSNotificationService</h3>
+
+    DEV<br />
     <ul>
     <li><a href="http://ushpewvapp251/CprsProductUpdate.asmx">http://ushpewvapp251/CprsProductUpdate.asmx</a></li>
-    <li><a href="http://ushpewvapp251/admin.asmx">CPRSNotifier Admin, for testing.</a></li>
+    <li><a href="http://ushpewvapp251/admin.asmx">CPRSNotifier Admin</a></li>
     <li><a href="http://degutwsapp006/VanillaInterfaceWSV87/VanillaInterface.asmx">CPRS's VanillaInterface</a></li>
-    <li>Log at \RDx\ETL\logs\cprs\</li>
     </ul>
+     UAT<br />
+    <ul>
+    <li><a href="http://ushpewvapp204/CprsProductUpdate.asmx">http://ushpewvapp204/CprsProductUpdate.asmx</a></li>
+    <li><a href="http://ushpewvapp204/admin.asmx">CPRSNotifier Admin</a></li>
+    <li><a href="http://degutwsapp006/VanillaInterfaceWSV87/VanillaInterface.asmx">CPRS's VanillaInterface</a></li>
+    </ul>
+    <p>Log at \RDx\ETL\logs\cprs\cprs_notification_service.txt</p>
     <br />
 
     <h2>Ingrooves</h2>

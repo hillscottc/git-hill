@@ -43,8 +43,8 @@
                     <StaticHoverStyle BackColor="#113272" ForeColor="White" CssClass="menuItemHover" />
                     <Items>
                         <asp:MenuItem NavigateUrl="~/Default.aspx" Text="Home" />
-                        <asp:MenuItem NavigateUrl="~/ctx.aspx" Text="Contraxx" />
-                        <asp:MenuItem NavigateUrl="~/dra.aspx" Text="DRA" />
+                        <asp:MenuItem NavigateUrl="~/ctx.aspx" Text="Contraxx &amp; Sentry" />
+                        <asp:MenuItem NavigateUrl="~/dra.aspx" Text="DRA &amp; RMSLink" />
                         <asp:MenuItem NavigateUrl="~/rdx.aspx" Text="RDx" />
                         <asp:MenuItem NavigateUrl="~/RDxJobs.aspx" Text="RDx Interfaces" />
                         <asp:MenuItem NavigateUrl="~/Scheduling.aspx" Text="Job Scheduling" />

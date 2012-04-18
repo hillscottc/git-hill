@@ -11,7 +11,7 @@
 
      <h2>
         ETL Jobs</h2>
-    <asp:LinqDataSource ID="lds_jobs" runat="server" ContextTypeName="ConfigAdmin.DataClasses1DataContext"
+    <asp:LinqDataSource ID="lds_jobs" runat="server" ContextTypeName="ConfigAdmin.DataClasses2DataContext"
         EntityTypeName="" OrderBy="name" TableName="Jobs">
     </asp:LinqDataSource>
     <asp:GridView ID="gv_jobs" runat="server" AllowPaging="True" AllowSorting="True"
@@ -42,7 +42,7 @@
     </asp:GridView>
     <h3>
         Result Key</h3>
-    <asp:LinqDataSource ID="lds_issues" runat="server" ContextTypeName="ConfigAdmin.DataClasses1DataContext"
+    <asp:LinqDataSource ID="lds_issues" runat="server" ContextTypeName="ConfigAdmin.DataClasses2DataContext"
         EntityTypeName="" OrderBy="id" TableName="IssueViews">
     </asp:LinqDataSource>
     <asp:GridView ID="gv_issues" runat="server" AllowSorting="True" AutoGenerateColumns="False"

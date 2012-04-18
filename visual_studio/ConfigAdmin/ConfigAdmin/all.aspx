@@ -4,28 +4,36 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-    <asp:LinqDataSource ID="lds_boxes" runat="server" ContextTypeName="ConfigAdmin.DataClasses1DataContext"
-        EntityTypeName="" OrderBy="env, tulsa" TableName="Boxes">
+    <asp:LinqDataSource ID="lds_boxes" runat="server" ContextTypeName="ConfigAdmin.DataClasses2DataContext"
+        EntityTypeName="" OrderBy="env, tulsa"   
+        TableName="Boxes" 
+        Select="new (id, app, env, tulsa, type, notes, app_dirs, conn_to, active)">
     </asp:LinqDataSource>
     <br />
     <asp:GridView ID="gv_boxes" runat="server" AutoGenerateColumns="False" 
-        AllowSorting="True" DataKeyNames="id" DataSourceID="lds_boxes" 
-        CellPadding="4" ForeColor="#333333" GridLines="None" HeaderStyle-HorizontalAlign="Left">
+        AllowSorting="True" DataSourceID="lds_boxes" 
+        CellPadding="4" ForeColor="#333333" GridLines="None" 
+        HeaderStyle-HorizontalAlign="Left">
         <AlternatingRowStyle BackColor="White" />
         <Columns>
-            <asp:BoundField DataField="id" HeaderText="id" InsertVisible="False" SortExpression="id"
-                ReadOnly="True" />
-            <asp:BoundField DataField="app" HeaderText="app" SortExpression="app" />
-            <asp:BoundField DataField="env" HeaderText="env" SortExpression="env" />
-            <asp:BoundField DataField="fishers" HeaderText="fishers" SortExpression="fishers" />
-            <asp:BoundField DataField="tulsa" HeaderText="tulsa" SortExpression="tulsa" />
-            <asp:BoundField DataField="type" HeaderText="type" SortExpression="type" />
-            <asp:BoundField DataField="name" HeaderText="name" SortExpression="name" />
-            <asp:BoundField DataField="notes" HeaderText="notes" SortExpression="notes" />
-            <asp:BoundField DataField="app_dirs" HeaderText="app_dirs" 
+            <asp:BoundField DataField="id" HeaderText="id" ReadOnly="True" 
+                SortExpression="id" />
+            <asp:BoundField DataField="app" HeaderText="app" ReadOnly="True" 
+                SortExpression="app" />
+            <asp:BoundField DataField="env" HeaderText="env" ReadOnly="True" 
+                SortExpression="env" />
+            <asp:BoundField DataField="tulsa" HeaderText="tulsa" ReadOnly="True" 
+                SortExpression="tulsa" />
+            <asp:BoundField DataField="type" HeaderText="type" ReadOnly="True" 
+                SortExpression="type" />
+            <asp:BoundField DataField="notes" HeaderText="notes" ReadOnly="True" 
+                SortExpression="notes" />
+            <asp:BoundField DataField="app_dirs" HeaderText="app_dirs" ReadOnly="True" 
                 SortExpression="app_dirs" />
-            <asp:BoundField DataField="conn_to" HeaderText="conn_to" 
+            <asp:BoundField DataField="conn_to" HeaderText="conn_to" ReadOnly="True" 
                 SortExpression="conn_to" />
+            <asp:BoundField DataField="active" HeaderText="active" ReadOnly="True" 
+                SortExpression="active" />
         </Columns>
         <EditRowStyle BackColor="#7C6F57" />
         <FooterStyle BackColor="#1C5E55" Font-Bold="True" ForeColor="White" />

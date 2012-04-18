@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?><Database Name="RDxETL" Class="DataClasses1DataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="RDxETL" Class="DataClasses2DataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
   <Connection Mode="WebSettings" ConnectionString="Data Source=USHPEPVSQL409\USHPEPVSQL409;Initial Catalog=RDxETL;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="RDxETLConnectionString1" Provider="System.Data.SqlClient" />
   <Table Name="dbo.Box" Member="Boxes">
     <Type Name="Box">
@@ -12,6 +12,13 @@
       <Column Name="notes" Type="System.String" DbType="VarChar(250)" CanBeNull="true" />
       <Column Name="app_dirs" Type="System.String" DbType="VarChar(250)" CanBeNull="true" />
       <Column Name="conn_to" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="active" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Issue" Member="Issues">
+    <Type Name="Issue">
+      <Column Name="id" Type="System.Int16" DbType="SmallInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="notes" Type="System.String" DbType="VarChar(500)" CanBeNull="true" />
     </Type>
   </Table>
   <Table Name="dbo.Job" Member="Jobs">
@@ -24,12 +31,6 @@
       <Column Name="cmd" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
       <Column Name="result" Type="System.String" DbType="VarChar(12)" CanBeNull="true" />
       <Column Name="notes" Type="System.String" DbType="VarChar(200)" CanBeNull="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.Issue" Member="Issues">
-    <Type Name="Issue">
-      <Column Name="id" Type="System.Int16" DbType="SmallInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="notes" Type="System.String" DbType="VarChar(500)" CanBeNull="true" />
     </Type>
   </Table>
   <Table Name="dbo.IssueView" Member="IssueViews">

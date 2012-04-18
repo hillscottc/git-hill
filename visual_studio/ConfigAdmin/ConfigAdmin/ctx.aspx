@@ -4,27 +4,42 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-    <asp:LinqDataSource ID="lds_ctx" runat="server" ContextTypeName="ConfigAdmin.DataClasses1DataContext"
-        EntityTypeName="" OrderBy="env, tulsa" Where='app == "ctx"' TableName="Boxes">
+
+
+    <asp:LinqDataSource ID="lds_ctx" runat="server" ContextTypeName="ConfigAdmin.DataClasses2DataContext"
+        EntityTypeName="" OrderBy="type, tulsa, env" 
+        TableName="Boxes" 
+        Select="new (id, app, env, tulsa, type, notes, app_dirs, conn_to)" 
+        Where="app == @app &amp;&amp; type == @type &amp;&amp; active == @active">
+        <WhereParameters>
+            <asp:Parameter DefaultValue="ctx" Name="app" Type="String" />
+            <asp:Parameter DefaultValue="app" Name="type" Type="String" />
+            <asp:Parameter DefaultValue="1" Name="active" Type="Byte" />
+        </WhereParameters>
     </asp:LinqDataSource>
     <h2>
-        Contraxx</h2>
+        Installed Contraxx Versions</h2>
     <asp:GridView ID="gv_ctx" runat="server" AllowSorting="True" DataSourceID="lds_ctx"
-        AutoGenerateColumns="False" DataKeyNames="id" CellPadding="4" HeaderStyle-HorizontalAlign="Left"
+        AutoGenerateColumns="False" CellPadding="4" HeaderStyle-HorizontalAlign="Left"
         GridLines="Horizontal" BackColor="White" BorderColor="#336666" 
         BorderStyle="Double" BorderWidth="3px">
         <Columns>
-            <asp:BoundField DataField="id" HeaderText="id" InsertVisible="False" SortExpression="id"
+            <asp:BoundField DataField="id" HeaderText="id" SortExpression="id"
                 ReadOnly="True" />
-            <asp:BoundField DataField="app" HeaderText="app" SortExpression="app" />
-            <asp:BoundField DataField="env" HeaderText="env" SortExpression="env" />
-            <asp:BoundField DataField="fishers" HeaderText="fishers" SortExpression="fishers" />
-            <asp:BoundField DataField="tulsa" HeaderText="tulsa" SortExpression="tulsa" />
-            <asp:BoundField DataField="type" HeaderText="type" SortExpression="type" />
-            <asp:BoundField DataField="name" HeaderText="name" SortExpression="name" />
-            <asp:BoundField DataField="notes" HeaderText="notes" SortExpression="notes" />
-            <asp:BoundField DataField="app_dirs" HeaderText="app_dirs" SortExpression="app_dirs" />
-            <asp:BoundField DataField="conn_to" HeaderText="conn_to" SortExpression="conn_to" />
+            <asp:BoundField DataField="app" HeaderText="app" SortExpression="app" 
+                ReadOnly="True" />
+            <asp:BoundField DataField="env" HeaderText="env" SortExpression="env" 
+                ReadOnly="True" />
+            <asp:BoundField DataField="tulsa" HeaderText="tulsa" SortExpression="tulsa" 
+                ReadOnly="True" />
+            <asp:BoundField DataField="type" HeaderText="type" SortExpression="type" 
+                ReadOnly="True" />
+            <asp:BoundField DataField="notes" HeaderText="notes" SortExpression="notes" 
+                ReadOnly="True" />
+            <asp:BoundField DataField="app_dirs" HeaderText="app_dirs" 
+                SortExpression="app_dirs" ReadOnly="True" />
+            <asp:BoundField DataField="conn_to" HeaderText="conn_to" 
+                SortExpression="conn_to" ReadOnly="True" />
         </Columns>
         <FooterStyle BackColor="White" ForeColor="#333333" />
         <HeaderStyle BackColor="#336666" Font-Bold="True" ForeColor="White" />
@@ -45,31 +60,41 @@
 
 
      <h2 id="citrix">
-        Citrix</h2>
+        Citrix Servers</h2>
 
-    <asp:LinqDataSource ID="lds_citrix" runat="server" ContextTypeName="ConfigAdmin.DataClasses1DataContext"
-        EntityTypeName="" OrderBy="env, tulsa" Where='type == "citrix"' TableName="Boxes">
+    <asp:LinqDataSource ID="lds_citrix" runat="server" ContextTypeName="ConfigAdmin.DataClasses2DataContext"
+        EntityTypeName="" OrderBy="env, tulsa"  
+        TableName="Boxes" 
+        Select="new (id, app, env, tulsa, type, notes, app_dirs, conn_to)"
+        Where="app == @app &amp;&amp; type == @type &amp;&amp; active == @active">
+        <WhereParameters>
+            <asp:Parameter DefaultValue="ctx" Name="app" Type="String" />
+            <asp:Parameter DefaultValue="citrix" Name="type" Type="String" />
+            <asp:Parameter DefaultValue="1" Name="active" Type="Byte" />
+        </WhereParameters>
     </asp:LinqDataSource>
 
     <asp:GridView ID="gv_citrix" runat="server" AllowSorting="True" 
-        AutoGenerateColumns="False" CellPadding="4" DataKeyNames="id" HeaderStyle-HorizontalAlign="Left"
+        AutoGenerateColumns="False" CellPadding="4" HeaderStyle-HorizontalAlign="Left"
         DataSourceID="lds_citrix" ForeColor="#333333" GridLines="None">
         <AlternatingRowStyle BackColor="White" />
         <Columns>
-            <asp:BoundField DataField="id" HeaderText="id" InsertVisible="False" 
+            <asp:BoundField DataField="id" HeaderText="id" 
                 ReadOnly="True" SortExpression="id" />
-            <asp:BoundField DataField="app" HeaderText="app" SortExpression="app" />
-            <asp:BoundField DataField="env" HeaderText="env" SortExpression="env" />
-            <asp:BoundField DataField="fishers" HeaderText="fishers" 
-                SortExpression="fishers" />
-            <asp:BoundField DataField="tulsa" HeaderText="tulsa" SortExpression="tulsa" />
-            <asp:BoundField DataField="type" HeaderText="type" SortExpression="type" />
-            <asp:BoundField DataField="name" HeaderText="name" SortExpression="name" />
-            <asp:BoundField DataField="notes" HeaderText="notes" SortExpression="notes" />
+            <asp:BoundField DataField="app" HeaderText="app" SortExpression="app" 
+                ReadOnly="True" />
+            <asp:BoundField DataField="env" HeaderText="env" SortExpression="env" 
+                ReadOnly="True" />
+            <asp:BoundField DataField="tulsa" HeaderText="tulsa" 
+                SortExpression="tulsa" ReadOnly="True" />
+            <asp:BoundField DataField="type" HeaderText="type" SortExpression="type" 
+                ReadOnly="True" />
+            <asp:BoundField DataField="notes" HeaderText="notes" SortExpression="notes" 
+                ReadOnly="True" />
             <asp:BoundField DataField="app_dirs" HeaderText="app_dirs" 
-                SortExpression="app_dirs" />
+                SortExpression="app_dirs" ReadOnly="True" />
             <asp:BoundField DataField="conn_to" HeaderText="conn_to" 
-                SortExpression="conn_to" />
+                SortExpression="conn_to" ReadOnly="True" />
         </Columns>
         <EditRowStyle BackColor="#7C6F57" />
         <FooterStyle BackColor="#1C5E55" Font-Bold="True" ForeColor="White" />
@@ -85,31 +110,42 @@
 
 
 <br />
-    <asp:LinqDataSource ID="lds_sentry" runat="server" ContextTypeName="ConfigAdmin.DataClasses1DataContext"
-        EntityTypeName="" OrderBy="env, tulsa" Where='app == "sentry"' TableName="Boxes">
+    <asp:LinqDataSource ID="lds_sentry" runat="server" ContextTypeName="ConfigAdmin.DataClasses2DataContext"
+        EntityTypeName="" OrderBy="env, tulsa"   
+        TableName="Boxes" 
+        Select="new (id, app, env, tulsa, type, notes, app_dirs, conn_to)"
+        Where="app == @app &amp;&amp; type == @type &amp;&amp; active == @active">
+        <WhereParameters>
+            <asp:Parameter DefaultValue="sentry" Name="app" Type="String" />
+            <asp:Parameter DefaultValue="service" Name="type" Type="String" />
+            <asp:Parameter DefaultValue="1" Name="active" Type="Byte" />
+        </WhereParameters>
     </asp:LinqDataSource>
     <br />
   
     <h2 id="sentry">
         Sentry</h2>
     <asp:GridView ID="gv_sentry" runat="server" AllowSorting="True"
-        DataSourceID="lds_sentry" AutoGenerateColumns="False" DataKeyNames="id" HeaderStyle-HorizontalAlign="Left"
+        DataSourceID="lds_sentry" AutoGenerateColumns="False" HeaderStyle-HorizontalAlign="Left"
         CellPadding="4" ForeColor="#333333" GridLines="None">
         <AlternatingRowStyle BackColor="White" />
         <Columns>
-            <asp:BoundField DataField="id" HeaderText="id" InsertVisible="False" SortExpression="id"
+            <asp:BoundField DataField="id" HeaderText="id" SortExpression="id"
                 ReadOnly="True" />
-            <asp:BoundField DataField="app" HeaderText="app" SortExpression="app" />
-            <asp:BoundField DataField="env" HeaderText="env" SortExpression="env" />
-            <asp:BoundField DataField="fishers" HeaderText="fishers" SortExpression="fishers" />
-            <asp:BoundField DataField="tulsa" HeaderText="tulsa" SortExpression="tulsa" />
-            <asp:BoundField DataField="type" HeaderText="type" SortExpression="type" />
-            <asp:BoundField DataField="name" HeaderText="name" SortExpression="name" />
-            <asp:BoundField DataField="notes" HeaderText="notes" SortExpression="notes" />
+            <asp:BoundField DataField="app" HeaderText="app" SortExpression="app" 
+                ReadOnly="True" />
+            <asp:BoundField DataField="env" HeaderText="env" SortExpression="env" 
+                ReadOnly="True" />
+            <asp:BoundField DataField="tulsa" HeaderText="tulsa" SortExpression="tulsa" 
+                ReadOnly="True" />
+            <asp:BoundField DataField="type" HeaderText="type" SortExpression="type" 
+                ReadOnly="True" />
+            <asp:BoundField DataField="notes" HeaderText="notes" SortExpression="notes" 
+                ReadOnly="True" />
             <asp:BoundField DataField="app_dirs" HeaderText="app_dirs" 
-                SortExpression="app_dirs" />
+                SortExpression="app_dirs" ReadOnly="True" />
             <asp:BoundField DataField="conn_to" HeaderText="conn_to" 
-                SortExpression="conn_to" />
+                SortExpression="conn_to" ReadOnly="True" />
         </Columns>
         <EditRowStyle BackColor="#7C6F57" />
         <FooterStyle BackColor="#1C5E55" Font-Bold="True" ForeColor="White" />
@@ -148,41 +184,7 @@ VALUE: D:\Contraxx\UATv8Current-rmsdev
      </pre>
     <br />
     <br />
-    <asp:LinqDataSource ID="lds_rms" runat="server" ContextTypeName="ConfigAdmin.DataClasses1DataContext"
-        EntityTypeName="" OrderBy="env, tulsa" Where='app == "rmslink"' TableName="Boxes">
-    </asp:LinqDataSource>
-    <h2 id="rmslink">
-        RMSLink</h2>
-    <asp:GridView ID="gv_rms" runat="server" AllowSorting="True"
-        DataSourceID="lds_rms" AutoGenerateColumns="False" CellPadding="4" HeaderStyle-HorizontalAlign="Left"
-        DataKeyNames="id" ForeColor="#333333" GridLines="None">
-        <AlternatingRowStyle BackColor="White" />
-        <Columns>
-            <asp:BoundField DataField="id" HeaderText="id" InsertVisible="False" SortExpression="id"
-                ReadOnly="True" />
-            <asp:BoundField DataField="app" HeaderText="app" SortExpression="app" />
-            <asp:BoundField DataField="env" HeaderText="env" SortExpression="env" />
-            <asp:BoundField DataField="fishers" HeaderText="fishers" SortExpression="fishers" />
-            <asp:BoundField DataField="tulsa" HeaderText="tulsa" SortExpression="tulsa" />
-            <asp:BoundField DataField="type" HeaderText="type" SortExpression="type" />
-            <asp:BoundField DataField="name" HeaderText="name" SortExpression="name" />
-            <asp:BoundField DataField="notes" HeaderText="notes" SortExpression="notes" />
-            <asp:BoundField DataField="app_dirs" HeaderText="app_dirs" 
-                SortExpression="app_dirs" />
-            <asp:BoundField DataField="conn_to" HeaderText="conn_to" 
-                SortExpression="conn_to" />
-        </Columns>
-        <EditRowStyle BackColor="#7C6F57" />
-        <FooterStyle BackColor="#1C5E55" Font-Bold="True" ForeColor="White" />
-        <HeaderStyle BackColor="#1C5E55" Font-Bold="True" ForeColor="White" />
-        <PagerStyle BackColor="#666666" ForeColor="White" HorizontalAlign="Center" />
-        <RowStyle BackColor="#E3EAEB" />
-        <SelectedRowStyle BackColor="#C5BBAF" Font-Bold="True" ForeColor="#333333" />
-        <SortedAscendingCellStyle BackColor="#F8FAFA" />
-        <SortedAscendingHeaderStyle BackColor="#246B61" />
-        <SortedDescendingCellStyle BackColor="#D4DFE1" />
-        <SortedDescendingHeaderStyle BackColor="#15524A" />
-    </asp:GridView>
+   
     <br />
     <br />
 </asp:Content>

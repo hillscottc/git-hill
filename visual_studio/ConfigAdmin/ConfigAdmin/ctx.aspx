@@ -7,7 +7,7 @@
 
 
     <asp:LinqDataSource ID="lds_ctx" runat="server" ContextTypeName="ConfigAdmin.DataClasses2DataContext"
-        EntityTypeName="" OrderBy="type, tulsa, env" 
+        EntityTypeName="" OrderBy="tulsa, type, env" 
         TableName="Boxes" 
         Select="new (id, app, env, tulsa, type, notes, app_dirs, conn_to)" 
         Where="app == @app &amp;&amp; type == @type &amp;&amp; active == @active">

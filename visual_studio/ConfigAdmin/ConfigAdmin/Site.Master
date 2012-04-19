@@ -45,9 +45,10 @@
                         <asp:MenuItem NavigateUrl="~/Default.aspx" Text="Home" />
                         <asp:MenuItem NavigateUrl="~/ctx.aspx" Text="Contraxx &amp; Sentry" />
                         <asp:MenuItem NavigateUrl="~/dra.aspx" Text="DRA &amp; RMSLink" />
-                        <asp:MenuItem NavigateUrl="~/rdx.aspx" Text="RDx" />
+                        <asp:MenuItem NavigateUrl="~/rdx.aspx" Text="RDx Boxes" />
                         <asp:MenuItem NavigateUrl="~/RDxJobs.aspx" Text="RDx Interfaces" />
-                        <asp:MenuItem NavigateUrl="~/Scheduling.aspx" Text="Job Scheduling" />
+                        <asp:MenuItem NavigateUrl="~/Scheduling.aspx" Text="RDx Jobs" />
+                        <asp:MenuItem NavigateUrl="~/tnsnames.aspx" Text="TNSNAMES" />
                         <asp:MenuItem NavigateUrl="~/All.aspx" Text="All Boxes" />
                     </Items>
                 </asp:Menu>

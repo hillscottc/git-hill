@@ -7,7 +7,7 @@
 
 
     <asp:LinqDataSource ID="lds_ctx" runat="server" ContextTypeName="ConfigAdmin.DataClasses2DataContext"
-        EntityTypeName="" OrderBy="tulsa, type, env" 
+        EntityTypeName="" OrderBy="tulsa" 
         TableName="Boxes" 
         Select="new (id, app, env, tulsa, type, notes, app_dirs, conn_to)" 
         Where="app == @app &amp;&amp; type == @type &amp;&amp; active == @active">
@@ -63,7 +63,7 @@
         Citrix Servers</h2>
 
     <asp:LinqDataSource ID="lds_citrix" runat="server" ContextTypeName="ConfigAdmin.DataClasses2DataContext"
-        EntityTypeName="" OrderBy="env, tulsa"  
+        EntityTypeName="" OrderBy="tulsa"  
         TableName="Boxes" 
         Select="new (id, app, env, tulsa, type, notes, app_dirs, conn_to)"
         Where="app == @app &amp;&amp; type == @type &amp;&amp; active == @active">

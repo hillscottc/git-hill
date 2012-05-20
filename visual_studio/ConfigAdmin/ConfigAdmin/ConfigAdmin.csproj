@@ -33,6 +33,23 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Staging|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisLogFile>bin\ConfigAdmin.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
+  </PropertyGroup>
   <ItemGroup>
     <!--  <Reference Include="Microsoft.CSharp" /> -->
     <Reference Include="IronPython, Version=2.7.0.40, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
@@ -78,36 +95,44 @@
     <Content Include="Account\ChangePasswordSuccess.aspx" />
     <Content Include="Account\Login.aspx" />
     <Content Include="Account\Register.aspx" />
-    <Content Include="all.aspx" />
+    <Content Include="All.aspx" />
     <Content Include="App_Data\ASPNETDB.MDF" />
     <Content Include="App_Data\aspnetdb_log.ldf">
       <DependentUpon>ASPNETDB.MDF</DependentUpon>
     </Content>
-    <Content Include="App_Data\Infra.mdf" />
-    <Content Include="App_Data\Infra_log.ldf">
-      <DependentUpon>Infra.mdf</DependentUpon>
-    </Content>
-    <Content Include="BoxGridView.ascx" />
     <Content Include="ctx.aspx" />
     <Content Include="dra.aspx" />
-    <Content Include="Jobs.aspx" />
-    <Content Include="rdx\JobSchedule.aspx" />
-    <Content Include="rdx\rdx2.aspx" />
-    <Content Include="rdx\reports\dev_rdx_etl_details.txt" />
-    <Content Include="rdx\reports\dev_rdx_etl_jobs.txt" />
-    <Content Include="rdx\reports\dev_rdx_etl_summary.txt" />
-    <Content Include="rdx\reports\prod_rdx_etl_details.txt" />
-    <Content Include="rdx\reports\prod_rdx_etl_jobs.txt" />
-    <Content Include="rdx\reports\prod_rdx_etl_summary.txt" />
-    <Content Include="rdx\reports\uat_rdx_etl_details.txt" />
-    <Content Include="rdx\reports\uat_rdx_etl_jobs.txt" />
-    <Content Include="rdx\reports\uat_rdx_etl_summary.txt" />
+    <Content Include="EachInterface.aspx" />
+    <Content Include="imgs\ing1.PNG" />
+    <Content Include="imgs\ing2.PNG" />
+    <Content Include="imgs\ing3.PNG" />
+    <Content Include="imgs\ing4.PNG" />
+    <Content Include="imgs\ing5.PNG" />
+    <Content Include="imgs\ing6.PNG" />
+    <Content Include="imgs\ing7.PNG" />
+    <Content Include="imgs\ing8.PNG" />
+    <Content Include="imgs\after_sched.PNG" />
+    <Content Include="imgs\before_sched.PNG" />
+    <Content Include="ingrooves.aspx" />
+    <Content Include="rdx.aspx" />
+    <Content Include="RDxJobs.aspx" />
+    <Content Include="reports\dev_rdx_etl_details.txt" />
+    <Content Include="reports\dev_rdx_etl_jobs.txt" />
+    <Content Include="reports\dev_rdx_etl_summary.txt" />
+    <Content Include="reports\prod_rdx_etl_details.txt" />
+    <Content Include="reports\prod_rdx_etl_jobs.txt" />
+    <Content Include="reports\prod_rdx_etl_summary.txt" />
+    <Content Include="reports\uat_rdx_etl_details.txt" />
+    <Content Include="reports\uat_rdx_etl_jobs.txt" />
+    <Content Include="reports\uat_rdx_etl_summary.txt" />
+    <Content Include="Scheduling.aspx" />
     <Content Include="Styles\Site.css" />
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\jquery-1.4.1-vsdoc.js" />
     <Content Include="Scripts\jquery-1.4.1.js" />
     <Content Include="Scripts\jquery-1.4.1.min.js" />
+    <Content Include="tnsnames.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -154,22 +179,12 @@
     <Compile Include="Account\Register.aspx.designer.cs">
       <DependentUpon>Register.aspx</DependentUpon>
     </Compile>
-    <Compile Include="all.aspx.cs">
-      <DependentUpon>all.aspx</DependentUpon>
+    <Compile Include="All.aspx.cs">
+      <DependentUpon>All.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="all.aspx.designer.cs">
-      <DependentUpon>all.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="BasePage.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="BoxGridView.ascx.cs">
-      <DependentUpon>BoxGridView.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="BoxGridView.ascx.designer.cs">
-      <DependentUpon>BoxGridView.ascx</DependentUpon>
+    <Compile Include="All.aspx.designer.cs">
+      <DependentUpon>All.aspx</DependentUpon>
     </Compile>
     <Compile Include="ctx.aspx.cs">
       <DependentUpon>ctx.aspx</DependentUpon>
@@ -178,10 +193,10 @@
     <Compile Include="ctx.aspx.designer.cs">
       <DependentUpon>ctx.aspx</DependentUpon>
     </Compile>
-    <Compile Include="DataClasses1.designer.cs">
+    <Compile Include="DataClasses2.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>DataClasses1.dbml</DependentUpon>
+      <DependentUpon>DataClasses2.dbml</DependentUpon>
     </Compile>
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
@@ -197,30 +212,44 @@
     <Compile Include="dra.aspx.designer.cs">
       <DependentUpon>dra.aspx</DependentUpon>
     </Compile>
+    <Compile Include="EachInterface.aspx.cs">
+      <DependentUpon>EachInterface.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EachInterface.aspx.designer.cs">
+      <DependentUpon>EachInterface.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Jobs.aspx.cs">
-      <DependentUpon>Jobs.aspx</DependentUpon>
+    <Compile Include="ingrooves.aspx.cs">
+      <DependentUpon>ingrooves.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Jobs.aspx.designer.cs">
-      <DependentUpon>Jobs.aspx</DependentUpon>
+    <Compile Include="ingrooves.aspx.designer.cs">
+      <DependentUpon>ingrooves.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="rdx\JobSchedule.aspx.cs">
-      <DependentUpon>JobSchedule.aspx</DependentUpon>
+    <Compile Include="rdx.aspx.cs">
+      <DependentUpon>rdx.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="rdx\JobSchedule.aspx.designer.cs">
-      <DependentUpon>JobSchedule.aspx</DependentUpon>
+    <Compile Include="rdx.aspx.designer.cs">
+      <DependentUpon>rdx.aspx</DependentUpon>
     </Compile>
-    <Compile Include="rdx\rdx2.aspx.cs">
-      <DependentUpon>rdx2.aspx</DependentUpon>
+    <Compile Include="RDxJobs.aspx.cs">
+      <DependentUpon>RDxJobs.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="rdx\rdx2.aspx.designer.cs">
-      <DependentUpon>rdx2.aspx</DependentUpon>
+    <Compile Include="RDxJobs.aspx.designer.cs">
+      <DependentUpon>RDxJobs.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Scheduling.aspx.cs">
+      <DependentUpon>Scheduling.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Scheduling.aspx.designer.cs">
+      <DependentUpon>Scheduling.aspx</DependentUpon>
     </Compile>
     <Compile Include="Site.Master.cs">
       <DependentUpon>Site.Master</DependentUpon>
@@ -228,6 +257,13 @@
     </Compile>
     <Compile Include="Site.Master.designer.cs">
       <DependentUpon>Site.Master</DependentUpon>
+    </Compile>
+    <Compile Include="tnsnames.aspx.cs">
+      <DependentUpon>tnsnames.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="tnsnames.aspx.designer.cs">
+      <DependentUpon>tnsnames.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -240,18 +276,18 @@
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="imgs\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="DataClasses1.dbml">
-      <Generator>MSLinqToSQLGenerator</Generator>
-      <LastGenOutput>DataClasses1.designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
+    <None Include="DataClasses2.dbml.layout">
+      <DependentUpon>DataClasses2.dbml</DependentUpon>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="DataClasses1.dbml.layout">
-      <DependentUpon>DataClasses1.dbml</DependentUpon>
+    <Content Include="Web.Staging.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <None Include="DataClasses2.dbml">
+      <Generator>MSLinqToSQLGenerator</Generator>
+      <LastGenOutput>DataClasses2.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </None>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

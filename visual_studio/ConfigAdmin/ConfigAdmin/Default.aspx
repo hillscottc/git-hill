@@ -17,8 +17,21 @@
     <p>
         Open issues</p>
     <ul>
-        <li>id 6, access to central ftp</li>
-        <li>id 303, tnsnames install/config</li>
-        <li>id 21, Citrix servers</li>
+        <li>Links to CTX, DRA, and R2 need to be re-created. (Send request to DBA.)</li>
+        <li>Permissions for FileService.exe's BULK LOAD from SQLServer to ftp files on app server. (Send request to DBA.)</li>
+        <li>Create service account for Task Scheduler to run jobs on USHPEWVAPP251 and USHPEWVAPP204. (I can do?)</li>
+        <li>Create rdxuserdev on USHPEPVSQL435</li>
+        <li>Create rdxuseruat on USHPEPVSQL347, USHPEPVSQL363.</li>
+        <li>Oracle Client and configured TNS install on any CTX/SENTRY app servers that still need it. </li>
+        <li>Verify DATABASE logging. Needed in addition ot text logs for those apps that use it to track last run.</li>
     </ul>
+
+    <hr />
+    <div>This site is the 
+    <asp:Label id="labEnv" runat="server" Text="Label" Font-Names="Consolas" 
+            ForeColor="Black"></asp:Label> configuration, 
+    connecting with <asp:Label id="labCon" runat="server" Text="Label" 
+            Font-Names="Consolas" ForeColor="Black"></asp:Label>.
+    </div>
+
 </asp:Content>

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Configuration;
 
 namespace ConfigAdmin
 {
@@ -11,7 +12,8 @@ namespace ConfigAdmin
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            labEnv.Text = "Environment = " + ConfigurationManager.AppSettings["EnvironmentName"];
+            labCon.Text = "ConnStr = " + ConfigurationManager.ConnectionStrings["RDxETLConnectionString1"];
         }
     }
 }

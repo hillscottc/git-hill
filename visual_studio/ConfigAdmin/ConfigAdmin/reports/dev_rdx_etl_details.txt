@@ -1,0 +1,206 @@
+﻿
+
+-----DETAILS for 'CARL'-----
+FILE: D:\RDx\ETL\Common\UMG.RDx.ETL.CARL.dll.config
+    line 6, RDxETL is pointed to USHPEPVSQL409\USHPEPVSQL409...OK...no change.
+FILE: D:\RDx\ETL\CARL\log4net.config
+    line 4, LOGFILE is at \RDx\ETL\logs\CARL\CARL_etl.txt...OK...no change.
+    line 25, TO_VAL is ar.umg.rights.dev@hp.com, Scott.Hill@umgtemp.com...OK...no change.
+    line 26, FROM_VAL is RDx@mgd.umusic.com...OK...no change.
+    line 27, SUBJ is CARL NotificationService Message (DEV)...needs change to RDxAlert Message dev
+    line 28, SMTP is usush-maildrop.amer.umusic.net...OK...no change.
+FILE: D:\RDx\ETL\CARL\UMG.RDx.ETL.CARL.dll.config
+    line 6, RDxETL is pointed to USHPEPVSQL409...needs change to USHPEPVSQL409\USHPEPVSQL409
+FILE: D:\RDx\ETL\CARL\UMG.RDx.ETL.FileService.exe.config
+    line 7, RDxETL is pointed to USHPEPVSQL409\USHPEPVSQL409...OK...no change.
+    line 10, RDxETL is pointed to USHPEPVSQL409\USHPEPVSQL409...OK...no change.
+    line 13, RDxReport is pointed to USHPEPVSQL435\USHPEPVSQL435...OK...no change.
+    line 24, CARLFilePathIn points to USHPEWVAPP251...needs change to \\USHPEWVAPP251\d$
+    line 25, CRAFilePathIn points to USHPEWVAPP251...needs change to \\USHPEWVAPP251\d$
+    line 26, D2FilePathIn points to USHPEWVAPP251...needs change to \\USHPEWVAPP251\d$
+    line 27, ELSFilePathIn points to USHPEWVAPP251...needs change to \\USHPEWVAPP251\d$
+    line 28, GDRSFilePathIn points to USHPEWVAPP251...needs change to \\USHPEWVAPP251\d$
+    line 29, PartsOrderFilePathIn points to USHPEWVAPP251...needs change to \\USHPEWVAPP251\d$
+    line 30, CARTFilePathIn points to USHPEWVAPP251...needs change to \\USHPEWVAPP251\d$
+    line 32, CARLFilePathOut points to USHPEWVAPP251...needs change to \\USHPEWVAPP251\d$
+    line 33, CRAFilePathOut points to USHPEWVAPP251...needs change to \\USHPEWVAPP251\d$
+    line 34, D2FilePathOut points to USHPEWVAPP251...needs change to \\USHPEWVAPP251\d$
+    line 35, ELSFilePathOut points to USHPEWVAPP251...needs change to \\USHPEWVAPP251\d$
+    line 36, GDRSFilePathOut points to USHPEWVAPP251...needs change to \\USHPEWVAPP251\d$
+    line 37, PartsOrderFilePathOut points to USHPEWVAPP251...needs change to \\USHPEWVAPP251\d$
+    line 38, CARTFilePathOut points to USHPEWVAPP251...needs change to \\USHPEWVAPP251\d$
+FILE: D:\RDx\ETL\Common\SQL\carl_test.bat
+-----DETAILS for 'CART'-----
+   None for CART
+-----DETAILS for 'Common'-----
+FILE: D:\RDx\ETL\Common\log4net.config
+    line 4, LOGFILE is at \RDx\ETL\logs\Common\Common_etl.txt...OK...no change.
+    line 29, TO_VAL is Scott.Hill@umgtemp.com...needs change to ar.umg.rights.dev@hp.com, Scott.Hill@umgtemp.com
+    line 30, FROM_VAL is RDx@mgd.umusic.com...OK...no change.
+    line 31, SUBJ is carl NotificationService Message (DEV)...needs change to RDxAlert Message dev
+    line 32, SMTP is usush-maildrop.amer.umusic.net...OK...no change.
+FILE: D:\RDx\ETL\Common\UMG.RDx.ETL.GDRS.dll.config
+    line 6, RDxETL is pointed to USHPEPVSQL409\USHPEPVSQL409...OK...no change.
+    line 9, RDxReport is pointed to USHPEPVSQL435\USHPEPVSQL435...OK...no change.
+FILE: D:\RDx\ETL\Common\UMG.RDx.ETL.FileService.exe.config
+    line 7, RDxETL is pointed to USHPEPVSQL409\USHPEPVSQL409...OK...no change.
+    line 10, RDxETL is pointed to USHPEPVSQL409\USHPEPVSQL409...OK...no change.
+    line 13, RDxReport is pointed to USHPEPVSQL435\USHPEPVSQL435...OK...no change.
+    line 24, CARLFilePathIn points to USHPEWVAPP251...needs change to \\USHPEWVAPP251\d$
+    line 25, CRAFilePathIn points to USHPEWVAPP251...needs change to \\USHPEWVAPP251\d$
+    line 26, D2FilePathIn points to USHPEWVAPP251...needs change to \\USHPEWVAPP251\d$
+    line 27, ELSFilePathIn points to USHPEWVAPP251...needs change to \\USHPEWVAPP251\d$
+    line 28, GDRSFilePathIn points to USHPEWVAPP251...needs change to \\USHPEWVAPP251\d$
+    line 29, PartsOrderFilePathIn points to USHPEWVAPP251...needs change to \\USHPEWVAPP251\d$
+    line 30, CARTFilePathIn points to USHPEWVAPP251...needs change to \\USHPEWVAPP251\d$
+    line 32, CARLFilePathOut points to USHPEWVAPP251...needs change to \\USHPEWVAPP251\d$
+    line 33, CRAFilePathOut points to USHPEWVAPP251...needs change to \\USHPEWVAPP251\d$
+    line 34, D2FilePathOut points to USHPEWVAPP251...needs change to \\USHPEWVAPP251\d$
+    line 35, ELSFilePathOut points to USHPEWVAPP251...needs change to \\USHPEWVAPP251\d$
+    line 36, GDRSFilePathOut points to USHPEWVAPP251...needs change to \\USHPEWVAPP251\d$
+    line 37, PartsOrderFilePathOut points to USHPEWVAPP251...needs change to \\USHPEWVAPP251\d$
+    line 38, CARTFilePathOut points to USHPEWVAPP251...needs change to \\USHPEWVAPP251\d$
+FILE: D:\RDx\ETL\Common\sql_run.bat
+FILE: D:\RDx\ETL\Common\UMG.RDx.ETL.CRA.dll.config
+    line 6, RDxETL is pointed to USHPEPVSQL409\USHPEPVSQL409...OK...no change.
+    line 9, RDxReport is pointed to USHPEPVSQL435\USHPEPVSQL435...OK...no change.
+-----DETAILS for 'CPRS'-----
+FILE: D:\RDx\ETL\CPRS\log4net.config
+    line 4, LOGFILE is at \RDx\ETL\logs\CPRS\CPRS_etl.txt...OK...no change.
+    line 29, TO_VAL is Scott.Hill@umgtemp.com...needs change to ar.umg.rights.dev@hp.com, Scott.Hill@umgtemp.com
+    line 30, FROM_VAL is RDx@mgd.umusic.com...OK...no change.
+    line 31, SUBJ is CPRS NotificationService Message (DEV)...needs change to RDxAlert Message dev
+    line 32, SMTP is usush-maildrop.amer.umusic.net...OK...no change.
+FILE: D:\RDx\ETL\CPRS\UMG.RDx.ETL.CPRS.exe.config
+    line 14, LOGFILE is at \RDx\ETL\logs\CPRS\CPRS_etl.txt...OK...no change.
+    line 38, TO_VAL is Scott.Hill@umgtemp.com...needs change to ar.umg.rights.dev@hp.com, Scott.Hill@umgtemp.com
+    line 39, FROM_VAL is RDx@mgd.umusic.com...OK...no change.
+    line 40, SUBJ is CPRS  Message (DEV)...needs change to RDxAlert Message dev
+    line 41, SMTP is usush-maildrop.amer.umusic.net...OK...no change.
+    line 59, RDxETL is pointed to USHPEPVSQL409\USHPEPVSQL409...OK...no change.
+    line 135, RDxETL is pointed to USHPEPVSQL409\USHPEPVSQL409...OK...no change.
+    line 140, RDxETL is pointed to USHPEPVSQL409\USHPEPVSQL409...OK...no change.
+    line 143, RDxETL is pointed to USHPEPVSQL409\USHPEPVSQL409...OK...no change.
+    line 146, RDxReport is pointed to USHPEPVSQL435\USHPEPVSQL435...OK...no change.
+-----DETAILS for 'CRA'-----
+   None for CRA
+-----DETAILS for 'CTX'-----
+FILE: D:\RDx\ETL\CTX\UMG.RDx.ETL.CTX.exe.config
+    line 7, RDxETL is pointed to USHPEPVSQL409\USHPEPVSQL409...OK...no change.
+    line 12, RDxETL is pointed to USHPEPVSQL409\USHPEPVSQL409...OK...no change.
+    line 16, RDxETL is pointed to USHPEPVSQL409\USHPEPVSQL409...OK...no change.
+    line 20, RDxReport is pointed to USHPEPVSQL435\USHPEPVSQL435...OK...no change.
+FILE: D:\RDx\ETL\CTX\log4net.config
+    line 4, LOGFILE is at \RDx\ETL\logs\CTX\CTX_etl.txt...OK...no change.
+    line 25, TO_VAL is Scott.Hill@umgtemp.com...needs change to ar.umg.rights.dev@hp.com, Scott.Hill@umgtemp.com
+    line 26, FROM_VAL is RDx@mgd.umusic.com...OK...no change.
+    line 27, SUBJ is CTX NotificationService Message (DEV)...needs change to RDxAlert Message dev
+    line 28, SMTP is usush-maildrop.amer.umusic.net...OK...no change.
+-----DETAILS for 'D2'-----
+FILE: D:\RDx\ETL\D2\UMG.RDx.ETL.FileService.exe.config
+    line 7, RDxETL is pointed to USHPEPVSQL409\USHPEPVSQL409...OK...no change.
+    line 10, RDxETL is pointed to USHPEPVSQL409\USHPEPVSQL409...OK...no change.
+    line 13, RDxReport is pointed to USHPEPVSQL435\USHPEPVSQL435...OK...no change.
+    line 24, CARLFilePathIn points to USHPEWVAPP204...needs change to \\USHPEWVAPP251\d$
+    line 25, CRAFilePathIn points to USHPEWVAPP204...needs change to \\USHPEWVAPP251\d$
+    line 26, D2FilePathIn points to USHPEWVAPP204...needs change to \\USHPEWVAPP251\d$
+    line 27, ELSFilePathIn points to USHPEWVAPP204...needs change to \\USHPEWVAPP251\d$
+    line 28, GDRSFilePathIn points to USHPEWVAPP204...needs change to \\USHPEWVAPP251\d$
+    line 29, PartsOrderFilePathIn points to USHPEWVAPP204...needs change to \\USHPEWVAPP251\d$
+    line 30, CARTFilePathIn points to USHPEWVAPP204...needs change to \\USHPEWVAPP251\d$
+    line 32, CARLFilePathOut points to USHPEWVAPP204...needs change to \\USHPEWVAPP251\d$
+    line 33, CRAFilePathOut points to USHPEWVAPP204...needs change to \\USHPEWVAPP251\d$
+    line 34, D2FilePathOut points to USHPEWVAPP204...needs change to \\USHPEWVAPP251\d$
+    line 35, ELSFilePathOut points to USHPEWVAPP204...needs change to \\USHPEWVAPP251\d$
+    line 36, GDRSFilePathOut points to USHPEWVAPP204...needs change to \\USHPEWVAPP251\d$
+    line 37, PartsOrderFilePathOut points to USHPEWVAPP204...needs change to \\USHPEWVAPP251\d$
+    line 38, CARTFilePathOut points to USHPEWVAPP204...needs change to \\USHPEWVAPP251\d$
+FILE: D:\RDx\ETL\D2\log4net.config
+    line 4, LOGFILE is at \RDx\ETL\logs\D2\D2_etl.txt...OK...no change.
+    line 25, TO_VAL is Scott.Hill@umgtemp.com...needs change to ar.umg.rights.dev@hp.com, Scott.Hill@umgtemp.com
+    line 26, FROM_VAL is RDx@mgd.umusic.com...OK...no change.
+    line 27, SUBJ is D2 NotificationService Message (DEV)...needs change to RDxAlert Message dev
+    line 28, SMTP is usush-maildrop.amer.umusic.net...OK...no change.
+-----DETAILS for 'DRA'-----
+FILE: D:\RDx\ETL\DRA\UMG.RDx.ETL.DRA.exe.config
+    line 7, RDxETL is pointed to USHPEPVSQL409\USHPEPVSQL409...OK...no change.
+    line 12, RDxETL is pointed to USHPEPVSQL409\USHPEPVSQL409...OK...no change.
+    line 16, RDxETL is pointed to USHPEPVSQL409\USHPEPVSQL409...OK...no change.
+    line 20, RDxReport is pointed to USHPEPVSQL435\USHPEPVSQL435...OK...no change.
+FILE: D:\RDx\ETL\DRA\log4net.config
+    line 4, LOGFILE is at \RDx\ETL\logs\DRA\DRA_etl.txt...OK...no change.
+    line 25, TO_VAL is Scott.Hill@umgtemp.com...needs change to ar.umg.rights.dev@hp.com, Scott.Hill@umgtemp.com
+    line 26, FROM_VAL is RDx@mgd.umusic.com...OK...no change.
+    line 27, SUBJ is DRA NotificationService Message (DEV)...needs change to RDxAlert Message dev
+    line 28, SMTP is usush-maildrop.amer.umusic.net...OK...no change.
+-----DETAILS for 'ELS'-----
+   None for ELS
+-----DETAILS for 'GDRS'-----
+FILE: D:\RDx\ETL\gdrs\log4net.config
+    line 4, LOGFILE is at \RDx\ETL\logs\GDRS\GDRS_etl.txt...OK...no change.
+    line 25, TO_VAL is Scott.Hill@umgtemp.com...needs change to ar.umg.rights.dev@hp.com, Scott.Hill@umgtemp.com
+    line 26, FROM_VAL is RDx@mgd.umusic.com...OK...no change.
+    line 27, SUBJ is GDRS NotificationService Message (DEV)...needs change to RDxAlert Message dev
+    line 28, SMTP is usush-maildrop.amer.umusic.net...OK...no change.
+FILE: D:\RDx\ETL\gdrs\UMG.RDx.ETL.FileService.exe.config
+    line 7, RDxETL is pointed to USHPEPVSQL409\USHPEPVSQL409...OK...no change.
+    line 10, RDxETL is pointed to USHPEPVSQL409\USHPEPVSQL409...OK...no change.
+    line 13, RDxReport is pointed to USHPEPVSQL435\USHPEPVSQL435...OK...no change.
+    line 24, CARLFilePathIn points to USHPEWVAPP204...needs change to \\USHPEWVAPP251\d$
+    line 25, CRAFilePathIn points to USHPEWVAPP204...needs change to \\USHPEWVAPP251\d$
+    line 26, D2FilePathIn points to USHPEWVAPP204...needs change to \\USHPEWVAPP251\d$
+    line 27, ELSFilePathIn points to USHPEWVAPP204...needs change to \\USHPEWVAPP251\d$
+    line 28, GDRSFilePathIn points to USHPEWVAPP204...needs change to \\USHPEWVAPP251\d$
+    line 29, PartsOrderFilePathIn points to USHPEWVAPP204...needs change to \\USHPEWVAPP251\d$
+    line 30, CARTFilePathIn points to USHPEWVAPP204...needs change to \\USHPEWVAPP251\d$
+    line 32, CARLFilePathOut points to USHPEWVAPP204...needs change to \\USHPEWVAPP251\d$
+    line 33, CRAFilePathOut points to USHPEWVAPP204...needs change to \\USHPEWVAPP251\d$
+    line 34, D2FilePathOut points to USHPEWVAPP204...needs change to \\USHPEWVAPP251\d$
+    line 35, ELSFilePathOut points to USHPEWVAPP204...needs change to \\USHPEWVAPP251\d$
+    line 36, GDRSFilePathOut points to USHPEWVAPP204...needs change to \\USHPEWVAPP251\d$
+    line 37, PartsOrderFilePathOut points to USHPEWVAPP204...needs change to \\USHPEWVAPP251\d$
+    line 38, CARTFilePathOut points to USHPEWVAPP204...needs change to \\USHPEWVAPP251\d$
+-----DETAILS for 'MP'-----
+FILE: D:\RDx\ETL\MP\mp.bat
+FILE: D:\RDx\ETL\MP\UMG.RDx.ETL.MP.exe.config
+    line 7, RDxETL is pointed to USHPEPVSQL409\USHPEPVSQL409...OK...no change.
+    line 12, RDxETL is pointed to USHPEPVSQL409\USHPEPVSQL409...OK...no change.
+    line 16, RDxETL is pointed to USHPEPVSQL409\USHPEPVSQL409...OK...no change.
+    line 20, RDxReport is pointed to USHPEPVSQL435\USHPEPVSQL435...OK...no change.
+FILE: D:\RDx\ETL\MP\UMG.RDx.ETL.MP.Extract.dll.config
+    line 9, RDxETL is pointed to USHPEPVSQL409\USHPEPVSQL409...OK...no change.
+FILE: D:\RDx\ETL\MP\log4net.config
+    line 4, LOGFILE is at \RDx\ETL\logs\MP\MP_etl.txt...OK...no change.
+    line 81, TO_VAL is Scott.Hill@umgtemp.com...needs change to ar.umg.rights.dev@hp.com, Scott.Hill@umgtemp.com
+    line 82, FROM_VAL is RDx@mgd.umusic.com...OK...no change.
+    line 83, SUBJ is RDxAlert Message (UAT)...needs change to RDxAlert Message dev
+    line 84, SMTP is usush-maildrop.amer.umusic.net...OK...no change.
+FILE: D:\RDx\ETL\MP\UMG.RDx.ETL.MP.vshost.exe.config
+    line 12, LOGFILE is at \RDx\ETL\logs\MP\MP_etl.txt...OK...no change.
+    line 44, TO_VAL is Scott.Hill@umgtemp.com...needs change to ar.umg.rights.dev@hp.com, Scott.Hill@umgtemp.com
+    line 45, FROM_VAL is RDx@mgd.umusic.com...OK...no change.
+    line 46, SUBJ is RDxAlert Message dev...OK...no change.
+    line 47, SMTP is usush-maildrop.amer.umusic.net...OK...no change.
+    line 68, RDxETL is pointed to USHPEPVSQL409\USHPEPVSQL409...OK...no change.
+    line 73, RDxETL is pointed to USHPEPVSQL409\USHPEPVSQL409...OK...no change.
+    line 77, RDxETL is pointed to USHPEPVSQL409\USHPEPVSQL409...OK...no change.
+    line 81, RDxReport is pointed to USHPEPVSQL435\USHPEPVSQL435...OK...no change.
+-----DETAILS for 'PartsOrder'-----
+FILE: D:\RDx\ETL\PartsOrder\PO.bat
+-----DETAILS for 'R2'-----
+FILE: D:\RDx\ETL\R2\UMG.RDx.ETL.R2.vshost.exe.config
+    line 7, RDxETL is pointed to USHPEPVSQL409\USHPEPVSQL435...needs change to USHPEPVSQL409\USHPEPVSQL409
+    line 12, RDxETL is pointed to USHPEPVSQL409\USHPEPVSQL435...needs change to USHPEPVSQL409\USHPEPVSQL409
+    line 16, RDxETL is pointed to USHPEPVSQL409\USHPEPVSQL435...needs change to USHPEPVSQL409\USHPEPVSQL409
+    line 20, RDxReport is pointed to USHPEPVSQL435\USHPEPVSQL435...OK...no change.
+FILE: D:\RDx\ETL\R2\UMG.RDx.ETL.R2.exe.config
+    line 7, RDxETL is pointed to USHPEPVSQL409\USHPEPVSQL409...OK...no change.
+    line 12, RDxETL is pointed to USHPEPVSQL409\USHPEPVSQL409...OK...no change.
+    line 16, RDxETL is pointed to USHPEPVSQL409\USHPEPVSQL409...OK...no change.
+    line 20, RDxReport is pointed to USHPEPVSQL435\USHPEPVSQL435...OK...no change.
+FILE: D:\RDx\ETL\R2\log4net.config
+    line 4, LOGFILE is at \RDx\ETL\logs\R2\R2_etl.txt...OK...no change.
+    line 25, TO_VAL is Scott.Hill@umgtemp.com...needs change to ar.umg.rights.dev@hp.com, Scott.Hill@umgtemp.com
+    line 26, FROM_VAL is RDx@mgd.umusic.com...OK...no change.
+    line 27, SUBJ is R2 NotificationService Message (DEV)...needs change to RDxAlert Message dev
+    line 28, SMTP is usush-maildrop.amer.umusic.net...OK...no change.

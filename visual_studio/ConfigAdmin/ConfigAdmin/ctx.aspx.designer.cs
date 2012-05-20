@@ -22,13 +22,13 @@ namespace ConfigAdmin {
         protected global::System.Web.UI.WebControls.LinqDataSource lds_ctx;
         
         /// <summary>
-        /// GridView1 control.
+        /// gv_ctx control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView GridView1;
+        protected global::System.Web.UI.WebControls.GridView gv_ctx;
         
         /// <summary>
         /// lds_citrix control.
@@ -40,13 +40,13 @@ namespace ConfigAdmin {
         protected global::System.Web.UI.WebControls.LinqDataSource lds_citrix;
         
         /// <summary>
-        /// GridView4 control.
+        /// gv_citrix control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView GridView4;
+        protected global::System.Web.UI.WebControls.GridView gv_citrix;
         
         /// <summary>
         /// lds_sentry control.
@@ -58,30 +58,12 @@ namespace ConfigAdmin {
         protected global::System.Web.UI.WebControls.LinqDataSource lds_sentry;
         
         /// <summary>
-        /// GridView2 control.
+        /// gv_sentry control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView GridView2;
-        
-        /// <summary>
-        /// lds_rmslink control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinqDataSource lds_rmslink;
-        
-        /// <summary>
-        /// GridView3 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView GridView3;
+        protected global::System.Web.UI.WebControls.GridView gv_sentry;
     }
 }

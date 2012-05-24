@@ -21,6 +21,9 @@ class Shoe(models.Model):
     shoeType = models.ForeignKey(ShoeType, blank=True, null=True)
     add_date = models.DateTimeField('date added', null=True)
 
+    class Meta:
+        ordering = ["-name"]
+
     def __unicode__(self):
         return self.name
 

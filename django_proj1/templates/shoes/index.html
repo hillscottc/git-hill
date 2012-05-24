@@ -1,9 +1,0 @@
-{% if shoe_list %}
-    <ul>
-    {% for shoe in shoe_list %}
-        <li><a href="/shoes/{{ shoe.id }}/">{{ shoe.name }}</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No shoes are available.</p>
-{% endif %}

@@ -1,0 +1,11 @@
+
+<a href='/shoe_app'>home</a>
+
+{% block content %}
+    <h2>Shoes</h2>
+    <ul>
+        {% for shoe in object_list %}
+            <li><a href="{{ shoe.id }}/">{{ shoe.name }}</a></li>
+        {% endfor %}
+    </ul>
+{% endblock %}

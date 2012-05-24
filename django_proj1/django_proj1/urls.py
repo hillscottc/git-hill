@@ -9,6 +9,9 @@ urlpatterns = patterns('',
     # url(r'^$', 'django_proj1.views.home', name='home'),
     # url(r'^django_proj1/', include('django_proj1.foo.urls')),
 
+    url(r'^shoes/$', 'shoe_app.views.index'),
+    url(r'^shoes/(?P<shoe_id>\d+)/$','shoe_app.views.detail'),
+
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 

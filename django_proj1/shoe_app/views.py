@@ -1,4 +1,6 @@
+from django.template import Context, loader
 from django.http import HttpResponse
+from shoe_app.models import Shoe
 
 def index(request):
     shoe_list = Shoe.objects.all().order_by('-add_date')[:5]

@@ -1,0 +1,9 @@
+
+<h2>Add / Edit Shoe</h2>
+<form action="/shoe_app/shoe_handler/" method="post">{% csrf_token %}
+{{ form.as_p }}
+<input type="submit" value="Submit" />
+</form>
+
+<br/>
+<a href='/shoe_app'>home</a>

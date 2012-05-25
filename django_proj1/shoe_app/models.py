@@ -1,6 +1,8 @@
 from django.db import models
 import datetime
 from django.utils import timezone
+from django import forms
+from django.forms import ModelForm, Textarea
 
 
 class ShoeColor(models.Model):
@@ -29,3 +31,7 @@ class Shoe(models.Model):
 
     def was_added_recently(self):
         return self.add_date >= timezone.now() - datetime.timedelta(days=1)
+
+class ShoeForm(ModelForm):
+    class Meta:
+        model = Shoe

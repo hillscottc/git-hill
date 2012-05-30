@@ -1,17 +1,41 @@
 from django.shortcuts import render_to_response
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponse
+from django.http import HttpResponseRedirect
+from django.template import Context
+from django.template.loader import get_template
 from shoe_app.models import Shoe
 from shoe_app.models import ShoeForm
 from django.views.generic import TemplateView
 from django.template import RequestContext
 from django.contrib import auth
+from django.contrib.auth import logout
 
 def index(request):
-    shoe_list = Shoe.objects.all().order_by('-add_date')[:5]
-    return render_to_response('shoe_app/index.html',
-        {'shoe_list': shoe_list},
+    # shoe_list = Shoe.objects.all().order_by('-add_date')[:5]
+    # return render_to_response('shoe_app/index.html',
+    #     {'shoe_list': shoe_list},
+    #     context_instance=RequestContext(request))
+    #shoe_list = Shoe.objects.all().order_by('-add_date')[:5]
+    return render_to_response(
+        'shoe_app/index.html',
+        {'user': request.user},
         context_instance=RequestContext(request))
+
+
+
+    # template = get_template('shoe_app/index.html')
+    # variables = Context({ 'user': request.user })
+    # output = template.render(variables)
+    # return HttpResponse(output)
+
+
+
+def logout_page(request):
+    logout(request)
+    return HttpResponseRedirect('/')
+
 
 def detail(request, shoe_id):
     #return HttpResponse("You're looking at shoe %s." % shoe_id)
@@ -32,20 +56,6 @@ def shoe_handler(request):
     return render_to_response('shoe_app/shoe_add_edit.html',
         {'form': form,},
         context_instance=RequestContext(request))
-
-# def login_view(request):
-#     username = request.POST.get('username', '')
-#     password = request.POST.get('password', '')
-#     user = auth.authenticate(username=username, password=password)
-#     if user is not None and user.is_active:
-#         # Correct password, and the user is marked "active"
-#         auth.login(request, user)
-#         # Redirect to a success page.
-#         return HttpResponseRedirect("/shoe_app/")
-#     else:
-#         # Show an error page
-#         return HttpResponseRedirect("/shoe_app/invalid/")
-
 
 class AboutView(TemplateView):
     template_name = "shoe_app/about.html"

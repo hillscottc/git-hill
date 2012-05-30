@@ -1,13 +1,23 @@
 
-<h2>Home</h2>
 
+<html>
+<head>
+    <title>Django Site Home</title>
+</head>
 
+<body>
+<h1>Home</h1>
 
 {% if user.is_authenticated %}
-  <p>Welcome, {{ user.username }}. Thanks for logging in.</p>
+    <p>Welcome, {{ user.username }}. Thanks for logging in.</p>
+   <br/ >
+    <p><a href="/logout/">logout</a></p>
 {% else %}
-  <p>Welcome, new user. Please log in.</p>
+    <p>Welcome anonymous user!</p>
+    <p><a href="/login/">Login</a> to see your stuff.</p>
 {% endif %}
 
-<a href="shoes">Shoe List</a>
 
+
+</body>
+</html>

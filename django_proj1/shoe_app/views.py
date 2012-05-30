@@ -60,8 +60,3 @@ def shoe_handler(request):
 class AboutView(TemplateView):
     template_name = "shoe_app/about.html"
 
-class ThanksView(TemplateView):
-    template_name = "shoe_app/thanks.html"
-
-class InvalidLoginView(TemplateView):
-    template_name = "shoe_app/invalid.html"

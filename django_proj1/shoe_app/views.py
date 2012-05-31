@@ -1,6 +1,5 @@
 from django.shortcuts import render_to_response
 from django.shortcuts import get_object_or_404
-from django.http import HttpResponseRedirect, HttpResponse
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.template import Context
@@ -22,20 +21,6 @@ def index(request):
         'shoe_app/index.html',
         {'user': request.user},
         context_instance=RequestContext(request))
-
-
-
-    # template = get_template('shoe_app/index.html')
-    # variables = Context({ 'user': request.user })
-    # output = template.render(variables)
-    # return HttpResponse(output)
-
-
-
-def logout_page(request):
-    logout(request)
-    return HttpResponseRedirect('/')
-
 
 def detail(request, shoe_id):
     #return HttpResponse("You're looking at shoe %s." % shoe_id)

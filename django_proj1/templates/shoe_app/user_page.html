@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}User Page{% endblock %}
+
+{% block head %}Welcome to the User Page{% endblock %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+
+        <h2>Shoes</h2>
+        <ul>
+            {% for shoe in shoe_list %}
+                <li><a href="{{ shoe.id }}/">{{ shoe.name }}</a></li>
+            {% endfor %}
+        </ul>
+
+    {% else %}
+        <p>Welcome anonymous user!</p>
+        <p><a href="/login/">Login</a> to see your stuff.</p>
+    {% endif %}
+{% endblock %}

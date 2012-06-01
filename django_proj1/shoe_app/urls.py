@@ -8,6 +8,7 @@ from shoe_app.views import *
 
 urlpatterns = patterns('shoe_app.views',
     url(r'^$', index),
+    url(r'^user/(\w+)/$', user_page),
     # url(r'^shoes/$', ListView.as_view(model=Shoe,)),
     # url(r'^shoes/(?P<shoe_id>\d+)/$','detail'),
     # url(r'^shoe_handler/$', 'shoe_handler'),

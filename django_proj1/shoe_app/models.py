@@ -35,3 +35,8 @@ class Shoe(models.Model):
 class ShoeForm(ModelForm):
     class Meta:
         model = Shoe
+
+
+class Tag(models.Model):
+    name = models.CharField(max_length=64, unique=True)
+    shoes = models.ManyToManyField(Shoe)

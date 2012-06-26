@@ -46,3 +46,7 @@ class Tag(models.Model):
         return self.name
     def __unicode__(self):
         return self.name
+
+class TagForm(ModelForm):
+    class Meta:
+        model = Tag

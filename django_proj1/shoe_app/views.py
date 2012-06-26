@@ -19,6 +19,9 @@ def index(request):
         {'user': request.user},
         context_instance=RequestContext(request))
 
+class AboutView(TemplateView):
+    template_name = "shoe_app/about.html"
+
 def user_page(request, username):
     user = get_object_or_404(User, username='hills')
     shoe_list = Shoe.objects.all().order_by('-add_date')[:5]
@@ -26,7 +29,6 @@ def user_page(request, username):
         'shoe_app/user_page.html',
         {'shoe_list': shoe_list, 'username': username},
         context_instance=RequestContext(request))
-
 
 def detail(request, shoe_id):
     #return HttpResponse("You're looking at shoe %s." % shoe_id)
@@ -36,8 +38,8 @@ def detail(request, shoe_id):
 
 def shoe_handler(request):
     if request.method == 'POST':
-        form = ShoeForm(request.POST) # form bound to  POST data
-        if form.is_valid(): # All validation rules pass
+        form = ShoeForm(request.POST)
+        if form.is_valid():
             # Process the data in form.cleaned_data
             # ...
             return HttpResponseRedirect('/shoe_app/thanks/') # Redirect after POST
@@ -48,6 +50,5 @@ def shoe_handler(request):
         {'form': form,},
         context_instance=RequestContext(request))
 
-class AboutView(TemplateView):
-    template_name = "shoe_app/about.html"
+
 

@@ -1,8 +1,0 @@
-﻿CREATE TABLE [DRA].[RightsPeriod]
-(
-	[RIGHTS_PERIOD_ID] [numeric](38, 0) NOT NULL,
-	[DESCRIPTION] [nvarchar](30) NOT NULL,
-	[CHANGE_CODE] [varchar](2) DEFAULT 'I' NOT NULL,
-	[CHANGE_DATE_TIME] [datetime] DEFAULT GETDATE() NOT NULL,
-	[WORKFLOW_CODE] [varchar](2) NOT NULL DEFAULT ('L')
-) ON [PRIMARY]

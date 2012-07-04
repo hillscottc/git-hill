@@ -1,9 +1,0 @@
-﻿-- =============================================
--- Author:		Valentin Kantchev
--- Create date: 05/20/2009
--- Description:	Deletes all records form R2.LoadProject
--- =============================================
-CREATE PROCEDURE R2.ProjectExtractLoadProjectClear 
-AS
-	truncate table R2.LoadProject
-GO

@@ -1,9 +1,0 @@
-﻿CREATE TABLE [DRA].[LoadEntityCountryRightMV]
-(
-	[ID] [bigint] IDENTITY(1,1) NOT NULL,
-	[ENTITY_CLEARANCE_SET_ID] [numeric](38, 0) NOT NULL,
-	[COUNTRY_ID] [nvarchar](2) NOT NULL,
-	[CHANGE_CODE] [varchar](2) DEFAULT 'C' NOT NULL,
-	[CHANGE_DATE_TIME] [datetime] DEFAULT GETDATE() NOT NULL,
-	[WORKFLOW_CODE] [varchar](2) DEFAULT 'E' NOT NULL
-) ON [PRIMARY]

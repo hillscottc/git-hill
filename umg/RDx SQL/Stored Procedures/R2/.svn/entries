@@ -1,0 +1,258 @@
+10
+
+dir
+1123
+svn://usfshwsapp134/RDx/trunk/DB/DatabaseETL/Schema%20Objects/Stored%20Procedures/R2
+svn://usfshwsapp134/RDx
+
+
+
+2010-02-25T23:51:23.856109Z
+1054
+FolgerW
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+9047c553-bb44-e44f-91f4-be02ee175f4a
+
+LabelLoad
+dir
+
+TrackLocalLoad
+dir
+
+ReleaseLoad
+dir
+
+ControlLoad
+dir
+
+ResourceExcerptLoad
+dir
+
+ResourceMedleyExtract
+dir
+
+ResourceLoad
+dir
+
+TalentLoad
+dir
+
+TerritoryAreaExtract
+dir
+
+R2.GetCurrentSnapshotDatePDT.proc.sql
+file
+
+
+
+
+2010-04-06T17:06:00.000000Z
+3e1d7bebe9cace3656f2a96330fa8f68
+2009-07-02T18:30:36.913114Z
+8
+KantchV
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+377
+
+ReleaseLocalLoad
+dir
+
+RoleExtract
+dir
+
+TerritoryAreaLoad
+dir
+
+ConfigResourceTypeLinkLoad
+dir
+
+TalentNameRolesLoad
+dir
+
+CountryExtract
+dir
+
+ConfigExtract
+dir
+
+ProjectExtract
+dir
+
+CompanyExtract
+dir
+
+TerritoryLoad
+dir
+
+ProjectLoad
+dir
+
+CompanyLoad
+dir
+
+LabelExtract
+dir
+
+ExtractLog
+dir
+
+ContributionLoad
+dir
+
+DivisionExtract
+dir
+
+FamilyLoad
+dir
+
+TerritoryLinkLoad
+dir
+
+ResourceExtract
+dir
+
+TalentExtract
+dir
+
+ResourceResourceAssocExtract
+dir
+
+TalentNameExtract
+dir
+
+DivisionLoad
+dir
+
+R2.GetLastExtractDatePDT.proc.sql
+file
+
+
+
+
+2010-04-06T17:06:00.000000Z
+03fd75f4f6606078d4bb9c8be1a488ca
+2009-07-02T18:30:36.913114Z
+8
+KantchV
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+723
+
+ReleasePackageExtract
+dir
+
+ResourceMedleyLoad
+dir
+
+ConfigResourceTypeLinkExtract
+dir
+
+ResourceResourceAssocLoad
+dir
+
+TalentNameLoad
+dir
+
+ReleasePackageLoad
+dir
+
+TerritoryExtract
+dir
+
+TrackExtract
+dir
+
+ReleaseResourceLinkExtract
+dir
+
+RoleLoad
+dir
+
+ResourceLocalLoad
+dir
+
+CountryLoad
+dir
+
+TrackLoad
+dir
+
+ConfigLoad
+dir
+
+ReleaseResourceLinkLoad
+dir
+
+ContributionExtract
+dir
+
+ReleaseExtract
+dir
+
+ControlExtract
+dir
+
+FamilyExtract
+dir
+
+TerritoryLinkExtract
+dir
+
+ResourceExcerptExtract
+dir
+
+TransformLog
+dir
+

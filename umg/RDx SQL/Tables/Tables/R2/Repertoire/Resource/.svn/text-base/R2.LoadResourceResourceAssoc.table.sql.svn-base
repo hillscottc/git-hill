@@ -1,0 +1,8 @@
+﻿CREATE TABLE [R2].[LoadResourceResourceAssoc](
+	[RESOURCE_RESOURCE_ASSOC_ID] [numeric](38, 0) NOT NULL,
+	[RESOURCE_COMPANY_LINK_ID] [numeric](38, 0) NOT NULL,
+	[RESOURCE_ID] [numeric](38, 0) NOT NULL,
+	[AUDIT_DATE_CREATED] [datetime] NOT NULL,
+	[AUDIT_DATE_CHANGED] [datetime] NOT NULL,
+	[AUDIT_EMPLOYEE_NO] [numeric](38, 0) NOT NULL
+) ON [PRIMARY]

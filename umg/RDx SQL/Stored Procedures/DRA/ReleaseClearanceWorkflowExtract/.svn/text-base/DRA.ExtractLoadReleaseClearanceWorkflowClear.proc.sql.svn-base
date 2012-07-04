@@ -1,0 +1,9 @@
+﻿-- =============================================
+-- Author:		Valentin Kantchev
+-- Create date: 05/20/2009
+-- Description:	Deletes all records form DRA.LoadClearance
+-- =============================================
+CREATE PROCEDURE DRA.ExtractLoadReleaseClearanceWorkflowClear 
+AS
+	truncate table DRA.LoadReleaseClearanceWorkflow
+GO

@@ -1,0 +1,3 @@
+﻿ALTER TABLE [CTX].[DataContractDeleted]
+	ADD CONSTRAINT [PK_DataContractDeleted]
+	PRIMARY KEY NONCLUSTERED (ID)

@@ -1,0 +1,126 @@
+10
+
+dir
+1123
+svn://usfshwsapp134/RDx/trunk/DB/DatabaseETL/Schema%20Objects/Tables/Indexes/DRA
+svn://usfshwsapp134/RDx
+
+
+
+2009-11-20T22:00:36.211399Z
+818
+KantchV
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+9047c553-bb44-e44f-91f4-be02ee175f4a
+
+EntityRightsPeriod
+dir
+
+EntityCountryRightMV
+dir
+
+DRA.ExtractDriverEntityClearanceSet.ChangeCode.index.sql
+file
+
+
+
+
+2010-04-06T16:48:08.000000Z
+4f201239ae70354beaf80a0262cc2886
+2009-07-23T21:51:34.678651Z
+69
+KantchV
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+95
+
+EntityClearanceSet
+dir
+
+EntityRejectionReason
+dir
+
+DRA.ExtractDriverEntityClearanceSet.EntityClearanceSetID.index.sql
+file
+
+
+
+
+2010-04-06T16:48:09.000000Z
+4961d228be7f4658478b0c2d556ab212
+2009-07-23T21:51:34.678651Z
+69
+KantchV
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+117
+
+Delta
+dir
+
+ReleaseClearanceWorkflow
+dir
+
+EntityClearance
+dir
+
+Clearance
+dir
+
+EntityCountryRight
+dir
+
+EntityTerritoryRight
+dir
+

@@ -1,0 +1,12 @@
+﻿CREATE PROCEDURE R2.ReleaseExtractClearSourceDriver
+AS
+	execute ('
+		DELETE FROM PARTNER.DRIVER_KEY
+		WHERE REPERTOIRE_TYPE = ''PRODCT''
+	') at R2
+	
+	execute ('
+		DELETE FROM PARTNER.GENERIC_UPCS
+		WHERE USER_ID = ''RDXUSER'' AND TEXT1 = ''PRODCT''
+	') at R2
+	

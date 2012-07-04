@@ -1,0 +1,9 @@
+﻿-- =============================================
+-- Author:		Valentin Kantchev
+-- Create date: 05/20/2009
+-- Description:	Deletes all records form DRA.LoadRightsPeriod
+-- =============================================
+CREATE PROCEDURE DRA.ExtractLoadRightsPeriodClear 
+AS
+	truncate table DRA.LoadRightsPeriod
+GO

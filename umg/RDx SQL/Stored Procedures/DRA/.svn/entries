@@ -1,0 +1,121 @@
+10
+
+dir
+1123
+svn://usfshwsapp134/RDx/trunk/DB/DatabaseETL/Schema%20Objects/Stored%20Procedures/DRA
+svn://usfshwsapp134/RDx
+
+
+
+2010-01-28T01:10:14.648361Z
+1033
+KantchV
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+9047c553-bb44-e44f-91f4-be02ee175f4a
+
+ExploitationLoad
+dir
+
+DeltaExtract
+dir
+
+RejectionReasonExtract
+dir
+
+EntityRejectionReasonLoad
+dir
+
+EntityTerritoryRightExtract
+dir
+
+RejectionReasonLoad
+dir
+
+EntityRightsPeriodExtract
+dir
+
+EntityCountryRightMVExtract
+dir
+
+RightsPeriodExtract
+dir
+
+EntityTerritoryRightLoad
+dir
+
+EntityRightsPeriodLoad
+dir
+
+ClearanceExtract
+dir
+
+ReleaseClearanceWorkflowLoad
+dir
+
+ExploitationExtract
+dir
+
+ExtractLog
+dir
+
+ExtractDriverEntityClearance
+dir
+
+EntityClearanceSetExtract
+dir
+
+EntityRejectionReasonExtract
+dir
+
+EntityClearanceSetLoad
+dir
+
+ExploitationGroupExtract
+dir
+
+EntityCountryRightExtract
+dir
+
+ExploitationGroupLoad
+dir
+
+ExtractDriverEntityClearanceSet
+dir
+
+EntityCountryRightLoad
+dir
+
+EntityCountryRightMVLoad
+dir
+
+RightsPeriodLoad
+dir
+
+ReleaseClearanceWorkflowExtract
+dir
+
+EntityClearanceExtract
+dir
+
+EntityClearanceLoad
+dir
+
+TransformLog
+dir
+
+ClearanceLoad
+dir
+

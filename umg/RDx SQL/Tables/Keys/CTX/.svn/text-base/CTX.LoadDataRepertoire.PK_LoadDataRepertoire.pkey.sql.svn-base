@@ -1,0 +1,3 @@
+﻿ALTER TABLE [CTX].[LoadDataRepertoire]
+	ADD CONSTRAINT [PK_LoadDataRepertoire]
+	PRIMARY KEY NONCLUSTERED (ID)

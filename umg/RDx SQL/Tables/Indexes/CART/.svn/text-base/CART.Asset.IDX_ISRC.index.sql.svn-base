@@ -1,0 +1,3 @@
+﻿CREATE INDEX [CART.Asset.IDX_ISRC]
+ON CART.Asset
+	(ISRC);

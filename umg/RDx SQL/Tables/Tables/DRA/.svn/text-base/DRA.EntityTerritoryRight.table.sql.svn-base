@@ -1,0 +1,9 @@
+﻿CREATE TABLE [DRA].[EntityTerritoryRight]
+(
+	[ENTITY_CLEARANCE_SET_ID] [numeric](38, 0) NOT NULL,
+	[TERRITORY_ID] [numeric](3, 0) NOT NULL,
+	[MEMBERSHIP_STATE] [nvarchar](1) NOT NULL,
+	[CHANGE_CODE] [varchar](2) DEFAULT 'I' NOT NULL,
+	[CHANGE_DATE_TIME] [datetime] DEFAULT GETDATE() NOT NULL,
+	[WORKFLOW_CODE] [varchar](2) NOT NULL DEFAULT ('L')
+) ON [PRIMARY]

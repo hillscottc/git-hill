@@ -1,0 +1,10 @@
+﻿CREATE TABLE [DRA].[LoadEntityRightsPeriod]
+(
+	[ID] [bigint] IDENTITY(1,1) NOT NULL,
+	[ENTITY_CLEARANCE_SET_ID] [numeric](38, 0) NOT NULL,
+	[RIGHTS_PERIOD_ID] [numeric](38, 0) NOT NULL,
+	[EXPIRY_DATE] [datetime] NULL,
+	[CHANGE_CODE] [varchar](2) DEFAULT 'C' NOT NULL,
+	[CHANGE_DATE_TIME] [datetime] DEFAULT GETDATE() NOT NULL,
+	[WORKFLOW_CODE] [varchar](2) DEFAULT 'E' NOT NULL
+) ON [PRIMARY]

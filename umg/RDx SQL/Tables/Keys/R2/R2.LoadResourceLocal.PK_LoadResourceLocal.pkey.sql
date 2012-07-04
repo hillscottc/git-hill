@@ -1,0 +1,3 @@
+﻿ALTER TABLE [R2].[LoadResourceLocal]
+	ADD CONSTRAINT [PK_LoadResourceLocal]
+	PRIMARY KEY NONCLUSTERED (ID)

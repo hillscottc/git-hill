@@ -1,0 +1,6 @@
+﻿CREATE PROCEDURE R2.ContributionExtractClearSourceDriver
+AS
+	execute ('
+		DELETE FROM PARTNER.DRIVER_KEY
+		WHERE REPERTOIRE_TYPE = ''CONTRI''
+	') at R2

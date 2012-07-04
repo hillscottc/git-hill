@@ -1,0 +1,64 @@
+10
+
+dir
+1123
+svn://usfshwsapp134/RDx/trunk/DB/DatabaseETL/Schema%20Objects/Tables/Indexes/R2/Contributor
+svn://usfshwsapp134/RDx
+
+
+
+2009-11-10T18:18:26.478671Z
+772
+KantchV
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+9047c553-bb44-e44f-91f4-be02ee175f4a
+
+Contribution
+dir
+
+LoadContribution
+dir
+
+Role
+dir
+
+LoadTalentDriver
+dir
+
+LoadTalentNameDriver
+dir
+
+LoadTalent
+dir
+
+Talent
+dir
+
+LoadTalentName
+dir
+
+TalentName
+dir
+
+LoadTalentNameRolesDriver
+dir
+
+LoadContributionDriver
+dir
+
+TalentNameRoles
+dir
+

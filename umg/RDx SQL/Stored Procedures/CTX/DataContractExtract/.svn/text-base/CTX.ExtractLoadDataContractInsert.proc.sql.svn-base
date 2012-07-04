@@ -1,0 +1,62 @@
+﻿-- =============================================
+-- Author:		Valentin Kantchev
+-- Create date: 05/20/2009
+-- Description:	Loads records from CTX.CONTRAXX.CTV_DATA_CONTRACT into CTX.LoadDataContract
+-- =============================================
+CREATE PROCEDURE CTX.ExtractLoadDataContractInsert(@contractID numeric (38, 0))
+AS
+begin
+	insert into CTX.LoadDataContract
+	(
+		ORGANIZATION_ID, 
+		TEMPLATE_ID, 
+		CONTRACT_ID, 
+		CONTRACT_DESC, 
+		CONTRACT_RECORD_TYPE, 
+		CONTRACT_TYPE, 
+		UNIQUE_CONTRACT_NUMBER, 
+		ARTIST_ID, C.ARTIST, 
+		CONTRACT_SUMMARY_STATUS, 
+		COMPANY_ID, 
+		COMPANY, 
+		CONTRACT_EFFECTIVE_DATE, 
+		CURRENT_ARTIST, 
+		END_OF_TERM_DATE, 
+		HEADER_NOTES, 
+		RIGHTS_PERIOD, 
+		RIGHTS_EXPIRY_DATE, 
+		RIGHTS_EXPIRY_RULE, 
+		RIGHTS_PERIOD_NOTES, 
+		TERRITORIAL_RIGHTS_NOTES
+	)
+	execute 
+	('
+		SELECT 
+			C.ORGANIZATION_ID, 
+			C.TEMPLATE_ID, 
+			C.CONTRACT_ID, 
+			C.CONTRACT_DESC, 
+			C.CONTRACT_RECORD_TYPE, 
+			C.CONTRACT_TYPE, 
+			C.UNIQUE_CONTRACT_NUMBER, 
+			C.ARTIST_ID, C.ARTIST, 
+			C.CONTRACT_SUMMARY_STATUS, 
+			C.COMPANY_ID, 
+			C.COMPANY, 
+			C.CONTRACT_EFFECTIVE_DATE, 
+			C.CURRENT_ARTIST, 
+			C.END_OF_TERM_DATE, 
+			C.HEADER_NOTES, 
+			C.RIGHTS_PERIOD, 
+			C.RIGHTS_EXPIRY_DATE, 
+			C.RIGHTS_EXPIRY_RULE, 
+			C.RIGHTS_PERIOD_NOTES, 
+			C.TERRITORIAL_RIGHTS_NOTES
+		FROM 
+			CONTRAXX.CTV_DATA_CONTRACT C	
+		WHERE
+			C.CONTRACT_ID = ' + @contractID
+	) at CTX
+end;	
+
+

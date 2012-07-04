@@ -1,0 +1,6 @@
+﻿ALTER TABLE [CPRS].[LoadProduct]
+	ADD CONSTRAINT [PK_LoadProduct]
+	PRIMARY KEY NONCLUSTERED ([ID] ASC)
+	
+ 
+	

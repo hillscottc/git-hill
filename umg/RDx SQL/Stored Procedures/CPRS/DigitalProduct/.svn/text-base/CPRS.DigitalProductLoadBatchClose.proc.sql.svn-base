@@ -1,0 +1,14 @@
+﻿-- =============================================
+-- Author:		Valentin Kantchev
+-- Create date: 05/20/2009
+-- Description:	Closes a batch in CPRS.LoadDigitalProductDriver table.
+-- =============================================
+CREATE PROCEDURE [CPRS].[DigitalProductLoadBatchClose] 
+AS
+BEGIN
+	update CPRS.LoadDigitalProductDriver
+		set WorkflowCode = 'C'
+	where 
+		WorkflowCode = 'T'
+END
+GO

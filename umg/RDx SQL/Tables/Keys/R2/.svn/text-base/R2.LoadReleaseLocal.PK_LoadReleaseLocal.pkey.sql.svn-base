@@ -1,0 +1,3 @@
+﻿ALTER TABLE [R2].[LoadReleaseLocal]
+	ADD CONSTRAINT [PK_LoadReleaseLocal]
+	PRIMARY KEY NONCLUSTERED (ID)

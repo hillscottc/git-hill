@@ -1,0 +1,15 @@
+﻿CREATE TABLE [DRA].[LoadEntityClearance]
+(
+	[ID] [bigint] IDENTITY(1,1) NOT NULL,
+	[ENTITY_CLEARANCE_ID] [numeric](38, 0) NOT NULL,
+	[ENTITY_CLEARANCE_SET_ID] [numeric](38, 0) NULL,
+	[EXPLOITATION_ID] [numeric](38, 0) NOT NULL,
+	[CLEARANCE_ID] [numeric](38, 0) NOT NULL,
+	[CLEARANCE_STATE] [nvarchar](1) NOT NULL,
+	[DISAGGREGATION_FLAG] [nvarchar](1) NULL,
+	[NOTES] [nvarchar](4000) NULL,
+	[REJECTION_NOTES] [nvarchar](4000) NULL,
+	[CHANGE_CODE] [varchar](2) DEFAULT 'C' NOT NULL,
+	[CHANGE_DATE_TIME] [datetime] DEFAULT GETDATE() NOT NULL,
+	[WORKFLOW_CODE] [varchar](2) DEFAULT 'E' NOT NULL
+) ON [PRIMARY]

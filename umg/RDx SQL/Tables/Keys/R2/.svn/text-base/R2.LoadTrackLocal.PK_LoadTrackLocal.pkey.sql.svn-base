@@ -1,0 +1,3 @@
+﻿ALTER TABLE [R2].[LoadTrackLocal]
+	ADD CONSTRAINT [PK_LoadTrackLocal]
+	PRIMARY KEY NONCLUSTERED (ID)	

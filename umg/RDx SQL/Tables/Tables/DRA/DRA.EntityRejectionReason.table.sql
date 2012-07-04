@@ -1,0 +1,8 @@
+﻿CREATE TABLE [DRA].[EntityRejectionReason]
+(
+	[ENTITY_CLEARANCE_ID] [numeric](38, 0) NOT NULL,
+	[REJECTION_REASON_ID] [numeric](38, 0) NOT NULL,
+	[CHANGE_CODE] [varchar](2) DEFAULT 'I' NOT NULL,
+	[CHANGE_DATE_TIME] [datetime] DEFAULT GETDATE() NOT NULL,
+	[WORKFLOW_CODE] [varchar](2) NOT NULL DEFAULT ('L')
+) ON [PRIMARY]

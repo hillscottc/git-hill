@@ -1,0 +1,28 @@
+﻿CREATE PROCEDURE R2.ReleaseExtractLoadReleasePackageInsertForComponents
+AS
+
+insert into R2.LoadReleasePackage
+select * from 
+openquery (R2,
+'
+SELECT DISTINCT
+    R.RELEASE_ID, 
+    R.COMPONENT_RELEASE_ID, 
+    R.SEQUENCE_NO, 
+    R.UPC, 
+    R.GRID, 
+    R.COMPONENT_UPC, 
+    R.COMPONENT_GRID,
+	DK.ACTION_CODE CHANGE_CODE,
+    DK.GENERIC_DATE CHANGE_DATE_TIME,
+    ''E'' WORKFLOW_CODE
+FROM 
+    IFE.RELEASE_PACKAGE_DETAIL R,
+    PARTNER.DRIVER_KEY DK
+WHERE 
+    R.COMPONENT_RELEASE_ID = DK.UNIQUE_ID
+    
+    AND DK.REPERTOIRE_TYPE = ''PRODCT''
+    AND DK.GENERIC_STRING = ''P''
+')
+;

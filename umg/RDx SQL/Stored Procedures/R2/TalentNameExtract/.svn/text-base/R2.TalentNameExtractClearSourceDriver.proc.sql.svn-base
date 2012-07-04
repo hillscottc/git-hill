@@ -1,0 +1,6 @@
+﻿CREATE PROCEDURE R2.TalentNameExtractClearSourceDriver
+AS
+	execute ('
+		DELETE FROM PARTNER.DRIVER_KEY
+		WHERE REPERTOIRE_TYPE = ''TALNAM''
+	') at R2

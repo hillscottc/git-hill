@@ -1,0 +1,17 @@
+﻿CREATE TABLE [R2].[ResourceExcerpt](
+	[RESOURCE_RESOURCE_LINK_ID] [numeric](38, 0) NOT NULL,
+	[PARENT_RESOURCE_ID] [numeric](38, 0) NULL,
+	[PARENT_ISRC] [nvarchar](12) NULL,
+	[CHILD_RESOURCE_ID] [numeric](38, 0) NOT NULL,
+	[CHILD_ISRC] [nvarchar](12) NULL,
+	[EXCERPT_START_TIME] [numeric](38, 0) NULL,
+	[EXCERPT_START_TIME_DISPLAY] [nvarchar](max) NULL,
+	[EXCERPT_DURATION] [numeric](38, 0) NOT NULL,
+	[EXCERPT_DURATION_DISPLAY] [nvarchar](max) NULL,
+	[EXCERPT_END_TIME] [numeric](38, 0) NULL,
+	[EXCERPT_END_TIME_DISPLAY] [nvarchar](max) NULL,
+	[LINK_VERSION] [nvarchar](50) NULL,
+	[CHANGE_CODE] [varchar](2) DEFAULT 'I' NOT NULL,
+	[CHANGE_DATE_TIME] [datetime] DEFAULT GETDATE() NOT NULL,
+	[WORKFLOW_CODE] [varchar](2) NOT NULL DEFAULT ('L')
+) ON [PRIMARY]

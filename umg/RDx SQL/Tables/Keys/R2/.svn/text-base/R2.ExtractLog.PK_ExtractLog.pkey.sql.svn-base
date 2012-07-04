@@ -1,0 +1,3 @@
+﻿ALTER TABLE [R2].[ExtractLog]
+	ADD CONSTRAINT [PK_ExtractLog]
+	PRIMARY KEY CLUSTERED (ID)

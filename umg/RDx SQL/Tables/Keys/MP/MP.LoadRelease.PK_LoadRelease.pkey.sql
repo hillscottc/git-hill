@@ -1,0 +1,3 @@
+﻿ALTER TABLE [MP].[LoadRelease]
+	ADD CONSTRAINT [PK_LoadRelease]
+	PRIMARY KEY NONCLUSTERED (ID) 

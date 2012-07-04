@@ -1,0 +1,10 @@
+﻿CREATE TABLE [CTX].[MetaProperty](
+	[META_PROPERTY_ID] [bigint] IDENTITY(1,1) NOT NULL,
+	[ORGANIZATION_ID] numeric (38, 0) NOT NULL,
+	[TEMPLATE_ID] numeric (38, 0) NOT NULL,
+	[FIELD] [nvarchar](42) NULL,
+	[NOTES] [nvarchar](100) NULL,
+	[CHANGE_CODE] [varchar](2) DEFAULT 'I' NOT NULL,
+	[CHANGE_DATE_TIME] [datetime] DEFAULT GETDATE() NOT NULL,
+	[WORKFLOW_CODE] [varchar](2) NOT NULL DEFAULT ('L')
+) ON [PRIMARY]

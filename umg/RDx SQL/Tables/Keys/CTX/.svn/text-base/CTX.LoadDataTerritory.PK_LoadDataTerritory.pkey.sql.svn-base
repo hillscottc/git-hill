@@ -1,0 +1,3 @@
+﻿ALTER TABLE [CTX].[LoadDataTerritory]
+	ADD CONSTRAINT [PK_LoadDataTerritory]
+	PRIMARY KEY NONCLUSTERED (ID)

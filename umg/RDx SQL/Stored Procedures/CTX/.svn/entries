@@ -1,0 +1,79 @@
+10
+
+dir
+1123
+svn://usfshwsapp134/RDx/trunk/DB/DatabaseETL/Schema%20Objects/Stored%20Procedures/CTX
+svn://usfshwsapp134/RDx
+
+
+
+2010-01-25T22:39:42.377560Z
+1022
+KantchV
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+9047c553-bb44-e44f-91f4-be02ee175f4a
+
+MetaExploitationExtract
+dir
+
+DeltaExtract
+dir
+
+MetaPropertyExtract
+dir
+
+MetaExploitationLoad
+dir
+
+ExtractDriver
+dir
+
+DataTerritoryExtract
+dir
+
+DataContractDeletedExtract
+dir
+
+MetaPropertyLoad
+dir
+
+DataTerritoryLoad
+dir
+
+DataContractExtract
+dir
+
+DataExploitationExtract
+dir
+
+DataRepertoireExtract
+dir
+
+DataContractLoad
+dir
+
+DataExploitationLoad
+dir
+
+DataRepertoireLoad
+dir
+
+ExtractLog
+dir
+
+TransformLog
+dir
+

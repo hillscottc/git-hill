@@ -1,0 +1,6 @@
+﻿CREATE PROCEDURE R2.ProjectExtractClearSourceDriver
+AS
+	execute ('
+		DELETE FROM PARTNER.DRIVER_KEY
+		WHERE REPERTOIRE_TYPE = ''PROJCT''
+	') at R2

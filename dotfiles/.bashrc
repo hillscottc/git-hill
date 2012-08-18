@@ -34,7 +34,7 @@
 # set -o ignoreeof
 #
 # Use case-insensitive filename globbing
-# shopt -s nocaseglob
+ shopt -s nocaseglob
 #
 #
 # When changing directory small typos can be ignored by bash

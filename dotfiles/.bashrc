@@ -108,10 +108,18 @@
  alias fgrep='fgrep --color=auto'              # show differences in colour
  alias h=history
  #alias cd..="cd .."
- #alias l="ls -al"
+ alias l="ls -al"
  #alias lp="ls -p"
+ alias c:='cd /cygdrive/c'
 
+#if you don't like the annoying end-of-line beeps:
+set bell-style none
 
+# to show all spec characters
+set meta-flag On
+set input-meta On
+set output-meta On
+set convert-meta Off
 
 # Some shortcuts for different directory listings
 # Scott > These for rxvt only i think

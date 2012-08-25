@@ -113,7 +113,8 @@
  alias c:='cd /cygdrive/c'
 
 #if you don't like the annoying end-of-line beeps:
-set bell-style none
+set bell-style visible
+
 
 # to show all spec characters
 set meta-flag On

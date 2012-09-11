@@ -1,0 +1,79 @@
+﻿@model PagedList.IPagedList<ReceiptSite.Models.Receipt>
+
+@{
+    ViewBag.Title = "Receipt Index";
+}
+<h2>@ViewBag.Message</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+@using (Html.BeginForm())
+{
+    <p>
+        Name: @Html.TextBox("nameSearch", ViewBag.currentNameFilter as string)
+        <input type="submit" value="Search" />
+    </p>
+}
+<table>
+    <tr>
+        <th>
+            @Html.ActionLink("Name", "Index", new { sortOrder = ViewBag.NameSortParm, currentNameFilter = ViewBag.currentNameFilter })
+        </th>
+        <th>
+            @Html.ActionLink("Date_Added", "Index", new { sortOrder = ViewBag.DateSortParm, currentNameFilter = ViewBag.currentNameFilter })
+        </th>
+        <th>
+            Image
+        </th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+         
+               @Html.ActionLink(item.Name, "Details", new { id = item.id })
+                
+                @Html.DisplayFor(modelItem => item.id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreateDate)
+            </td>
+            <td>
+                <img src="@Url.Content(item.ImageBank.ImageFilePath)" alt="receipt" width="200" />
+            </td>
+        </tr>
+    }
+</table>
+<div>
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)
+    of @Model.PageCount
+    @if (Model.HasPreviousPage)
+    {
+        @Html.ActionLink("<<", "Index", new { page = 1, sortOrder = ViewBag.CurrentSort, currentNameFilter = ViewBag.currentNameFilter })
+        @Html.Raw(" ");
+        @Html.ActionLink("< Prev", "Index", new { page = Model.PageNumber - 1, sortOrder = ViewBag.CurrentSort, currentNameFilter = ViewBag.currentNameFilter })
+    }
+    else
+    {
+        @:<<
+        @Html.Raw(" ");
+        @:< Prev
+        }
+    @if (Model.HasNextPage)
+    {
+        @Html.ActionLink("Next >", "Index", new { page = Model.PageNumber + 1, sortOrder = ViewBag.CurrentSort, currentNameFilter = ViewBag.currentNameFilter })
+        @Html.Raw(" ");
+        @Html.ActionLink(">>", "Index", new { page = Model.PageCount, sortOrder = ViewBag.CurrentSort, currentNameFilter = ViewBag.currentNameFilter })
+    }
+    else
+    {
+        @:Next >
+        @Html.Raw(" ")
+        @:>>
+        }
+</div>
+
+
+

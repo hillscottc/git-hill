@@ -14,25 +14,28 @@ namespace ReceiptSite.Models
 
     public class ReceiptMetadata
     {
+        [Required]
         public int id { get; set; }
+
+        [Required]
         public string Name { get; set; }
 
         [DisplayName("The text to write")]
         public string TextData { get; set; }
 
-        [DisplayName("Modified Image")]
+        [Required]
+        [DisplayName("Modified image")]
         public Nullable<int> ReceiptImageId { get; set; }
 
-        [DisplayName("Blank Image")]
+        [Required]
+        [DisplayName("Blank image")]
         public Nullable<int> BlankImageId { get; set; }
 
+        [Required]
         public Nullable<bool> Active { get; set; }
+
+        [Required]
         public Nullable<System.DateTime> CreateDate { get; set; }
 
-        //[DisplayName("Blank Image")]
-        //public virtual ImageBank ImageBank;
-
-        //[DisplayName("Modified Image")]
-        //public virtual ImageBank ImageBank1;
     }
 }

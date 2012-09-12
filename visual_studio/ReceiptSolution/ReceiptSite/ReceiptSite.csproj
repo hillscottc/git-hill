@@ -77,10 +77,10 @@
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\ImageBank.cs">
-      <DependentUpon>ReceiptsModel.tt</DependentUpon>
+      <DependentUpon>Receipts.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Receipt.cs">
-      <DependentUpon>ReceiptsModel.tt</DependentUpon>
+      <DependentUpon>Receipts.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ReceiptMetadata.cs" />
     <Compile Include="Models\ReceiptModel.Designer.cs">
@@ -88,15 +88,15 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ReceiptModel.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Models\ReceiptsModel.Context.cs">
+    <Compile Include="Models\Receipts.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>ReceiptsModel.Context.tt</DependentUpon>
+      <DependentUpon>Receipts.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ReceiptsModel.cs">
+    <Compile Include="Models\Receipts.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>ReceiptsModel.tt</DependentUpon>
+      <DependentUpon>Receipts.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Content\ReceiptRoot\blanks\blank1.jpg" />
@@ -115,13 +115,13 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>ReceiptModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="Models\ReceiptsModel.Context.tt">
+    <None Include="Models\Receipts.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ReceiptsModel.Context.cs</LastGenOutput>
+      <LastGenOutput>Receipts.Context.cs</LastGenOutput>
     </None>
-    <None Include="Models\ReceiptsModel.tt">
+    <None Include="Models\Receipts.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ReceiptsModel.cs</LastGenOutput>
+      <LastGenOutput>Receipts.cs</LastGenOutput>
     </None>
     <None Include="Views\Receipt\Create.cshtml" />
     <Content Include="Views\Receipt\Index.cshtml" />

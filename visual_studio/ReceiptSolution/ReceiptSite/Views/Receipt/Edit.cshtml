@@ -28,27 +28,22 @@
             @Html.TextBoxFor(model => model.TextData, new { style = "width: 500px;" })
         </div>
         <div class="editor-label">
-            @*  Using the label for the id here. *@
             @Html.LabelFor(model => model.ReceiptImageId)
         </div>
         <div class="editor-field">
-            <img src="@Url.Content(Model.ImageBank1.ImageFilePath)" alt="receipt" width="200" />
+            @Html.DropDownList("receiptImageList")
+            <img src="@Url.Content(Model.ImageBank.ImageFilePath)" alt="receipt" width="200" />
         </div>
         <div class="editor-label">
-            @*  Using the label for the id here. *@
             @Html.LabelFor(model => model.BlankImageId)
         </div>
         <div class="editor-field">
-            <img src="@Url.Content(Model.ImageBank.ImageFilePath)" alt="receipt" width="200" />
+            @Html.DropDownList("blankImageList")
+            <img src="@Url.Content(Model.ImageBank1.ImageFilePath)" alt="receipt" width="200" />
         </div>
         @* 
-         <div class="editor-label">
-            @Html.LabelFor(model => model.Play_Count)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Play_Count)
             @Html.ValidationMessageFor(model => model.Play_Count)
-        </div>*@
+       *@
         <p>
             <input type="submit" value="Save" />
         </p>

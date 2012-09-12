@@ -1,5 +1,4 @@
 ﻿@model ReceiptSite.Models.Receipt
-
 @{
     ViewBag.Title = "Details";
 }
@@ -8,42 +7,49 @@
     @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
     @Html.ActionLink("Delete", "Delete", new { id = Model.id })
 </p>
-<div>
-    <div class="display-label">
-        @Html.LabelFor(model => model.Name)
+<div style="overflow: hidden; width: 100%;">
+    <div style="float: left; width: 48%; border: 2px solid #5c87b2">
+        <fieldset>
+            <div class="display-label">
+                @Html.LabelFor(model => model.Name)
+            </div>
+            <div class="display-field">
+                @Html.DisplayFor(model => model.Name)
+            </div>
+            <div class="display-label">
+                @Html.LabelFor(model => model.TextData)
+            </div>
+            <div class="display-field">
+                @Html.DisplayFor(model => model.TextData)
+            </div>
+            <div class="display-label">
+                @Html.LabelFor(model => model.Active)
+            </div>
+            <div class="display-field">
+                @Html.DisplayFor(model => model.Active)
+            </div>
+            <div class="display-label">
+                @Html.LabelFor(model => model.CreateDate)
+            </div>
+            <div class="display-field">
+                @Html.DisplayFor(model => model.CreateDate)
+            </div>
+        </fieldset>
     </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Name)
-    </div>
-    <div class="display-label">
-        @Html.LabelFor(model => model.TextData)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.TextData)
-    </div>
-    <div class="display-label">
-        @Html.LabelFor(model => model.ReceiptImageId)
-    </div>
-    <div class="display-field">
-        <img src="@Url.Content(Model.ImageBank1.ImageFilePath)" alt="receipt" width="200" />
-    </div>
-    <div class="display-label">
-        @Html.LabelFor(model => model.BlankImageId)
-    </div>
-    <div class="display-field">
-        <img src="@Url.Content(Model.ImageBank.ImageFilePath)" alt="receipt" width="200" />
-    </div>
-    <div class="display-label">
-        @Html.LabelFor(model => model.Active)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Active)
-    </div>
-    <div class="display-label">
-        @Html.LabelFor(model => model.CreateDate)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.CreateDate)
+    <div style="float: right; width: 48%; border: 2px solid #5c87b2">
+        <fieldset>
+            <div class="display-label">
+                @Html.LabelFor(model => model.ReceiptImageId)
+            </div>
+            <div class="display-field">
+                <img src="@Url.Content(Model.ImageBank1.ImageFilePath)" alt="receipt" width="200" />
+            </div>
+            <div class="display-label">
+                @Html.LabelFor(model => model.BlankImageId)
+            </div>
+            <div class="display-field">
+                <img src="@Url.Content(Model.ImageBank.ImageFilePath)" alt="receipt" width="200" />
+            </div>
+        </fieldset>
     </div>
 </div>
-

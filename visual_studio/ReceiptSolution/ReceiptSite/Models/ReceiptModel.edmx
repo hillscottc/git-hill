@@ -22,9 +22,9 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="ImageType" Type="char" MaxLength="1" />
+          <Property Name="ImageType" Type="char" Nullable="false" MaxLength="1" />
           <Property Name="Image" Type="varbinary(max)" />
-          <Property Name="ImageFilePath" Type="varchar" MaxLength="250" />
+          <Property Name="ImageFilePath" Type="varchar" Nullable="false" MaxLength="250" />
           <Property Name="Thumbnail" Type="varbinary(max)" />
           <Property Name="ThumbnailFilePath" Type="varchar" MaxLength="250" />
         </EntityType>
@@ -33,15 +33,15 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="varchar" MaxLength="25" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="25" />
           <Property Name="TextData" Type="varchar" MaxLength="1000" />
-          <Property Name="ReceiptImageId" Type="int" />
-          <Property Name="BlankImageId" Type="int" />
-          <Property Name="Active" Type="bit" />
-          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="ReceiptImageId" Type="int" Nullable="false" />
+          <Property Name="BlankImageId" Type="int" Nullable="false" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
         </EntityType>
         <Association Name="FK_Receipt_ImageBlank">
-          <End Role="ImageBank" Type="ReceiptsModel.Store.ImageBank" Multiplicity="0..1" />
+          <End Role="ImageBank" Type="ReceiptsModel.Store.ImageBank" Multiplicity="1" />
           <End Role="Receipt" Type="ReceiptsModel.Store.Receipt" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="ImageBank">
@@ -53,7 +53,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Receipt_ImageMain">
-          <End Role="ImageBank" Type="ReceiptsModel.Store.ImageBank" Multiplicity="0..1" />
+          <End Role="ImageBank" Type="ReceiptsModel.Store.ImageBank" Multiplicity="1" />
           <End Role="Receipt" Type="ReceiptsModel.Store.Receipt" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="ImageBank">
@@ -88,9 +88,9 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="ImageType" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Type="String" Name="ImageType" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
           <Property Type="Binary" Name="Image" MaxLength="Max" FixedLength="false" />
-          <Property Type="String" Name="ImageFilePath" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ImageFilePath" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Type="Binary" Name="Thumbnail" MaxLength="Max" FixedLength="false" />
           <Property Type="String" Name="ThumbnailFilePath" MaxLength="250" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Receipts" Relationship="ReceiptsModel.FK_Receipt_ImageBlank" FromRole="ImageBank" ToRole="Receipt" />
@@ -101,17 +101,17 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="Name" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="TextData" MaxLength="1000" FixedLength="false" Unicode="false" />
-          <Property Type="Int32" Name="ReceiptImageId" />
-          <Property Type="Int32" Name="BlankImageId" />
-          <Property Type="Boolean" Name="Active" />
-          <Property Type="DateTime" Name="CreateDate" />
+          <Property Type="Int32" Name="ReceiptImageId" Nullable="false" />
+          <Property Type="Int32" Name="BlankImageId" Nullable="false" />
+          <Property Type="Boolean" Name="Active" Nullable="false" />
+          <Property Type="DateTime" Name="CreateDate" Nullable="false" />
           <NavigationProperty Name="ImageBank" Relationship="ReceiptsModel.FK_Receipt_ImageBlank" FromRole="Receipt" ToRole="ImageBank" />
           <NavigationProperty Name="ImageBank1" Relationship="ReceiptsModel.FK_Receipt_ImageMain" FromRole="Receipt" ToRole="ImageBank" />
         </EntityType>
         <Association Name="FK_Receipt_ImageBlank">
-          <End Type="ReceiptsModel.ImageBank" Role="ImageBank" Multiplicity="0..1" />
+          <End Type="ReceiptsModel.ImageBank" Role="ImageBank" Multiplicity="1" />
           <End Type="ReceiptsModel.Receipt" Role="Receipt" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="ImageBank">
@@ -123,7 +123,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Receipt_ImageMain">
-          <End Type="ReceiptsModel.ImageBank" Role="ImageBank" Multiplicity="0..1" />
+          <End Type="ReceiptsModel.ImageBank" Role="ImageBank" Multiplicity="1" />
           <End Type="ReceiptsModel.Receipt" Role="Receipt" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="ImageBank">

@@ -16,13 +16,13 @@
         <fieldset>
             <legend>Make a Receipt</legend>
             <p>
-                @Html.LabelFor(m => m.ImageFilePath)
-                @Html.DropDownListFor(m => m.ImageFilePath, (SelectList)ViewData["blankImageList"])
+                @Html.LabelFor(m => m.ReceiptImageId)
+                @Html.DropDownListFor(m => m.ReceiptImageId, (SelectList)ViewData["blankImageList"])
             </p>
             <p>
-                @Html.LabelFor(m => m.Text)
-                @Html.EditorFor(m => m.Text)
-                @Html.ValidationMessageFor(m => m.Text)
+                @Html.LabelFor(m => m.TextData)
+                @Html.EditorFor(m => m.TextData)
+                @Html.ValidationMessageFor(m => m.TextData)
             </p>
             <p>
                 <input type="submit" value="Save" />

@@ -100,21 +100,23 @@ namespace ReceiptSite.Controllers
 
         public ViewResult Details(int id)
         {
-            //Receipt receipt = (from r in context.Receipts
-            //                   where r.id.Equals(id)
-            //                   select r).Single<Receipt>();
             Receipt receipt = context.Receipts.Find(id);
-
             return View(receipt);
         }
 
 
         public ActionResult Edit(int id)
         {
-            //Receipt receipt = (from r in context.Receipts
-            //                   where r.id.Equals(id)
-            //                   select r).Single<Receipt>();
             Receipt receipt = context.Receipts.Find(id);
+       
+            var blankImages = context.ImageBanks.Where(i => i.ImageType.Equals("B"));
+            var receiptImages = context.ImageBanks.Where(i => i.ImageType.Equals("R"));
+
+            ViewData["blankImageList"] = 
+                new SelectList(blankImages, "Id", "ImageFilePath", receipt.BlankImageId);
+            ViewData["receiptImageList"] =
+                new SelectList(receiptImages, "Id", "ImageFilePath", receipt.ReceiptImageId);
+
             return View(receipt);
         }
 

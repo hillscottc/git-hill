@@ -17,10 +17,10 @@ namespace ReceiptSite.Models
         public int id { get; set; }
         public string Name { get; set; }
         public string TextData { get; set; }
-        public Nullable<int> ReceiptImageId { get; set; }
-        public Nullable<int> BlankImageId { get; set; }
-        public Nullable<bool> Active { get; set; }
-        public Nullable<System.DateTime> CreateDate { get; set; }
+        public int ReceiptImageId { get; set; }
+        public int BlankImageId { get; set; }
+        public bool Active { get; set; }
+        public System.DateTime CreateDate { get; set; }
     
         public virtual ImageBank ImageBank { get; set; }
         public virtual ImageBank ImageBank1 { get; set; }

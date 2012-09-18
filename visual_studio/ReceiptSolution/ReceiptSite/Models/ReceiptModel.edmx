@@ -1,0 +1,203 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ReceiptsModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="ReceiptsModelStoreContainer">
+          <EntitySet Name="ImageBank" EntityType="ReceiptsModel.Store.ImageBank" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Receipt" EntityType="ReceiptsModel.Store.Receipt" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_Receipt_ImageBlank" Association="ReceiptsModel.Store.FK_Receipt_ImageBlank">
+            <End Role="ImageBank" EntitySet="ImageBank" />
+            <End Role="Receipt" EntitySet="Receipt" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Receipt_ImageMain" Association="ReceiptsModel.Store.FK_Receipt_ImageMain">
+            <End Role="ImageBank" EntitySet="ImageBank" />
+            <End Role="Receipt" EntitySet="Receipt" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="ImageBank">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ImageType" Type="char" Nullable="false" MaxLength="1" />
+          <Property Name="Image" Type="varbinary(max)" />
+          <Property Name="ImageFilePath" Type="varchar" Nullable="false" MaxLength="250" />
+          <Property Name="Thumbnail" Type="varbinary(max)" />
+          <Property Name="ThumbnailFilePath" Type="varchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="Receipt">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="25" />
+          <Property Name="TextData" Type="varchar" MaxLength="1000" />
+          <Property Name="ReceiptImageId" Type="int" Nullable="false" />
+          <Property Name="BlankImageId" Type="int" Nullable="false" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Receipt_ImageBlank">
+          <End Role="ImageBank" Type="ReceiptsModel.Store.ImageBank" Multiplicity="1" />
+          <End Role="Receipt" Type="ReceiptsModel.Store.Receipt" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ImageBank">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Receipt">
+              <PropertyRef Name="BlankImageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Receipt_ImageMain">
+          <End Role="ImageBank" Type="ReceiptsModel.Store.ImageBank" Multiplicity="1" />
+          <End Role="Receipt" Type="ReceiptsModel.Store.Receipt" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ImageBank">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Receipt">
+              <PropertyRef Name="ReceiptImageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="InsertImage" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ImageFilePath" Type="varchar" Mode="In" />
+        </Function>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ReceiptsModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="ReceiptsEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ImageBanks" EntityType="ReceiptsModel.ImageBank" />
+          <EntitySet Name="Receipts" EntityType="ReceiptsModel.Receipt" />
+          <AssociationSet Name="FK_Receipt_ImageBlank" Association="ReceiptsModel.FK_Receipt_ImageBlank">
+            <End Role="ImageBank" EntitySet="ImageBanks" />
+            <End Role="Receipt" EntitySet="Receipts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Receipt_ImageMain" Association="ReceiptsModel.FK_Receipt_ImageMain">
+            <End Role="ImageBank" EntitySet="ImageBanks" />
+            <End Role="Receipt" EntitySet="Receipts" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="ImageBank">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="ImageType" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Type="Binary" Name="Image" MaxLength="Max" FixedLength="false" />
+          <Property Type="String" Name="ImageFilePath" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Type="Binary" Name="Thumbnail" MaxLength="Max" FixedLength="false" />
+          <Property Type="String" Name="ThumbnailFilePath" MaxLength="250" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Receipts" Relationship="ReceiptsModel.FK_Receipt_ImageBlank" FromRole="ImageBank" ToRole="Receipt" />
+          <NavigationProperty Name="Receipts1" Relationship="ReceiptsModel.FK_Receipt_ImageMain" FromRole="ImageBank" ToRole="Receipt" />
+        </EntityType>
+        <EntityType Name="Receipt">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="TextData" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="ReceiptImageId" Nullable="false" />
+          <Property Type="Int32" Name="BlankImageId" Nullable="false" />
+          <Property Type="Boolean" Name="Active" Nullable="false" />
+          <Property Type="DateTime" Name="CreateDate" Nullable="false" />
+          <NavigationProperty Name="ImageBank" Relationship="ReceiptsModel.FK_Receipt_ImageBlank" FromRole="Receipt" ToRole="ImageBank" />
+          <NavigationProperty Name="ImageBank1" Relationship="ReceiptsModel.FK_Receipt_ImageMain" FromRole="Receipt" ToRole="ImageBank" />
+        </EntityType>
+        <Association Name="FK_Receipt_ImageBlank">
+          <End Type="ReceiptsModel.ImageBank" Role="ImageBank" Multiplicity="1" />
+          <End Type="ReceiptsModel.Receipt" Role="Receipt" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ImageBank">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Receipt">
+              <PropertyRef Name="BlankImageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Receipt_ImageMain">
+          <End Type="ReceiptsModel.ImageBank" Role="ImageBank" Multiplicity="1" />
+          <End Type="ReceiptsModel.Receipt" Role="Receipt" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ImageBank">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Receipt">
+              <PropertyRef Name="ReceiptImageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ReceiptsModelStoreContainer" CdmEntityContainer="ReceiptsEntities">
+          <EntitySetMapping Name="ImageBanks">
+            <EntityTypeMapping TypeName="ReceiptsModel.ImageBank">
+              <MappingFragment StoreEntitySet="ImageBank">
+                <ScalarProperty Name="ThumbnailFilePath" ColumnName="ThumbnailFilePath" />
+                <ScalarProperty Name="Thumbnail" ColumnName="Thumbnail" />
+                <ScalarProperty Name="ImageFilePath" ColumnName="ImageFilePath" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="ImageType" ColumnName="ImageType" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Receipts">
+            <EntityTypeMapping TypeName="ReceiptsModel.Receipt">
+              <MappingFragment StoreEntitySet="Receipt">
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="BlankImageId" ColumnName="BlankImageId" />
+                <ScalarProperty Name="ReceiptImageId" ColumnName="ReceiptImageId" />
+                <ScalarProperty Name="TextData" ColumnName="TextData" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="ReceiptModel">
+        <EntityTypeShape EntityType="ReceiptsModel.ImageBank" Width="1.5" PointX="0.75" PointY="1" Height="2.5571907552083335" />
+        <EntityTypeShape EntityType="ReceiptsModel.Receipt" Width="1.5" PointX="3" PointY="1" Height="2.7494921874999996" />
+        <AssociationConnector Association="ReceiptsModel.FK_Receipt_ImageBlank" >
+          <ConnectorPoint PointX="2.25" PointY="2.2785953776041667" />
+          <ConnectorPoint PointX="3" PointY="2.2785953776041667" />
+        </AssociationConnector>
+        <AssociationConnector Association="ReceiptsModel.FK_Receipt_ImageMain" >
+          <ConnectorPoint PointX="2.25" PointY="1.5767976888020834" />
+          <ConnectorPoint PointX="3" PointY="1.5767976888020834" />
+        </AssociationConnector>
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -13,8 +13,7 @@ namespace ReceiptSite.Controllers
 {
     public class ReceiptController : Controller
     {
-        private ReceiptsEntities context = new ReceiptsEntities();
-
+        private ReceiptsEntities db = new ReceiptsEntities();
 
         public ViewResult Index(string sortOrder, string currentNameFilter, string nameSearch, int? page)
         {
@@ -37,7 +36,7 @@ namespace ReceiptSite.Controllers
 
             ViewBag.currentNameFilter = nameSearch;
 
-            var receipts = from r in context.Receipts select r;
+            var receipts = from r in db.Receipts select r;
 
 
             if (!String.IsNullOrEmpty(nameSearch))
@@ -68,19 +67,12 @@ namespace ReceiptSite.Controllers
 
         }
 
-
         public ActionResult Create()
         {
-            // blank image dropdown
-            //context.ReceiptBlankImages.Include(a => a.Genre).Include(a => a.Artist);
+            var blankImages = db.ImageBanks.Where(i => i.ImageType.Equals("B"));
 
-            //var blanks = (context.ReceiptBlankImages).OrderByDescending(e => e);
-
-            var blanks = from i in context.ImageBanks
-                         where i.ImageType.Equals('B')
-                         select i;
-
-            ViewBag.BlankImageList = new SelectList(blanks, "Id", "Id");
+            ViewData["blankImageList"] =
+                new SelectList(blankImages, "Id", "ImageFilePath");
 
             return View();
         }
@@ -100,17 +92,16 @@ namespace ReceiptSite.Controllers
 
         public ViewResult Details(int id)
         {
-            Receipt receipt = context.Receipts.Find(id);
+            Receipt receipt = db.Receipts.Find(id);
             return View(receipt);
         }
 
-
         public ActionResult Edit(int id)
         {
-            Receipt receipt = context.Receipts.Find(id);
+            Receipt receipt = db.Receipts.Find(id);
        
-            var blankImages = context.ImageBanks.Where(i => i.ImageType.Equals("B"));
-            var receiptImages = context.ImageBanks.Where(i => i.ImageType.Equals("R"));
+            var blankImages = db.ImageBanks.Where(i => i.ImageType.Equals("B"));
+            var receiptImages = db.ImageBanks.Where(i => i.ImageType.Equals("R"));
 
             ViewData["blankImageList"] = 
                 new SelectList(blankImages, "Id", "ImageFilePath", receipt.BlankImageId);
@@ -119,15 +110,14 @@ namespace ReceiptSite.Controllers
 
             return View(receipt);
         }
-
     
         [HttpPost]
         public ActionResult Edit(Receipt r)
         {
             if (ModelState.IsValid)
             {
-                context.Entry(r).State = EntityState.Modified;
-                context.SaveChanges();
+                db.Entry(r).State = EntityState.Modified;
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(r);

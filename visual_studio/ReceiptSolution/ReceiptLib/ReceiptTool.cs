@@ -9,6 +9,12 @@ namespace ReceiptLib
 {
     public static class ReceiptTool
     {
+
+        public static FileInfo GetAppDir()
+        {
+            return new FileInfo(System.Reflection.Assembly.GetExecutingAssembly().Location);
+        }
+
         private static FileInfo getOutFile(FileInfo infile)
         {
             return new FileInfo(infile.DirectoryName + "\\new_" + infile.Name);

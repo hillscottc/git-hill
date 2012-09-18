@@ -11,7 +11,18 @@ namespace ReceiptConsole
 {
     class Program
     {
+
         static void Main(string[] args)
+        {
+            //WriteOnImage();
+
+            Console.WriteLine(ReceiptLib.ReceiptTool.GetAppDir().Directory);
+
+            Console.WriteLine("\nPress any key to end.");
+            Console.ReadKey(true);
+        }
+
+        public static void WriteOnImage()
         {
             FileInfo infile = new FileInfo("C:\\temp1\\montessori.jpg");
 
@@ -22,8 +33,6 @@ namespace ReceiptConsole
 
             Console.WriteLine(string.Format("\nWrote '{0}' to {1}", txt, outfile.FullName));
 
-            Console.WriteLine("\nPress any key to end.");
-            Console.ReadKey(true);
         }
     }
 }

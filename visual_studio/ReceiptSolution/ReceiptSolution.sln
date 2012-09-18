@@ -18,7 +18,19 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReceiptSite.Tests", "Receip
 EndProject
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "ReceiptDj", "ReceiptDj\ReceiptDj.pyproj", "{699F0F78-157B-4962-A560-3D3F74A139BB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReceiptLib.Tests", "ReceiptLib.Tests\ReceiptLib.Tests.csproj", "{14AEF93B-4482-453C-A5A3-421CDB070E30}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E96DDAA4-5884-4485-ACE6-F208E1EAFB21}"
+	ProjectSection(SolutionItems) = preProject
+		Local.testsettings = Local.testsettings
+		ReceiptSolution.vsmdi = ReceiptSolution.vsmdi
+		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
+	EndProjectSection
+EndProject
 Global
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = ReceiptSolution.vsmdi
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -74,6 +86,16 @@ Global
 		{699F0F78-157B-4962-A560-3D3F74A139BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{699F0F78-157B-4962-A560-3D3F74A139BB}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{699F0F78-157B-4962-A560-3D3F74A139BB}.Release|x86.ActiveCfg = Release|Any CPU
+		{14AEF93B-4482-453C-A5A3-421CDB070E30}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14AEF93B-4482-453C-A5A3-421CDB070E30}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14AEF93B-4482-453C-A5A3-421CDB070E30}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{14AEF93B-4482-453C-A5A3-421CDB070E30}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{14AEF93B-4482-453C-A5A3-421CDB070E30}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{14AEF93B-4482-453C-A5A3-421CDB070E30}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14AEF93B-4482-453C-A5A3-421CDB070E30}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14AEF93B-4482-453C-A5A3-421CDB070E30}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{14AEF93B-4482-453C-A5A3-421CDB070E30}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{14AEF93B-4482-453C-A5A3-421CDB070E30}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

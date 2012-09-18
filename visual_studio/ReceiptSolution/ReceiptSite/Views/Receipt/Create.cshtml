@@ -1,11 +1,8 @@
 ﻿@model ReceiptSite.Models.Receipt
-           
 @{
     ViewBag.Title = "Create";
 }
-
 <h2>@ViewBag.Message</h2>
-
 <p>
     Select a receipt image, then add text.
 </p>
@@ -16,8 +13,8 @@
         <fieldset>
             <legend>Make a Receipt</legend>
             <p>
-                @Html.LabelFor(m => m.ReceiptImageId)
-                @Html.DropDownListFor(m => m.ReceiptImageId, (SelectList)ViewData["blankImageList"])
+                @Html.LabelFor(model => model.BlankImageId)
+                @Html.DropDownList("blankImageList")
             </p>
             <p>
                 @Html.LabelFor(m => m.TextData)

@@ -21,6 +21,7 @@
 export WORKON_HOME=$HOME/.virtualenvs
 source /usr/bin/virtualenvwrapper.sh
 export DASHBOARD_SETTINGS=$HOME/taluslabs/dashboard/settings/dev_amazon.py
+export FASTTRACK_SETTINGS=$HOME/taluslabs/fasttrack/settings/development.py
 
 # Shell Options
 #

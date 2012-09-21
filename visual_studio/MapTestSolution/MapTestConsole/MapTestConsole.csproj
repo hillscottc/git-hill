@@ -37,12 +37,13 @@
     <Reference Include="EntityFramework">
       <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
-    <Reference Include="G3GeoMap">
-      <HintPath>..\..\..\..\..\..\..\Common\G3GeoMap.dll</HintPath>
+    <Reference Include="G3GeoMap, Version=3.5.10.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Refs\G3GeoMap.dll</HintPath>
     </Reference>
     <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\Common\log4net-1.2.11\net4.0\log4net.dll</HintPath>
+      <HintPath>Refs\log4net.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -142,6 +143,9 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Refs\G3GeoMap.dll" />
+    <Content Include="Refs\log4net.dll" />
+    <Content Include="Refs\log4net.xml" />
     <Content Include="SQL\MapResults_queries.sql" />
     <Content Include="SQL\MapTestResult_create.sql" />
     <Content Include="SQL\vwMapTest_create.sql" />

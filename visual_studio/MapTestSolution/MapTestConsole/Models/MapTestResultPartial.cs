@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Geneva3.G3GeoMap;
 
 namespace MapTestConsole.Models
 {
@@ -16,7 +17,7 @@ namespace MapTestConsole.Models
             if (this.address == null || this.address == "")
                 throw new ArgumentException("This object's address field must be set.");
 
-            this.noZipAddress = GeoMapUtil.StripTrailingPostalCode(address);
+            this.noZipAddress = GeoCodingOSM.StripTrailingPostalCode(address);
 
             QueryOSMWithZip();
             QueryOSMWithNOZip();
@@ -39,7 +40,7 @@ namespace MapTestConsole.Models
 
         private void QueryOSMWithZip()
         {
-            Geneva3.G3GeoMap.GeoCodingOSM.Place place = GeoMapUtil.GetGeoCoordinates(this.address);
+            GeoCodingOSM.Place place = GeoCodingOSM.GetCoordinates(this.address);
             if (place != null)
             {
                 this.zipDisplay = place.DisplayName;
@@ -50,7 +51,7 @@ namespace MapTestConsole.Models
 
         private void QueryOSMWithNOZip()
         {
-            Geneva3.G3GeoMap.GeoCodingOSM.Place place = GeoMapUtil.GetGeoCoordinates(this.noZipAddress);
+            GeoCodingOSM.Place place = GeoCodingOSM.GetCoordinates(this.noZipAddress);
             if (place != null)
             {
                 this.noZipDisplay = place.DisplayName;

@@ -10,6 +10,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{EF421A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapTestConsole", "MapTestConsole\MapTestConsole.csproj", "{786463B8-640C-43A0-BEC4-90E23DDF014E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "G3GeoMap", "G3GeoMap\G3GeoMap.csproj", "{2C34DFF1-C265-4BD5-AD0F-027A81FE83D4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,6 +22,10 @@ Global
 		{786463B8-640C-43A0-BEC4-90E23DDF014E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{786463B8-640C-43A0-BEC4-90E23DDF014E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{786463B8-640C-43A0-BEC4-90E23DDF014E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C34DFF1-C265-4BD5-AD0F-027A81FE83D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C34DFF1-C265-4BD5-AD0F-027A81FE83D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C34DFF1-C265-4BD5-AD0F-027A81FE83D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C34DFF1-C265-4BD5-AD0F-027A81FE83D4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,51 @@
+﻿@model WebServicesMvcApp1.Models.RemoteWebService
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>RemoteWebService</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ServiceName)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ServiceName)
+            @Html.ValidationMessageFor(model => model.ServiceName)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ServiceAddress)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ServiceAddress)
+            @Html.ValidationMessageFor(model => model.ServiceAddress)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Wsdl)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Wsdl)
+            @Html.ValidationMessageFor(model => model.Wsdl)
+        </div>
+
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

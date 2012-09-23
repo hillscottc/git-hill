@@ -1,0 +1,29 @@
+﻿@model WebServicesMvcApp1.Models.Method
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Method</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.MethodName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.MethodName)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.RemoteWebService.ServiceName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.RemoteWebService.ServiceName)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

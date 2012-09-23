@@ -1,0 +1,36 @@
+﻿@model WebServicesMvcApp1.Models.RemoteWebService
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>RemoteWebService</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.ServiceName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ServiceName)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.ServiceAddress)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ServiceAddress)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Wsdl)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Wsdl)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

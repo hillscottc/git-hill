@@ -1,0 +1,30 @@
+﻿@model ReceiptSite.Models.ImageBank
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>ImageBank</legend>
+
+    <div class="display-label">ImageType</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ImageType)
+    </div>
+
+    <div class="display-label">ImageFilePath</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ImageFilePath)
+    </div>
+
+    <div class="display-label">ThumbnailFilePath</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ThumbnailFilePath)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

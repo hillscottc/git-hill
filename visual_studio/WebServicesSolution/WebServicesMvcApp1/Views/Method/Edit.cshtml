@@ -1,0 +1,45 @@
+﻿@model WebServicesMvcApp1.Models.Method
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Method</legend>
+
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.MethodName)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.MethodName)
+            @Html.ValidationMessageFor(model => model.MethodName)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.RemoteWebServiceId, "RemoteWebService")
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("RemoteWebServiceId", String.Empty)
+            @Html.ValidationMessageFor(model => model.RemoteWebServiceId)
+        </div>
+
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

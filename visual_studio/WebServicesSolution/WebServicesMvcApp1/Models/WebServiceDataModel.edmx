@@ -1,0 +1,201 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="WebServiceDataModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="WebServiceDataModelStoreContainer">
+    <EntitySet Name="RemoteWebServices" EntityType="WebServiceDataModel.Store.RemoteWebServices" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Methods" EntityType="WebServiceDataModel.Store.Methods" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Params" EntityType="WebServiceDataModel.Store.Params" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="RemoteWebServiceMethod" Association="WebServiceDataModel.Store.RemoteWebServiceMethod">
+      <End Role="RemoteWebService" EntitySet="RemoteWebServices" />
+      <End Role="Method" EntitySet="Methods" />
+    </AssociationSet>
+    <AssociationSet Name="MethodParam" Association="WebServiceDataModel.Store.MethodParam">
+      <End Role="Method" EntitySet="Methods" />
+      <End Role="Param" EntitySet="Params" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="RemoteWebServices">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ServiceName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ServiceAddress" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Wsdl" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Methods">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="MethodName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="RemoteWebServiceId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Params">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Type" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Value" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="MethodId" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="RemoteWebServiceMethod">
+    <End Role="RemoteWebService" Type="WebServiceDataModel.Store.RemoteWebServices" Multiplicity="1" />
+    <End Role="Method" Type="WebServiceDataModel.Store.Methods" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="RemoteWebService">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Method">
+        <PropertyRef Name="RemoteWebServiceId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="MethodParam">
+    <End Role="Method" Type="WebServiceDataModel.Store.Methods" Multiplicity="1" />
+    <End Role="Param" Type="WebServiceDataModel.Store.Params" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Method">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Param">
+        <PropertyRef Name="MethodId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="WebServiceDataModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="WebServiceDataModelContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="RemoteWebServices" EntityType="WebServiceDataModel.RemoteWebService" />
+          <EntitySet Name="Methods" EntityType="WebServiceDataModel.Method" />
+          <AssociationSet Name="RemoteWebServiceMethod" Association="WebServiceDataModel.RemoteWebServiceMethod">
+            <End Role="RemoteWebService" EntitySet="RemoteWebServices" />
+            <End Role="Method" EntitySet="Methods" />
+          </AssociationSet>
+          <EntitySet Name="Params" EntityType="WebServiceDataModel.Param" />
+          <AssociationSet Name="MethodParam" Association="WebServiceDataModel.MethodParam">
+            <End Role="Method" EntitySet="Methods" />
+            <End Role="Param" EntitySet="Params" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="RemoteWebService">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="ServiceName" Nullable="false" />
+          <Property Type="String" Name="ServiceAddress" Nullable="false" />
+          <Property Type="String" Name="Wsdl" Nullable="false" />
+          <NavigationProperty Name="Methods" Relationship="WebServiceDataModel.RemoteWebServiceMethod" FromRole="RemoteWebService" ToRole="Method" />
+        </EntityType>
+        <EntityType Name="Method">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="MethodName" Nullable="false" />
+          <NavigationProperty Name="RemoteWebService" Relationship="WebServiceDataModel.RemoteWebServiceMethod" FromRole="Method" ToRole="RemoteWebService" />
+          <Property Type="Int32" Name="RemoteWebServiceId" Nullable="false" />
+          <NavigationProperty Name="Params" Relationship="WebServiceDataModel.MethodParam" FromRole="Method" ToRole="Param" />
+        </EntityType>
+        <Association Name="RemoteWebServiceMethod">
+          <End Type="WebServiceDataModel.RemoteWebService" Role="RemoteWebService" Multiplicity="1" />
+          <End Type="WebServiceDataModel.Method" Role="Method" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RemoteWebService">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Method">
+              <PropertyRef Name="RemoteWebServiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Param">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" />
+          <Property Type="String" Name="Type" Nullable="false" />
+          <Property Type="String" Name="Value" Nullable="false" />
+          <NavigationProperty Name="Method" Relationship="WebServiceDataModel.MethodParam" FromRole="Param" ToRole="Method" />
+          <Property Type="Int32" Name="MethodId" Nullable="false" />
+        </EntityType>
+        <Association Name="MethodParam">
+          <End Type="WebServiceDataModel.Method" Role="Method" Multiplicity="1" />
+          <End Type="WebServiceDataModel.Param" Role="Param" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Method">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Param">
+              <PropertyRef Name="MethodId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="WebServiceDataModelStoreContainer" CdmEntityContainer="WebServiceDataModelContainer">
+    <EntitySetMapping Name="RemoteWebServices">
+      <EntityTypeMapping TypeName="IsTypeOf(WebServiceDataModel.RemoteWebService)">
+        <MappingFragment StoreEntitySet="RemoteWebServices">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="ServiceName" ColumnName="ServiceName" />
+          <ScalarProperty Name="ServiceAddress" ColumnName="ServiceAddress" />
+          <ScalarProperty Name="Wsdl" ColumnName="Wsdl" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Methods">
+      <EntityTypeMapping TypeName="IsTypeOf(WebServiceDataModel.Method)">
+        <MappingFragment StoreEntitySet="Methods">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="MethodName" ColumnName="MethodName" />
+          <ScalarProperty Name="RemoteWebServiceId" ColumnName="RemoteWebServiceId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Params">
+      <EntityTypeMapping TypeName="IsTypeOf(WebServiceDataModel.Param)">
+        <MappingFragment StoreEntitySet="Params">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="Value" ColumnName="Value" />
+          <ScalarProperty Name="MethodId" ColumnName="MethodId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

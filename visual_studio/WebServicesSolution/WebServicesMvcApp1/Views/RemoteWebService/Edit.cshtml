@@ -1,10 +1,10 @@
 ﻿@model WebServicesMvcApp1.Models.RemoteWebService
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Remote Web Service Edit";
 }
 
-<h2>Edit</h2>
+<h2>Remote Web Service Edit</h2>
 
 @using (Html.BeginForm()) {
     @Html.ValidationSummary(true)
@@ -36,6 +36,15 @@
         <div class="editor-field">
             @Html.EditorFor(model => model.Wsdl)
             @Html.ValidationMessageFor(model => model.Wsdl)
+        </div>
+
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Methods)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Methods)
+            @Html.ValidationMessageFor(model => model.Methods)
         </div>
 
         <p>

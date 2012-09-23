@@ -29,6 +29,18 @@
     <div class="display-field">
         @Html.DisplayFor(model => model.Wsdl)
     </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Methods)
+    </div>
+    <div class="display-field">
+        @foreach (var method in Model.Methods)
+        {
+            @method.MethodName
+        }
+        
+    </div>
+
 </fieldset>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id=Model.Id }) |

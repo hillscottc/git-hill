@@ -26,11 +26,20 @@ namespace WebServicesMvcApp1.Controllers
 
         public ActionResult Details(int id = 0)
         {
-            RemoteWebService remotewebservice = db.RemoteWebServices.Find(id);
+            //RemoteWebService remotewebservice = db.RemoteWebServices.Find(id);
+            RemoteWebService remotewebservice = db.RemoteWebServices.Include("MethodId").Where(e => e.Id == id).SingleOrDefault();
+
+
             if (remotewebservice == null)
             {
                 return HttpNotFound();
             }
+
+
+            //ViewBag.MethodList = new SelectList(db.Methods, "GenreId", "Name", album.GenreId);
+      
+
+
             return View(remotewebservice);
         }
 

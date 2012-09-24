@@ -1,0 +1,31 @@
+﻿@model ReceiptSite.Models.Receipt
+@{
+    ViewBag.Title = "Create";
+}
+<h2>@ViewBag.Message</h2>
+<p>
+    Select a receipt image, then add text.
+</p>
+<div>
+    @using (Html.BeginForm())
+    {
+        @Html.ValidationSummary(excludePropertyErrors: true)
+        <fieldset>
+            <legend>Make a Receipt</legend>
+            <p>
+                @Html.LabelFor(model => model.BlankImageId)
+                @Html.DropDownList("blankImageList")
+            </p>
+            <p>
+                @Html.LabelFor(m => m.TextData)
+                @Html.EditorFor(m => m.TextData)
+                @Html.ValidationMessageFor(m => m.TextData)
+            </p>
+            <p>
+                <input type="submit" value="Save" />
+            </p>
+        </fieldset>
+    }
+</div>
+<div>
+</div>

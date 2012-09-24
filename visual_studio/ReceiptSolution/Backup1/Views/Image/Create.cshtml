@@ -1,0 +1,49 @@
+﻿@model ReceiptSite.Models.ImageBank
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>ImageBank</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ImageType)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ImageType)
+            @Html.ValidationMessageFor(model => model.ImageType)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ImageFilePath)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ImageFilePath)
+            @Html.ValidationMessageFor(model => model.ImageFilePath)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ThumbnailFilePath)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.ThumbnailFilePath)
+            @Html.ValidationMessageFor(model => model.ThumbnailFilePath)
+        </div>
+
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using WebServicesMvcApp1.Models;
 
+
 namespace WebServicesMvcApp1.Controllers
 {
     public class RemoteWebServiceController : Controller
@@ -26,21 +27,18 @@ namespace WebServicesMvcApp1.Controllers
 
         public ActionResult Details(int id = 0)
         {
-            //RemoteWebService remotewebservice = db.RemoteWebServices.Find(id);
-            RemoteWebService remotewebservice = db.RemoteWebServices.Include("MethodId").Where(e => e.Id == id).SingleOrDefault();
+            //RemoteWebService rws = db.RemoteWebServices.Find(id);
+            RemoteWebService rws = db.RemoteWebServices.Include("Methods").Where(e => e.Id == id).SingleOrDefault();
 
-
-            if (remotewebservice == null)
+            if (rws == null)
             {
                 return HttpNotFound();
             }
 
-
-            //ViewBag.MethodList = new SelectList(db.Methods, "GenreId", "Name", album.GenreId);
-      
+            var detailModelView = new Models.ModelViews.RemoteWebService.DetailModelView(rws);
 
 
-            return View(remotewebservice);
+            return View(detailModelView);
         }
 
         //
@@ -72,27 +70,47 @@ namespace WebServicesMvcApp1.Controllers
 
         public ActionResult Edit(int id = 0)
         {
-            RemoteWebService remotewebservice = db.RemoteWebServices.Find(id);
-            if (remotewebservice == null)
+            //RemoteWebService remotewebservice = db.RemoteWebServices.Find(id);
+            RemoteWebService rws = db.RemoteWebServices.Include("Methods").Where(e => e.Id == id).SingleOrDefault();
+
+            if (rws == null)
             {
                 return HttpNotFound();
             }
-            return View(remotewebservice);
+
+            var editModelView = new Models.ModelViews.RemoteWebService.EditModelView(rws);
+
+
+            return View(editModelView);
         }
 
         //
         // POST: /RemoteWebService/Edit/5
 
         [HttpPost]
-        public ActionResult Edit(RemoteWebService remotewebservice)
+        public ActionResult Edit(Models.ModelViews.RemoteWebService.EditModelView model)
         {
+
+            //RemoteWebService rws = db.RemoteWebServices.Include("Methods").Where(e => e.Id == model.Id).SingleOrDefault();
+            RemoteWebService rws = db.RemoteWebServices.Find(model.Id);
+            if (rws == null)
+            {
+                return HttpNotFound();
+            }
+
             if (ModelState.IsValid)
             {
-                db.Entry(remotewebservice).State = EntityState.Modified;
+                rws.ServiceAddress = model.ServiceAddress;
+                rws.ServiceName = model.ServiceName;
+                rws.Wsdl = model.Wsdl;
+                //rws.Methods = model.Methods;
+
+                db.Entry(rws).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(remotewebservice);
+
+            return View(model);
         }
 
         //

@@ -196,6 +196,13 @@
     </edmx:Options>
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
+      <Diagram DiagramId="bda69a98c38f4f6685e0ae5aa6d1bcb1" Name="Diagram1">
+        <EntityTypeShape EntityType="WebServiceDataModel.RemoteWebService" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebServiceDataModel.Method" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebServiceDataModel.Param" Width="1.5" PointX="5.25" PointY="0.875" IsExpanded="true" />
+        <AssociationConnector Association="WebServiceDataModel.RemoteWebServiceMethod" ManuallyRouted="false" />
+        <AssociationConnector Association="WebServiceDataModel.MethodParam" ManuallyRouted="false" />
+      </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

@@ -1,4 +1,4 @@
-﻿@model WebServicesMvcApp1.Models.RemoteWebService
+﻿@model WebServicesMvcApp1.Models.ModelViews.RemoteWebService.EditModelView
 
 @{
     ViewBag.Title = "Remote Web Service Edit";
@@ -43,8 +43,10 @@
             @Html.LabelFor(model => model.Methods)
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.Methods)
-            @Html.ValidationMessageFor(model => model.Methods)
+        @foreach (var method in Model.Methods)
+        {
+            @method.MethodName
+        }
         </div>
 
         <p>
@@ -52,6 +54,11 @@
         </p>
     </fieldset>
 }
+
+<p>
+@Html.ActionLink("Cancel", "Details", new { id=Model.Id }) |
+@Html.ActionLink("Delete", "Delete", new { id=Model.Id })
+</p>
 
 <div>
     @Html.ActionLink("Back to List", "Index")

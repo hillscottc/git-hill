@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl" Namespace="MapTest.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2005">
+        <EntityContainer Name="MapTestTargetContainer" >
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="MapTest" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="MapTestContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="GoogleMTs" EntityType="MapTest.GoogleMT" />
+          <EntitySet Name="MapTestDetails" EntityType="MapTest.MapTestDetail" />
+          <EntitySet Name="DistanceResults" EntityType="MapTest.DistanceResult" />
+          <EntitySet Name="MapTestAddresses" EntityType="MapTest.MapTestAddress" />
+          <AssociationSet Name="MapTestDetailMapTestAddress" Association="MapTest.MapTestDetailMapTestAddress">
+            <End Role="MapTestDetail" EntitySet="MapTestDetails" />
+            <End Role="MapTestAddress" EntitySet="MapTestAddresses" />
+          </AssociationSet>
+          <AssociationSet Name="MapTestAddressGoogleMT" Association="MapTest.MapTestAddressGoogleMT">
+            <End Role="MapTestAddress" EntitySet="MapTestAddresses" />
+            <End Role="GoogleMT" EntitySet="GoogleMTs" />
+          </AssociationSet>
+          <EntitySet Name="OpenStreetMTs" EntityType="MapTest.OpenStreetMT" />
+          <AssociationSet Name="MapTestAddressOpenStreetMT" Association="MapTest.MapTestAddressOpenStreetMT">
+            <End Role="MapTestAddress" EntitySet="MapTestAddresses" />
+            <End Role="OpenStreetMT" EntitySet="OpenStreetMTs" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="GoogleMT">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Longitude" Nullable="false" />
+          <Property Type="String" Name="Latitude" Nullable="false" />
+          <Property Type="String" Name="DisplayName" Nullable="false" />
+          <NavigationProperty Name="MapTestAddress" Relationship="MapTest.MapTestAddressGoogleMT" FromRole="GoogleMT" ToRole="MapTestAddress" />
+        </EntityType>
+        <EntityType Name="MapTestDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="CampaignId" Nullable="false" />
+          <Property Type="String" Name="ResellerId" Nullable="false" />
+          <NavigationProperty Name="MapTestAddresses" Relationship="MapTest.MapTestDetailMapTestAddress" FromRole="MapTestDetail" ToRole="MapTestAddress" />
+        </EntityType>
+        <EntityType Name="DistanceResult">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Distance" Nullable="false" />
+          <Property Type="Int32" Name="MapTestDetailId" Nullable="false" />
+          <Property Type="String" Name="M" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MapTestAddress">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Address" Nullable="false" />
+          <NavigationProperty Name="MapTestDetail" Relationship="MapTest.MapTestDetailMapTestAddress" FromRole="MapTestAddress" ToRole="MapTestDetail" />
+          <Property Type="Int32" Name="MapTestDetailId" Nullable="false" />
+          <NavigationProperty Name="GoogleMT" Relationship="MapTest.MapTestAddressGoogleMT" FromRole="MapTestAddress" ToRole="GoogleMT" />
+          <NavigationProperty Name="OpenStreetMT" Relationship="MapTest.MapTestAddressOpenStreetMT" FromRole="MapTestAddress" ToRole="OpenStreetMT" />
+        </EntityType>
+        <Association Name="MapTestDetailMapTestAddress">
+          <End Type="MapTest.MapTestDetail" Role="MapTestDetail" Multiplicity="1" />
+          <End Type="MapTest.MapTestAddress" Role="MapTestAddress" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MapTestDetail">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MapTestAddress">
+              <PropertyRef Name="MapTestDetailId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MapTestAddressGoogleMT">
+          <End Type="MapTest.MapTestAddress" Role="MapTestAddress" Multiplicity="1" />
+          <End Type="MapTest.GoogleMT" Role="GoogleMT" Multiplicity="0..1" />
+        </Association>
+        <EntityType Name="OpenStreetMT">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Longitude" Nullable="false" />
+          <Property Type="String" Name="Latitude" Nullable="false" />
+          <Property Type="String" Name="DisplayName" Nullable="false" />
+          <NavigationProperty Name="MapTestAddress" Relationship="MapTest.MapTestAddressOpenStreetMT" FromRole="OpenStreetMT" ToRole="MapTestAddress" />
+        </EntityType>
+        <Association Name="MapTestAddressOpenStreetMT">
+          <End Type="MapTest.MapTestAddress" Role="MapTestAddress" Multiplicity="1" />
+          <End Type="MapTest.OpenStreetMT" Role="OpenStreetMT" Multiplicity="0..1" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs" Space="C-S">
+        <Alias Key="Model" Value="MapTest" />
+        <Alias Key="Target" Value="MapTest.Store" />
+        <EntityContainerMapping CdmEntityContainer="MapTestContainer" StorageEntityContainer="MapTestTargetContainer">
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

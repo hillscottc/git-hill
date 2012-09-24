@@ -195,6 +195,11 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ModelViews\RemoteWebService\DetailModelView.cs" />
+    <Compile Include="Models\WebServiceDataModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WebServiceDataModel.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -268,6 +273,7 @@
       <LastGenOutput>Model1.cs</LastGenOutput>
       <DependentUpon>WebServiceDataModel.edmx</DependentUpon>
     </Content>
+    <None Include="Properties\PublishProfiles\local.pubxml" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="Models\WebServiceDataModel.edmx.sql" />
     <Content Include="Scripts\jquery-1.7.1.js" />

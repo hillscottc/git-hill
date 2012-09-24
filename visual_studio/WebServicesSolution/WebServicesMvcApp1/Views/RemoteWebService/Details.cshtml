@@ -9,40 +9,52 @@
 <fieldset>
     <legend>RemoteWebService</legend>
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.ServiceName)
+    <div class="editor-label">
+        @Html.DisplayNameFor(model => model.ServiceName)
     </div>
     <div class="display-field">
         @Html.DisplayFor(model => model.ServiceName)
     </div>
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.ServiceAddress)
+    <div class="editor-label">
+        @Html.DisplayNameFor(model => model.ServiceAddress)
     </div>
     <div class="display-field">
         @Html.DisplayFor(model => model.ServiceAddress)
     </div>
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Wsdl)
+    <div class="editor-label">
+        @Html.DisplayNameFor(model => model.Wsdl)
     </div>
     <div class="display-field">
         @Html.DisplayFor(model => model.Wsdl)
     </div>
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Methods)
+    <div class="editor-label">
+        @Html.DisplayNameFor(model => model.Methods)
     </div>
     <div class="display-field">
-        @foreach (var method in Model.Methods)
-        {
-            @method.MethodName
-        }
-        
+
+        <table border="1">
+            @foreach (var method in Model.Methods)
+            {
+                <tr>
+                    <td>
+                        @Html.ActionLink(method.Id.ToString(), "Details", "Method", new { id = method.Id }, null)
+                    </td>
+                    <td>
+                        @method.MethodName
+                    </td>
+                    <td>
+                        @*@method.Params*@
+                    </td>
+                </tr>
+            }
+        </table>
     </div>
 
 </fieldset>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id=Model.Id }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>

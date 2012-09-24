@@ -14,6 +14,13 @@ namespace WebServicesMvcApp1.Models.ModelViews.RemoteWebService
         public string ServiceAddress { get; set; }
         public string Wsdl { get; set; }
         public virtual ICollection<Method> Methods { get; set; }
+        //public IEnumerable<SelectListItem> MethodList
+        //{
+        //    get
+        //    {
+        //        return new SelectList(this.Methods, "Id", "MethodName");
+        //    }
+        //}
 
         public DetailModelView() {}
 

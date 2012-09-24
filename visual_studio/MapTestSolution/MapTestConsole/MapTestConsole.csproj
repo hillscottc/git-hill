@@ -57,39 +57,21 @@
   <ItemGroup>
     <Compile Include="AddressChecker.cs" />
     <Compile Include="GeoMapUtil.cs" />
-    <Compile Include="Models\MapTest.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>MapTest.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\MapTest.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>MapTest.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\MapTest.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>MapTest.edmx</DependentUpon>
-    </Compile>
     <Compile Include="Models\MapTestResultPartial.cs" />
-    <Compile Include="Models\MapTestDb.Context.cs">
+    <Compile Include="Models\ResultModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>MapTestDb.Context.tt</DependentUpon>
+      <DependentUpon>ResultModel.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\MapTestDb.cs">
+    <Compile Include="Models\ResultModel.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>MapTestDb.tt</DependentUpon>
+      <DependentUpon>ResultModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\MapTestDb.Designer.cs">
+    <Compile Include="Models\ResultModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>MapTestDb.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="Models\MapTestResult.cs">
-      <DependentUpon>MapTestDb.tt</DependentUpon>
+      <DependentUpon>ResultModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -115,39 +97,22 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <EntityDeploy Include="Models\MapTestDb.edmx">
+    <EntityDeploy Include="Models\ResultModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>MapTestDb.Designer.cs</LastGenOutput>
+      <LastGenOutput>ResultModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <EntityDeploy Include="Models\MapTest.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>MapTest.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <None Include="Models\MapTest.Context.tt">
+    <None Include="Models\ResultModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>MapTest.edmx</DependentUpon>
-      <LastGenOutput>MapTest.Context.cs</LastGenOutput>
+      <DependentUpon>ResultModel.edmx</DependentUpon>
+      <LastGenOutput>ResultModel.Context.cs</LastGenOutput>
     </None>
-    <None Include="Models\MapTest.edmx.diagram">
-      <DependentUpon>MapTest.edmx</DependentUpon>
+    <None Include="Models\ResultModel.edmx.diagram">
+      <DependentUpon>ResultModel.edmx</DependentUpon>
     </None>
-    <None Include="Models\MapTest.tt">
+    <None Include="Models\ResultModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>MapTest.edmx</DependentUpon>
-      <LastGenOutput>MapTest.cs</LastGenOutput>
-    </None>
-    <None Include="Models\MapTestDb.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>MapTestDb.edmx</DependentUpon>
-      <LastGenOutput>MapTestDb.Context.cs</LastGenOutput>
-    </None>
-    <None Include="Models\MapTestDb.edmx.diagram">
-      <DependentUpon>MapTestDb.edmx</DependentUpon>
-    </None>
-    <None Include="Models\MapTestDb.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>MapTestDb.edmx</DependentUpon>
-      <LastGenOutput>MapTestDb.cs</LastGenOutput>
+      <DependentUpon>ResultModel.edmx</DependentUpon>
+      <LastGenOutput>ResultModel.cs</LastGenOutput>
     </None>
     <None Include="packages.config" />
     <EntityDeploy Include="Models\Reporting.edmx">

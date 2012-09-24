@@ -3,7 +3,8 @@
 # public domain worldwide. This software is distributed without any warranty. 
 # You should have received a copy of the CC0 Public Domain Dedication along 
 # with this software. 
-# If not, see <http://creativecommons.org/publicdomain/zero/1.0/>. 
+# If not, see <http://creativecommons.org/publicdomain/zero/1.0nd 'set
+# bell-style none'/>. 
 
 # base-files version 4.1-1
 
@@ -48,14 +49,14 @@
 #set output-meta on
 $if Bash
   # Don't ring bell on completion
-  #set bell-style none
+  set bell-style none
 
-  # or, don't beep at me - show me
-  set bell-style visible
+  # or, don't beep at me - show me (doesnt seem to work for cyg)
+  # set bell-style visible
 
   # Filename completion/expansion
-  #set completion-ignore-case on
-  #set show-all-if-ambiguous on
+  set completion-ignore-case on
+  set show-all-if-ambiguous on
 
   # Expand homedir name
   #set expand-tilde on

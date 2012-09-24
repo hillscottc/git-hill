@@ -118,7 +118,7 @@ export FASTTRACK_SETTINGS=$HOME/taluslabs/fasttrack/settings/development.py
  alias c:='cd /cygdrive/c'
 
 #if you don't like the annoying end-of-line beeps:
-set bell-style visible
+set bell-style none
 
 
 # to show all spec characters

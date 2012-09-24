@@ -22,7 +22,9 @@ namespace MapTestConsole
         {
             log4net.Config.XmlConfigurator.Configure();
 
-            TestGoogleMaps();
+     
+
+            //TestGoogleMaps();
 
             //AddressChecker.ProcessRecords(2, 241, 241);
 

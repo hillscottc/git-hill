@@ -1,10 +1,10 @@
 export PATH=/opt/subversion/bin/:/Users/hills/Scripts:/usr/local/mysql/bin:$PATH
 
-export EDITOR=vi
+export EDITOR=vim
 #export VISUAL="subl -w"
 #export SVN_EDITOR="subl -w"
-export VISUAL=vi
-export SVN_EDITOR=vi
+export VISUAL=vim
+export SVN_EDITOR=vim
 
 
 export PS1="\n\[\e[32;1m\](\[\e[37;1m\]\u\[\e[32;1m\])-(\[\e[37;1m\]jobs:\j\[\e[32;1m\])-(\[\e[37;1m\]\w\[\e[32;1m\])\n(\[\[\e[37;1m\]! \!\[\e[32;1m\])-> \[\e[0m\]"

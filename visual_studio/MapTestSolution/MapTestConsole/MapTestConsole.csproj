@@ -57,7 +57,17 @@
   <ItemGroup>
     <Compile Include="AddressChecker.cs" />
     <Compile Include="GeoMapUtil.cs" />
-    <Compile Include="Models\MapTestResultPartial.cs" />
+    <Compile Include="Models\BingResult.cs">
+      <DependentUpon>ResultModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GoogleResult.cs">
+      <DependentUpon>ResultModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ITestItem.cs" />
+    <Compile Include="Models\ITestResult.cs" />
+    <Compile Include="Models\OpenStreetResult.cs">
+      <DependentUpon>ResultModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ResultModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -72,6 +82,16 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ResultModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TestItem.cs">
+      <DependentUpon>ResultModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TestResult.cs">
+      <DependentUpon>ResultModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TestResult.Meta.cs" />
+    <Compile Include="Models\Vendors.cs">
+      <DependentUpon>ResultModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -93,7 +113,6 @@
     <Compile Include="Models\vwMapTest.cs">
       <DependentUpon>Reporting.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\VwMapTestPartial.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -103,17 +122,18 @@
     </EntityDeploy>
     <None Include="Models\ResultModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>ResultModel.edmx</DependentUpon>
       <LastGenOutput>ResultModel.Context.cs</LastGenOutput>
+      <DependentUpon>ResultModel.edmx</DependentUpon>
     </None>
     <None Include="Models\ResultModel.edmx.diagram">
       <DependentUpon>ResultModel.edmx</DependentUpon>
     </None>
     <None Include="Models\ResultModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>ResultModel.edmx</DependentUpon>
       <LastGenOutput>ResultModel.cs</LastGenOutput>
+      <DependentUpon>ResultModel.edmx</DependentUpon>
     </None>
+    <Compile Include="Models\TestItem.Meta.cs" />
     <None Include="packages.config" />
     <EntityDeploy Include="Models\Reporting.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
@@ -137,6 +157,7 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Models\ResultModel.edmx.sql" />
     <Content Include="Refs\G3GeoMap.dll" />
     <Content Include="Refs\log4net.dll" />
     <Content Include="Refs\log4net.xml" />

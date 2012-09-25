@@ -1,0 +1,307 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ResultModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="ResultModelStoreContainer">
+    <EntitySet Name="TestItems" EntityType="ResultModel.Store.TestItems" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="GoogleResults" EntityType="ResultModel.Store.GoogleResults" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="OpenStreetResults" EntityType="ResultModel.Store.OpenStreetResults" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="BingResults" EntityType="ResultModel.Store.BingResults" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TestResults" EntityType="ResultModel.Store.TestResults" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Vendors" EntityType="ResultModel.Store.Vendors" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="TestItemGoogleResult" Association="ResultModel.Store.TestItemGoogleResult">
+      <End Role="TestItem" EntitySet="TestItems" />
+      <End Role="GoogleResult" EntitySet="GoogleResults" />
+    </AssociationSet>
+    <AssociationSet Name="TestItemOpenStreetResult" Association="ResultModel.Store.TestItemOpenStreetResult">
+      <End Role="TestItem" EntitySet="TestItems" />
+      <End Role="OpenStreetResult" EntitySet="OpenStreetResults" />
+    </AssociationSet>
+    <AssociationSet Name="TestItemBingResult" Association="ResultModel.Store.TestItemBingResult">
+      <End Role="TestItem" EntitySet="TestItems" />
+      <End Role="BingResult" EntitySet="BingResults" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="TestItems">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Address" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="CampaignId" Type="int" Nullable="false" />
+    <Property Name="ResellerId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="GoogleResults">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Longitude" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Latitude" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="TestItem_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="OpenStreetResults">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Longitude" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Latitude" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="TestItem_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="BingResults">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Longitude" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Latitude" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="TestItem_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TestResults">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Distance" Type="decimal" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Vendors">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <Association Name="TestItemGoogleResult">
+    <End Role="TestItem" Type="ResultModel.Store.TestItems" Multiplicity="1" />
+    <End Role="GoogleResult" Type="ResultModel.Store.GoogleResults" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TestItem">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="GoogleResult">
+        <PropertyRef Name="TestItem_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="TestItemOpenStreetResult">
+    <End Role="TestItem" Type="ResultModel.Store.TestItems" Multiplicity="1" />
+    <End Role="OpenStreetResult" Type="ResultModel.Store.OpenStreetResults" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TestItem">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="OpenStreetResult">
+        <PropertyRef Name="TestItem_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="TestItemBingResult">
+    <End Role="TestItem" Type="ResultModel.Store.TestItems" Multiplicity="1" />
+    <End Role="BingResult" Type="ResultModel.Store.BingResults" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TestItem">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="BingResult">
+        <PropertyRef Name="TestItem_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="ResultModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="ResultModelContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="TestItems" EntityType="ResultModel.TestItem" />
+          <EntitySet Name="GoogleResults" EntityType="ResultModel.GoogleResult" />
+          <EntitySet Name="OpenStreetResults" EntityType="ResultModel.OpenStreetResult" />
+          <EntitySet Name="BingResults" EntityType="ResultModel.BingResult" />
+          <EntitySet Name="TestResults" EntityType="ResultModel.TestResult" />
+          <AssociationSet Name="TestItemGoogleResult" Association="ResultModel.TestItemGoogleResult">
+            <End Role="TestItem" EntitySet="TestItems" />
+            <End Role="GoogleResult" EntitySet="GoogleResults" />
+          </AssociationSet>
+          <AssociationSet Name="TestItemOpenStreetResult" Association="ResultModel.TestItemOpenStreetResult">
+            <End Role="TestItem" EntitySet="TestItems" />
+            <End Role="OpenStreetResult" EntitySet="OpenStreetResults" />
+          </AssociationSet>
+          <AssociationSet Name="TestItemBingResult" Association="ResultModel.TestItemBingResult">
+            <End Role="TestItem" EntitySet="TestItems" />
+            <End Role="BingResult" EntitySet="BingResults" />
+          </AssociationSet>
+          <EntitySet Name="Vendors" EntityType="ResultModel.Vendors" />
+        </EntityContainer>
+        <EntityType Name="TestItem">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Address" Nullable="false" />
+          <Property Type="Int32" Name="CampaignId" Nullable="false" />
+          <Property Type="Int32" Name="ResellerId" Nullable="false" />
+          <NavigationProperty Name="GoogleResult" Relationship="ResultModel.TestItemGoogleResult" FromRole="TestItem" ToRole="GoogleResult" />
+          <NavigationProperty Name="OpenStreetResult" Relationship="ResultModel.TestItemOpenStreetResult" FromRole="TestItem" ToRole="OpenStreetResult" />
+          <NavigationProperty Name="BingResult" Relationship="ResultModel.TestItemBingResult" FromRole="TestItem" ToRole="BingResult" />
+        </EntityType>
+        <EntityType Name="GoogleResult">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Longitude" Nullable="false" />
+          <Property Type="String" Name="Latitude" Nullable="false" />
+          <NavigationProperty Name="TestItem" Relationship="ResultModel.TestItemGoogleResult" FromRole="GoogleResult" ToRole="TestItem" />
+        </EntityType>
+        <EntityType Name="OpenStreetResult">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Longitude" Nullable="false" />
+          <Property Type="String" Name="Latitude" Nullable="false" />
+          <NavigationProperty Name="TestItem" Relationship="ResultModel.TestItemOpenStreetResult" FromRole="OpenStreetResult" ToRole="TestItem" />
+        </EntityType>
+        <EntityType Name="BingResult">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Longitude" Nullable="false" />
+          <Property Type="String" Name="Latitude" Nullable="false" />
+          <NavigationProperty Name="TestItem" Relationship="ResultModel.TestItemBingResult" FromRole="BingResult" ToRole="TestItem" />
+        </EntityType>
+        <EntityType Name="TestResult">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Decimal" Name="Distance" Nullable="false" />
+        </EntityType>
+        <Association Name="TestItemGoogleResult">
+          <End Type="ResultModel.TestItem" Role="TestItem" Multiplicity="1" />
+          <End Type="ResultModel.GoogleResult" Role="GoogleResult" Multiplicity="0..1" />
+        </Association>
+        <Association Name="TestItemOpenStreetResult">
+          <End Type="ResultModel.TestItem" Role="TestItem" Multiplicity="1" />
+          <End Type="ResultModel.OpenStreetResult" Role="OpenStreetResult" Multiplicity="0..1" />
+        </Association>
+        <Association Name="TestItemBingResult">
+          <End Type="ResultModel.TestItem" Role="TestItem" Multiplicity="1" />
+          <End Type="ResultModel.BingResult" Role="BingResult" Multiplicity="0..1" />
+        </Association>
+        <EntityType Name="Vendors">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ResultModelStoreContainer" CdmEntityContainer="ResultModelContainer">
+    <EntitySetMapping Name="TestItems">
+      <EntityTypeMapping TypeName="IsTypeOf(ResultModel.TestItem)">
+        <MappingFragment StoreEntitySet="TestItems">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="CampaignId" ColumnName="CampaignId" />
+          <ScalarProperty Name="ResellerId" ColumnName="ResellerId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="GoogleResults">
+      <EntityTypeMapping TypeName="IsTypeOf(ResultModel.GoogleResult)">
+        <MappingFragment StoreEntitySet="GoogleResults">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+          <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="OpenStreetResults">
+      <EntityTypeMapping TypeName="IsTypeOf(ResultModel.OpenStreetResult)">
+        <MappingFragment StoreEntitySet="OpenStreetResults">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+          <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BingResults">
+      <EntityTypeMapping TypeName="IsTypeOf(ResultModel.BingResult)">
+        <MappingFragment StoreEntitySet="BingResults">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+          <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TestResults">
+      <EntityTypeMapping TypeName="IsTypeOf(ResultModel.TestResult)">
+        <MappingFragment StoreEntitySet="TestResults">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Distance" ColumnName="Distance" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Vendors">
+      <EntityTypeMapping TypeName="IsTypeOf(ResultModel.Vendors)">
+        <MappingFragment StoreEntitySet="Vendors">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="TestItemGoogleResult" TypeName="ResultModel.TestItemGoogleResult" StoreEntitySet="GoogleResults">
+      <EndProperty Name="TestItem">
+        <ScalarProperty Name="Id" ColumnName="TestItem_Id" />
+      </EndProperty>
+      <EndProperty Name="GoogleResult">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="TestItemOpenStreetResult" TypeName="ResultModel.TestItemOpenStreetResult" StoreEntitySet="OpenStreetResults">
+      <EndProperty Name="TestItem">
+        <ScalarProperty Name="Id" ColumnName="TestItem_Id" />
+      </EndProperty>
+      <EndProperty Name="OpenStreetResult">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="TestItemBingResult" TypeName="ResultModel.TestItemBingResult" StoreEntitySet="BingResults">
+      <EndProperty Name="TestItem">
+        <ScalarProperty Name="Id" ColumnName="TestItem_Id" />
+      </EndProperty>
+      <EndProperty Name="BingResult">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

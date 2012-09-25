@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="46832c4ff7154814b9e80b525a380d0b" Name="Diagram1" >
+        <EntityTypeShape EntityType="MapTest.MtGoogle1" Width="1.5" PointX="1.375" PointY="5.375" />
+        <EntityTypeShape EntityType="MapTest.MapTestDetail" Width="1.5" PointX="8.375" PointY="0.5" />
+        <EntityTypeShape EntityType="MapTest.MapTestAddress" Width="1.5" PointX="3.5" PointY="0.5" IsExpanded="true" />
+        <AssociationConnector Association="MapTest.MapTestDetailMapTestAddress" />
+        <AssociationConnector Association="MapTest.MapTestAddressGoogleMT" />
+        <EntityTypeShape EntityType="MapTest.MtOpenStreet1" Width="1.5" PointX="4.625" PointY="5.5" />
+        <AssociationConnector Association="MapTest.MapTestAddressOpenStreetMT" />
+        <EntityTypeShape EntityType="MapTest.AddressType" Width="1.5" PointX="1.125" PointY="0.5" IsExpanded="true" />
+        <AssociationConnector Association="MapTest.AddressTypeMapTestAddress" />
+        <EntityTypeShape EntityType="MapTest.MtOpenStreet2" Width="1.5" PointX="6.5" PointY="5.5" />
+        <AssociationConnector Association="MapTest.MapTestAddressMtOpenStreet2" />
+        <EntityTypeShape EntityType="MapTest.MtBing1" Width="1.5" PointX="9.125" PointY="5.5" />
+        <AssociationConnector Association="MapTest.MapTestAddressMtBing1" />
+        <AssociationConnector Association="MapTest.MtBing1MtOpenStreet2" />
+        <EntityTypeShape EntityType="MapTest.DistanceResult" Width="2" PointX="6.125" PointY="2.75" />
+        <EntityTypeShape EntityType="MapTest.DistanceResultType" Width="1.875" PointX="10.375" PointY="0.5" />
+        <AssociationConnector Association="MapTest.MapTestAddressDistanceResult" />
+        <AssociationConnector Association="MapTest.DistanceResultDistanceResultType" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

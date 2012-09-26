@@ -13,11 +13,5 @@ namespace MapTestConsole.Models
         int CampaignId { get; set; }
         int ResellerId { get; set; }
 
-        GoogleResult GoogleResult { get; set; }
-        OpenStreetResult OpenStreetResult { get; set; }
-        BingResult BingResult { get; set; }
-
-
-        string GetLocationString(params string[] args);
     }
 }

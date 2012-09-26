@@ -12,12 +12,23 @@ namespace MapTestConsole.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class GoogleResult
+    public partial class VendorTestResult
     {
+        public VendorTestResult()
+        {
+            this.DistanceResults = new HashSet<DistanceResult>();
+            this.DistanceResults1 = new HashSet<DistanceResult>();
+        }
+    
         public int Id { get; set; }
-        public string Longitude { get; set; }
-        public string Latitude { get; set; }
+        public int TestItemId { get; set; }
+        public int VendorId { get; set; }
+        public decimal Longitude { get; set; }
+        public decimal Latitude { get; set; }
     
         public virtual TestItem TestItem { get; set; }
+        public virtual Vendor Vendor { get; set; }
+        public virtual ICollection<DistanceResult> DistanceResults { get; set; }
+        public virtual ICollection<DistanceResult> DistanceResults1 { get; set; }
     }
 }

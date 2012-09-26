@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 09/25/2012 11:10:09
+-- Date Created: 09/25/2012 17:33:25
 -- Generated from EDMX file: C:\cygwin\home\shill\git-hill\visual_studio\MapTestSolution\MapTestConsole\Models\ResultModel.edmx
 -- --------------------------------------------------
 
@@ -17,14 +17,17 @@ GO
 -- Dropping existing FOREIGN KEY constraints
 -- --------------------------------------------------
 
-IF OBJECT_ID(N'[dbo].[FK_TestItemGoogleResult]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[GoogleResults] DROP CONSTRAINT [FK_TestItemGoogleResult];
+IF OBJECT_ID(N'[dbo].[FK_TestItemVendorTestResult]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[VendorTestResults] DROP CONSTRAINT [FK_TestItemVendorTestResult];
 GO
-IF OBJECT_ID(N'[dbo].[FK_TestItemOpenStreetResult]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[OpenStreetResults] DROP CONSTRAINT [FK_TestItemOpenStreetResult];
+IF OBJECT_ID(N'[dbo].[FK_VendorVendorTestResult]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[VendorTestResults] DROP CONSTRAINT [FK_VendorVendorTestResult];
 GO
-IF OBJECT_ID(N'[dbo].[FK_TestItemBingResult]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[BingResults] DROP CONSTRAINT [FK_TestItemBingResult];
+IF OBJECT_ID(N'[dbo].[FK_FirstVendorTestResult]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[DistanceResults] DROP CONSTRAINT [FK_FirstVendorTestResult];
+GO
+IF OBJECT_ID(N'[dbo].[FK_SecondVendorTestResult]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[DistanceResults] DROP CONSTRAINT [FK_SecondVendorTestResult];
 GO
 
 -- --------------------------------------------------
@@ -34,20 +37,14 @@ GO
 IF OBJECT_ID(N'[dbo].[TestItems]', 'U') IS NOT NULL
     DROP TABLE [dbo].[TestItems];
 GO
-IF OBJECT_ID(N'[dbo].[GoogleResults]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[GoogleResults];
+IF OBJECT_ID(N'[dbo].[DistanceResults]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[DistanceResults];
 GO
-IF OBJECT_ID(N'[dbo].[OpenStreetResults]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[OpenStreetResults];
+IF OBJECT_ID(N'[dbo].[Vendors1]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Vendors1];
 GO
-IF OBJECT_ID(N'[dbo].[BingResults]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[BingResults];
-GO
-IF OBJECT_ID(N'[dbo].[TestResults]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[TestResults];
-GO
-IF OBJECT_ID(N'[dbo].[Vendors]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Vendors];
+IF OBJECT_ID(N'[dbo].[VendorTestResults]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[VendorTestResults];
 GO
 
 -- --------------------------------------------------
@@ -63,37 +60,12 @@ CREATE TABLE [dbo].[TestItems] (
 );
 GO
 
--- Creating table 'GoogleResults'
-CREATE TABLE [dbo].[GoogleResults] (
+-- Creating table 'DistanceResults'
+CREATE TABLE [dbo].[DistanceResults] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [Longitude] nvarchar(max)  NOT NULL,
-    [Latitude] nvarchar(max)  NOT NULL,
-    [TestItem_Id] int  NOT NULL
-);
-GO
-
--- Creating table 'OpenStreetResults'
-CREATE TABLE [dbo].[OpenStreetResults] (
-    [Id] int IDENTITY(1,1) NOT NULL,
-    [Longitude] nvarchar(max)  NOT NULL,
-    [Latitude] nvarchar(max)  NOT NULL,
-    [TestItem_Id] int  NOT NULL
-);
-GO
-
--- Creating table 'BingResults'
-CREATE TABLE [dbo].[BingResults] (
-    [Id] int IDENTITY(1,1) NOT NULL,
-    [Longitude] nvarchar(max)  NOT NULL,
-    [Latitude] nvarchar(max)  NOT NULL,
-    [TestItem_Id] int  NOT NULL
-);
-GO
-
--- Creating table 'TestResults'
-CREATE TABLE [dbo].[TestResults] (
-    [Id] int IDENTITY(1,1) NOT NULL,
-    [Distance] decimal(18,0)  NOT NULL
+    [Distance] decimal(18,0)  NOT NULL,
+    [FirstVendorTestResultId] int  NOT NULL,
+    [SecondVendorTestResultId] int  NOT NULL
 );
 GO
 
@@ -101,6 +73,16 @@ GO
 CREATE TABLE [dbo].[Vendors] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Name] nvarchar(max)  NOT NULL
+);
+GO
+
+-- Creating table 'VendorTestResults'
+CREATE TABLE [dbo].[VendorTestResults] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [TestItemId] int  NOT NULL,
+    [VendorId] int  NOT NULL,
+    [Longitude] decimal(18,0)  NOT NULL,
+    [Latitude] decimal(18,0)  NOT NULL
 );
 GO
 
@@ -114,27 +96,9 @@ ADD CONSTRAINT [PK_TestItems]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [Id] in table 'GoogleResults'
-ALTER TABLE [dbo].[GoogleResults]
-ADD CONSTRAINT [PK_GoogleResults]
-    PRIMARY KEY CLUSTERED ([Id] ASC);
-GO
-
--- Creating primary key on [Id] in table 'OpenStreetResults'
-ALTER TABLE [dbo].[OpenStreetResults]
-ADD CONSTRAINT [PK_OpenStreetResults]
-    PRIMARY KEY CLUSTERED ([Id] ASC);
-GO
-
--- Creating primary key on [Id] in table 'BingResults'
-ALTER TABLE [dbo].[BingResults]
-ADD CONSTRAINT [PK_BingResults]
-    PRIMARY KEY CLUSTERED ([Id] ASC);
-GO
-
--- Creating primary key on [Id] in table 'TestResults'
-ALTER TABLE [dbo].[TestResults]
-ADD CONSTRAINT [PK_TestResults]
+-- Creating primary key on [Id] in table 'DistanceResults'
+ALTER TABLE [dbo].[DistanceResults]
+ADD CONSTRAINT [PK_DistanceResults]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -144,50 +108,70 @@ ADD CONSTRAINT [PK_Vendors]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
+-- Creating primary key on [Id] in table 'VendorTestResults'
+ALTER TABLE [dbo].[VendorTestResults]
+ADD CONSTRAINT [PK_VendorTestResults]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
 -- --------------------------------------------------
 -- Creating all FOREIGN KEY constraints
 -- --------------------------------------------------
 
--- Creating foreign key on [TestItem_Id] in table 'GoogleResults'
-ALTER TABLE [dbo].[GoogleResults]
-ADD CONSTRAINT [FK_TestItemGoogleResult]
-    FOREIGN KEY ([TestItem_Id])
+-- Creating foreign key on [TestItemId] in table 'VendorTestResults'
+ALTER TABLE [dbo].[VendorTestResults]
+ADD CONSTRAINT [FK_TestItemVendorTestResult]
+    FOREIGN KEY ([TestItemId])
     REFERENCES [dbo].[TestItems]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 
--- Creating non-clustered index for FOREIGN KEY 'FK_TestItemGoogleResult'
-CREATE INDEX [IX_FK_TestItemGoogleResult]
-ON [dbo].[GoogleResults]
-    ([TestItem_Id]);
+-- Creating non-clustered index for FOREIGN KEY 'FK_TestItemVendorTestResult'
+CREATE INDEX [IX_FK_TestItemVendorTestResult]
+ON [dbo].[VendorTestResults]
+    ([TestItemId]);
 GO
 
--- Creating foreign key on [TestItem_Id] in table 'OpenStreetResults'
-ALTER TABLE [dbo].[OpenStreetResults]
-ADD CONSTRAINT [FK_TestItemOpenStreetResult]
-    FOREIGN KEY ([TestItem_Id])
-    REFERENCES [dbo].[TestItems]
+-- Creating foreign key on [VendorId] in table 'VendorTestResults'
+ALTER TABLE [dbo].[VendorTestResults]
+ADD CONSTRAINT [FK_VendorVendorTestResult]
+    FOREIGN KEY ([VendorId])
+    REFERENCES [dbo].[Vendors]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 
--- Creating non-clustered index for FOREIGN KEY 'FK_TestItemOpenStreetResult'
-CREATE INDEX [IX_FK_TestItemOpenStreetResult]
-ON [dbo].[OpenStreetResults]
-    ([TestItem_Id]);
+-- Creating non-clustered index for FOREIGN KEY 'FK_VendorVendorTestResult'
+CREATE INDEX [IX_FK_VendorVendorTestResult]
+ON [dbo].[VendorTestResults]
+    ([VendorId]);
 GO
 
--- Creating foreign key on [TestItem_Id] in table 'BingResults'
-ALTER TABLE [dbo].[BingResults]
-ADD CONSTRAINT [FK_TestItemBingResult]
-    FOREIGN KEY ([TestItem_Id])
-    REFERENCES [dbo].[TestItems]
+-- Creating foreign key on [FirstVendorTestResultId] in table 'DistanceResults'
+ALTER TABLE [dbo].[DistanceResults]
+ADD CONSTRAINT [FK_FirstVendorTestResult]
+    FOREIGN KEY ([FirstVendorTestResultId])
+    REFERENCES [dbo].[VendorTestResults]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 
--- Creating non-clustered index for FOREIGN KEY 'FK_TestItemBingResult'
-CREATE INDEX [IX_FK_TestItemBingResult]
-ON [dbo].[BingResults]
-    ([TestItem_Id]);
+-- Creating non-clustered index for FOREIGN KEY 'FK_FirstVendorTestResult'
+CREATE INDEX [IX_FK_FirstVendorTestResult]
+ON [dbo].[DistanceResults]
+    ([FirstVendorTestResultId]);
+GO
+
+-- Creating foreign key on [SecondVendorTestResultId] in table 'DistanceResults'
+ALTER TABLE [dbo].[DistanceResults]
+ADD CONSTRAINT [FK_SecondVendorTestResult]
+    FOREIGN KEY ([SecondVendorTestResultId])
+    REFERENCES [dbo].[VendorTestResults]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_SecondVendorTestResult'
+CREATE INDEX [IX_FK_SecondVendorTestResult]
+ON [dbo].[DistanceResults]
+    ([SecondVendorTestResultId]);
 GO
 
 -- --------------------------------------------------

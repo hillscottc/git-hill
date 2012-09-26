@@ -7,22 +7,24 @@
     <Schema Namespace="ResultModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
   <EntityContainer Name="ResultModelStoreContainer">
     <EntitySet Name="TestItems" EntityType="ResultModel.Store.TestItems" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="GoogleResults" EntityType="ResultModel.Store.GoogleResults" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="OpenStreetResults" EntityType="ResultModel.Store.OpenStreetResults" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="BingResults" EntityType="ResultModel.Store.BingResults" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="TestResults" EntityType="ResultModel.Store.TestResults" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="DistanceResults" EntityType="ResultModel.Store.DistanceResults" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Vendors" EntityType="ResultModel.Store.Vendors" store:Type="Tables" Schema="dbo" />
-    <AssociationSet Name="TestItemGoogleResult" Association="ResultModel.Store.TestItemGoogleResult">
+    <EntitySet Name="VendorTestResults" EntityType="ResultModel.Store.VendorTestResults" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="TestItemVendorTestResult" Association="ResultModel.Store.TestItemVendorTestResult">
       <End Role="TestItem" EntitySet="TestItems" />
-      <End Role="GoogleResult" EntitySet="GoogleResults" />
+      <End Role="VendorTestResult" EntitySet="VendorTestResults" />
     </AssociationSet>
-    <AssociationSet Name="TestItemOpenStreetResult" Association="ResultModel.Store.TestItemOpenStreetResult">
-      <End Role="TestItem" EntitySet="TestItems" />
-      <End Role="OpenStreetResult" EntitySet="OpenStreetResults" />
+    <AssociationSet Name="VendorVendorTestResult" Association="ResultModel.Store.VendorVendorTestResult">
+      <End Role="Vendor" EntitySet="Vendors" />
+      <End Role="VendorTestResult" EntitySet="VendorTestResults" />
     </AssociationSet>
-    <AssociationSet Name="TestItemBingResult" Association="ResultModel.Store.TestItemBingResult">
-      <End Role="TestItem" EntitySet="TestItems" />
-      <End Role="BingResult" EntitySet="BingResults" />
+    <AssociationSet Name="FirstVendorTestResult" Association="ResultModel.Store.FirstVendorTestResult">
+      <End Role="VendorTestResult" EntitySet="VendorTestResults" />
+      <End Role="DistanceResult" EntitySet="DistanceResults" />
+    </AssociationSet>
+    <AssociationSet Name="SecondVendorTestResult" Association="ResultModel.Store.SecondVendorTestResult">
+      <End Role="VendorTestResult" EntitySet="VendorTestResults" />
+      <End Role="DistanceResult" EntitySet="DistanceResults" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="TestItems">
@@ -34,39 +36,14 @@
     <Property Name="CampaignId" Type="int" Nullable="false" />
     <Property Name="ResellerId" Type="int" Nullable="false" />
   </EntityType>
-  <EntityType Name="GoogleResults">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Longitude" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Latitude" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="TestItem_Id" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="OpenStreetResults">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Longitude" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Latitude" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="TestItem_Id" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="BingResults">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Longitude" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Latitude" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="TestItem_Id" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="TestResults">
+  <EntityType Name="DistanceResults">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Distance" Type="decimal" Nullable="false" />
+    <Property Name="FirstVendorTestResultId" Type="int" Nullable="false" />
+    <Property Name="SecondVendorTestResultId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Vendors">
     <Key>
@@ -75,39 +52,61 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
-  <Association Name="TestItemGoogleResult">
+  <EntityType Name="VendorTestResults">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TestItemId" Type="int" Nullable="false" />
+    <Property Name="VendorId" Type="int" Nullable="false" />
+    <Property Name="Longitude" Type="decimal" Nullable="false" />
+    <Property Name="Latitude" Type="decimal" Nullable="false" />
+  </EntityType>
+  <Association Name="TestItemVendorTestResult">
     <End Role="TestItem" Type="ResultModel.Store.TestItems" Multiplicity="1" />
-    <End Role="GoogleResult" Type="ResultModel.Store.GoogleResults" Multiplicity="*" />
+    <End Role="VendorTestResult" Type="ResultModel.Store.VendorTestResults" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="TestItem">
         <PropertyRef Name="Id" />
       </Principal>
-      <Dependent Role="GoogleResult">
-        <PropertyRef Name="TestItem_Id" />
+      <Dependent Role="VendorTestResult">
+        <PropertyRef Name="TestItemId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="TestItemOpenStreetResult">
-    <End Role="TestItem" Type="ResultModel.Store.TestItems" Multiplicity="1" />
-    <End Role="OpenStreetResult" Type="ResultModel.Store.OpenStreetResults" Multiplicity="*" />
+  <Association Name="VendorVendorTestResult">
+    <End Role="Vendor" Type="ResultModel.Store.Vendors" Multiplicity="1" />
+    <End Role="VendorTestResult" Type="ResultModel.Store.VendorTestResults" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="TestItem">
+      <Principal Role="Vendor">
         <PropertyRef Name="Id" />
       </Principal>
-      <Dependent Role="OpenStreetResult">
-        <PropertyRef Name="TestItem_Id" />
+      <Dependent Role="VendorTestResult">
+        <PropertyRef Name="VendorId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="TestItemBingResult">
-    <End Role="TestItem" Type="ResultModel.Store.TestItems" Multiplicity="1" />
-    <End Role="BingResult" Type="ResultModel.Store.BingResults" Multiplicity="*" />
+  <Association Name="FirstVendorTestResult">
+    <End Role="VendorTestResult" Type="ResultModel.Store.VendorTestResults" Multiplicity="1" />
+    <End Role="DistanceResult" Type="ResultModel.Store.DistanceResults" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="TestItem">
+      <Principal Role="VendorTestResult">
         <PropertyRef Name="Id" />
       </Principal>
-      <Dependent Role="BingResult">
-        <PropertyRef Name="TestItem_Id" />
+      <Dependent Role="DistanceResult">
+        <PropertyRef Name="FirstVendorTestResultId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="SecondVendorTestResult">
+    <End Role="VendorTestResult" Type="ResultModel.Store.VendorTestResults" Multiplicity="1" />
+    <End Role="DistanceResult" Type="ResultModel.Store.DistanceResults" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="VendorTestResult">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="DistanceResult">
+        <PropertyRef Name="SecondVendorTestResultId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -117,23 +116,25 @@
       <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="ResultModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
         <EntityContainer Name="ResultModelContainer" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="TestItems" EntityType="ResultModel.TestItem" />
-          <EntitySet Name="GoogleResults" EntityType="ResultModel.GoogleResult" />
-          <EntitySet Name="OpenStreetResults" EntityType="ResultModel.OpenStreetResult" />
-          <EntitySet Name="BingResults" EntityType="ResultModel.BingResult" />
-          <EntitySet Name="TestResults" EntityType="ResultModel.TestResult" />
-          <AssociationSet Name="TestItemGoogleResult" Association="ResultModel.TestItemGoogleResult">
+          <EntitySet Name="DistanceResults" EntityType="ResultModel.DistanceResult" />
+          <EntitySet Name="Vendors" EntityType="ResultModel.Vendor" />
+          <EntitySet Name="VendorTestResults" EntityType="ResultModel.VendorTestResult" />
+          <AssociationSet Name="TestItemVendorTestResult" Association="ResultModel.TestItemVendorTestResult">
             <End Role="TestItem" EntitySet="TestItems" />
-            <End Role="GoogleResult" EntitySet="GoogleResults" />
+            <End Role="VendorTestResult" EntitySet="VendorTestResults" />
           </AssociationSet>
-          <AssociationSet Name="TestItemOpenStreetResult" Association="ResultModel.TestItemOpenStreetResult">
-            <End Role="TestItem" EntitySet="TestItems" />
-            <End Role="OpenStreetResult" EntitySet="OpenStreetResults" />
+          <AssociationSet Name="VendorVendorTestResult" Association="ResultModel.VendorVendorTestResult">
+            <End Role="Vendor" EntitySet="Vendors" />
+            <End Role="VendorTestResult" EntitySet="VendorTestResults" />
           </AssociationSet>
-          <AssociationSet Name="TestItemBingResult" Association="ResultModel.TestItemBingResult">
-            <End Role="TestItem" EntitySet="TestItems" />
-            <End Role="BingResult" EntitySet="BingResults" />
+          <AssociationSet Name="FirstVendorTestResult" Association="ResultModel.FirstVendorTestResult">
+            <End Role="VendorTestResult" EntitySet="VendorTestResults" />
+            <End Role="DistanceResult" EntitySet="DistanceResults" />
           </AssociationSet>
-          <EntitySet Name="Vendors" EntityType="ResultModel.Vendors" />
+          <AssociationSet Name="SecondVendorTestResult" Association="ResultModel.SecondVendorTestResult">
+            <End Role="VendorTestResult" EntitySet="VendorTestResults" />
+            <End Role="DistanceResult" EntitySet="DistanceResults" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="TestItem">
           <Key>
@@ -143,63 +144,89 @@
           <Property Type="String" Name="Address" Nullable="false" />
           <Property Type="Int32" Name="CampaignId" Nullable="false" />
           <Property Type="Int32" Name="ResellerId" Nullable="false" />
-          <NavigationProperty Name="GoogleResult" Relationship="ResultModel.TestItemGoogleResult" FromRole="TestItem" ToRole="GoogleResult" />
-          <NavigationProperty Name="OpenStreetResult" Relationship="ResultModel.TestItemOpenStreetResult" FromRole="TestItem" ToRole="OpenStreetResult" />
-          <NavigationProperty Name="BingResult" Relationship="ResultModel.TestItemBingResult" FromRole="TestItem" ToRole="BingResult" />
+          <NavigationProperty Name="VendorTestResults" Relationship="ResultModel.TestItemVendorTestResult" FromRole="TestItem" ToRole="VendorTestResult" />
         </EntityType>
-        <EntityType Name="GoogleResult">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="Longitude" Nullable="false" />
-          <Property Type="String" Name="Latitude" Nullable="false" />
-          <NavigationProperty Name="TestItem" Relationship="ResultModel.TestItemGoogleResult" FromRole="GoogleResult" ToRole="TestItem" />
-        </EntityType>
-        <EntityType Name="OpenStreetResult">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="Longitude" Nullable="false" />
-          <Property Type="String" Name="Latitude" Nullable="false" />
-          <NavigationProperty Name="TestItem" Relationship="ResultModel.TestItemOpenStreetResult" FromRole="OpenStreetResult" ToRole="TestItem" />
-        </EntityType>
-        <EntityType Name="BingResult">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="Longitude" Nullable="false" />
-          <Property Type="String" Name="Latitude" Nullable="false" />
-          <NavigationProperty Name="TestItem" Relationship="ResultModel.TestItemBingResult" FromRole="BingResult" ToRole="TestItem" />
-        </EntityType>
-        <EntityType Name="TestResult">
+        <EntityType Name="DistanceResult">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="Decimal" Name="Distance" Nullable="false" />
+          <NavigationProperty Name="FirstVendorTestResult" Relationship="ResultModel.FirstVendorTestResult" FromRole="DistanceResult" ToRole="VendorTestResult" />
+          <Property Type="Int32" Name="FirstVendorTestResultId" Nullable="false" />
+          <NavigationProperty Name="SecondVendorTestResult" Relationship="ResultModel.SecondVendorTestResult" FromRole="DistanceResult" ToRole="VendorTestResult" />
+          <Property Type="Int32" Name="SecondVendorTestResultId" Nullable="false" />
         </EntityType>
-        <Association Name="TestItemGoogleResult">
-          <End Type="ResultModel.TestItem" Role="TestItem" Multiplicity="1" />
-          <End Type="ResultModel.GoogleResult" Role="GoogleResult" Multiplicity="0..1" />
-        </Association>
-        <Association Name="TestItemOpenStreetResult">
-          <End Type="ResultModel.TestItem" Role="TestItem" Multiplicity="1" />
-          <End Type="ResultModel.OpenStreetResult" Role="OpenStreetResult" Multiplicity="0..1" />
-        </Association>
-        <Association Name="TestItemBingResult">
-          <End Type="ResultModel.TestItem" Role="TestItem" Multiplicity="1" />
-          <End Type="ResultModel.BingResult" Role="BingResult" Multiplicity="0..1" />
-        </Association>
-        <EntityType Name="Vendors">
+        <EntityType Name="Vendor">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="Name" Nullable="false" />
+          <NavigationProperty Name="VendorTestResults" Relationship="ResultModel.VendorVendorTestResult" FromRole="Vendor" ToRole="VendorTestResult" />
         </EntityType>
+        <EntityType Name="VendorTestResult">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="TestItem" Relationship="ResultModel.TestItemVendorTestResult" FromRole="VendorTestResult" ToRole="TestItem" />
+          <Property Type="Int32" Name="TestItemId" Nullable="false" />
+          <NavigationProperty Name="Vendor" Relationship="ResultModel.VendorVendorTestResult" FromRole="VendorTestResult" ToRole="Vendor" />
+          <Property Type="Int32" Name="VendorId" Nullable="false" />
+          <NavigationProperty Name="DistanceResults" Relationship="ResultModel.FirstVendorTestResult" FromRole="VendorTestResult" ToRole="DistanceResult" />
+          <NavigationProperty Name="DistanceResults1" Relationship="ResultModel.SecondVendorTestResult" FromRole="VendorTestResult" ToRole="DistanceResult" />
+          <Property Type="Decimal" Name="Longitude" Nullable="false" />
+          <Property Type="Decimal" Name="Latitude" Nullable="false" />
+        </EntityType>
+        <Association Name="TestItemVendorTestResult">
+          <End Type="ResultModel.TestItem" Role="TestItem" Multiplicity="1" />
+          <End Type="ResultModel.VendorTestResult" Role="VendorTestResult" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TestItem">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="VendorTestResult">
+              <PropertyRef Name="TestItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="VendorVendorTestResult">
+          <End Type="ResultModel.Vendor" Role="Vendor" Multiplicity="1" />
+          <End Type="ResultModel.VendorTestResult" Role="VendorTestResult" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendor">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="VendorTestResult">
+              <PropertyRef Name="VendorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FirstVendorTestResult">
+          <End Type="ResultModel.VendorTestResult" Role="VendorTestResult" Multiplicity="1" />
+          <End Type="ResultModel.DistanceResult" Role="DistanceResult" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VendorTestResult">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DistanceResult">
+              <PropertyRef Name="FirstVendorTestResultId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SecondVendorTestResult">
+          <End Type="ResultModel.VendorTestResult" Role="VendorTestResult" Multiplicity="1" />
+          <End Type="ResultModel.DistanceResult" Role="DistanceResult" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VendorTestResult">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DistanceResult">
+              <PropertyRef Name="SecondVendorTestResultId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -216,73 +243,35 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="GoogleResults">
-      <EntityTypeMapping TypeName="IsTypeOf(ResultModel.GoogleResult)">
-        <MappingFragment StoreEntitySet="GoogleResults">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Longitude" ColumnName="Longitude" />
-          <ScalarProperty Name="Latitude" ColumnName="Latitude" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="OpenStreetResults">
-      <EntityTypeMapping TypeName="IsTypeOf(ResultModel.OpenStreetResult)">
-        <MappingFragment StoreEntitySet="OpenStreetResults">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Longitude" ColumnName="Longitude" />
-          <ScalarProperty Name="Latitude" ColumnName="Latitude" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="BingResults">
-      <EntityTypeMapping TypeName="IsTypeOf(ResultModel.BingResult)">
-        <MappingFragment StoreEntitySet="BingResults">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Longitude" ColumnName="Longitude" />
-          <ScalarProperty Name="Latitude" ColumnName="Latitude" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="TestResults">
-      <EntityTypeMapping TypeName="IsTypeOf(ResultModel.TestResult)">
-        <MappingFragment StoreEntitySet="TestResults">
+    <EntitySetMapping Name="DistanceResults">
+      <EntityTypeMapping TypeName="IsTypeOf(ResultModel.DistanceResult)">
+        <MappingFragment StoreEntitySet="DistanceResults">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Distance" ColumnName="Distance" />
+          <ScalarProperty Name="FirstVendorTestResultId" ColumnName="FirstVendorTestResultId" />
+          <ScalarProperty Name="SecondVendorTestResultId" ColumnName="SecondVendorTestResultId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Vendors">
-      <EntityTypeMapping TypeName="IsTypeOf(ResultModel.Vendors)">
+      <EntityTypeMapping TypeName="IsTypeOf(ResultModel.Vendor)">
         <MappingFragment StoreEntitySet="Vendors">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Name" ColumnName="Name" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <AssociationSetMapping Name="TestItemGoogleResult" TypeName="ResultModel.TestItemGoogleResult" StoreEntitySet="GoogleResults">
-      <EndProperty Name="TestItem">
-        <ScalarProperty Name="Id" ColumnName="TestItem_Id" />
-      </EndProperty>
-      <EndProperty Name="GoogleResult">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="TestItemOpenStreetResult" TypeName="ResultModel.TestItemOpenStreetResult" StoreEntitySet="OpenStreetResults">
-      <EndProperty Name="TestItem">
-        <ScalarProperty Name="Id" ColumnName="TestItem_Id" />
-      </EndProperty>
-      <EndProperty Name="OpenStreetResult">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="TestItemBingResult" TypeName="ResultModel.TestItemBingResult" StoreEntitySet="BingResults">
-      <EndProperty Name="TestItem">
-        <ScalarProperty Name="Id" ColumnName="TestItem_Id" />
-      </EndProperty>
-      <EndProperty Name="BingResult">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-    </AssociationSetMapping>
+    <EntitySetMapping Name="VendorTestResults">
+      <EntityTypeMapping TypeName="IsTypeOf(ResultModel.VendorTestResult)">
+        <MappingFragment StoreEntitySet="VendorTestResults">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="TestItemId" ColumnName="TestItemId" />
+          <ScalarProperty Name="VendorId" ColumnName="VendorId" />
+          <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+          <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>

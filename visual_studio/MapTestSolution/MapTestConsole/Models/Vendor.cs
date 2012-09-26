@@ -12,12 +12,16 @@ namespace MapTestConsole.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class OpenStreetResult
+    public partial class Vendor
     {
-        public int Id { get; set; }
-        public string Longitude { get; set; }
-        public string Latitude { get; set; }
+        public Vendor()
+        {
+            this.VendorTestResults = new HashSet<VendorTestResult>();
+        }
     
-        public virtual TestItem TestItem { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+    
+        public virtual ICollection<VendorTestResult> VendorTestResults { get; set; }
     }
 }

@@ -14,13 +14,16 @@ namespace MapTestConsole.Models
     
     public partial class TestItem
     {
+        public TestItem()
+        {
+            this.VendorTestResults = new HashSet<VendorTestResult>();
+        }
+    
         public int Id { get; set; }
         public string Address { get; set; }
         public int CampaignId { get; set; }
         public int ResellerId { get; set; }
     
-        public virtual GoogleResult GoogleResult { get; set; }
-        public virtual OpenStreetResult OpenStreetResult { get; set; }
-        public virtual BingResult BingResult { get; set; }
+        public virtual ICollection<VendorTestResult> VendorTestResults { get; set; }
     }
 }

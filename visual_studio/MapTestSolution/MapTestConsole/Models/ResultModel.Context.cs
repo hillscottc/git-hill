@@ -26,10 +26,8 @@ namespace MapTestConsole.Models
         }
     
         public DbSet<TestItem> TestItems { get; set; }
-        public DbSet<GoogleResult> GoogleResults { get; set; }
-        public DbSet<OpenStreetResult> OpenStreetResults { get; set; }
-        public DbSet<BingResult> BingResults { get; set; }
-        public DbSet<TestResult> TestResults { get; set; }
-        public DbSet<Vendors> Vendors { get; set; }
+        public DbSet<DistanceResult> DistanceResults { get; set; }
+        public DbSet<Vendor> Vendors { get; set; }
+        public DbSet<VendorTestResult> VendorTestResults { get; set; }
     }
 }

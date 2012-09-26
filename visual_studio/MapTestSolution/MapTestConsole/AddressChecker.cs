@@ -8,23 +8,12 @@ using log4net.Config;
 using Geneva3.G3GeoMap;
 using System.Data.Entity;
 
+
 namespace MapTestConsole
 {
     public static class AddressChecker
     {
-        private static ILog log;
-        private static DbContext dbTest;
-
-        static AddressChecker()
-        {
-            log = LogManager.GetLogger(typeof(AddressChecker));
-            dbTest = new Models.ResultModelContainer();
-        }
-
-        /// <summary>
-        /// contains view vwMapTest, which has data where campid status is in 2 (CampaignActive), 6(ContractActive), or 13(AdevertiserArrayActive).
-        /// </summary>
-        private static Models.Geneva3_ReportingEntities1 dbReporting = new Models.Geneva3_ReportingEntities1();
+        private static ILog log = LogManager.GetLogger(typeof(AddressChecker));
 
 
         /// <summary>
@@ -37,6 +26,9 @@ namespace MapTestConsole
         /// <returns></returns>
         //public static string ProcessRecords(int numToProcess, int resellerIdMin, int resellerIdMax)
         //{
+        //    var dbTest = new Models.ResultModelContainer();
+        //    var dbReporting = new Models.Geneva3_ReportingEntities1();
+
         //    int count = 0;
         //    int errorCount = 0;
 
@@ -55,11 +47,16 @@ namespace MapTestConsole
         //    {
         //        count++;
 
-        //        var mtr = new Models.MapTestResult { address = v.GetLocationString(), resellId = v.ResellerID };
+        //        //var mtr = new Models.MapTestResult { address = v.GetLocationString(), resellId = v.ResellerID };
+        //        Models.ITestItem testItem = new Models.TestItem { Address = GeoMapUtil.GetLocationString(v.City, v.Region, v.PostalCode), ResellerId = v.ResellerID };
+
+        //        var testResultList = new List<Models.TestResult>();
 
         //        bool setOk = false;
         //        try
         //        {
+        //            Models.ITestResult testResult;
+        //            Models.ITestResult testResult = new Models.TestResult { };
         //            mtr.SetResults();
         //            setOk = true;
         //        }

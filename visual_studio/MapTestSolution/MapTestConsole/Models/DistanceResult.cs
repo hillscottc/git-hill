@@ -12,12 +12,14 @@ namespace MapTestConsole.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class BingResult
+    public partial class DistanceResult
     {
         public int Id { get; set; }
-        public string Longitude { get; set; }
-        public string Latitude { get; set; }
+        public decimal Distance { get; set; }
+        public int FirstVendorTestResultId { get; set; }
+        public int SecondVendorTestResultId { get; set; }
     
-        public virtual TestItem TestItem { get; set; }
+        public virtual VendorTestResult FirstVendorTestResult { get; set; }
+        public virtual VendorTestResult SecondVendorTestResult { get; set; }
     }
 }

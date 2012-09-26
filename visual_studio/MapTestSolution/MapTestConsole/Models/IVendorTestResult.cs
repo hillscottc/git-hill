@@ -13,7 +13,7 @@ namespace MapTestConsole.Models
         int VendorId { get; set; }
         decimal Longitude { get; set; }
         decimal Latitude { get; set; }
-        
-        //void SetResults(string address, int firstVendor, int secondVendor);
+
+        void SetResults(TestItem testItem, Vendor vendor);
     }
 }

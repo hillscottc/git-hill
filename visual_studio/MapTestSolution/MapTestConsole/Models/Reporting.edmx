@@ -60,6 +60,7 @@
           <Property Type="String" Name="CountryCode" MaxLength="3" FixedLength="false" Unicode="true" />
           <Property Type="Int32" Name="ResellerID" Nullable="false" />
         </EntityType>
+        <ComplexType Name="ComplexType1" />
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->

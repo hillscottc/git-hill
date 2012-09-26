@@ -10,35 +10,68 @@ namespace MapTestConsole.Models
     public partial class VendorTestResult : IVendorTestResult
     {
 
+        public void SetResults(TestItem testItem, Vendor vendor)
+        {
+        
+            this.VendorId = vendor.Id;
+            this.TestItemId = testItem.Id;
+          
+            switch (vendor.Name)
+            {
+                case "Google":
+                    SearchGoogle(testItem.Address);
+                    break;
+                case "OpenStreetMaps":
+                    SearchOSM(testItem.Address);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException("Invalid search vendor.");
+            }
 
-        ///// <summary>
-        ///// Queries source the with and without zip, stores results.
-        ///// </summary>
-        //public void SetResults(string address, int firstVendor, int secondVendor)
+        }
+
+        private void SearchOSM(string address)
+        {
+            GeoCodingOSM.Place place = GeoCodingOSM.GetCoordinates(address);
+            if (place != null)
+            {
+                //this.DisplayName = place.DisplayName;
+                this.Longitude = Decimal.Round(place.Longitude, 6);
+                this.Latitude = Decimal.Round(place.Latitude, 6);
+            }
+        }
+
+        private void SearchGoogle(string address)
+        {
+            var coords = GeoCoding.GetCoordinates("http://webservices.geneva3.webvisible.com", address);
+            if (coords != null)
+            {
+                this.Longitude = Decimal.Round(coords.Longitude, 6);
+                this.Latitude = Decimal.Round(coords.Latitude, 6);
+            }
+        }
+
+
+        //QueryOSMWithZip();
+        //QueryOSMWithNOZip();
+
+        //this.Distance = 0.00m;
+
+        //double d = GeoMapUtil.distance((double)zipLatitude, (double)zipLongitude, (double)noZipLatitude, (double)noZipLongitude, 'M');
+        //if (zipLatitude != null && noZipLatitude != null)
         //{
-        //    if (address == null || address == "")
-        //        throw new ArgumentException("Address cannot be null.");
+        //    float f = (float)GeoMapUtil.distance((double)zipLatitude, (double)zipLongitude, (double)noZipLatitude, (double)noZipLongitude, 'M');
 
-        //    this.noZipAddress = GeoCodingOSM.StripTrailingPostalCode(address);
-
-        //    QueryOSMWithZip();
-        //    QueryOSMWithNOZip();
-
-        //    this.Distance = 0.00m;
-
-        //    double d = GeoMapUtil.distance((double)zipLatitude, (double)zipLongitude, (double)noZipLatitude, (double)noZipLongitude, 'M');
-        //    if (zipLatitude != null && noZipLatitude != null)
+        //    if (!float.IsNaN(f))
         //    {
-        //        float f = (float)GeoMapUtil.distance((double)zipLatitude, (double)zipLongitude, (double)noZipLatitude, (double)noZipLongitude, 'M');
-
-        //        if (!float.IsNaN(f))
-        //        {
-        //            this.distance = (decimal)Math.Round(f, 2);
-        //        }
-
+        //        this.distance = (decimal)Math.Round(f, 2);
         //    }
 
         //}
+
+
+
+
 
         //private void QueryOSMWithZip()
         //{

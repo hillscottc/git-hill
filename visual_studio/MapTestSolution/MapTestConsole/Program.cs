@@ -22,11 +22,18 @@ namespace MapTestConsole
         {
             log4net.Config.XmlConfigurator.Configure();
 
-     
+            //AddressChecker.ProcessRecords(2, 241, 241);
+
+            var testAddresses = new List<Models.vwMapTest>
+            {
+                new Models.vwMapTest { City="Inglewood", Region="CA", PostalCode="90305" },
+                new Models.vwMapTest { City="Uxbridge", Region="MA", PostalCode="01569" },
+            }; 
+
 
             //TestGoogleMaps();
 
-            //AddressChecker.ProcessRecords(2, 241, 241);
+
 
             Console.WriteLine("\n\nDone. Press any key to close.");
             Console.ReadKey();

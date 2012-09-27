@@ -41,7 +41,7 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Distance" Type="decimal" Nullable="false" />
+    <Property Name="Distance" Type="float" Nullable="false" />
     <Property Name="FirstVendorTestResultId" Type="int" Nullable="false" />
     <Property Name="SecondVendorTestResultId" Type="int" Nullable="false" />
   </EntityType>
@@ -59,8 +59,8 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="TestItemId" Type="int" Nullable="false" />
     <Property Name="VendorId" Type="int" Nullable="false" />
-    <Property Name="Longitude" Type="decimal" Nullable="false" />
-    <Property Name="Latitude" Type="decimal" Nullable="false" />
+    <Property Name="Longitude" Type="float" Nullable="false" />
+    <Property Name="Latitude" Type="float" Nullable="false" />
   </EntityType>
   <Association Name="TestItemVendorTestResult">
     <End Role="TestItem" Type="ResultModel.Store.TestItems" Multiplicity="1" />
@@ -151,7 +151,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="Decimal" Name="Distance" Nullable="false" />
+          <Property Type="Double" Name="Distance" Nullable="false" />
           <NavigationProperty Name="FirstVendorTestResult" Relationship="ResultModel.FirstVendorTestResult" FromRole="DistanceResult" ToRole="VendorTestResult" />
           <Property Type="Int32" Name="FirstVendorTestResultId" Nullable="false" />
           <NavigationProperty Name="SecondVendorTestResult" Relationship="ResultModel.SecondVendorTestResult" FromRole="DistanceResult" ToRole="VendorTestResult" />
@@ -176,8 +176,8 @@
           <Property Type="Int32" Name="VendorId" Nullable="false" />
           <NavigationProperty Name="DistanceResults" Relationship="ResultModel.FirstVendorTestResult" FromRole="VendorTestResult" ToRole="DistanceResult" />
           <NavigationProperty Name="DistanceResults1" Relationship="ResultModel.SecondVendorTestResult" FromRole="VendorTestResult" ToRole="DistanceResult" />
-          <Property Type="Decimal" Name="Longitude" Nullable="false" />
-          <Property Type="Decimal" Name="Latitude" Nullable="false" />
+          <Property Type="Double" Name="Longitude" Nullable="false" />
+          <Property Type="Double" Name="Latitude" Nullable="false" />
         </EntityType>
         <Association Name="TestItemVendorTestResult">
           <End Type="ResultModel.TestItem" Role="TestItem" Multiplicity="1" />

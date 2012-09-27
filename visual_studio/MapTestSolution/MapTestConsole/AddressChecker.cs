@@ -16,104 +16,107 @@ namespace MapTestConsole
     {
         private static ILog log = LogManager.GetLogger(typeof(AddressChecker));
 
-        private static ResultModelContainer dbTest = new ResultModelContainer();
-        private static Geneva3_ReportingEntities1 dbReporting = new Geneva3_ReportingEntities1();
-
-        /// <summary>
-        /// Read advertiser addresses from Geneva3_Reporting db. Query OpenSourceMaps with and without zip code.
-        /// Calc distance between the two results. Store in local db for analysis.
-        /// </summary>
-        /// <param name="numToProcess"></param>
-        /// <param name="resellerIdMin"></param>
-        /// <param name="resellerIdMax"></param>
-        /// <returns></returns>
-        public static string ProcessRecords(int numToProcess, int resellerIdMin, int resellerIdMax)
+        public static IList<vwMapTest> GetGenevaAddresses(int numToProcess, int resellerIdMin, int resellerIdMax)
         {
 
             Console.WriteLine(String.Format("Process {0} records with resellerId in range {1} to {2}.", numToProcess, resellerIdMin, resellerIdMax));
             Console.WriteLine("Beginning.....see details in log file.");
 
+            IList<vwMapTest> genevaAddresses;
 
-            List<Models.vwMapTest> testAddresses = (from t in dbReporting.vwMapTests
-                                 where t.ResellerID >= resellerIdMin
-                                 && t.ResellerID <= resellerIdMax
-                                 select t).Distinct().Take(numToProcess).ToList();
-            
-            return ProcessRecords(testAddresses);
- 
+            using (Geneva3_ReportingEntities1 dbReporting = new Geneva3_ReportingEntities1())
+            {
+                genevaAddresses = (from t in dbReporting.vwMapTests
+                                    where t.ResellerID >= resellerIdMin
+                                    && t.ResellerID <= resellerIdMax
+                                    select t).Distinct().Take(numToProcess).ToList();
+            }
+  
+            return genevaAddresses;
+
         }
 
-        public static string ProcessRecords(List<Models.vwMapTest> testAddresses)
+
+        public static IList<VendorTestResult> ProcessAddresses(IList<TestItem> testItems)
         {
-            var dbTest = new Models.ResultModelContainer();
-            var dbReporting = new Models.Geneva3_ReportingEntities1();
+            IList<VendorTestResult> testResults = new List<VendorTestResult>();
 
             int count = 0;
-            int errorCount = 0;
 
-            foreach (Models.vwMapTest mt in testAddresses)
+            foreach (TestItem testItem in testItems)
             {
                 count++;
 
-                //var mtr = new Models.MapTestResult { address = v.GetLocationString(), resellId = v.ResellerID };
-                var testItem = new Models.TestItem
+                IList<Vendor> vendorList;
+                using (var dbTest = new ResultModelContainer())
                 {
-                    Address = GeoMapUtil.GetLocationString(mt.City, mt.Region, mt.PostalCode),
-                    ResellerId = mt.ResellerID
-                };
+                    vendorList = (from v in dbTest.Vendors select v).ToList();
+                }
 
-                dbTest.TestItems.Add(testItem);
-                dbTest.SaveChanges();
+                foreach (Vendor vendor in vendorList)
+                {
+                    try
+                    {
+                        //VendorTestResult testResult = new VendorTestResult(testItem.Id, vendor.Id);
+                        VendorTestResult testResult = new VendorTestResult(testItem, vendor);
+                        testResult.ProcessGeoCoding();
+                        testResults.Add(testResult);
+                        log.Info(String.Format("Address count: {0}, {1}", count.ToString(), testResult.ToString()));
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.ToString());
+                        log.Error(String.Format("Failed tested number {0} for {1}\n{2}", count, testItem.ToString(), e.ToString()));
+                    }
 
-                var vendor = (from v in dbTest.Vendors where v.Name.Equals("Google") select v).SingleOrDefault();
-
-                var testResult = new Models.VendorTestResult();
-                testResult.SetResults(testItem, vendor);
-
-                dbTest.VendorTestResults.Add(testResult);
-                dbTest.SaveChanges();
-
+                }
 
             }
 
-            //bool setOk = false;
-            //try
-            //{
-            //    Models.ITestResult testResult;
-            //    Models.ITestResult testResult = new Models.TestResult { };
-            //    mtr.SetResults();
-            //    setOk = true;
-            //}
-            //catch (Exception e)
-            //{
-            //    Console.WriteLine(e.ToString());
-            //    log.Error(e.ToString());
-            //    errorCount++;
-            //}
-            //Console.Write("..." + count.ToString());
-            //log.Info("Count: " + count.ToString() + "\n" + mtr.ToString());
-
-            //// save to db
-            //if (setOk)
-            //{
-            //    try
-            //    {
-            //        dbTest.MapTestResults.Add(mtr);
-            //        dbTest.SaveChanges();
-            //    }
-            //    catch (Exception e)
-            //    {
-            //        Console.WriteLine(e.ToString());
-            //        log.Error(e.ToString());
-            //        errorCount++;
-            //    }
-            //}
-            //Console.WriteLine("\n");
-            string msg = String.Format("Processed {0} records with {1} errors.", count, errorCount);
-
-            return msg;
-
+            return testResults;
         }
 
+
+        public static IList<DistanceResult> ProcessDistances(IList<VendorTestResult> testResults)
+        {
+            IList<DistanceResult> distanceResults = new List<DistanceResult>();
+
+            int googleVendorId = Vendor.GetIdByName("Google");
+            int osmVendorId = Vendor.GetIdByName("OpenStreetMap");
+
+            IList<VendorTestResult> googleResults = (from e in testResults where e.VendorId == googleVendorId select e).ToList();
+            IList<VendorTestResult> osmResults = (from e in testResults where e.VendorId == osmVendorId select e).ToList();
+
+            foreach (var gResult in googleResults)
+            {
+                VendorTestResult osmResult = (from e in osmResults
+                                              where e.TestItemId == gResult.TestItemId
+                                              select e).SingleOrDefault();
+
+                DistanceResult dr = new DistanceResult { FirstVendorTestResult = gResult, SecondVendorTestResult = osmResult, Distance = (double) 0 };
+
+
+
+                if (dr.FirstVendorTestResult.Latitude != VendorTestResult.NullValue && dr.SecondVendorTestResult.Latitude != VendorTestResult.NullValue)
+                {
+                    float f = (float)GeoMapUtil.distance((double)dr.FirstVendorTestResult.Latitude,
+                                                (double)dr.FirstVendorTestResult.Longitude,
+                                                (double)dr.SecondVendorTestResult.Latitude,
+                                                (double)dr.SecondVendorTestResult.Longitude, 'M');
+
+                    if (!float.IsNaN(f))
+                    {
+                        dr.Distance = (float)Math.Round(f, 2);
+                    }
+                }
+
+                distanceResults.Add(dr);
+            }
+
+            return distanceResults;
+        }
+
+
     }
+
 }

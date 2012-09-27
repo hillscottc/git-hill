@@ -15,7 +15,7 @@ namespace MapTestConsole.Models
     public partial class DistanceResult
     {
         public int Id { get; set; }
-        public decimal Distance { get; set; }
+        public double Distance { get; set; }
         public int FirstVendorTestResultId { get; set; }
         public int SecondVendorTestResultId { get; set; }
     

@@ -7,22 +7,45 @@ using Geneva3.G3GeoMap;
 
 namespace MapTestConsole.Models
 {
-    public partial class VendorTestResult : IVendorTestResult
+    public partial class VendorTestResult
     {
+        // for un-inited long and lat
+        public const int NullValue = short.MinValue;
 
-        public void SetResults(TestItem testItem, Vendor vendor)
+        //public VendorTestResult(int testItemId, int vendorId) : base()
+        //{
+        //    //this.Vendor = vendor;
+        //    this.VendorId = VendorId;
+        //    //this.TestItem = testItem;
+        //    this.TestItemId = testItemId;
+        //    this.Latitude = NullValue;
+        //    this.Longitude = NullValue;
+        //}
+
+        public VendorTestResult(TestItem testItem, Vendor vendor) : base()
         {
+            this.Vendor = vendor;
+            //this.VendorId = VendorId;
+            this.TestItem = testItem;
+            //this.TestItemId = testItemId;
+            this.Latitude = NullValue;
+            this.Longitude = NullValue;
+        }
+
+        public void ProcessGeoCoding()
+        {
+            if (this.Vendor == null || this.TestItem == null)
+            {
+                throw new ArgumentNullException("Vendor and TestItem unitialized.");
+            }
         
-            this.VendorId = vendor.Id;
-            this.TestItemId = testItem.Id;
-          
-            switch (vendor.Name)
+            switch (Vendor.Name)
             {
                 case "Google":
-                    SearchGoogle(testItem.Address);
+                    SearchGoogle(TestItem.Address);
                     break;
-                case "OpenStreetMaps":
-                    SearchOSM(testItem.Address);
+                case "OpenStreetMap":
+                    SearchOSM(TestItem.Address);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException("Invalid search vendor.");
@@ -36,8 +59,8 @@ namespace MapTestConsole.Models
             if (place != null)
             {
                 //this.DisplayName = place.DisplayName;
-                this.Longitude = Decimal.Round(place.Longitude, 6);
-                this.Latitude = Decimal.Round(place.Latitude, 6);
+                this.Longitude = (double) place.Longitude;
+                this.Latitude = (double) place.Latitude;
             }
         }
 
@@ -46,63 +69,15 @@ namespace MapTestConsole.Models
             var coords = GeoCoding.GetCoordinates("http://webservices.geneva3.webvisible.com", address);
             if (coords != null)
             {
-                this.Longitude = Decimal.Round(coords.Longitude, 6);
-                this.Latitude = Decimal.Round(coords.Latitude, 6);
+                this.Longitude = (double)coords.Longitude;
+                this.Latitude = (double)coords.Latitude;
             }
         }
 
+        public override string ToString()
+        {
+            return String.Format("Test Address:{0}; Vendor:{1}; Latitude:{2}; Longitude:{3} ", TestItem.Address, Vendor.Name, Latitude, Longitude);
+        }
 
-        //QueryOSMWithZip();
-        //QueryOSMWithNOZip();
-
-        //this.Distance = 0.00m;
-
-        //double d = GeoMapUtil.distance((double)zipLatitude, (double)zipLongitude, (double)noZipLatitude, (double)noZipLongitude, 'M');
-        //if (zipLatitude != null && noZipLatitude != null)
-        //{
-        //    float f = (float)GeoMapUtil.distance((double)zipLatitude, (double)zipLongitude, (double)noZipLatitude, (double)noZipLongitude, 'M');
-
-        //    if (!float.IsNaN(f))
-        //    {
-        //        this.distance = (decimal)Math.Round(f, 2);
-        //    }
-
-        //}
-
-
-
-
-
-        //private void QueryOSMWithZip()
-        //{
-        //    GeoCodingOSM.Place place = GeoCodingOSM.GetCoordinates(this.address);
-        //    if (place != null)
-        //    {
-        //        this.zipDisplay = place.DisplayName;
-        //        this.zipLongitude = Decimal.Round(place.Longitude, 6);
-        //        this.zipLatitude = Decimal.Round(place.Latitude, 6);
-        //    }
-        //}
-
-        //private void QueryOSMWithNOZip()
-        //{
-        //    GeoCodingOSM.Place place = GeoCodingOSM.GetCoordinates(this.noZipAddress);
-        //    if (place != null)
-        //    {
-        //        this.noZipDisplay = place.DisplayName;
-        //        this.noZipLongitude = Decimal.Round(place.Longitude, 6);
-        //        this.noZipLatitude = Decimal.Round(place.Latitude, 6);
-        //    }
-        //}
-
-        //public override string ToString()
-        //{
-        //    //string s = string.Format("{0} {1}\n", address, zipDisplay);
-        //    //s += string.Format("{0} {1}\n", noZipAddress, noZipDisplay);
-        //    //s += "Distance between = " + distance;
-        //    //return s;
-
-
-        //}
     }
 }

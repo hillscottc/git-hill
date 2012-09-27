@@ -60,9 +60,6 @@
     <Compile Include="Models\DistanceResult.cs">
       <DependentUpon>ResultModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ITestItem.cs" />
-    <Compile Include="Models\IVendor.cs" />
-    <Compile Include="Models\IVendorTestResult.cs" />
     <Compile Include="Models\ResultModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -78,9 +75,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ResultModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\ResultModelContainer.Meta.cs" />
     <Compile Include="Models\TestItem.cs">
       <DependentUpon>ResultModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Vendor.Meta.cs" />
     <Compile Include="Models\VendorTestResult.Meta.cs" />
     <Compile Include="Models\Vendor.cs">
       <DependentUpon>ResultModel.tt</DependentUpon>

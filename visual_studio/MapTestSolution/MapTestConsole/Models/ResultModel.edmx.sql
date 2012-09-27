@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 09/25/2012 17:33:25
+-- Date Created: 09/26/2012 18:35:20
 -- Generated from EDMX file: C:\cygwin\home\shill\git-hill\visual_studio\MapTestSolution\MapTestConsole\Models\ResultModel.edmx
 -- --------------------------------------------------
 
@@ -40,8 +40,8 @@ GO
 IF OBJECT_ID(N'[dbo].[DistanceResults]', 'U') IS NOT NULL
     DROP TABLE [dbo].[DistanceResults];
 GO
-IF OBJECT_ID(N'[dbo].[Vendors1]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Vendors1];
+IF OBJECT_ID(N'[dbo].[Vendors]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Vendors];
 GO
 IF OBJECT_ID(N'[dbo].[VendorTestResults]', 'U') IS NOT NULL
     DROP TABLE [dbo].[VendorTestResults];
@@ -63,7 +63,7 @@ GO
 -- Creating table 'DistanceResults'
 CREATE TABLE [dbo].[DistanceResults] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [Distance] decimal(18,0)  NOT NULL,
+    [Distance] float  NOT NULL,
     [FirstVendorTestResultId] int  NOT NULL,
     [SecondVendorTestResultId] int  NOT NULL
 );
@@ -81,8 +81,8 @@ CREATE TABLE [dbo].[VendorTestResults] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [TestItemId] int  NOT NULL,
     [VendorId] int  NOT NULL,
-    [Longitude] decimal(18,0)  NOT NULL,
-    [Latitude] decimal(18,0)  NOT NULL
+    [Longitude] float  NOT NULL,
+    [Latitude] float  NOT NULL
 );
 GO
 

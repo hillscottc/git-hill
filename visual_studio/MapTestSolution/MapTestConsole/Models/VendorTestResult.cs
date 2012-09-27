@@ -23,8 +23,8 @@ namespace MapTestConsole.Models
         public int Id { get; set; }
         public int TestItemId { get; set; }
         public int VendorId { get; set; }
-        public decimal Longitude { get; set; }
-        public decimal Latitude { get; set; }
+        public double Longitude { get; set; }
+        public double Latitude { get; set; }
     
         public virtual TestItem TestItem { get; set; }
         public virtual Vendor Vendor { get; set; }

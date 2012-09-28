@@ -79,23 +79,65 @@ namespace MapTestConsole
 
         public static IList<DistanceResult> ProcessDistances(IList<VendorTestResult> testResults)
         {
-            IList<DistanceResult> distanceResults = new List<DistanceResult>();
+            List<DistanceResult> distanceResults = new List<DistanceResult>();
 
             int googleVendorId = Vendor.GetIdByName("Google");
             int osmVendorId = Vendor.GetIdByName("OpenStreetMap");
+            int osmNoZipVendorId = Vendor.GetIdByName("OSMNoZip");
 
             IList<VendorTestResult> googleResults = (from e in testResults where e.VendorId == googleVendorId select e).ToList();
             IList<VendorTestResult> osmResults = (from e in testResults where e.VendorId == osmVendorId select e).ToList();
+            IList<VendorTestResult> osmNoZipResults = (from e in testResults where e.VendorId == osmNoZipVendorId select e).ToList();
 
-            foreach (var gResult in googleResults)
+            IList<DistanceResult> pairResults;
+
+            pairResults = ProcessPair(googleResults, osmResults);
+            distanceResults.AddRange(pairResults);
+
+            pairResults = ProcessPair(googleResults, osmNoZipResults);
+            distanceResults.AddRange(pairResults);
+
+            pairResults = ProcessPair(osmResults, osmNoZipResults);
+            distanceResults.AddRange(pairResults);
+
+
+            //foreach (var gResult in googleResults)
+            //{
+            //    VendorTestResult osmResult = (from e in osmResults
+            //                                  where e.TestItemId == gResult.TestItemId
+            //                                  select e).SingleOrDefault();
+
+            //    DistanceResult dr = new DistanceResult { FirstVendorTestResult = gResult, SecondVendorTestResult = osmResult, Distance = (double)0 };
+  //        float f = (float)GeoMapUtil.distance((double)dr.FirstVendorTestResult.Latitude,
+            //                                    (double)dr.FirstVendorTestResult.Longitude,
+            //                                    (double)dr.SecondVendorTestResult.Latitude,
+            //                                    (double)dr.SecondVendorTestResult.Longitude, 'M');
+
+            //        if (!float.IsNaN(f))
+            //        {
+            //            dr.Distance = (float)Math.Round(f, 2);
+            //        }
+            //    }
+
+            //    distanceResults.Add(dr);
+            //}
+            //    if (dr.FirstVendorTestResult.Latitude != VendorTestResult.NullValue && dr.SecondVendorTestResult.Latitude != VendorTestResult.NullValue)
+            //    {
+          
+
+            return distanceResults;
+        }
+
+        private static IList<DistanceResult> ProcessPair(IList<VendorTestResult> firstResults, IList<VendorTestResult> secondResults)
+        {
+            IList<DistanceResult> distanceResults = new List<DistanceResult>();
+            foreach (var firstResult in firstResults)
             {
-                VendorTestResult osmResult = (from e in osmResults
-                                              where e.TestItemId == gResult.TestItemId
-                                              select e).SingleOrDefault();
+                VendorTestResult secondResult = (from e in secondResults
+                                                 where e.TestItemId == firstResult.TestItemId
+                                                select e).SingleOrDefault();
 
-                DistanceResult dr = new DistanceResult { FirstVendorTestResult = gResult, SecondVendorTestResult = osmResult, Distance = (double) 0 };
-
-
+                DistanceResult dr = new DistanceResult { FirstVendorTestResult = firstResult, SecondVendorTestResult = secondResult, Distance = (double)0 };
 
                 if (dr.FirstVendorTestResult.Latitude != VendorTestResult.NullValue && dr.SecondVendorTestResult.Latitude != VendorTestResult.NullValue)
                 {
@@ -112,7 +154,6 @@ namespace MapTestConsole
 
                 distanceResults.Add(dr);
             }
-
             return distanceResults;
         }
 

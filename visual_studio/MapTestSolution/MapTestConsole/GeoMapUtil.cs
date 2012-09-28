@@ -106,23 +106,23 @@ namespace MapTestConsole
         ///// </summary>
         ///// <param name="address"></param>
         ///// <returns></returns>
-        //public static string StripTrailingPostalCode(string address)
-        //{
-        //    string newAddress = string.Empty;
+        public static string StripTrailingPostalCode(string address)
+        {
+            string newAddress = string.Empty;
 
-        //    for (int i = address.Length; i > 0; i--)
-        //    {
-        //        string character = address.Substring(i - 1, 1);
-        //        int result = 0;
-        //        if (int.TryParse(character, out result) == false)
-        //        {
-        //            newAddress = address.Substring(0, i).Trim();
-        //            break;
-        //        }
-        //    }
+            for (int i = address.Length; i > 0; i--)
+            {
+                string character = address.Substring(i - 1, 1);
+                int result = 0;
+                if (int.TryParse(character, out result) == false)
+                {
+                    newAddress = address.Substring(0, i).Trim();
+                    break;
+                }
+            }
 
-        //    return newAddress;
-        //}
+            return newAddress;
+        }
 
         //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
         //:::                                                                         :::

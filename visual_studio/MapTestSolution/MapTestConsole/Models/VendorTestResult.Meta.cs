@@ -47,6 +47,9 @@ namespace MapTestConsole.Models
                 case "OpenStreetMap":
                     SearchOSM(TestItem.Address);
                     break;
+                case "OSMNoZip":
+                    SearchOSM(GeoMapUtil.StripTrailingPostalCode(TestItem.Address));
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException("Invalid search vendor.");
             }

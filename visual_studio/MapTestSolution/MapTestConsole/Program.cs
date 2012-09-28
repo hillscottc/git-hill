@@ -53,8 +53,10 @@ namespace MapTestConsole
             }
             //TestGoogleMaps();
 
-            Console.WriteLine("\n\nDone. Press any key to close.");
-            Console.ReadKey();
+            log.Info("Done");
+
+            //Console.WriteLine("\n\nDone. Press any key to close.");
+            //Console.ReadKey();
 
         }
 

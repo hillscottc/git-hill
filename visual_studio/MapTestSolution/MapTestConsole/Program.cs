@@ -41,8 +41,8 @@ namespace MapTestConsole
                 dbTest.SaveTestItems(testItemList);
                 log.Info(String.Format("Processed {0} addresses.", testItemList.Count));
 
-                // get vendor results from test items
-                IList<VendorTestResult> vendorResultList = AddressChecker.ProcessAddresses(testItemList);
+                IList<Vendor> vendorList = (from v in dbTest.Vendors select v).ToList();
+                IList<VendorTestResult> vendorResultList = VendorTestResult.GetResultsForVendors(testItemList, vendorList);
                 dbTest.SaveVendorTestResults(vendorResultList);
                 log.Info(String.Format("Processed {0} vendor results.", vendorResultList.Count));
 

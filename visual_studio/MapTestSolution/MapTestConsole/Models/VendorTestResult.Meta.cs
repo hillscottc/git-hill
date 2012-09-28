@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using log4net;
+using log4net.Config;
 using Geneva3.G3GeoMap;
 
 namespace MapTestConsole.Models
 {
     public partial class VendorTestResult
     {
+        private static ILog log = LogManager.GetLogger(typeof(VendorTestResult));
+
         // for un-inited long and lat
         public const int NullValue = short.MinValue;
 
@@ -22,7 +26,7 @@ namespace MapTestConsole.Models
         //    this.Longitude = NullValue;
         //}
 
-        public VendorTestResult(TestItem testItem, Vendor vendor) : base()
+        private VendorTestResult(TestItem testItem, Vendor vendor) : base()
         {
             this.Vendor = vendor;
             //this.VendorId = VendorId;
@@ -30,6 +34,40 @@ namespace MapTestConsole.Models
             //this.TestItemId = testItemId;
             this.Latitude = NullValue;
             this.Longitude = NullValue;
+        }
+
+
+        public static IList<VendorTestResult> GetResultsForVendors(IList<TestItem> testItems, IList<Vendor> vendorList)
+        {
+            IList<VendorTestResult> testResults = new List<VendorTestResult>();
+
+            int count = 0;
+
+            foreach (TestItem testItem in testItems)
+            {
+                count++;
+
+                foreach (Vendor vendor in vendorList)
+                {
+                    try
+                    {
+                        //VendorTestResult testResult = new VendorTestResult(testItem.Id, vendor.Id);
+                        VendorTestResult testResult = new VendorTestResult(testItem, vendor);
+                        testResult.ProcessGeoCoding();
+                        testResults.Add(testResult);
+                        log.Info(String.Format("Address count: {0}, {1}", count.ToString(), testResult.ToString()));
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.ToString());
+                        log.Error(String.Format("Failed tested number {0} for {1}\n{2}", count, testItem.ToString(), e.ToString()));
+                    }
+
+                }
+
+            }
+
+            return testResults;
         }
 
         public void ProcessGeoCoding()

@@ -37,44 +37,6 @@ namespace MapTestConsole
         }
 
 
-        public static IList<VendorTestResult> ProcessAddresses(IList<TestItem> testItems)
-        {
-            IList<VendorTestResult> testResults = new List<VendorTestResult>();
-
-            int count = 0;
-
-            foreach (TestItem testItem in testItems)
-            {
-                count++;
-
-                IList<Vendor> vendorList;
-                using (var dbTest = new ResultModelContainer())
-                {
-                    vendorList = (from v in dbTest.Vendors select v).ToList();
-                }
-
-                foreach (Vendor vendor in vendorList)
-                {
-                    try
-                    {
-                        //VendorTestResult testResult = new VendorTestResult(testItem.Id, vendor.Id);
-                        VendorTestResult testResult = new VendorTestResult(testItem, vendor);
-                        testResult.ProcessGeoCoding();
-                        testResults.Add(testResult);
-                        log.Info(String.Format("Address count: {0}, {1}", count.ToString(), testResult.ToString()));
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e.ToString());
-                        log.Error(String.Format("Failed tested number {0} for {1}\n{2}", count, testItem.ToString(), e.ToString()));
-                    }
-
-                }
-
-            }
-
-            return testResults;
-        }
 
 
         public static IList<DistanceResult> ProcessDistances(IList<VendorTestResult> testResults)
@@ -99,31 +61,6 @@ namespace MapTestConsole
 
             pairResults = ProcessPair(osmResults, osmNoZipResults);
             distanceResults.AddRange(pairResults);
-
-
-            //foreach (var gResult in googleResults)
-            //{
-            //    VendorTestResult osmResult = (from e in osmResults
-            //                                  where e.TestItemId == gResult.TestItemId
-            //                                  select e).SingleOrDefault();
-
-            //    DistanceResult dr = new DistanceResult { FirstVendorTestResult = gResult, SecondVendorTestResult = osmResult, Distance = (double)0 };
-  //        float f = (float)GeoMapUtil.distance((double)dr.FirstVendorTestResult.Latitude,
-            //                                    (double)dr.FirstVendorTestResult.Longitude,
-            //                                    (double)dr.SecondVendorTestResult.Latitude,
-            //                                    (double)dr.SecondVendorTestResult.Longitude, 'M');
-
-            //        if (!float.IsNaN(f))
-            //        {
-            //            dr.Distance = (float)Math.Round(f, 2);
-            //        }
-            //    }
-
-            //    distanceResults.Add(dr);
-            //}
-            //    if (dr.FirstVendorTestResult.Latitude != VendorTestResult.NullValue && dr.SecondVendorTestResult.Latitude != VendorTestResult.NullValue)
-            //    {
-          
 
             return distanceResults;
         }

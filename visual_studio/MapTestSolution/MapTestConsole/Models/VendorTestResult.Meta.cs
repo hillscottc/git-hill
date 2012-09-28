@@ -42,12 +42,12 @@ namespace MapTestConsole.Models
                         VendorTestResult testResult = new VendorTestResult(testItem, vendor);
                         testResult.ProcessGeoCoding();
                         testResults.Add(testResult);
-                        log.Info(String.Format("Address count: {0}, {1}", count.ToString(), testResult.ToString()));
+                        log.Info(testResult);
                     }
                     catch (Exception e)
                     {
                         Console.WriteLine(e.ToString());
-                        log.Error(String.Format("Failed tested number {0} for {1}\n{2}", count, testItem.ToString(), e.ToString()));
+                        log.Error(String.Format("TestItem...{0}\n  Error...{1}", testItem, e));
                     }
 
                 }
@@ -104,7 +104,7 @@ namespace MapTestConsole.Models
 
         public override string ToString()
         {
-            return String.Format("Test Address:{0}; Vendor:{1}; Latitude:{2}; Longitude:{3} ", TestItem.Address, Vendor.Name, Latitude, Longitude);
+            return String.Format("{0}; Address:{1}; Latitude:{2}; Longitude:{3} ", Vendor.Name, TestItem.Address, Latitude, Longitude);
         }
 
     }

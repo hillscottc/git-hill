@@ -56,6 +56,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AddressChecker.cs" />
+    <Compile Include="ComboUtil.cs" />
     <Compile Include="GeoMapUtil.cs" />
     <Compile Include="Models\DistanceResult.cs">
       <DependentUpon>ResultModel.tt</DependentUpon>
@@ -156,9 +157,10 @@
     <Content Include="Refs\G3GeoMap.dll" />
     <Content Include="Refs\log4net.dll" />
     <Content Include="Refs\log4net.xml" />
+    <Content Include="SQL\ClearTables.sql" />
     <Content Include="SQL\MapResults_queries.sql" />
-    <Content Include="SQL\MapTestResult_create.sql" />
     <Content Include="SQL\MiscSqlScraps.sql" />
+    <Content Include="SQL\ViewTestSummary_create.sql" />
     <Content Include="SQL\vwMapTest_create.sql" />
   </ItemGroup>
   <ItemGroup>

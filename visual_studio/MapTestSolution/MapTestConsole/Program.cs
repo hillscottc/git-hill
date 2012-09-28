@@ -27,7 +27,6 @@ namespace MapTestConsole
             log4net.Config.XmlConfigurator.Configure();
             log.Info("Begin.");
 
-
             var addressList = new List<vwMapTest>
             {
                 new Models.vwMapTest { City="Inglewood", Region="CA", PostalCode="90305" },

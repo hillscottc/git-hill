@@ -8,7 +8,6 @@ namespace MapTestConsole.Models
 {
     public partial class Vendor
     {
-
         public static int GetIdByName(string name)
         {
             using (ResultModelContainer dbTest = new ResultModelContainer())
@@ -19,6 +18,5 @@ namespace MapTestConsole.Models
                 return id;
             }
         }
-
     }
 }

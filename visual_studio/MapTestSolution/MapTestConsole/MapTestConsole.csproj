@@ -60,6 +60,7 @@
     <Compile Include="Models\DistanceResult.cs">
       <DependentUpon>ResultModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DistanceResult.Meta.cs" />
     <Compile Include="Models\ResultModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

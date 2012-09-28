@@ -16,26 +16,13 @@ namespace MapTestConsole.Models
         // for un-inited long and lat
         public const int NullValue = short.MinValue;
 
-        //public VendorTestResult(int testItemId, int vendorId) : base()
-        //{
-        //    //this.Vendor = vendor;
-        //    this.VendorId = VendorId;
-        //    //this.TestItem = testItem;
-        //    this.TestItemId = testItemId;
-        //    this.Latitude = NullValue;
-        //    this.Longitude = NullValue;
-        //}
-
         private VendorTestResult(TestItem testItem, Vendor vendor) : base()
         {
             this.Vendor = vendor;
-            //this.VendorId = VendorId;
             this.TestItem = testItem;
-            //this.TestItemId = testItemId;
             this.Latitude = NullValue;
             this.Longitude = NullValue;
         }
-
 
         public static IList<VendorTestResult> GetResultsForVendors(IList<TestItem> testItems, IList<Vendor> vendorList)
         {

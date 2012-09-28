@@ -23,8 +23,10 @@ namespace MapTestConsole
 
         static void Main(string[] args)
         {
+
             log4net.Config.XmlConfigurator.Configure();
             log.Info("Begin.");
+
 
             var addressList = new List<vwMapTest>
             {
@@ -47,11 +49,10 @@ namespace MapTestConsole
                 log.Info(String.Format("Processed {0} vendor results.", vendorResultList.Count));
 
                 // get distance results from vendor test pairs.
-                IList<DistanceResult> distanceResultList = AddressChecker.ProcessDistances(vendorResultList);
+                IList<DistanceResult> distanceResultList = DistanceResult.ProcessDistances(vendorResultList);
                 dbTest.SaveDistanceResults(distanceResultList);
                 log.Info(String.Format("Processed {0} distances.", distanceResultList.Count));
             }
-            //TestGoogleMaps();
 
             log.Info("Done");
 

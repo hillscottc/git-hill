@@ -157,6 +157,7 @@
     <Content Include="Refs\log4net.xml" />
     <Content Include="SQL\MapResults_queries.sql" />
     <Content Include="SQL\MapTestResult_create.sql" />
+    <Content Include="SQL\MiscSqlScraps.sql" />
     <Content Include="SQL\vwMapTest_create.sql" />
   </ItemGroup>
   <ItemGroup>

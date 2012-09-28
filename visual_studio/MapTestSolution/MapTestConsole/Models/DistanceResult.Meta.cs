@@ -10,7 +10,7 @@ namespace MapTestConsole.Models
 {
     public partial class DistanceResult
     {
-        //private static ILog log = LogManager.GetLogger(typeof(DistanceResult));
+        private static ILog log = LogManager.GetLogger(typeof(DistanceResult));
 
         private static IList<DistanceResult> ProcessPair(IList<VendorTestResult> firstResults, IList<VendorTestResult> secondResults)
         {
@@ -37,6 +37,7 @@ namespace MapTestConsole.Models
                 }
 
                 distanceResults.Add(dr);
+                log.Info(dr);
             }
             return distanceResults;
         }
@@ -60,6 +61,9 @@ namespace MapTestConsole.Models
             return distanceResults;
         }
 
-
+        public override string ToString()
+        {
+            return String.Format("{0}; {1} vs {2}; Distance:{3}", FirstVendorTestResult.TestItem.Address, FirstVendorTestResult.Vendor.Name, SecondVendorTestResult.Vendor.Name, Distance);
+        }
     }
 }

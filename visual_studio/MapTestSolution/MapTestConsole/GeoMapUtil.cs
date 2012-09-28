@@ -15,10 +15,6 @@ namespace MapTestConsole
     public static class GeoMapUtil
     {
 
-        //const string MQ_GEOMAP_URI = "http://open.mapquestapi.com/nominatim/v1/search?format=xml&q=";
-
-
-
         /// <summary>
         /// Geneva's method to build location string.
         /// </summary>
@@ -42,64 +38,6 @@ namespace MapTestConsole
             return (strLocation == "") ? strUnknown : strLocation;
         }
 
-
-        ///// <summary>
-        ///// Queries OpenSourceMap with address, returns first GeoCodingOSM place from results. 
-        ///// </summary>
-        ///// <param name="address"></param>
-        ///// <param name="withZip"></param>
-        ///// <returns></returns>
-        //public static Geneva3.G3GeoMap.GeoCodingOSM.Place GetGeoCoordinates(string address)
-        //{
-        //    WebClient client = new WebClient();
-
-        //    Uri uri = new Uri(string.Format("{0}{1}&addressdetails=0&limit=3", MQ_GEOMAP_URI, HttpUtility.UrlEncode(address)));
-
-        //    string geoCodeResults = client.DownloadString(uri);
-
-        //    List<Geneva3.G3GeoMap.GeoCodingOSM.Place> places = ParseGeoCodeResults(geoCodeResults);
-
-        //    if (places.Count > 0)
-        //    {
-        //        return places.FirstOrDefault(p => p.ResultsPosition == 1);
-        //    }
-
-        //    return null;
-        //}
-
-        ///// <summary>
-        ///// Parses geoCodeResults xml, returning list of GeoCodingOSM places.
-        ///// </summary>
-        ///// <param name="geoCodeResults"></param>
-        ///// <returns></returns>
-        //private static List<Geneva3.G3GeoMap.GeoCodingOSM.Place> ParseGeoCodeResults(string geoCodeResults)
-        //{
-        //    XmlDocument xmlDoc = new XmlDocument();
-
-        //    xmlDoc.LoadXml(geoCodeResults);
-
-        //    //string filename = "results_" + DateTime.Now.Millisecond + ".xml";
-        //    //xmlDoc.Save(OutPath + filename);
-        //    //Console.WriteLine("Wrote " + OutPath + filename);
-
-        //    XmlNodeList list = xmlDoc.SelectNodes("/searchresults/place");
-        //    List<Geneva3.G3GeoMap.GeoCodingOSM.Place> places = new List<Geneva3.G3GeoMap.GeoCodingOSM.Place>();
-
-        //    foreach (XmlElement node in list)
-        //    {
-        //        long id = long.Parse(node.GetAttribute("place_id"));
-        //        int rank = int.Parse(node.GetAttribute("place_rank"));
-        //        string boundingBox = node.GetAttribute("boundingbox");
-        //        decimal latitude = decimal.Parse(node.GetAttribute("lat"));
-        //        decimal longitude = decimal.Parse(node.GetAttribute("lon"));
-        //        string displayName = node.GetAttribute("display_name");
-        //        string placeClass = node.GetAttribute("class");
-        //        string placeType = node.GetAttribute("type");
-        //        places.Add(new Geneva3.G3GeoMap.GeoCodingOSM.Place(places.Count + 1, id, rank, boundingBox, latitude, longitude, displayName, placeClass, placeType));
-        //    }
-
-        //    return places;
-        //}
 
         ///// <summary>
         ///// Strip postal code from address

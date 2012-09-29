@@ -13,15 +13,14 @@ namespace MapTestConsole.Models
     {
         private static ILog log = LogManager.GetLogger(typeof(VendorTestResult));
 
-        // for un-inited long and lat
-        public const int NullValue = short.MinValue;
+
 
         private VendorTestResult(TestItem testItem, Vendor vendor) : base()
         {
             this.Vendor = vendor;
             this.TestItem = testItem;
-            this.Latitude = NullValue;
-            this.Longitude = NullValue;
+            this.Latitude = GeoMapUtil.LatLngNullValue;
+            this.Longitude = GeoMapUtil.LatLngNullValue;
         }
 
         public static IList<VendorTestResult> GetResultsForVendors(IList<TestItem> testItems, IList<Vendor> vendorList)
@@ -75,10 +74,24 @@ namespace MapTestConsole.Models
                 case "OSMNoZip":
                     SearchOSM(GeoMapUtil.StripTrailingPostalCode(TestItem.Address));
                     break;
+                case "MapQuest":
+                    SearchMapQuest(TestItem.Address);
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException("Invalid search vendor.");
             }
 
+        }
+
+        private void SearchMapQuest(string address)
+        {
+            GeoCodingOSM.Place place = GeoCodingOSM.GetCoordinates(address);
+            if (place != null)
+            {
+                //this.DisplayName = place.DisplayName;
+                this.Longitude = (double)place.Longitude;
+                this.Latitude = (double)place.Latitude;
+            }
         }
 
         private void SearchOSM(string address)

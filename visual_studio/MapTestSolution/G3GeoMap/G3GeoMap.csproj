@@ -67,6 +67,7 @@
     <Compile Include="GeoCity.cs" />
     <Compile Include="GeoCoding.cs" />
     <Compile Include="GeoCodingAccuracyLevel.cs" />
+    <Compile Include="GeoCodingMapQuest.cs" />
     <Compile Include="GeoCodingOSM.cs" />
     <Compile Include="GeoCodingResult.cs" />
     <Compile Include="GeoMap.cs" />

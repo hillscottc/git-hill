@@ -15,6 +15,10 @@ namespace MapTestConsole
     public static class GeoMapUtil
     {
 
+        // for un-inited long and lat
+        public const int LatLngNullValue = -1;
+
+
         /// <summary>
         /// Geneva's method to build location string.
         /// </summary>

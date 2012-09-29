@@ -21,9 +21,9 @@ namespace MapTestConsole.Models
                                                  where e.TestItemId == firstResult.TestItemId
                                                  select e).SingleOrDefault();
 
-                DistanceResult dr = new DistanceResult { FirstVendorTestResult = firstResult, SecondVendorTestResult = secondResult, Distance = (double)0 };
+                DistanceResult dr = new DistanceResult { FirstVendorTestResult = firstResult, SecondVendorTestResult = secondResult, Distance = (double)-1 };
 
-                if (dr.FirstVendorTestResult.Latitude != VendorTestResult.NullValue && dr.SecondVendorTestResult.Latitude != VendorTestResult.NullValue)
+                if (dr.FirstVendorTestResult.Latitude != GeoMapUtil.LatLngNullValue && dr.SecondVendorTestResult.Latitude != GeoMapUtil.LatLngNullValue)
                 {
                     float f = (float)GeoMapUtil.distance((double)dr.FirstVendorTestResult.Latitude,
                                                 (double)dr.FirstVendorTestResult.Longitude,

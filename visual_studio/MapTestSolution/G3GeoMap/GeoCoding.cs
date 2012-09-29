@@ -142,8 +142,8 @@ namespace Geneva3.G3GeoMap
                 // the fourth one is the longitude.
                 string[] geocodeInfo = client.DownloadString(uri).Split(',');
 
-                
 
+                #region "Parse Return Code"
                 switch (geocodeInfo[0])
                 {
                     case "200":
@@ -178,6 +178,7 @@ namespace Geneva3.G3GeoMap
                         error = "Google Maps API unknown error.";
                         break;
                 }
+                #endregion
 
                 if (!string.IsNullOrEmpty(error))
                 {
@@ -186,6 +187,7 @@ namespace Geneva3.G3GeoMap
 
                 accuracyLevel = int.Parse(geocodeInfo[1]);
 
+                #region "Parse Accuracy Code"
                 switch (accuracyLevel)
                 {
                     case 0:
@@ -219,6 +221,7 @@ namespace Geneva3.G3GeoMap
                         accuracyDescription = "Premise (building name, property name, shopping center, etc.) level accuracy.";
                         break;
                 }
+                #endregion
 
                 latitude = decimal.Parse(geocodeInfo[2]);
                 longitude = decimal.Parse(geocodeInfo[3]);

@@ -27,13 +27,13 @@ namespace MapTestConsole
             log4net.Config.XmlConfigurator.Configure();
             log.Info("Begin.");
 
-            var addressList = new List<vwMapTest>
-            {
-                new Models.vwMapTest { City="Inglewood", Region="CA", PostalCode="90305" },
-                new Models.vwMapTest { City="Uxbridge", Region="MA", PostalCode="01569" },
-            };
+            //var addressList = new List<vwMapTest>
+            //{
+            //    new Models.vwMapTest { City="Inglewood", Region="CA", PostalCode="90305" },
+            //    new Models.vwMapTest { City="Uxbridge", Region="MA", PostalCode="01569" },
+            //};
 
-            //var addressList = AddressChecker.GetGenevaAddresses(2, 241, 241);
+            var addressList = AddressChecker.GetGenevaAddresses(100, 241, 245);
 
             using (var dbTest = new ResultModelContainer())
             {

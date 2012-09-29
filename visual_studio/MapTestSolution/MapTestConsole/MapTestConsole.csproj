@@ -153,6 +153,7 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="MapQuestSample.xml" />
     <Content Include="Models\ResultModel.edmx.sql" />
     <Content Include="Refs\G3GeoMap.dll" />
     <Content Include="Refs\log4net.dll" />

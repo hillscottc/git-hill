@@ -43,6 +43,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Runtime.Serialization" />
@@ -57,7 +58,14 @@
   <ItemGroup>
     <Compile Include="AddressChecker.cs" />
     <Compile Include="ComboUtil.cs" />
+    <Compile Include="GeoCoding\GeoCoderBase.cs" />
+    <Compile Include="GeoCoding\GeoCoderGoogle.cs" />
+    <Compile Include="GeoCoding\GeoCoordinates.cs" />
+    <Compile Include="GeoCoding\GeoCodingProvider.cs" />
+    <Compile Include="GeoCoding\PlaceBase.cs" />
+    <Compile Include="GeoCoding\PlaceGoogle.cs" />
     <Compile Include="GeoMapUtil.cs" />
+    <Compile Include="GeoCoding\IGeoCoder.cs" />
     <Compile Include="Models\DistanceResult.cs">
       <DependentUpon>ResultModel.tt</DependentUpon>
     </Compile>
@@ -170,6 +178,7 @@
       <Name>G3GeoMap</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

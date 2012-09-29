@@ -107,7 +107,7 @@ namespace MapTestConsole.Models
 
         private void SearchGoogle(string address)
         {
-            var coords = GeoCoding.GetCoordinates("http://webservices.geneva3.webvisible.com", address);
+            var coords = Geneva3.G3GeoMap.GeoCoding.GetCoordinates("http://webservices.geneva3.webvisible.com", address);
             if (coords != null)
             {
                 this.Longitude = (double)coords.Longitude;

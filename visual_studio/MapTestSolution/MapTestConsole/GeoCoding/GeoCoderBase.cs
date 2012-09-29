@@ -13,19 +13,14 @@ namespace MapTestConsole.GeoCoding
             get { throw new NotImplementedException(); }
         }
 
-        public virtual Uri RootUri
+        public virtual Uri UriRoot
         {
             get { throw new NotImplementedException(); }
         }
 
-        public virtual Uri GetQueryUri(string address)
+        protected virtual Uri GetQueryUri(string address)
         {
             throw new NotImplementedException();
-        }
-
-        public virtual string ApiKey
-        {
-            get { throw new NotImplementedException(); }
         }
 
         public virtual PlaceBase Query(string address)

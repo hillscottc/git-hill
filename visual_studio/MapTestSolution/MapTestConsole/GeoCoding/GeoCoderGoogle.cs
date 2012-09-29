@@ -184,18 +184,18 @@ namespace MapTestConsole.GeoCoding
             }
         }
 
-        new public Uri RootUri
+        new public Uri UriRoot
         {
             get { return new Uri("http://maps.google.com/maps/geo?"); }
         }
 
-        new public Uri GetQueryUri(string address)
+        new protected Uri GetQueryUri(string address)
         {
-            return new Uri(string.Format("{0}q={1}&output=csv&key={2}", RootUri
+            return new Uri(string.Format("{0}q={1}&output=csv&key={2}", UriRoot
                 , HttpUtility.UrlEncode(address), ApiKey));
         }
 
-        new public string ApiKey
+        private string ApiKey
         {
             get
             {

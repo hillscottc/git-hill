@@ -9,9 +9,8 @@ namespace MapTestConsole.GeoCoding
     public interface IGeoCoder
     {
         GeoCodingProvider Provider { get; }
-        Uri RootUri { get; }
-        Uri GetQueryUri(string address);
-        String ApiKey { get; }
+        Uri UriRoot { get; }
+        //Uri GetQueryUri(string address);
 
         /// <summary>
         /// Query provider with address to get 

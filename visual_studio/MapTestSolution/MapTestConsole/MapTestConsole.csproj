@@ -60,10 +60,14 @@
     <Compile Include="ComboUtil.cs" />
     <Compile Include="GeoCoding\GeoCoderBase.cs" />
     <Compile Include="GeoCoding\GeoCoderGoogle.cs" />
+    <Compile Include="GeoCoding\GeoCoderMapQuest.cs" />
+    <Compile Include="GeoCoding\GeoCoderOSM.cs" />
     <Compile Include="GeoCoding\GeoCoordinates.cs" />
     <Compile Include="GeoCoding\GeoCodingProvider.cs" />
     <Compile Include="GeoCoding\PlaceBase.cs" />
     <Compile Include="GeoCoding\PlaceGoogle.cs" />
+    <Compile Include="GeoCoding\PlaceMapQuest.cs" />
+    <Compile Include="GeoCoding\PlaceOpenStreetMaps.cs" />
     <Compile Include="GeoMapUtil.cs" />
     <Compile Include="GeoCoding\IGeoCoder.cs" />
     <Compile Include="Models\DistanceResult.cs">
@@ -161,7 +165,6 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="MapQuestSample.xml" />
     <Content Include="Models\ResultModel.edmx.sql" />
     <Content Include="Refs\G3GeoMap.dll" />
     <Content Include="Refs\log4net.dll" />

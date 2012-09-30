@@ -25,14 +25,24 @@ namespace MapTestConsole.Models
 
                 if (dr.FirstVendorTestResult.Latitude != GeoMapUtil.LatLngNullValue && dr.SecondVendorTestResult.Latitude != GeoMapUtil.LatLngNullValue)
                 {
-                    float f = (float)GeoMapUtil.distance((double)dr.FirstVendorTestResult.Latitude,
-                                                (double)dr.FirstVendorTestResult.Longitude,
-                                                (double)dr.SecondVendorTestResult.Latitude,
-                                                (double)dr.SecondVendorTestResult.Longitude, 'M');
 
-                    if (!float.IsNaN(f))
+                    var firstCoord = new GeoCoding.GeoCoordinates
                     {
-                        dr.Distance = (float)Math.Round(f, 2);
+                        Latitude = dr.FirstVendorTestResult.Latitude,
+                        Longitude = dr.FirstVendorTestResult.Longitude
+                    };
+
+                    var secondCoord = new GeoCoding.GeoCoordinates
+                    {
+                        Latitude = dr.SecondVendorTestResult.Latitude,
+                        Longitude = dr.SecondVendorTestResult.Longitude
+                    };
+
+                    double distance = firstCoord.GetDistanceTo(secondCoord);
+
+                    if (!double.IsNaN(distance))
+                    {
+                        dr.Distance = (float)Math.Round(distance, 2);
                     }
                 }
 

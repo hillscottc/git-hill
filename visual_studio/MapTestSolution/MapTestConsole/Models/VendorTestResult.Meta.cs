@@ -39,7 +39,12 @@ namespace MapTestConsole.Models
                     {
                         //VendorTestResult testResult = new VendorTestResult(testItem.Id, vendor.Id);
                         VendorTestResult testResult = new VendorTestResult(testItem, vendor);
-                        testResult.ProcessGeoCoding();
+
+                        GeoCoding.GeoCoderBase geoCoder = testResult.GetGeoCoder();
+                        GeoCoding.PlaceBase place = geoCoder.Query(testItem.Address);
+                        testResult.Latitude = place.Coordinates.Latitude;
+                        testResult.Longitude = place.Coordinates.Longitude;
+
                         testResults.Add(testResult);
                         log.Info(testResult);
                     }
@@ -56,7 +61,7 @@ namespace MapTestConsole.Models
             return testResults;
         }
 
-        public void ProcessGeoCoding()
+        public GeoCoding.GeoCoderBase GetGeoCoder()
         {
             if (this.Vendor == null || this.TestItem == null)
             {
@@ -66,54 +71,60 @@ namespace MapTestConsole.Models
             switch (Vendor.Name)
             {
                 case "Google":
-                    SearchGoogle(TestItem.Address);
-                    break;
-                case "OpenStreetMap":
-                    SearchOSM(TestItem.Address);
-                    break;
+                    return new GeoCoding.GeoCoderGoogle();
+                    //SearchGoogle(TestItem.Address);
+                    //break;
+                case "OpenStreetMaps" :
+                    return new GeoCoding.GeoCoderOSM();
+                    //SearchOSM(TestItem.Address);
+                    //break;
                 case "OSMNoZip":
-                    SearchOSM(GeoMapUtil.StripTrailingPostalCode(TestItem.Address));
-                    break;
+                    return new GeoCoding.GeoCoderOSM();
+                    //SearchOSM(GeoMapUtil.StripTrailingPostalCode(TestItem.Address));
+                    //break;
                 case "MapQuest":
-                    SearchMapQuest(TestItem.Address);
-                    break;
+                    return new GeoCoding.GeoCoderMapQuest();
+                    //SearchMapQuest(TestItem.Address);
+                    //break;
                 default:
                     throw new ArgumentOutOfRangeException("Invalid search vendor.");
             }
 
         }
 
-        private void SearchMapQuest(string address)
-        {
-            GeoCodingOSM.Place place = GeoCodingOSM.GetCoordinates(address);
-            if (place != null)
-            {
-                //this.DisplayName = place.DisplayName;
-                this.Longitude = (double)place.Longitude;
-                this.Latitude = (double)place.Latitude;
-            }
-        }
+ 
 
-        private void SearchOSM(string address)
-        {
-            GeoCodingOSM.Place place = GeoCodingOSM.GetCoordinates(address);
-            if (place != null)
-            {
-                //this.DisplayName = place.DisplayName;
-                this.Longitude = (double) place.Longitude;
-                this.Latitude = (double) place.Latitude;
-            }
-        }
+        //private void SearchMapQuest(string address)
+        //{
+        //    GeoCodingOSM.Place place = GeoCodingOSM.GetCoordinates(address);
+        //    if (place != null)
+        //    {
+        //        //this.DisplayName = place.DisplayName;
+        //        this.Longitude = (double)place.Longitude;
+        //        this.Latitude = (double)place.Latitude;
+        //    }
+        //}
 
-        private void SearchGoogle(string address)
-        {
-            var coords = Geneva3.G3GeoMap.GeoCoding.GetCoordinates("http://webservices.geneva3.webvisible.com", address);
-            if (coords != null)
-            {
-                this.Longitude = (double)coords.Longitude;
-                this.Latitude = (double)coords.Latitude;
-            }
-        }
+        //private void SearchOSM(string address)
+        //{
+        //    GeoCodingOSM.Place place = GeoCodingOSM.GetCoordinates(address);
+        //    if (place != null)
+        //    {
+        //        //this.DisplayName = place.DisplayName;
+        //        this.Longitude = (double) place.Longitude;
+        //        this.Latitude = (double) place.Latitude;
+        //    }
+        //}
+
+        //private void SearchGoogle(string address)
+        //{
+        //    var coords = Geneva3.G3GeoMap.GeoCoding.GetCoordinates("http://webservices.geneva3.webvisible.com", address);
+        //    if (coords != null)
+        //    {
+        //        this.Longitude = (double)coords.Longitude;
+        //        this.Latitude = (double)coords.Latitude;
+        //    }
+        //}
 
         public override string ToString()
         {

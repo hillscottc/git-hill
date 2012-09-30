@@ -12,24 +12,14 @@ namespace MapTestConsole.GeoCoding
 {
     public class GeoCoderMapQuest : GeoCoderBase
     {
-        new public GeoCodingProvider Provider
+        public override GeoCodingProvider Provider
         {
             get { return GeoCodingProvider.MapQuest; }
         }
 
-        new public PlaceBase Query(string address)
+        public override PlaceBase ParseResponse(string response)
         {
             PlaceMapQuest place = null;
-
-            if (string.IsNullOrEmpty(address))
-            {
-                throw new Exception("Address must not be a null or empty string.");
-            }
-
-            Uri queryUri = GetQueryUri(address);
-
-            string response = new WebClient().DownloadString(queryUri);
-
 
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.LoadXml(response);
@@ -49,7 +39,7 @@ namespace MapTestConsole.GeoCoding
             return place;
         }
 
-        new public Uri UriRoot
+        public override Uri UriRoot
         {
             get
             {
@@ -65,7 +55,7 @@ namespace MapTestConsole.GeoCoding
             }
         }
 
-        new protected Uri GetQueryUri(string address)
+        protected override Uri GetQueryUri(string address)
         {
             return new Uri(string.Format("{0}key={1}&inFormat=kvp&outFormat=xml&location={2}&maxResults=3"
                 , UriRoot, ApiKey, HttpUtility.UrlEncode(address)));

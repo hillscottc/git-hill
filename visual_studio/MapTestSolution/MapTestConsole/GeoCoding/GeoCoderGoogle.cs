@@ -4,50 +4,52 @@ using System.Collections.Specialized;
 using System.Text;
 using System.Web;
 using System.Net;
+using log4net;
 
 namespace MapTestConsole.GeoCoding
 {
     public class GeoCoderGoogle : GeoCoderBase
     {
-        new public GeoCodingProvider Provider
+
+        public override ILog log
+        {
+            get { return LogManager.GetLogger(typeof(GeoCoderGoogle)); }
+        }
+
+
+        public override GeoCodingProvider Provider
         {
             get { return GeoCodingProvider.Google; }
         }
 
-        new public PlaceBase Query(string address)
+        public override PlaceBase ParseResponse(string response)
         {
             PlaceGoogle place = null;
- 
-            if (string.IsNullOrEmpty(address))
-            {
-                throw new Exception("Address must not be a null or empty string.");
-            }
 
-            Uri queryUri = GetQueryUri(address);
+            string[] responseArray = response.Split(',');
 
             try
             {
-                string[] response = new WebClient().DownloadString(queryUri).Split(',');
-
                 place = new PlaceGoogle
                 {
-                    ResponseCode = response[0],
-                    ResponseDescription = ParseResponseCode(response[0]),
-                    AccuracyLevel = response[1],
-                    AccuracyDescription = ParseAccuracyLevel(int.Parse(response[1])),
+                    ResponseCode = responseArray[0],
+                    ResponseDescription = ParseResponseCode(responseArray[0]),
+                    AccuracyLevel = responseArray[1],
+                    AccuracyDescription = ParseAccuracyLevel(int.Parse(responseArray[1])),
                     Coordinates = new GeoCoordinates
                     {
-                        Latitude = double.Parse(response[2]),
-                        Longitude = double.Parse(response[3])
+                        Latitude = double.Parse(responseArray[2]),
+                        Longitude = double.Parse(responseArray[3])
                     }
                 };
             }
             catch (Exception ex)
             {
-       
+
             }
 
             return place;
+
         }
 
         /// <summary>
@@ -184,12 +186,12 @@ namespace MapTestConsole.GeoCoding
             }
         }
 
-        new public Uri UriRoot
+        public override Uri UriRoot
         {
             get { return new Uri("http://maps.google.com/maps/geo?"); }
         }
 
-        new protected Uri GetQueryUri(string address)
+        protected override Uri GetQueryUri(string address)
         {
             return new Uri(string.Format("{0}q={1}&output=csv&key={2}", UriRoot
                 , HttpUtility.UrlEncode(address), ApiKey));

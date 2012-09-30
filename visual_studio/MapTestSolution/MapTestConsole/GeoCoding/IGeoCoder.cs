@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.Entity;
+using log4net;
 
 namespace MapTestConsole.GeoCoding
 {
     public interface IGeoCoder
     {
+        ILog log {get;}
+
         GeoCodingProvider Provider { get; }
         Uri UriRoot { get; }
         //Uri GetQueryUri(string address);
@@ -20,8 +24,10 @@ namespace MapTestConsole.GeoCoding
         PlaceBase Query(string address);
 
         //PlaceBase ParseResponse(string response);
+        PlaceBase ParseResponse(string response);
 
-        void CachePlace(PlaceBase place);
+        bool ExistsInCache(string address, Models.ResultModelContainer dbContext);
+        void CachePlace(PlaceBase place, Models.ResultModelContainer dbContext);
  
     }
 }

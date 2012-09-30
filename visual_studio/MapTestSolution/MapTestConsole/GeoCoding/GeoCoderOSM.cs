@@ -12,23 +12,14 @@ namespace MapTestConsole.GeoCoding
     public class GeoCoderOSM : GeoCoderBase
     {
 
-        new public GeoCodingProvider Provider
+        public override GeoCodingProvider Provider
         {
             get { return GeoCodingProvider.OpenStreetMaps; }
         }
 
-        new public PlaceBase Query(string address)
+        public override PlaceBase ParseResponse(string response)
         {
             PlaceOpenStreetMaps place = null;
-
-            if (string.IsNullOrEmpty(address))
-            {
-                throw new Exception("Address must not be a null or empty string.");
-            }
-
-            Uri queryUri = GetQueryUri(address);
-
-            string response = new WebClient().DownloadString(queryUri);
 
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.LoadXml(response);
@@ -55,12 +46,12 @@ namespace MapTestConsole.GeoCoding
             return place;
         }
 
-        new public Uri UriRoot
+        public override Uri UriRoot
         {
             get { return new Uri("http://open.mapquestapi.com/nominatim/v1/search?"); }
         }
 
-        new protected Uri GetQueryUri(string address)
+        protected override Uri GetQueryUri(string address)
         {
 
             return new Uri(string.Format("{0}format=xml&q={1}&addressdetails=0&limit=3", UriRoot

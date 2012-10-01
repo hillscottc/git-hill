@@ -31,13 +31,13 @@ namespace MapTestConsole
            
 
 
-            var addressList = new List<vwMapTest>
-            {
-                new Models.vwMapTest { City="Inglewood", Region="CA", PostalCode="90305" },
-                new Models.vwMapTest { City="Uxbridge", Region="MA", PostalCode="01569" },
-            };
+            //var addressList = new List<vwMapTest>
+            //{
+            //    new Models.vwMapTest { City="Inglewood", Region="CA", PostalCode="90305" },
+            //    new Models.vwMapTest { City="Uxbridge", Region="MA", PostalCode="01569" },
+            //};
 
-            //var addressList = AddressChecker.GetGenevaAddresses(100, 241, 245);
+            var addressList = AddressChecker.GetGenevaAddresses(10, 241, 245);
 
             using (var dbTest = new ResultModelContainer())
             {
@@ -48,6 +48,7 @@ namespace MapTestConsole
 
                 IList<Vendor> vendorList = new List<Vendor>();
                 vendorList.Add(Vendor.GetByName("OpenStreetMaps"));
+                vendorList.Add(Vendor.GetByName("MapQuest"));
                 //IList<Vendor> vendorList = (from v in dbTest.Vendors select v).ToList();
 
                 IList<VendorTestResult> vendorResultList = VendorTestResult.GetResultsForVendors(testItemList, vendorList);
@@ -55,9 +56,9 @@ namespace MapTestConsole
                 log.Info(String.Format("Processed {0} vendor results.", vendorResultList.Count));
 
                 // get distance results from vendor test pairs.
-                //IList<DistanceResult> distanceResultList = DistanceResult.ProcessDistances(vendorResultList);
-                //dbTest.SaveDistanceResults(distanceResultList);
-                //log.Info(String.Format("Processed {0} distances.", distanceResultList.Count));
+                IList<DistanceResult> distanceResultList = DistanceResult.ProcessDistances(vendorResultList);
+                dbTest.SaveDistanceResults(distanceResultList);
+                log.Info(String.Format("Processed {0} distances.", distanceResultList.Count));
             }
 
             log.Info("Done");

@@ -25,12 +25,20 @@ namespace MapTestConsole
 
             IList<vwMapTest> genevaAddresses;
 
-            using (Geneva3_ReportingEntities1 dbReporting = new Geneva3_ReportingEntities1())
+            try
             {
-                genevaAddresses = (from t in dbReporting.vwMapTests
-                                   where t.ResellerID >= resellerIdMin
-                                   && t.ResellerID <= resellerIdMax
-                                   select t).Distinct().Take(numToProcess).ToList();
+                using (Geneva3_ReportingEntities1 dbReporting = new Geneva3_ReportingEntities1())
+                {
+                    genevaAddresses = (from t in dbReporting.vwMapTests
+                                       where t.ResellerID >= resellerIdMin
+                                       && t.ResellerID <= resellerIdMax
+                                       select t).Distinct().Take(numToProcess).ToList();
+                }
+            }
+            catch (Exception e)
+            {
+                log.Error(e);
+                throw;
             }
 
             return genevaAddresses;

@@ -66,19 +66,9 @@ namespace MapTestConsole.GeoCoding
             {
                 using (var dbContext = new ResultModelContainer())
                 {
-                    vr = (dbContext.VendorTestResults
-                        .Where(e => e.VendorId == vendor.Id && e.TestItem.Address.Equals(testItem.Address)))
-                        .SingleOrDefault();
-
-                    //place = new PlaceBase
-                    //{
-                    //    Address = testItem.Address,
-                    //    Coordinates = new GeoCoordinates
-                    //    {
-                    //        Latitude = v.Latitude,
-                    //        Longitude = v.Longitude
-                    //    }
-                    //};
+                    vr = dbContext.VendorTestResults
+                            .Where(e => e.VendorId == vendor.Id && e.TestItem.Address.Equals(testItem.Address))
+                            .Single();
                 }
 
             }

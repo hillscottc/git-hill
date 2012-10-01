@@ -26,12 +26,9 @@ namespace MapTestConsole.GeoCoding
 
             try
             {
-
                 XmlDocument xmlDoc = new XmlDocument();
                 xmlDoc.LoadXml(response);
-
                 XmlNodeList list = xmlDoc.SelectNodes("/searchresults/place");
-
                 XmlElement node = (XmlElement)list.Item(0);
 
                 place = new PlaceOpenStreetMaps
@@ -50,10 +47,14 @@ namespace MapTestConsole.GeoCoding
                     }
                 };
             }
+            catch (NullReferenceException)
+            {
+                log.WarnFormat("OSM failed to geocode address {0}\n{1}", address, response);
+            }
             catch (Exception e)
             {
-                log.Error("Problem with OSM parsing response for " + address + "\n" 
-                    + e.Message + "\n" + response);
+                log.ErrorFormat("Problem with OSM parsing response for {0}\n{1}\n{2}", address, e.ToString(),  response);
+                throw;
             }
 
             return place;

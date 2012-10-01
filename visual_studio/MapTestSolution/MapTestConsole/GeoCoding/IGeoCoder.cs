@@ -16,7 +16,7 @@ namespace MapTestConsole.GeoCoding
         Uri UriRoot { get; }
         VendorTestResult Query(TestItem testItem);
         PlaceBase ParseResponse(string response, string address);
-        bool ExistsInCache(string address, Models.Vendor vendor);
+        VendorTestResult GetResultFromCache(string address, Models.Vendor vendor);
         void CachePlace(PlaceBase place, Models.ResultModelContainer dbContext);
  
     }

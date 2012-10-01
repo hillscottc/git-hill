@@ -48,9 +48,11 @@ namespace MapTestConsole.Models
                     {
                         GeoCoding.GeoCoderBase geoCoder = GeoCoding.GeoCoderBase.GetGeoCoder(vendor);
                         VendorTestResult testResult = geoCoder.Query(testItem);
-
-                        testResults.Add(testResult);
-                        log.Info(testResult);
+                        if (testResult != null)
+                        {
+                            testResults.Add(testResult);
+                            log.Info(testResult);
+                        }
                     }
                     catch (Exception e)
                     {

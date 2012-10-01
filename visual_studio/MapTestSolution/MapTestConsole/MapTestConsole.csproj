@@ -172,6 +172,7 @@
     <Content Include="SQL\ClearTables.sql" />
     <Content Include="SQL\MapResults_queries.sql" />
     <Content Include="SQL\MiscSqlScraps.sql" />
+    <Content Include="SQL\ReportResults.sql" />
     <Content Include="SQL\ViewTestSummary_create.sql" />
     <Content Include="SQL\vwMapTest_create.sql" />
   </ItemGroup>

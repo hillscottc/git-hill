@@ -21,44 +21,69 @@ namespace MapTestConsole
         private static ILog log = LogManager.GetLogger(typeof(Program));
 
 
+
+        private static List<Vendor> vendorList = new List<Vendor> 
+        {
+            Vendor.GetByName("OpenStreetMaps"), 
+            Vendor.GetByName("MapQuest") 
+        };
+
+        private const bool USE_SAMPLE_ADDRESSES = false;
+
+        private const int RESULT_COUNT = 500;
+        private const int RESELLER_ID_MIN = 241;
+        private const int RESELLER_ID_MAX = 300;
+
+        private static IList<vwMapTest> sampleAddressList = new List<vwMapTest>
+        {
+            new Models.vwMapTest { City="Inglewood", Region="CA", PostalCode="90305" },
+            new Models.vwMapTest { City="Uxbridge", Region="MA", PostalCode="01569" },
+            new Models.vwMapTest { City="Santurce", Region="PR", PostalCode="00910" },
+        };
+
+
         static void Main(string[] args)
         {
 
             log4net.Config.XmlConfigurator.Configure();
             log.Info("Begin.");
 
-            // add an Active field to providers so it will know which to use
-           
-
-
-            //var addressList = new List<vwMapTest>
-            //{
-            //    new Models.vwMapTest { City="Inglewood", Region="CA", PostalCode="90305" },
-            //    new Models.vwMapTest { City="Uxbridge", Region="MA", PostalCode="01569" },
-            //};
-
-            var addressList = AddressChecker.GetGenevaAddresses(100, 241, 300);
+            //var addressList = AddressChecker.GetGenevaAddresses(100, 241, 300);
 
             using (var dbTest = new ResultModelContainer())
             {
-                // get testitems from raw addresses
-                IList<TestItem> testItemList = TestItem.GetTestItems(addressList);
+                IList<TestItem> testItemList = null;
+                IList<VendorTestResult> vendorResultList = null;
+                IList<DistanceResult> distanceResultList = null;
+
+                IList<vwMapTest> addressList;
+                if (USE_SAMPLE_ADDRESSES)
+                    addressList = sampleAddressList;
+                else
+                    addressList = AddressChecker.GetGenevaAddresses(RESULT_COUNT, RESELLER_ID_MIN, RESELLER_ID_MAX);
+                
+                // create testitems from raw addresses
+                testItemList = TestItem.GetTestItems(addressList);
                 dbTest.SaveTestItems(testItemList);
-                log.Info(String.Format("Processed {0} addresses.", testItemList.Count));
+                log.Info(String.Format("Created {0} testItems from address list, saved to database.", testItemList.Count));
 
-                IList<Vendor> vendorList = new List<Vendor>();
-                vendorList.Add(Vendor.GetByName("OpenStreetMaps"));
-                vendorList.Add(Vendor.GetByName("MapQuest"));
-                //IList<Vendor> vendorList = (from v in dbTest.Vendors select v).ToList();
+                // TODO: add an Active field in db to vendors table so it will know which to use?
+                
+                log.Info("Using vendors " + string.Join(",", vendorList.Select(e => e.Name).ToArray()));
 
-                IList<VendorTestResult> vendorResultList = VendorTestResult.GetResultsForVendors(testItemList, vendorList);
-                //dbTest.SaveVendorTestResults(vendorResultList);
-                log.Info(String.Format("Processed {0} vendor results.", vendorResultList.Count));
+                if (testItemList != null)
+                {
+                    vendorResultList = VendorTestResult.GetResultsForVendors(testItemList, vendorList);
+                    log.Info(String.Format("Processed {0} vendor results.", vendorResultList.Count));
+                }
 
-                // get distance results from vendor test pairs.
-                //IList<DistanceResult> distanceResultList = DistanceResult.ProcessDistances(vendorResultList);
-                //dbTest.SaveDistanceResults(distanceResultList);
-                //log.Info(String.Format("Processed {0} distances.", distanceResultList.Count));
+                //if (vendorResultList != null)
+                //{
+                //    // get distance results from vendor test pairs.
+                //    distanceResultList = DistanceResult.ProcessDistances(vendorResultList);
+                //    dbTest.SaveDistanceResults(distanceResultList);
+                //    log.Info(String.Format("Processed {0} distances, saved to database.", distanceResultList.Count));
+                //}
             }
 
             log.Info("Done");

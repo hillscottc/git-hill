@@ -42,9 +42,15 @@ namespace MapTestConsole.GeoCoding
                     }
                 };
             }
-            catch (Exception ex)
+            catch (NullReferenceException)
             {
-
+                log.WarnFormat("Google failed to geocode address {0}\n{1}", address, response);
+                throw;
+            }
+            catch (Exception e)
+            {
+                log.ErrorFormat("Google problem with parsing response for {0}\n{1}\n{2}", address, e.ToString(), response);
+                throw;
             }
 
             return place;

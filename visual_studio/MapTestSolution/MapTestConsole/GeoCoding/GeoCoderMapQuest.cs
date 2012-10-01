@@ -31,15 +31,28 @@ namespace MapTestConsole.GeoCoding
             string latEl = xmlDoc.SelectSingleNode("/response/results/result/locations/location/latLng/lat/text()").InnerText;
             string lngEl = xmlDoc.SelectSingleNode("/response/results/result/locations/location/latLng/lng/text()").InnerText;
 
-            place = new PlaceMapQuest
+            try
             {
-                Address = address,
-                Coordinates = new GeoCoordinates
+                place = new PlaceMapQuest
                 {
-                    Latitude = double.Parse(latEl),
-                    Longitude = double.Parse(lngEl)
-                }
-            };
+                    Address = address,
+                    Coordinates = new GeoCoordinates
+                    {
+                        Latitude = double.Parse(latEl),
+                        Longitude = double.Parse(lngEl)
+                    }
+                };
+            }
+            catch (NullReferenceException)
+            {
+                log.WarnFormat("MapQuest failed to geocode address {0}\n{1}", address, response);
+                throw;
+            }
+            catch (Exception e)
+            {
+                log.ErrorFormat("MapQuest problem with parsing response for {0}\n{1}\n{2}", address, e.ToString(), response);
+                throw;
+            }
 
             return place;
         }

@@ -14,12 +14,7 @@ namespace MapTestConsole.GeoCoding
     public abstract class GeoCoderBase : IGeoCoder
     {
 
-        //public virtual ILog log
-        //{
-        //    get { throw new NotImplementedException(); }
-        //}
-
-        //= LogManager.GetLogger(typeof(Program));
+        private static ILog log = LogManager.GetLogger(typeof(GeoCoderBase));
 
         public virtual GeoCodingProvider Provider
         {
@@ -41,36 +36,60 @@ namespace MapTestConsole.GeoCoding
             //PlaceBase place = null;
             VendorTestResult vr = null;
 
-            if (string.IsNullOrEmpty(testItem.Address))
+            if (testItem == null || string.IsNullOrEmpty(testItem.Address))
             {
                 throw new Exception("Address must not be a null or empty string.");
             }
 
             Vendor vendor = Vendor.GetByName(Provider.ToString());
 
-            if (!ExistsInCache(testItem.Address, vendor))
+            // Check cache
+            VendorTestResult cachedRecord = GetResultFromCache(testItem.Address, vendor);
+            if (cachedRecord != null)
             {
-                Uri queryUri = GetQueryUri(testItem.Address);
-                string response = new WebClient().DownloadString(queryUri);
-                PlaceBase place = ParseResponse(response, testItem.Address);
-
-                // NOW CACHE IT
-                using (var dbContext = new ResultModelContainer())
-                {
-                    vr = new VendorTestResult(place, testItem, Vendor.GetByName(Provider.ToString()));
-                    dbContext.VendorTestResults.Add(vr);
-                    dbContext.SaveChanges();
-                }
+                log.InfoFormat("Using cached coords for address '{0}' from {1}", testItem.Address, vendor.Name);
+                vr = cachedRecord;
             }
             else
             {
-                using (var dbContext = new ResultModelContainer())
+                log.InfoFormat("Querying address '{0}' from {1}", testItem.Address, vendor.Name);
+                Uri queryUri = GetQueryUri(testItem.Address);
+
+                string response = null;
+                try
                 {
-                    vr = dbContext.VendorTestResults
-                            .Where(e => e.VendorId == vendor.Id && e.TestItem.Address.Equals(testItem.Address))
-                            .Single();
+                    response = new WebClient().DownloadString(queryUri);
+                }
+                catch (Exception)
+                {
+                    log.Error("Bad response from " + vendor.Name);
+                    response = null;
+                    throw;
                 }
 
+                PlaceBase place = null;
+                if (response != null)
+                {
+                    place = ParseResponse(response, testItem.Address);
+                }
+
+                // CACHE IT
+                if (place != null)
+                {
+                    try
+                    {
+                        using (var dbContext = new ResultModelContainer())
+                        {
+                            vr = new VendorTestResult(place, testItem, Vendor.GetByName(Provider.ToString()));
+                            dbContext.VendorTestResults.Add(vr);
+                            dbContext.SaveChanges();
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        log.WarnFormat("Failed to cache address {0}\n{1}\n{2}", testItem.Address, e.ToString());
+                    }
+                }   
             }
 
             return vr;
@@ -82,17 +101,22 @@ namespace MapTestConsole.GeoCoding
             throw new NotImplementedException();
         }
 
-        public bool ExistsInCache(string address, Vendor vendor)
+        public VendorTestResult GetResultFromCache(string address, Vendor vendor)
         {
-            bool exists = false;
+            VendorTestResult cachedResult = null;
+
             using (var dbContext = new ResultModelContainer())
             {
-                exists = dbContext.VendorTestResults
-                        .Where(e => e.VendorId == vendor.Id && e.TestItem.Address.Equals(address))
-                        .Any();
+                cachedResult = dbContext.VendorTestResults.Include("TestItem").Include("Vendor")
+                        .Where(e => e.Vendor.Id == vendor.Id && e.TestItem.Address.Equals(address))
+                        .FirstOrDefault();
             }
 
-            return exists;
+            if (cachedResult != null)
+            {
+                log.InfoFormat("Found cached value for {0} from vendor {1} in recordId:{2}", address, vendor.Name, cachedResult.Id);
+            }
+            return cachedResult;
         }
 
         public virtual void CachePlace(PlaceBase place, Models.ResultModelContainer dbContext)

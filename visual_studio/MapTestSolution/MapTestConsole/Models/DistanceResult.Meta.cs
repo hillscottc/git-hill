@@ -12,50 +12,51 @@ namespace MapTestConsole.Models
     {
         private static ILog log = LogManager.GetLogger(typeof(DistanceResult));
 
-        private static IList<DistanceResult> ProcessPair(IList<VendorTestResult> firstResults, IList<VendorTestResult> secondResults)
+        // Default Distance defined as -1.
+        public DistanceResult()
+            : base()
         {
-            IList<DistanceResult> distanceResults = new List<DistanceResult>();
-            foreach (var firstResult in firstResults)
+            Distance = -1;
+        }
+
+        private static DistanceResult ProcessPair(VendorTestResult[] pair)
+        {
+
+            DistanceResult dr = new DistanceResult
             {
-                VendorTestResult secondResult = (from e in secondResults
-                                                 where e.TestItemId == firstResult.TestItemId
-                                                 select e).SingleOrDefault();
+                FirstVendorTestResult = pair[0],
+                SecondVendorTestResult = pair[1]
+            };
 
-                DistanceResult dr = new DistanceResult { FirstVendorTestResult = firstResult, SecondVendorTestResult = secondResult, Distance = (double)-1 };
-                try
+            try
+            {
+                var firstCoord = new GeoCoding.GeoCoordinates
                 {
-                    if (dr.FirstVendorTestResult.Latitude != null && dr.SecondVendorTestResult.Latitude != null)
-                    {
+                    Latitude = dr.FirstVendorTestResult.Latitude,
+                    Longitude = dr.FirstVendorTestResult.Longitude
+                };
 
-                        var firstCoord = new GeoCoding.GeoCoordinates
-                        {
-                            Latitude = dr.FirstVendorTestResult.Latitude,
-                            Longitude = dr.FirstVendorTestResult.Longitude
-                        };
-
-                        var secondCoord = new GeoCoding.GeoCoordinates
-                        {
-                            Latitude = dr.SecondVendorTestResult.Latitude,
-                            Longitude = dr.SecondVendorTestResult.Longitude
-                        };
-
-                        double distance = firstCoord.GetDistanceTo(secondCoord);
-
-                        if (!double.IsNaN(distance))
-                        {
-                            dr.Distance = (float)Math.Round(distance, 2);
-                        }
-                    }
-
-                    distanceResults.Add(dr);
-                    log.Info(dr);
-                }
-                catch (Exception e)
+                var secondCoord = new GeoCoding.GeoCoordinates
                 {
-                    log.Error(String.Format("Unable to calc distance. {0} ", e.Message));
+                    Latitude = dr.SecondVendorTestResult.Latitude,
+                    Longitude = dr.SecondVendorTestResult.Longitude
+                };
+
+                double distance = firstCoord.GetDistanceTo(secondCoord);
+
+                if (!double.IsNaN(distance))
+                {
+                    dr.Distance = (float)Math.Round(distance, 2);
                 }
+
+                log.Info(dr);
             }
-            return distanceResults;
+            catch (Exception e)
+            {
+                log.Error(String.Format("Unable to calc distance. {0} ", e.Message));
+            }
+
+            return dr;
         }
 
         public static IList<DistanceResult> ProcessDistances(IList<VendorTestResult> testResults)
@@ -66,12 +67,33 @@ namespace MapTestConsole.Models
             int[] vendorInts = (from v in testResults select v.VendorId).Distinct().ToArray<int>();
             IEnumerable<int[]> pairs = ComboUtil.GetCombinations(vendorInts, 2);
 
-            foreach (var pair in pairs)
+            IList<VendorTestResult[]> vendorResultPairs = new List<VendorTestResult[]>();
+            foreach (int[] pair in pairs)
             {
-                IList<VendorTestResult> firstresults = (from e in testResults where e.VendorId == pair[0] select e).ToList();
-                IList<VendorTestResult> secondResults = (from e in testResults where e.VendorId == pair[1] select e).ToList();
-                IList<DistanceResult> pairResults = DistanceResult.ProcessPair(firstresults, secondResults);
-                distanceResults.AddRange(pairResults);
+                VendorTestResult[] vendorResultPair = new VendorTestResult[2];
+                try
+                {
+                    vendorResultPair[0] = (from e in testResults where e.VendorId == pair[0] select e).First();
+                    vendorResultPair[1] = (from e in testResults where e.VendorId == pair[1] select e).First();
+                    vendorResultPairs.Add(vendorResultPair);
+                }
+                catch (Exception)
+                {
+                    log.Warn("Problem getting pairs for distance calc.");
+                }
+
+            }
+
+            if (vendorResultPairs.Count > 0)
+            {
+                foreach (VendorTestResult[] pair in vendorResultPairs)
+                {
+                    DistanceResult dr = DistanceResult.ProcessPair(pair);
+                    if (dr != null)
+                    {
+                        distanceResults.Add(DistanceResult.ProcessPair(pair));
+                    }
+                }
             }
 
             return distanceResults;
@@ -79,7 +101,7 @@ namespace MapTestConsole.Models
 
         public override string ToString()
         {
-            return String.Format("{0}; {1} vs {2}; Distance:{3}", FirstVendorTestResult.TestItem.Address, FirstVendorTestResult.Vendor.Name, SecondVendorTestResult.Vendor.Name, Distance);
+            return String.Format("TestItem {0}...distance between results from vendors {1} and {2} is {3}", FirstVendorTestResult.TestItemId, FirstVendorTestResult.VendorId, SecondVendorTestResult.VendorId, Distance);
         }
     }
 }

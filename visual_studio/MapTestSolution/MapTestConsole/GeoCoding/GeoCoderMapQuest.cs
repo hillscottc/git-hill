@@ -6,12 +6,16 @@ using System.Net;
 using System.Text;
 using System.Web;
 using System.Xml;
+using log4net;
 
 
 namespace MapTestConsole.GeoCoding
 {
     public class GeoCoderMapQuest : GeoCoderBase
     {
+
+        private static ILog log = LogManager.GetLogger(typeof(GeoCoderMapQuest));
+
         public override GeoCodingProvider Provider
         {
             get { return GeoCodingProvider.MapQuest; }

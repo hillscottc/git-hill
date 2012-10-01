@@ -14,7 +14,7 @@ namespace MapTestConsole.Models
             {
                 Vendor v = null;
 
-                v = (dbTest.Vendors.Where(e => e.Name.Equals("OpenStreetMaps")).SingleOrDefault());
+                v = (dbTest.Vendors.Where(e => e.Name.Equals(name)).SingleOrDefault());
 
                 return v;
             }

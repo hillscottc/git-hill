@@ -11,7 +11,7 @@ namespace MapTestConsole.GeoCoding
 {
     public interface IGeoCoder
     {
-        ILog log {get;}
+        //ILog log {get;}
         GeoCodingProvider Provider { get; }
         Uri UriRoot { get; }
         VendorTestResult Query(TestItem testItem);

@@ -37,7 +37,7 @@ namespace MapTestConsole
             //    new Models.vwMapTest { City="Uxbridge", Region="MA", PostalCode="01569" },
             //};
 
-            var addressList = AddressChecker.GetGenevaAddresses(10, 241, 245);
+            var addressList = AddressChecker.GetGenevaAddresses(100, 241, 300);
 
             using (var dbTest = new ResultModelContainer())
             {
@@ -56,9 +56,9 @@ namespace MapTestConsole
                 log.Info(String.Format("Processed {0} vendor results.", vendorResultList.Count));
 
                 // get distance results from vendor test pairs.
-                IList<DistanceResult> distanceResultList = DistanceResult.ProcessDistances(vendorResultList);
-                dbTest.SaveDistanceResults(distanceResultList);
-                log.Info(String.Format("Processed {0} distances.", distanceResultList.Count));
+                //IList<DistanceResult> distanceResultList = DistanceResult.ProcessDistances(vendorResultList);
+                //dbTest.SaveDistanceResults(distanceResultList);
+                //log.Info(String.Format("Processed {0} distances.", distanceResultList.Count));
             }
 
             log.Info("Done");

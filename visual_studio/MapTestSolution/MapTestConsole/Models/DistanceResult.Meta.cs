@@ -22,32 +22,38 @@ namespace MapTestConsole.Models
                                                  select e).SingleOrDefault();
 
                 DistanceResult dr = new DistanceResult { FirstVendorTestResult = firstResult, SecondVendorTestResult = secondResult, Distance = (double)-1 };
-
-                if (dr.FirstVendorTestResult.Latitude != GeoMapUtil.LatLngNullValue && dr.SecondVendorTestResult.Latitude != GeoMapUtil.LatLngNullValue)
+                try
                 {
-
-                    var firstCoord = new GeoCoding.GeoCoordinates
+                    if (dr.FirstVendorTestResult.Latitude != null && dr.SecondVendorTestResult.Latitude != null)
                     {
-                        Latitude = dr.FirstVendorTestResult.Latitude,
-                        Longitude = dr.FirstVendorTestResult.Longitude
-                    };
 
-                    var secondCoord = new GeoCoding.GeoCoordinates
-                    {
-                        Latitude = dr.SecondVendorTestResult.Latitude,
-                        Longitude = dr.SecondVendorTestResult.Longitude
-                    };
+                        var firstCoord = new GeoCoding.GeoCoordinates
+                        {
+                            Latitude = dr.FirstVendorTestResult.Latitude,
+                            Longitude = dr.FirstVendorTestResult.Longitude
+                        };
 
-                    double distance = firstCoord.GetDistanceTo(secondCoord);
+                        var secondCoord = new GeoCoding.GeoCoordinates
+                        {
+                            Latitude = dr.SecondVendorTestResult.Latitude,
+                            Longitude = dr.SecondVendorTestResult.Longitude
+                        };
 
-                    if (!double.IsNaN(distance))
-                    {
-                        dr.Distance = (float)Math.Round(distance, 2);
+                        double distance = firstCoord.GetDistanceTo(secondCoord);
+
+                        if (!double.IsNaN(distance))
+                        {
+                            dr.Distance = (float)Math.Round(distance, 2);
+                        }
                     }
-                }
 
-                distanceResults.Add(dr);
-                log.Info(dr);
+                    distanceResults.Add(dr);
+                    log.Info(dr);
+                }
+                catch (Exception e)
+                {
+                    log.Error(String.Format("Unable to calc distance. {0} ", e.Message));
+                }
             }
             return distanceResults;
         }

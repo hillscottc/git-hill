@@ -11,10 +11,8 @@ namespace MapTestConsole.GeoCoding
     public class GeoCoderGoogle : GeoCoderBase
     {
 
-        public override ILog log
-        {
-            get { return LogManager.GetLogger(typeof(GeoCoderGoogle)); }
-        }
+        private static ILog log = LogManager.GetLogger(typeof(GeoCoderGoogle));
+
 
 
         public override GeoCodingProvider Provider

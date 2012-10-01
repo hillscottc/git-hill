@@ -6,11 +6,14 @@ using System.Net;
 using System.Text;
 using System.Web;
 using System.Xml;
+using log4net;
 
 namespace MapTestConsole.GeoCoding
 {
     public class GeoCoderOSM : GeoCoderBase
     {
+
+        private static ILog log = LogManager.GetLogger(typeof(GeoCoderOSM));
 
         public override GeoCodingProvider Provider
         {
@@ -21,28 +24,37 @@ namespace MapTestConsole.GeoCoding
         {
             PlaceOpenStreetMaps place = null;
 
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml(response);
-
-            XmlNodeList list = xmlDoc.SelectNodes("/searchresults/place");
-
-            XmlElement node = (XmlElement)list.Item(0);
-
-            place = new PlaceOpenStreetMaps
+            try
             {
-                Address = address,
-                Id = long.Parse(node.GetAttribute("place_id")),
-                Rank = int.Parse(node.GetAttribute("place_rank")),
-                BoundingBox = node.GetAttribute("boundingbox"),
-                DisplayName = node.GetAttribute("display_name"),
-                PlaceClass = node.GetAttribute("class"),
-                PlaceType = node.GetAttribute("type"),
-                Coordinates = new GeoCoordinates
+
+                XmlDocument xmlDoc = new XmlDocument();
+                xmlDoc.LoadXml(response);
+
+                XmlNodeList list = xmlDoc.SelectNodes("/searchresults/place");
+
+                XmlElement node = (XmlElement)list.Item(0);
+
+                place = new PlaceOpenStreetMaps
                 {
-                    Latitude = double.Parse(node.GetAttribute("lat")),
-                    Longitude = double.Parse(node.GetAttribute("lon")),
-                }
-            };
+                    Address = address,
+                    Id = long.Parse(node.GetAttribute("place_id")),
+                    Rank = int.Parse(node.GetAttribute("place_rank")),
+                    BoundingBox = node.GetAttribute("boundingbox"),
+                    DisplayName = node.GetAttribute("display_name"),
+                    PlaceClass = node.GetAttribute("class"),
+                    PlaceType = node.GetAttribute("type"),
+                    Coordinates = new GeoCoordinates
+                    {
+                        Latitude = double.Parse(node.GetAttribute("lat")),
+                        Longitude = double.Parse(node.GetAttribute("lon")),
+                    }
+                };
+            }
+            catch (Exception e)
+            {
+                log.Error("Problem with OSM parsing response for " + address + "\n" 
+                    + e.Message + "\n" + response);
+            }
 
             return place;
         }

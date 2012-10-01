@@ -14,10 +14,10 @@ namespace MapTestConsole.GeoCoding
     public abstract class GeoCoderBase : IGeoCoder
     {
 
-        public virtual ILog log
-        {
-            get { throw new NotImplementedException(); }
-        }
+        //public virtual ILog log
+        //{
+        //    get { throw new NotImplementedException(); }
+        //}
 
         //= LogManager.GetLogger(typeof(Program));
 

@@ -22,7 +22,7 @@ namespace MapTestConsole.GeoCoding
             get { return GeoCodingProvider.Google; }
         }
 
-        public override PlaceBase ParseResponse(string response)
+        public override PlaceBase ParseResponse(string response, string address)
         {
             PlaceGoogle place = null;
 
@@ -32,6 +32,7 @@ namespace MapTestConsole.GeoCoding
             {
                 place = new PlaceGoogle
                 {
+                    Address = address,
                     ResponseCode = responseArray[0],
                     ResponseDescription = ParseResponseCode(responseArray[0]),
                     AccuracyLevel = responseArray[1],

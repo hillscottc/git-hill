@@ -17,7 +17,7 @@ namespace MapTestConsole.GeoCoding
             get { return GeoCodingProvider.MapQuest; }
         }
 
-        public override PlaceBase ParseResponse(string response)
+        public override PlaceBase ParseResponse(string response, string address)
         {
             PlaceMapQuest place = null;
 
@@ -29,6 +29,7 @@ namespace MapTestConsole.GeoCoding
 
             place = new PlaceMapQuest
             {
+                Address = address,
                 Coordinates = new GeoCoordinates
                 {
                     Latitude = double.Parse(latEl),

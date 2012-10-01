@@ -17,19 +17,19 @@ namespace MapTestConsole.Models
             }
         }
 
-        public void SaveVendorTestResults(IList<VendorTestResult> testResults)
-        {
-            foreach (VendorTestResult testResult in testResults)
-            {
-                //engine1.Manufacturer = context.Manufacturers.Single(m => m.Name == engine1.Manufacturer.Name);
+        //public void SaveVendorTestResults(IList<VendorTestResult> testResults)
+        //{
+        //    foreach (VendorTestResult testResult in testResults)
+        //    {
+        //        //engine1.Manufacturer = context.Manufacturers.Single(m => m.Name == engine1.Manufacturer.Name);
                 
-                // avoid a dup here.
-                testResult.Vendor = this.Vendors.Single(v => v.Id == testResult.Vendor.Id);
+        //        // avoid a dup here ?
+        //        //testResult.Vendor = this.Vendors.Single(v => v.Id == testResult.Vendor.Id);
 
-                this.VendorTestResults.Add(testResult);
-                this.SaveChanges();
-            }
-        }
+        //        this.VendorTestResults.Add(testResult);
+        //        this.SaveChanges();
+        //    }
+        //}
 
         public void SaveDistanceResults(IList<DistanceResult> distanceResults)
         {

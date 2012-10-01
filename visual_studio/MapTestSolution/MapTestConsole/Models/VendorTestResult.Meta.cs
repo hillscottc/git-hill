@@ -13,7 +13,16 @@ namespace MapTestConsole.Models
     {
         private static ILog log = LogManager.GetLogger(typeof(VendorTestResult));
 
-
+        public VendorTestResult(GeoCoding.PlaceBase place, TestItem testItem, Vendor vendor)
+        {
+            Longitude = place.Coordinates.Longitude;
+            Latitude = place.Coordinates.Latitude;
+            TestItem = testItem;
+            //TestItemId = testItem.Id;
+            // avoiding a dup here..
+           // Vendor = Models.Vendor.GetByName(vendor.Name);
+            VendorId = vendor.Id;
+        }
 
         private VendorTestResult(TestItem testItem, Vendor vendor) : base()
         {
@@ -37,13 +46,8 @@ namespace MapTestConsole.Models
                 {
                     try
                     {
-                        //VendorTestResult testResult = new VendorTestResult(testItem.Id, vendor.Id);
-                        VendorTestResult testResult = new VendorTestResult(testItem, vendor);
-
-                        GeoCoding.GeoCoderBase geoCoder = testResult.GetGeoCoder();
-                        GeoCoding.PlaceBase place = geoCoder.Query(testItem.Address);
-                        testResult.Latitude = place.Coordinates.Latitude;
-                        testResult.Longitude = place.Coordinates.Longitude;
+                        GeoCoding.GeoCoderBase geoCoder = GeoCoding.GeoCoderBase.GetGeoCoder(vendor);
+                        VendorTestResult testResult = geoCoder.Query(testItem);
 
                         testResults.Add(testResult);
                         log.Info(testResult);
@@ -61,37 +65,7 @@ namespace MapTestConsole.Models
             return testResults;
         }
 
-        public GeoCoding.GeoCoderBase GetGeoCoder()
-        {
-            if (this.Vendor == null || this.TestItem == null)
-            {
-                throw new ArgumentNullException("Vendor and TestItem unitialized.");
-            }
-        
-            switch (Vendor.Name)
-            {
-                case "Google":
-                    return new GeoCoding.GeoCoderGoogle();
-                    //SearchGoogle(TestItem.Address);
-                    //break;
-                case "OpenStreetMaps" :
-                    return new GeoCoding.GeoCoderOSM();
-                    //SearchOSM(TestItem.Address);
-                    //break;
-                case "OSMNoZip":
-                    return new GeoCoding.GeoCoderOSM();
-                    //SearchOSM(GeoMapUtil.StripTrailingPostalCode(TestItem.Address));
-                    //break;
-                case "MapQuest":
-                    return new GeoCoding.GeoCoderMapQuest();
-                    //SearchMapQuest(TestItem.Address);
-                    //break;
-                default:
-                    throw new ArgumentOutOfRangeException("Invalid search vendor.");
-            }
-
-        }
-
+   
  
 
         //private void SearchMapQuest(string address)
@@ -128,7 +102,7 @@ namespace MapTestConsole.Models
 
         public override string ToString()
         {
-            return String.Format("{0}; Address:{1}; Latitude:{2}; Longitude:{3} ", Vendor.Name, TestItem.Address, Latitude, Longitude);
+            return String.Format("{0}; testitemid:{1}; Latitude:{2}; Longitude:{3} ", VendorId, TestItemId, Latitude, Longitude);
         }
 
     }

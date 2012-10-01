@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
+using MapTestConsole.Models;
 using log4net;
 
 namespace MapTestConsole.GeoCoding
@@ -11,22 +12,11 @@ namespace MapTestConsole.GeoCoding
     public interface IGeoCoder
     {
         ILog log {get;}
-
         GeoCodingProvider Provider { get; }
         Uri UriRoot { get; }
-        //Uri GetQueryUri(string address);
-
-        /// <summary>
-        /// Query provider with address to get 
-        /// </summary>
-        /// <param name="address"></param>
-        /// <returns></returns>
-        PlaceBase Query(string address);
-
-        //PlaceBase ParseResponse(string response);
-        PlaceBase ParseResponse(string response);
-
-        bool ExistsInCache(string address, Models.ResultModelContainer dbContext);
+        VendorTestResult Query(TestItem testItem);
+        PlaceBase ParseResponse(string response, string address);
+        bool ExistsInCache(string address, Models.Vendor vendor);
         void CachePlace(PlaceBase place, Models.ResultModelContainer dbContext);
  
     }

@@ -8,8 +8,8 @@ namespace MapTestConsole.GeoCoding
 {
     public enum GeoCodingProvider
     {
-        Google,
-        OpenStreetMaps,
-        MapQuest
+        Google = 1,
+        OpenStreetMaps = 2,
+        MapQuest = 4
     }
 }

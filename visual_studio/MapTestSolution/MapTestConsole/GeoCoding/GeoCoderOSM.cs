@@ -17,7 +17,7 @@ namespace MapTestConsole.GeoCoding
             get { return GeoCodingProvider.OpenStreetMaps; }
         }
 
-        public override PlaceBase ParseResponse(string response)
+        public override PlaceBase ParseResponse(string response, string address)
         {
             PlaceOpenStreetMaps place = null;
 
@@ -30,6 +30,7 @@ namespace MapTestConsole.GeoCoding
 
             place = new PlaceOpenStreetMaps
             {
+                Address = address,
                 Id = long.Parse(node.GetAttribute("place_id")),
                 Rank = int.Parse(node.GetAttribute("place_rank")),
                 BoundingBox = node.GetAttribute("boundingbox"),

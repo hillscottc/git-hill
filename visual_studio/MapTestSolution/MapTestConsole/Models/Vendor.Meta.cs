@@ -8,15 +8,21 @@ namespace MapTestConsole.Models
 {
     public partial class Vendor
     {
-        public static int GetIdByName(string name)
+        public static Vendor GetByName(string name)
         {
             using (ResultModelContainer dbTest = new ResultModelContainer())
             {
-                int id = (from v in dbTest.Vendors
-                          where v.Name.Equals(name)
-                          select v.Id).SingleOrDefault();
-                return id;
+                Vendor v = null;
+
+                v = (dbTest.Vendors.Where(e => e.Name.Equals("OpenStreetMaps")).SingleOrDefault());
+
+                return v;
             }
         }
+
+
+
+     
+
     }
 }

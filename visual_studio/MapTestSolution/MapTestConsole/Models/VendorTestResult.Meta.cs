@@ -67,40 +67,7 @@ namespace MapTestConsole.Models
             return testResults;
         }
 
-   
- 
-
-        //private void SearchMapQuest(string address)
-        //{
-        //    GeoCodingOSM.Place place = GeoCodingOSM.GetCoordinates(address);
-        //    if (place != null)
-        //    {
-        //        //this.DisplayName = place.DisplayName;
-        //        this.Longitude = (double)place.Longitude;
-        //        this.Latitude = (double)place.Latitude;
-        //    }
-        //}
-
-        //private void SearchOSM(string address)
-        //{
-        //    GeoCodingOSM.Place place = GeoCodingOSM.GetCoordinates(address);
-        //    if (place != null)
-        //    {
-        //        //this.DisplayName = place.DisplayName;
-        //        this.Longitude = (double) place.Longitude;
-        //        this.Latitude = (double) place.Latitude;
-        //    }
-        //}
-
-        //private void SearchGoogle(string address)
-        //{
-        //    var coords = Geneva3.G3GeoMap.GeoCoding.GetCoordinates("http://webservices.geneva3.webvisible.com", address);
-        //    if (coords != null)
-        //    {
-        //        this.Longitude = (double)coords.Longitude;
-        //        this.Latitude = (double)coords.Latitude;
-        //    }
-        //}
+  
 
         public override string ToString()
         {

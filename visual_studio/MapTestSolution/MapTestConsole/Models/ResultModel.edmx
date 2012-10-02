@@ -135,6 +135,7 @@
             <End Role="VendorTestResult" EntitySet="VendorTestResults" />
             <End Role="DistanceResult" EntitySet="DistanceResults" />
           </AssociationSet>
+          <EntitySet Name="Places" EntityType="ResultModel.Place" />
         </EntityContainer>
         <EntityType Name="TestItem">
           <Key>
@@ -227,6 +228,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Place">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Property1" Nullable="false" />
+          <Property Type="String" Name="Property2" Nullable="false" />
+          <Property Type="String" Name="Property3" Nullable="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->

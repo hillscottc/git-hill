@@ -44,17 +44,14 @@ namespace MapTestConsole
 
         static void Main(string[] args)
         {
-
             log4net.Config.XmlConfigurator.Configure();
             log.Info("Begin.");
-
-            //var addressList = AddressChecker.GetGenevaAddresses(100, 241, 300);
 
             using (var dbTest = new ResultModelContainer())
             {
                 IList<TestItem> testItemList = null;
                 IList<VendorTestResult> vendorResultList = null;
-                IList<DistanceResult> distanceResultList = null;
+                
 
                 IList<vwMapTest> addressList;
                 if (USE_SAMPLE_ADDRESSES)
@@ -77,6 +74,7 @@ namespace MapTestConsole
                     log.Info(String.Format("Processed {0} vendor results.", vendorResultList.Count));
                 }
 
+                // IList<DistanceResult> distanceResultList = null;
                 //if (vendorResultList != null)
                 //{
                 //    // get distance results from vendor test pairs.
@@ -87,7 +85,6 @@ namespace MapTestConsole
             }
 
             log.Info("Done");
-
             //Console.WriteLine("\n\nDone. Press any key to close.");
             //Console.ReadKey();
 

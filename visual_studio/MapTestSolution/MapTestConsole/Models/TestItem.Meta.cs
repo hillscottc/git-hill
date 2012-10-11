@@ -32,7 +32,7 @@ namespace MapTestConsole.Models
 
         public override string ToString()
         {
-            return String.Format("Id:{0}; cId:{1}; rId:{2}; Address:{3}", Id, CampaignId, ResellerId, Address);
+            return String.Format("Id:{0}; rId:{1}; Address:{2}", Id, ResellerId, Address);
         }
 
 

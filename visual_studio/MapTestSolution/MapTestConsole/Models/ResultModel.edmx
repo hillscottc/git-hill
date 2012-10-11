@@ -5,112 +5,111 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="ResultModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-  <EntityContainer Name="ResultModelStoreContainer">
-    <EntitySet Name="TestItems" EntityType="ResultModel.Store.TestItems" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="DistanceResults" EntityType="ResultModel.Store.DistanceResults" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Vendors" EntityType="ResultModel.Store.Vendors" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="VendorTestResults" EntityType="ResultModel.Store.VendorTestResults" store:Type="Tables" Schema="dbo" />
-    <AssociationSet Name="TestItemVendorTestResult" Association="ResultModel.Store.TestItemVendorTestResult">
-      <End Role="TestItem" EntitySet="TestItems" />
-      <End Role="VendorTestResult" EntitySet="VendorTestResults" />
-    </AssociationSet>
-    <AssociationSet Name="VendorVendorTestResult" Association="ResultModel.Store.VendorVendorTestResult">
-      <End Role="Vendor" EntitySet="Vendors" />
-      <End Role="VendorTestResult" EntitySet="VendorTestResults" />
-    </AssociationSet>
-    <AssociationSet Name="FirstVendorTestResult" Association="ResultModel.Store.FirstVendorTestResult">
-      <End Role="VendorTestResult" EntitySet="VendorTestResults" />
-      <End Role="DistanceResult" EntitySet="DistanceResults" />
-    </AssociationSet>
-    <AssociationSet Name="SecondVendorTestResult" Association="ResultModel.Store.SecondVendorTestResult">
-      <End Role="VendorTestResult" EntitySet="VendorTestResults" />
-      <End Role="DistanceResult" EntitySet="DistanceResults" />
-    </AssociationSet>
-  </EntityContainer>
-  <EntityType Name="TestItems">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Address" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="CampaignId" Type="int" Nullable="false" />
-    <Property Name="ResellerId" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="DistanceResults">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Distance" Type="float" Nullable="false" />
-    <Property Name="FirstVendorTestResultId" Type="int" Nullable="false" />
-    <Property Name="SecondVendorTestResultId" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Vendors">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
-  </EntityType>
-  <EntityType Name="VendorTestResults">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="TestItemId" Type="int" Nullable="false" />
-    <Property Name="VendorId" Type="int" Nullable="false" />
-    <Property Name="Longitude" Type="float" Nullable="false" />
-    <Property Name="Latitude" Type="float" Nullable="false" />
-  </EntityType>
-  <Association Name="TestItemVendorTestResult">
-    <End Role="TestItem" Type="ResultModel.Store.TestItems" Multiplicity="1" />
-    <End Role="VendorTestResult" Type="ResultModel.Store.VendorTestResults" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="TestItem">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="VendorTestResult">
-        <PropertyRef Name="TestItemId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="VendorVendorTestResult">
-    <End Role="Vendor" Type="ResultModel.Store.Vendors" Multiplicity="1" />
-    <End Role="VendorTestResult" Type="ResultModel.Store.VendorTestResults" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Vendor">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="VendorTestResult">
-        <PropertyRef Name="VendorId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FirstVendorTestResult">
-    <End Role="VendorTestResult" Type="ResultModel.Store.VendorTestResults" Multiplicity="1" />
-    <End Role="DistanceResult" Type="ResultModel.Store.DistanceResults" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="VendorTestResult">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="DistanceResult">
-        <PropertyRef Name="FirstVendorTestResultId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="SecondVendorTestResult">
-    <End Role="VendorTestResult" Type="ResultModel.Store.VendorTestResults" Multiplicity="1" />
-    <End Role="DistanceResult" Type="ResultModel.Store.DistanceResults" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="VendorTestResult">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="DistanceResult">
-        <PropertyRef Name="SecondVendorTestResultId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-</Schema></edmx:StorageModels>
+        <EntityContainer Name="ResultModelStoreContainer">
+          <EntitySet Name="DistanceResults" EntityType="ResultModel.Store.DistanceResults" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="TestItems" EntityType="ResultModel.Store.TestItems" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Vendors" EntityType="ResultModel.Store.Vendors" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="VendorTestResults" EntityType="ResultModel.Store.VendorTestResults" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_FirstVendorTestResult" Association="ResultModel.Store.FK_FirstVendorTestResult">
+            <End Role="VendorTestResults" EntitySet="VendorTestResults" />
+            <End Role="DistanceResults" EntitySet="DistanceResults" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SecondVendorTestResult" Association="ResultModel.Store.FK_SecondVendorTestResult">
+            <End Role="VendorTestResults" EntitySet="VendorTestResults" />
+            <End Role="DistanceResults" EntitySet="DistanceResults" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TestItemVendorTestResult" Association="ResultModel.Store.FK_TestItemVendorTestResult">
+            <End Role="TestItems" EntitySet="TestItems" />
+            <End Role="VendorTestResults" EntitySet="VendorTestResults" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VendorVendorTestResult" Association="ResultModel.Store.FK_VendorVendorTestResult">
+            <End Role="Vendors" EntitySet="Vendors" />
+            <End Role="VendorTestResults" EntitySet="VendorTestResults" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="DistanceResults">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Distance" Type="float" Nullable="false" />
+          <Property Name="FirstVendorTestResultId" Type="int" Nullable="false" />
+          <Property Name="SecondVendorTestResultId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TestItems">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Address" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ResellerId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Vendors">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="VendorTestResults">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="TestItemId" Type="int" Nullable="false" />
+          <Property Name="VendorId" Type="int" Nullable="false" />
+          <Property Name="Longitude" Type="float" Nullable="false" />
+          <Property Name="Latitude" Type="float" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_FirstVendorTestResult">
+          <End Role="VendorTestResults" Type="ResultModel.Store.VendorTestResults" Multiplicity="1" />
+          <End Role="DistanceResults" Type="ResultModel.Store.DistanceResults" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VendorTestResults">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DistanceResults">
+              <PropertyRef Name="FirstVendorTestResultId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SecondVendorTestResult">
+          <End Role="VendorTestResults" Type="ResultModel.Store.VendorTestResults" Multiplicity="1" />
+          <End Role="DistanceResults" Type="ResultModel.Store.DistanceResults" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VendorTestResults">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DistanceResults">
+              <PropertyRef Name="SecondVendorTestResultId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TestItemVendorTestResult">
+          <End Role="TestItems" Type="ResultModel.Store.TestItems" Multiplicity="1" />
+          <End Role="VendorTestResults" Type="ResultModel.Store.VendorTestResults" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TestItems">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="VendorTestResults">
+              <PropertyRef Name="TestItemId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VendorVendorTestResult">
+          <End Role="Vendors" Type="ResultModel.Store.Vendors" Multiplicity="1" />
+          <End Role="VendorTestResults" Type="ResultModel.Store.VendorTestResults" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vendors">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="VendorTestResults">
+              <PropertyRef Name="VendorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="ResultModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
@@ -135,15 +134,13 @@
             <End Role="VendorTestResult" EntitySet="VendorTestResults" />
             <End Role="DistanceResult" EntitySet="DistanceResults" />
           </AssociationSet>
-          <EntitySet Name="Places" EntityType="ResultModel.Place" />
         </EntityContainer>
         <EntityType Name="TestItem">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="Address" Nullable="false" />
-          <Property Type="Int32" Name="CampaignId" Nullable="false" />
+          <Property Type="String" Name="Address" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <Property Type="Int32" Name="ResellerId" Nullable="false" />
           <NavigationProperty Name="VendorTestResults" Relationship="ResultModel.TestItemVendorTestResult" FromRole="TestItem" ToRole="VendorTestResult" />
         </EntityType>
@@ -163,7 +160,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="Name" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="VendorTestResults" Relationship="ResultModel.VendorVendorTestResult" FromRole="Vendor" ToRole="VendorTestResult" />
         </EntityType>
         <EntityType Name="VendorTestResult">
@@ -228,15 +225,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Place">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="Property1" Nullable="false" />
-          <Property Type="String" Name="Property2" Nullable="false" />
-          <Property Type="String" Name="Property3" Nullable="false" />
-        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -248,7 +236,6 @@
         <MappingFragment StoreEntitySet="TestItems">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Address" ColumnName="Address" />
-          <ScalarProperty Name="CampaignId" ColumnName="CampaignId" />
           <ScalarProperty Name="ResellerId" ColumnName="ResellerId" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -297,6 +284,7 @@
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
         <DesignerProperty Name="EnablePluralization" Value="True" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
       </DesignerInfoPropertySet>
     </edmx:Options>
     <!-- Diagram content (shape and connector positions) -->

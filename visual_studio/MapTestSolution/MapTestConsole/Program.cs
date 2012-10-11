@@ -24,15 +24,19 @@ namespace MapTestConsole
 
         private static List<Vendor> vendorList = new List<Vendor> 
         {
-            Vendor.GetByName("OpenStreetMaps"), 
-            Vendor.GetByName("MapQuest") 
+            Vendor.GetByName("Google"),
+            Vendor.GetByName("MapQuest"),
+            Vendor.GetByName("OpenStreetMap"),
         };
 
         private const bool USE_SAMPLE_ADDRESSES = false;
 
-        private const int RESULT_COUNT = 500;
+        //private const int RESULT_COUNT = 1000;
+        //private const int RESELLER_ID_MIN = 241;
+        //private const int RESELLER_ID_MAX = 241;
+        private const int RESULT_COUNT = 2;
         private const int RESELLER_ID_MIN = 241;
-        private const int RESELLER_ID_MAX = 300;
+        private const int RESELLER_ID_MAX = 241;
 
         private static IList<vwMapTest> sampleAddressList = new List<vwMapTest>
         {

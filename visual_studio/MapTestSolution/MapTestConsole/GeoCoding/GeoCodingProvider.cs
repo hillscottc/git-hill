@@ -10,6 +10,7 @@ namespace MapTestConsole.GeoCoding
     {
         Google = 1,
         OpenStreetMaps = 2,
+        OpenStreetMapsNoZip = 3,
         MapQuest = 4
     }
 }

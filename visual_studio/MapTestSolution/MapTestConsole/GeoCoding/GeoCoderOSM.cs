@@ -13,7 +13,7 @@ namespace MapTestConsole.GeoCoding
     public class GeoCoderOSM : GeoCoderBase
     {
 
-        private static ILog log = LogManager.GetLogger(typeof(GeoCoderOSM));
+        private static ILog log = LogManager.GetLogger(typeof(GeoCoderOSMNoZip));
 
         public override GeoCodingProvider Provider
         {
@@ -53,7 +53,7 @@ namespace MapTestConsole.GeoCoding
             }
             catch (Exception e)
             {
-                log.ErrorFormat("Problem with OSM parsing response for {0}\n{1}\n{2}", address, e.ToString(),  response);
+                log.ErrorFormat("Problem with OSM parsing response for {0}\n{1}\n{2}", address, e.ToString(), response);
                 throw;
             }
 
@@ -72,23 +72,7 @@ namespace MapTestConsole.GeoCoding
                 , HttpUtility.UrlEncode(address)));
         }
 
-        public static string StripTrailingPostalCode(string address)
-        {
-            string newAddress = string.Empty;
 
-            for (int i = address.Length; i > 0; i--)
-            {
-                string character = address.Substring(i - 1, 1);
-                int result = 0;
-                if (int.TryParse(character, out result) == false)
-                {
-                    newAddress = address.Substring(0, i).Trim();
-                    break;
-                }
-            }
-
-            return newAddress;
-        }
 
     }
 }

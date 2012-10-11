@@ -138,7 +138,7 @@ namespace MapTestConsole.GeoCoding
                 //SearchOSM(TestItem.Address);
                 //break;
                 case "OSMNoZip":
-                    return new GeoCoding.GeoCoderOSM();
+                    return new GeoCoding.GeoCoderOSMNoZip();
                 //SearchOSM(GeoMapUtil.StripTrailingPostalCode(TestItem.Address));
                 //break;
                 case "MapQuest":

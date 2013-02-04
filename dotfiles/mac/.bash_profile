@@ -26,8 +26,9 @@ export GIT_EDITOR="${vim} -g -f"
 # export PATH="/Users/hills/Downloads/Django-1.1.1/django/bin/:/usr/local/bin:/usr/local/sbin:/usr/local/mysql/bin:/Library/instantclient:$PATH"
 
 
-# export PYTHONPATH=$HOME/taluslabs/shared-libs/TalusLabsSSO:$HOME/taluslabs/shared-libs/TalusLabsAuthBackend:$HOME/taluslabs/shared-libs/TalusLabsAuthBackend/taluslabs_auth_backend:usr/lib/python2.6/site-packages:$PYTHONPATH
+export PYTHONPATH=$HOME/taluslabs/shared-libs/TalusLabsSSO:$HOME/taluslabs/shared-libs/TalusLabsAuthBackend:$HOME/taluslabs/shared-libs/TalusLabsAuthBackend/taluslabs_auth_backend:usr/lib/python2.6/site-packages:$PYTHONPATH
 
 
 export WORKON_HOME=$HOME/.virtualenvs
-source /usr/local/bin/virtualenvwrapper.sh 
+source /usr/local/bin/virtualenvwrapper.sh
+export DASHBOARD_SETTINGS=$HOME/taluslabs/dashboard/settings/shill.py

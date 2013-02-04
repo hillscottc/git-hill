@@ -1,0 +1,51 @@
+[submodule "dotfiles/mac/.vim/bundle/fugitive"]
+	path = dotfiles/mac/.vim/bundle/fugitive
+	url = http://github.com/tpope/vim-fugitive.git
+[submodule "dotfiles/mac/.vim/bundle/snipmate"]
+	path = dotfiles/mac/.vim/bundle/snipmate
+	url = https://github.com/msanders/snipmate.vim.git
+[submodule "dotfiles/mac/.vim/bundle/surround"]
+	path = dotfiles/mac/.vim/bundle/surround
+	url = https://github.com/tpope/vim-surround.git
+[submodule "dotfiles/mac/.vim/bundle/git"]
+	path = dotfiles/mac/.vim/bundle/git
+	url = https://github.com/tpope/vim-git.git
+[submodule "dotfiles/mac/.vim/bundle/supertab"]
+	path = dotfiles/mac/.vim/bundle/supertab
+	url = https://github.com/ervandew/supertab.git
+[submodule "dotfiles/mac/.vim/bundle/minibufexpl"]
+	path = dotfiles/mac/.vim/bundle/minibufexpl
+	url = https://github.com/sontek/minibufexpl.vim.git
+[submodule "dotfiles/mac/.vim/bundle/command-t"]
+	path = dotfiles/mac/.vim/bundle/command-t
+	url = https://github.com/wincent/Command-T.git
+[submodule "pyflakes-pathogen"]
+	path = pyflakes-pathogen
+	url = https://github.com/mitechie/pyflakes-pathogen.git
+[submodule "dotfiles/mac/.vim/bundle/ack"]
+	path = dotfiles/mac/.vim/bundle/ack
+	url = https://github.com/mileszs/ack.vim.git
+[submodule "dotfiles/mac/.vim/bundle/gundo"]
+	path = dotfiles/mac/.vim/bundle/gundo
+	url = https://github.com/sjl/gundo.vim.git
+[submodule "dotfiles/mac/.vim/bundle/pydoc"]
+	path = dotfiles/mac/.vim/bundle/pydoc
+	url = https://github.com/fs111/pydoc.vim.git
+[submodule "dotfiles/mac/.vim/bundle/pep8"]
+	path = dotfiles/mac/.vim/bundle/pep8
+	url = https://github.com/vim-scripts/pep8.git
+[submodule "dotfiles/mac/.vim/bundle/py.test"]
+	path = dotfiles/mac/.vim/bundle/py.test
+	url = https://github.com/alfredodeza/pytest.vim.git
+[submodule "dotfiles/mac/.vim/bundle/makegreen"]
+	path = dotfiles/mac/.vim/bundle/makegreen
+	url = https://github.com/reinh/vim-makegreen
+[submodule "dotfiles/mac/.vim/bundle/tasklist"]
+	path = dotfiles/mac/.vim/bundle/tasklist
+	url = https://github.com/vim-scripts/TaskList.vim.git
+[submodule "dotfiles/mac/.vim/bundle/nerdtree"]
+	path = dotfiles/mac/.vim/bundle/nerdtree
+	url = https://github.com/vim-scripts/The-NERD-tree.git
+[submodule "dotfiles/mac/.vim/bundle/ropevim"]
+	path = dotfiles/mac/.vim/bundle/ropevim
+	url = https://github.com/sontek/rope-vim.git

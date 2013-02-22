@@ -1,3 +1,4 @@
+echo in ~/.bash_login
 
 export  DYLD_LIBRARY_PATH="/Library/instantclient"
 export LC_CTYPE=en_US.UTF-8

@@ -1,11 +1,15 @@
-echo IN ~/.bashrc 
+echo in ~/.bashrc 
 
 export PS1="\n\[\e[32;1m\]\h(\[\e[37;1m\]\u\[\e[32;1m\])-(\[\e[37;1m\]jobs:\j\[\e[32;1m\])-(\[\e[37;1m\]\w\[\e[32;1m\])\n(\[\[\e[37;1m\]! \!\[\e[32;1m\])-> \[\e[0m\]"
 
 export PATH=$HOME/bin:$PATH
 
 export CLICOLOR=1
+
 # export LSCOLORS=GxFxCxDxBxegedabagaced
+export LSCOLORS=ExFxBxDxCxegedabagacad
+alias ls='ls -GFh'
+
 #
 # Don't wait for job termination notification
 # set -o notify

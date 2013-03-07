@@ -1,4 +1,4 @@
-echo in ~/.bashrc 
+echo in ~/.bashrc
 
 export PS1="\n\[\e[32;1m\]\h(\[\e[37;1m\]\u\[\e[32;1m\])-(\[\e[37;1m\]jobs:\j\[\e[32;1m\])-(\[\e[37;1m\]\w\[\e[32;1m\])\n(\[\[\e[37;1m\]! \!\[\e[32;1m\])-> \[\e[0m\]"
 
@@ -73,6 +73,9 @@ alias h=history
 alias l="ls -al"
 #alias lp="ls -p"
 alias c:='cd /cygdrive/c'
+alias cdev='cd ~/taluslabs/developers/shill'
+alias cdash='cd ~/taluslabs/dashboard'
+alias chill='cd ~/git-hill'
 
 #if you don't like the annoying end-of-line beeps:
 set bell-style visible

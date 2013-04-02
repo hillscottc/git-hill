@@ -2,31 +2,56 @@
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
+
+export PATH=$HOME/taluslabs:/usr/bin/:/bin:/usr/local/bin:$PATH
+export PYTHONPATH=$HOME/.local/lib/python2.7/site-packages:$HOME/taluslabs:$HOME/taluslabs/shared-libs/TalusLabsSSO:$HOME/taluslabs/shared-libs/TalusLabsAuthBackend:$HOME/taluslabs/shared-libs/TalusLabsAuthBackend/taluslabs_auth_backend:usr/lib/python2.6/site-packages:$HOME/taluslabs/developers/shill:$PYTHONPATH
+
+alias subl="/usr/bin/sublime"
+export EDITOR="subl -w"
+
+
+export WORKON_HOME=$HOME/.local
+source $HOME/.local/bin/virtualenvwrapper.sh
+
+# http://virtualenvwrapper.readthedocs.org/en/latest/tips.html
+# Make pip use the same directory for virtualenvs as virtualenvwrapper
+export PIP_VIRTUALENV_BASE=$WORKON_HOME
+
+# Make pip detect an active virtualenv and install to it,
+# without having to pass it the -E parameter.
+export PIP_RESPECT_VIRTUALENV=true
+
+
+# turns off the middle mouse button. It's id 8 at work desktop. http://bit.ly/ZUF2El
+xinput set-button-map 8 1 0 3
+
+# Use case-insensitive filename globbing
+ shopt -s nocaseglob
+
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
 
-export WORKON_HOME=$HOME/.virtualenvs
-source /usr/bin/virtualenvwrapper.sh
-export DASHBOARD_SETTINGS=$HOME/taluslabs/dashboard/settings/dev_amazon.py
-
-# don't put duplicate lines or lines starting with space in the history.
-# See bash(1) for more options
-HISTCONTROL=ignoreboth
+# don't put duplicate lines in the history. See bash(1) for more options
+# ... or force ignoredups and ignorespace
+HISTCONTROL=ignoredups:ignorespace
 
 # append to the history file, don't overwrite it
 shopt -s histappend
 
+# Whenever displaying the prompt, write the previous line to disk
+ export PROMPT_COMMAND="history -a"
+
+#if you don't like the annoying end-of-line beeps:
+set bell-style visual
+
+
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=1000
-HISTFILESIZE=2000
+HISTSIZE=10000
+HISTFILESIZE=20000
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
-
-# If set, the pattern "**" used in a pathname expansion context will
-# match all files and zero or more directories and subdirectories.
-#shopt -s globstar
 
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
@@ -48,21 +73,24 @@ force_color_prompt=yes
 
 if [ -n "$force_color_prompt" ]; then
     if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-	# We have color support; assume it's compliant with Ecma-48
-	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
-	# a case would tend to support setf rather than setaf.)
-	color_prompt=yes
+    # We have color support; assume it's compliant with Ecma-48
+    # (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+    # a case would tend to support setf rather than setaf.)
+    color_prompt=yes
     else
-	color_prompt=
+    color_prompt=
     fi
 fi
 
+echo SETTING PROMPT
 if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u\[\033[00m\]:\[\033[01;34m\]\W\[\033[00m\]\$ '
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]-(jobs:\j)\n\[\033[01;34m\]\w\[\033[00m\]\$ '
 else
-    PS1='${debian_chroot:+($debian_chroot)}\u:\W\$ '
+    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
-unset color_prompt force_color_prompt
+
+# i commented this so because color stopped with WORKON command.
+#unset color_prompt force_color_prompt
 
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
@@ -85,11 +113,36 @@ if [ -x /usr/bin/dircolors ]; then
     alias egrep='egrep --color=auto'
 fi
 
-# some more ls aliases
-alias ll='ls -alF'
-alias la='ls -A'
+# ls aliases
 alias l='ls -CF'
+alias la="ls -aF"
+alias ld="ls -ld"
+alias ll="ls -alF"
+alias lt='ls -At1 && echo "------Oldest--"'
+alias ltr='ls -Art1 && echo "------Newest--"'
 
+# dev environ aliases
+alias cdev='cd ~/taluslabs/developers/shill'
+alias cdash='cd ~/taluslabs/dashboard'
+# trim newlines
+alias tn='tr -d "\n"'
+# list TODO/FIX lines from the current project
+alias todos="ack -n --nogroup '(TODO|FIX(ME)?):'"
+#copy output of last command to clipboard
+alias cl="fc -e -|pbcopy"
+# share history between terminal sessions
+alias he="history -a" # export history
+alias hi="history -n" # import history
+# make executable
+alias ax="chmod a+x"
+# edit .bash_profile
+alias bp="$EDITOR ~/.bash_profile"
+# edit keybindings.dict
+alias kb="$EDITOR ~/Library/KeyBindings/DefaultKeyBinding.dict"
+# reload your bash config
+alias src="source ~/.bash_profile"
+# Remove git from a project
+alias ungit="find . -name '.git' -exec rm -rf {} \;"
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
@@ -109,3 +162,8 @@ fi
 if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
+
+# set keyboard interupt from ^c to ^k
+# stty intr \^k
+
+

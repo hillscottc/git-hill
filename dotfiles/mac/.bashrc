@@ -1,8 +1,3 @@
-echo in ~/.bashrc
-
-export PS1="\n\[\e[32;1m\]\h(\[\e[37;1m\]\u\[\e[32;1m\])-(\[\e[37;1m\]jobs:\j\[\e[32;1m\])-(\[\e[37;1m\]\w\[\e[32;1m\])\n(\[\[\e[37;1m\]! \!\[\e[32;1m\])-> \[\e[0m\]"
-
-export PATH=$HOME/bin:$PATH
 
 export CLICOLOR=1
 
@@ -87,3 +82,42 @@ set output-meta On
 set convert-meta Off
 
 
+export vim='mvim -v'
+alias vim="${vim}"
+alias gvim="mvim"
+export EDITOR="${vim} -g --remote-tab-silent"
+export GIT_EDITOR="${vim} -g -f"
+
+# set vim mode for bash
+set -o vi
+
+#export VISUAL="subl -w"
+#export SVN_EDITOR="subl -w"
+#export VISUAL=vi
+#export SVN_EDITOR=vi
+
+#export PS1="\n\[\e[32;1m\]\h(\[\e[37;1m\]\u\[\e[32;1m\])-(\[\e[37;1m\]jobs:\j\[\e[32;1m\])-(\[\e[37;1m\]\w\[\e[32;1m\])\n(\[\[\e[37;1m\]! \!\[\e[32;1m\])-> \[\e[0m\]"
+export PS1="\n\[\e[32;1m\](\[\e[37;1m\]\u\[\e[32;1m\])-(\[\e[37;1m\]jobs:\j\[\e[32;1m\])-(\[\e[37;1m\]\w\[\e[32;1m\])\n(\[\[\e[37;1m\]! \!\[\e[32;1m\])-> \[\e[0m\]"
+
+export PATH=$HOME/bin:/opt/subversion/bin:$PATH
+
+export  DYLD_LIBRARY_PATH="/Library/instantclient"
+export LC_CTYPE=en_US.UTF-8
+export PATH=$HOME/Downloads/Django-1.1.1/django/bin/:/usr/local/bin:/usr/local/sbin:/usr/local/mysql/bin:/Library/instantclient:$PATH
+
+# turned tis off for heroku
+#export PYTHONPATH=$HOME/taluslabs/shared-libs/TalusLabsSSO:$HOME/taluslabs/shared-libs/TalusLabsAuthBackend:$HOME/taluslabs/shared-libs/TalusLabsAuthBackend/taluslabs_auth_backend:usr/lib/python2.6/site-packages:$PYTHONPATH
+
+
+# For non-homebrew Python, you need to amend your PYTHONPATH like so:
+export PYTHONPATH=/usr/local/lib/python2.7/site-packages:$PYTHONPATH
+
+export WORKON_HOME=$HOME/.virtualenvs
+source /usr/local/bin/virtualenvwrapper.sh
+export DASHBOARD_SETTINGS=$HOME/taluslabs/dashboard/settings/shill.py
+
+
+PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+
+### Added by the Heroku Toolbelt
+export PATH="/usr/local/heroku/bin:$PATH"

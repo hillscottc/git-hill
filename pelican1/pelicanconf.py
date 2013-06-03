@@ -3,11 +3,12 @@
 from __future__ import unicode_literals
 
 AUTHOR = u'SCH'
-SITENAME = u'pel1'
-SITEURL = ''
+SITENAME = u'noteblog'
+SITEURL = 'http://noteblog.site44.com'
 
-TIMEZONE = 'Europe/Paris'
+THEME = '/Users/shill/git-apps/pelican-themes/water-iris'
 
+TIMEZONE = 'America/Los_Angeles'
 DEFAULT_LANG = u'en'
 
 # Feed generation is usually not desired when developing
@@ -16,10 +17,8 @@ CATEGORY_FEED_ATOM = None
 TRANSLATION_FEED_ATOM = None
 
 # Blogroll
-LINKS =  (('Pelican', 'http://getpelican.com/'),
-          ('Python.org', 'http://python.org/'),
-          ('Jinja2', 'http://jinja.pocoo.org/'),
-          ('You can modify those links in your config file', '#'),)
+LINKS = (('Python.org', 'http://python.org/'),
+         ('Jinja2', 'http://jinja.pocoo.org/'),)
 
 # Social widget
 SOCIAL = (('You can add links in your config file', '#'),

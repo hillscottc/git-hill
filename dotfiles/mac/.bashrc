@@ -81,31 +81,33 @@ set input-meta On
 set output-meta On
 set convert-meta Off
 
+# set for vim
+#export vim='mvim -v'
+#alias vim="${vim}"
+#alias gvim="mvim"
+#export EDITOR="${vim} -g --remote-tab-silent"
+#export GIT_EDITOR="${vim} -g -f"
+#set -o vi
 
-export vim='mvim -v'
-alias vim="${vim}"
-alias gvim="mvim"
-export EDITOR="${vim} -g --remote-tab-silent"
-export GIT_EDITOR="${vim} -g -f"
+set -o emacs
 
-# set vim mode for bash
-set -o vi
-
+# set for sublime
 #export VISUAL="subl -w"
 #export SVN_EDITOR="subl -w"
-#export VISUAL=vi
-#export SVN_EDITOR=vi
+
+# set for emacs
+export VISUAL=emcas
+export SVN_EDITOR=emacs
 
 #export PS1="\n\[\e[32;1m\]\h(\[\e[37;1m\]\u\[\e[32;1m\])-(\[\e[37;1m\]jobs:\j\[\e[32;1m\])-(\[\e[37;1m\]\w\[\e[32;1m\])\n(\[\[\e[37;1m\]! \!\[\e[32;1m\])-> \[\e[0m\]"
 export PS1="\n\[\e[32;1m\](\[\e[37;1m\]\u\[\e[32;1m\])-(\[\e[37;1m\]jobs:\j\[\e[32;1m\])-(\[\e[37;1m\]\w\[\e[32;1m\])\n(\[\[\e[37;1m\]! \!\[\e[32;1m\])-> \[\e[0m\]"
 
 export PATH=$HOME/bin:/opt/subversion/bin:$PATH
-
-export  DYLD_LIBRARY_PATH="/Library/instantclient"
+export DYLD_LIBRARY_PATH="/Library/instantclient"
 export LC_CTYPE=en_US.UTF-8
 export PATH=$HOME/Downloads/Django-1.1.1/django/bin/:/usr/local/bin:/usr/local/sbin:/usr/local/mysql/bin:/Library/instantclient:$PATH
 
-# turned tis off for heroku
+# turned this off for heroku
 #export PYTHONPATH=$HOME/taluslabs/shared-libs/TalusLabsSSO:$HOME/taluslabs/shared-libs/TalusLabsAuthBackend:$HOME/taluslabs/shared-libs/TalusLabsAuthBackend/taluslabs_auth_backend:usr/lib/python2.6/site-packages:$PYTHONPATH
 
 

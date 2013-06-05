@@ -4,9 +4,9 @@ from __future__ import unicode_literals
 
 AUTHOR = u'SCH'
 SITENAME = u'noteblog'
-SITEURL = 'http://noteblog.site44.com'
+#SITEURL = 'http://noteblog.site44.com'
 
-THEME = '/Users/shill/git-apps/pelican-themes/water-iris'
+THEME = '/Users/shill/git-apps/pelican-themes/svbtle'
 
 TIMEZONE = 'America/Los_Angeles'
 DEFAULT_LANG = u'en'

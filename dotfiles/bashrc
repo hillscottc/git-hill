@@ -115,7 +115,12 @@ if ! shopt -oq posix; then
   fi
 fi
 
+<<<<<<< HEAD
 export EDITOR='subl -w'
+=======
+## for ubu, use sudo update-alternatives –config editor for vim versions
+## export EDITOR='subl -w'
+>>>>>>> ubulap
 
 export WORKON_HOME=$HOME/.virtualenvs
 source /usr/local/bin/virtualenvwrapper.sh

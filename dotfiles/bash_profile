@@ -1,0 +1,8 @@
+echo '--bash_profle--'
+
+# source the users bashrc if it exists
+if [ -f ~/.bashrc ]; then
+   source ~/.bashrc
+fi
+
+# sshfs 10.10.4.76:/home/shill ~/mounts/workdesk -oauto_cache,reconnect,defer_permissions,negative_vncache,volname=workdesk,noappledouble

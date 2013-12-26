@@ -1,0 +1,24 @@
+echo '--bash_aliases--'
+
+# To override the alias instruction use a \ before, ie
+# \rm will call the real rm not the alias.
+
+alias rm='rm -i'
+alias cp='cp -i'
+alias mv='mv -i'
+
+alias df='df -h'
+alias du='du -h'
+
+alias less='less -r'                          # raw control characters
+alias whence='type -a'                        # where, of a sort
+alias grep='grep --color'
+alias egrep='egrep --color=auto'
+alias fgrep='fgrep --color=auto'
+
+#alias cd..="cd .."
+
+alias l="ls -al"
+#alias lp="ls -p"
+
+
